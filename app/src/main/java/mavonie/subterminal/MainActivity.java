@@ -17,7 +17,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
+import com.facebook.login.widget.ProfilePictureView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -131,11 +135,32 @@ public class MainActivity extends AppCompatActivity
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+        AccessToken token = AccessToken.getCurrentAccessToken();
+
+        if(!token.isExpired()) {
+            updateFacebookProfile(token);
+        }
+
         actionBarDrawerToggle.syncState();
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    /**
+     *
+     * @param token
+     */
+    private void updateFacebookProfile(AccessToken token)
+    {
+        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = nav.getHeaderView(0);
+
+        ProfilePictureView profilePictureView;
+        profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
+        profilePictureView.setProfileId(token.getUserId());
 
     }
 }

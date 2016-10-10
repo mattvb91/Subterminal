@@ -51,10 +51,7 @@ public class Login extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-
     }
 
     @Override
@@ -71,6 +68,8 @@ public class Login extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 //Save token to cache
+                String userId = loginResult.getAccessToken().getUserId();
+                String token = loginResult.getAccessToken().getToken();
             }
 
             @Override
