@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * We want only one user instance for the main activity
+     *
      * @return User
      */
     public static User getUser() {
@@ -48,8 +49,7 @@ public class MainActivity extends AppCompatActivity
 
     protected static MainActivity activity;
 
-    public static MainActivity getActivity()
-    {
+    public static MainActivity getActivity() {
         return activity;
     }
 
@@ -138,15 +138,22 @@ public class MainActivity extends AppCompatActivity
     public void goToFragment(int id) {
         Fragment fragment = null;
         Class fragmentClass = null;
-        if (id == R.id.nav_home) {
-            fragmentClass = Home.class;
-        } else if (id == R.id.nav_jumps) {
-            fragmentClass = Jumps.class;
-        } else if (id == R.id.nav_gear) {
-            //fragmentClass = Gear.class;
-        } else if (id == R.id.nav_login) {
-            fragmentClass = Login.class;
+
+        switch (id) {
+            case R.id.nav_home:
+                fragmentClass = Home.class;
+                break;
+            case R.id.nav_jumps:
+                fragmentClass = Jumps.class;
+                break;
+            case R.id.nav_gear:
+                //fragmentClass = Gear.class;
+                break;
+            case R.id.nav_login:
+                fragmentClass = Login.class;
+                break;
         }
+
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
