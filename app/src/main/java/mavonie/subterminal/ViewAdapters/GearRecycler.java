@@ -1,4 +1,4 @@
-package mavonie.subterminal;
+package mavonie.subterminal.ViewAdapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import mavonie.subterminal.Gear.OnListFragmentInteractionListener;
+import mavonie.subterminal.R;
 
 import java.util.List;
 
@@ -15,12 +16,12 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class GearRecyclerViewAdapter extends RecyclerView.Adapter<GearRecyclerViewAdapter.ViewHolder> {
+public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> {
 
     private final List<mavonie.subterminal.models.Gear> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public GearRecyclerViewAdapter(List<mavonie.subterminal.models.Gear> items, OnListFragmentInteractionListener listener) {
+    public GearRecycler(List<mavonie.subterminal.models.Gear> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -44,7 +45,7 @@ public class GearRecyclerViewAdapter extends RecyclerView.Adapter<GearRecyclerVi
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onGearListFragmentInteraction(holder.mItem);
                 }
             }
         });

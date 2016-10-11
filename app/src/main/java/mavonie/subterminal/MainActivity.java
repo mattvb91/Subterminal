@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 
-import mavonie.subterminal.dummy.DummyContent;
+import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.models.User;
 
 public class MainActivity extends AppCompatActivity
@@ -28,11 +28,29 @@ public class MainActivity extends AppCompatActivity
         Home.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
         Jumps.OnFragmentInteractionListener,
-        Gear.OnListFragmentInteractionListener {
+        Gear.OnListFragmentInteractionListener,
+        GearForm.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
+    FloatingActionButton fab;
+
+    FragmentManager fragmentManager;
+
+    private static final int FRAGMENT_HOME = R.id.nav_home;
+    private static final int FRAGMENT_JUMPS = R.id.nav_jumps;
+    private static final int FRAGMENT_GEAR = R.id.nav_gear;
+
+    protected static int activeFragment;
+
+    protected static void setActiveFragment(int i) {
+        activeFragment = i;
+    }
+
+    protected int getActiveFragment() {
+        return activeFragment;
+    }
 
     protected static User user;
 
@@ -66,24 +84,17 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Fragment fragment = null;
-        Class fragmentClass = null;
-        fragmentClass = Home.class;
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        activateFragment(Home.class);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                switch (getActiveFragment()) {
+                    case FRAGMENT_GEAR:
+                        activateFragment(GearForm.class);
+                        break;
+                }
             }
         });
 
@@ -94,6 +105,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void activateFragment(Class fragmentClass) {
+        Fragment fragment = null;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
 
     @Override
@@ -138,31 +161,28 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void goToFragment(int id) {
-        Fragment fragment = null;
         Class fragmentClass = null;
 
         switch (id) {
             case R.id.nav_home:
                 fragmentClass = Home.class;
+                fab.hide();
                 break;
             case R.id.nav_jumps:
                 fragmentClass = Jumps.class;
+                fab.hide();
                 break;
             case R.id.nav_gear:
                 fragmentClass = Gear.class;
+                fab.show();
                 break;
             case R.id.nav_login:
                 fragmentClass = Login.class;
                 break;
         }
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        setActiveFragment(id);
+        activateFragment(fragmentClass);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -203,7 +223,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(mavonie.subterminal.models.Gear item) {
-
+    public void onGearListFragmentInteraction(mavonie.subterminal.models.Gear item) {
+        activateFragment(GearForm.class);
     }
 }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import mavonie.subterminal.ViewAdapters.GearRecycler;
 import mavonie.subterminal.dummy.DummyContent;
 
 /**
@@ -66,7 +67,7 @@ public class Gear extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new GearRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new GearRecycler(DummyContent.ITEMS, mListener));
         }
         return view;
     }
@@ -101,6 +102,6 @@ public class Gear extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(mavonie.subterminal.models.Gear item);
+        void onGearListFragmentInteraction(mavonie.subterminal.models.Gear item);
     }
 }
