@@ -20,13 +20,15 @@ import android.widget.TextView;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 
+import mavonie.subterminal.dummy.DummyContent;
 import mavonie.subterminal.models.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         Home.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
-        Jumps.OnFragmentInteractionListener {
+        Jumps.OnFragmentInteractionListener,
+        Gear.OnListFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -147,7 +149,7 @@ public class MainActivity extends AppCompatActivity
                 fragmentClass = Jumps.class;
                 break;
             case R.id.nav_gear:
-                //fragmentClass = Gear.class;
+                fragmentClass = Gear.class;
                 break;
             case R.id.nav_login:
                 fragmentClass = Login.class;
@@ -197,6 +199,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
     }
 }
