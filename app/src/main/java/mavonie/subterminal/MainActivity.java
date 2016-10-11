@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 
+import java.io.Serializable;
+
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.models.User;
 
@@ -224,6 +226,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onGearListFragmentInteraction(mavonie.subterminal.models.Gear item) {
-        activateFragment(GearForm.class);
+        fab.hide();
+
+        Bundle args = new Bundle();
+        args.putSerializable("item", item);
+        GearForm form = new GearForm();
+        form.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, form).commit();
     }
 }

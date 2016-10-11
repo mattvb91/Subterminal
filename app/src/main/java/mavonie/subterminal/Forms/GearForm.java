@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import mavonie.subterminal.R;
+import mavonie.subterminal.models.Gear;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,15 +24,10 @@ public class GearForm extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public GearForm() {
-        // Required empty public constructor
-    }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-
      * @return A new instance of fragment GearForm.
      */
     // TODO: Rename and change types and number of parameters
@@ -42,13 +39,29 @@ public class GearForm extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    private void updateForm(View view) {
+
+        Gear item = (Gear) getArguments().getSerializable("item");
+
+        EditText gearManufacturer = (EditText) view.findViewById(R.id.edit_gear_manufacturer);
+        gearManufacturer.setText(item.getContainerManufacturer());
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gear_form, container, false);
+        View view = inflater.inflate(R.layout.fragment_gear_form, container, false);
+
+        if(!getArguments().isEmpty()) {
+            updateForm(view);
+        }
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

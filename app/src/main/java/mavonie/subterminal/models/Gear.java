@@ -1,12 +1,13 @@
 package mavonie.subterminal.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by mavon on 11/10/16.
  */
 
-public class Gear {
+public class Gear implements Serializable {
     private int id;
     private String containerManufacturer;
     private String containerType;
