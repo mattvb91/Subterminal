@@ -8,12 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -59,7 +57,7 @@ public class Login extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         loginButton = (LoginButton) view.findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email", "user_likes", "user_friends");
+        loginButton.setReadPermissions("email", "email", "user_likes", "user_friends");
         loginButton.setFragment(this);
 
 
@@ -67,9 +65,9 @@ public class Login extends Fragment {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                //Save token to cache
-                String userId = loginResult.getAccessToken().getUserId();
-                String token = loginResult.getAccessToken().getToken();
+                //Attach token to main User
+                MainActivity.getUser().setFacebookToken(loginResult.getAccessToken());
+                MainActivity.getUser().setFacebookData();
             }
 
             @Override

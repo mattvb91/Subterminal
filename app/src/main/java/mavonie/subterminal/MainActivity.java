@@ -1,6 +1,6 @@
 package mavonie.subterminal;
 
-import android.content.Intent;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,10 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
+
+import java.io.File;
+
+import mavonie.subterminal.models.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -31,10 +35,32 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
 
+    protected static User user;
+
+    /**
+     * We want only one user instance for the main activity
+     * @return User
+     */
+    public static User getUser() {
+        if (user == null) {
+            user = new User();
+        }
+
+        return user;
+    }
+
+    protected static MainActivity activity;
+
+    public static MainActivity getActivity()
+    {
+        return activity;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        activity = this;
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
@@ -112,13 +138,14 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
         if (id == R.id.nav_home) {
             fragmentClass = Home.class;
-        }else if(id == R.id.nav_jumps)  {
+        } else if (id == R.id.nav_jumps) {
             fragmentClass = Jumps.class;
-        }else if(id == R.id.nav_gear) {
+        } else if (id == R.id.nav_gear) {
             //fragmentClass = Gear.class;
-        }else if(id == R.id.nav_login) {
+        } else if (id == R.id.nav_login) {
             fragmentClass = Login.class;
-        }try {
+        }
+        try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,32 +162,30 @@ public class MainActivity extends AppCompatActivity
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        AccessToken token = AccessToken.getCurrentAccessToken();
-
-        if(!token.isExpired()) {
-            updateFacebookProfile(token);
+        if (this.getUser().getFacebookToken() != null && this.getUser().getFacebookToken().isExpired() == false) {
+            this.getUser().init();
         }
 
         actionBarDrawerToggle.syncState();
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void updateDrawerProfile() {
 
-    }
-
-    /**
-     *
-     * @param token
-     */
-    private void updateFacebookProfile(AccessToken token)
-    {
         NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
         View headerView = nav.getHeaderView(0);
 
-        ProfilePictureView profilePictureView;
-        profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
-        profilePictureView.setProfileId(token.getUserId());
+        ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
+        profilePictureView.setProfileId(this.getUser().getFacebookToken().getUserId());
+
+        TextView profileName = (TextView) headerView.findViewById(R.id.profile_name);
+        TextView profileEmail = (TextView) headerView.findViewById(R.id.profile_email);
+
+        profileName.setText(this.getUser().getFullName());
+        profileEmail.setText(this.getUser().getEmail());
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
