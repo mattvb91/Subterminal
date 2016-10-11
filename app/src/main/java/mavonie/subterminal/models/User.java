@@ -6,7 +6,6 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
-import com.facebook.login.LoginResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,5 +103,10 @@ public class User {
 
     public void init() {
         this.setFacebookData();
+    }
+
+    //TODO implement user save locally
+    public void save() {
+
     }
 }
