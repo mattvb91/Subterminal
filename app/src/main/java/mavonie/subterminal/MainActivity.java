@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(mavonie.subterminal.models.Gear item) {
 
     }
 }

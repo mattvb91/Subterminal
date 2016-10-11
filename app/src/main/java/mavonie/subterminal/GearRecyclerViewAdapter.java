@@ -7,21 +7,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import mavonie.subterminal.Gear.OnListFragmentInteractionListener;
-import mavonie.subterminal.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link mavonie.subterminal.models.Gear} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class GearRecyclerViewAdapter extends RecyclerView.Adapter<GearRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<mavonie.subterminal.models.Gear> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public GearRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public GearRecyclerViewAdapter(List<mavonie.subterminal.models.Gear> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -36,8 +35,8 @@ public class GearRecyclerViewAdapter extends RecyclerView.Adapter<GearRecyclerVi
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(Integer.toString(mValues.get(position).getId()));
+        holder.mContentView.setText(mValues.get(position).getContainerManufacturer());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +59,7 @@ public class GearRecyclerViewAdapter extends RecyclerView.Adapter<GearRecyclerVi
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public mavonie.subterminal.models.Gear mItem;
 
         public ViewHolder(View view) {
             super(view);

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import mavonie.subterminal.dummy.DummyContent;
-import mavonie.subterminal.dummy.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.
@@ -102,6 +101,6 @@ public class Gear extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(mavonie.subterminal.models.Gear item);
     }
 }
