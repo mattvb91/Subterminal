@@ -1,6 +1,5 @@
 package mavonie.subterminal;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,8 +19,6 @@ import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
-
-import java.io.File;
 
 import mavonie.subterminal.models.User;
 
@@ -134,6 +131,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        goToFragment(id);
+        return true;
+    }
+
+    public void goToFragment(int id) {
         Fragment fragment = null;
         Class fragmentClass = null;
         if (id == R.id.nav_home) {
@@ -155,7 +157,6 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     @Override
@@ -182,6 +183,9 @@ public class MainActivity extends AppCompatActivity
 
         profileName.setText(this.getUser().getFullName());
         profileEmail.setText(this.getUser().getEmail());
+
+        //Menu nav_Menu = nav.getMenu();
+        //nav_Menu.findItem(R.id.nav_login).setVisible(false);
     }
 
     @Override

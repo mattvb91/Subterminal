@@ -69,6 +69,8 @@ public class Login extends Fragment {
                 MainActivity.getUser().setFacebookToken(loginResult.getAccessToken());
                 MainActivity.getUser().setFacebookData();
                 MainActivity.getUser().save();
+
+                MainActivity.getActivity().goToFragment(R.id.nav_home);
             }
 
             @Override
