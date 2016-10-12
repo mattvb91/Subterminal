@@ -7,7 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.Date;
 
 import mavonie.subterminal.R;
 import mavonie.subterminal.models.Gear;
@@ -24,6 +27,17 @@ public class GearForm extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private Gear _item;
+
+    private EditText containerManufacturer;
+    private EditText containerType;
+    private EditText containerSerial;
+    private EditText containerDateInUse;
+    private EditText canopyManufacturer;
+    private EditText canopyType;
+    private EditText canopySerial;
+    private EditText canopyDateInUse;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -39,36 +53,17 @@ public class GearForm extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
-    private void updateForm(View view) {
-
-        Gear item = (Gear) getArguments().getSerializable("item");
-
-        EditText containerManufacturer = (EditText) view.findViewById(R.id.edit_container_manufacturer);
-        containerManufacturer.setText(item.getContainerManufacturer());
-
-        EditText containerType = (EditText) view.findViewById(R.id.edit_container_type);
-        containerType.setText(item.getContainerType());
-
-        EditText containerSerial = (EditText) view.findViewById(R.id.edit_container_serial);
-        containerSerial.setText(item.getContainerSerial());
-
-        EditText containerDateInUse = (EditText) view.findViewById(R.id.edit_container_dateInUse);
-        containerDateInUse.setText(item.getContainerDateInUse().toString());
-
-        EditText canopyManufacturer = (EditText) view.findViewById(R.id.edit_canopy_manufacturer);
-        canopyManufacturer.setText(item.getCanopyManufacturer());
-
-        EditText canopyType = (EditText) view.findViewById(R.id.edit_canopy_type);
-        canopyType.setText(item.getCanopyType());
-
-        EditText canopySerial = (EditText) view.findViewById(R.id.edit_canopy_serial);
-        canopySerial.setText(item.getCanopySerial());
-
-        EditText canopyDateInUse = (EditText) view.findViewById(R.id.edit_canopy_dateInUse);
-        canopyDateInUse.setText(item.getCanopyDateInUse().toString());
+    private void updateForm() {
+        this.containerManufacturer.setText(getItem().getContainerManufacturer());
+        this.containerType.setText(getItem().getContainerType());
+        this.containerSerial.setText(getItem().getContainerSerial());
+        this.containerDateInUse.setText(getItem().getContainerDateInUse().toString());
+        this.canopyManufacturer.setText(getItem().getCanopyManufacturer());
+        this.canopyType.setText(getItem().getCanopyType());
+        this.canopySerial.setText(getItem().getCanopySerial());
+        this.canopyDateInUse.setText(getItem().getCanopyDateInUse().toString());
     }
 
     @Override
@@ -77,11 +72,31 @@ public class GearForm extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gear_form, container, false);
 
-        if (!getArguments().isEmpty()) {
-            updateForm(view);
+        assignFormElements(view);
+
+        if (this.getItem() != null) {
+            updateForm();
         }
 
         return view;
+    }
+
+    private void assignFormElements(View view) {
+        this.containerManufacturer = (EditText) view.findViewById(R.id.edit_container_manufacturer);
+        this.containerType = (EditText) view.findViewById(R.id.edit_container_type);
+        this.containerSerial = (EditText) view.findViewById(R.id.edit_container_serial);
+        this.containerDateInUse = (EditText) view.findViewById(R.id.edit_container_dateInUse);
+        this.canopyManufacturer = (EditText) view.findViewById(R.id.edit_canopy_manufacturer);
+        this.canopyType = (EditText) view.findViewById(R.id.edit_canopy_type);
+        this.canopySerial = (EditText) view.findViewById(R.id.edit_canopy_serial);
+        this.canopyDateInUse = (EditText) view.findViewById(R.id.edit_canopy_dateInUse);
+
+        Button button = (Button) view.findViewById(R.id.gear_save);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                save();
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -109,6 +124,17 @@ public class GearForm extends Fragment {
     }
 
     /**
+     * @return Gear|Null
+     */
+    private Gear getItem() {
+        if (this._item == null) {
+            this._item = (Gear) getArguments().getSerializable("item");
+        }
+        return this._item;
+    }
+
+
+    /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
@@ -121,5 +147,20 @@ public class GearForm extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    /**
+     * Save the item
+     * //TODO call item.save() method
+     */
+    public void save() {
+        getItem().setContainerManufacturer(this.containerManufacturer.getText().toString());
+        getItem().setContainerType(this.containerType.getText().toString());
+        getItem().setContainerSerial(this.containerSerial.getText().toString());
+        //getItem().setContainerDateInUse(new Date(this.containerDateInUse.getText().toString()));
+        getItem().setCanopyManufacturer(this.canopyManufacturer.getText().toString());
+        getItem().setCanopyType(this.canopyType.getText().toString());
+        getItem().setCanopySerial(this.canopySerial.getText().toString());
+        //getItem().setCanopyDateInUse(new Date(this.canopyDateInUse.getText().toString()));
     }
 }

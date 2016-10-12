@@ -82,10 +82,11 @@
             android:inputType="date" />
 
         <Button
-            android:id="@+id/gear_"
+            android:id="@+id/gear_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add" />
+            android:onClick="save"
+            android:text="Save" />
 
     </LinearLayout>
 </ScrollView>
