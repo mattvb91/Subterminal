@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_gear:
                 fragmentClass = Gear.class;
+
                 fab.show();
                 break;
             case R.id.nav_login:

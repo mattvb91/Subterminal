@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import mavonie.subterminal.ViewAdapters.GearRecycler;
-import mavonie.subterminal.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.
