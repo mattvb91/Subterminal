@@ -1,9 +1,9 @@
 package mavonie.subterminal;
 
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -20,8 +20,9 @@ import android.widget.TextView;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 
-import java.io.Serializable;
 
+import mavonie.subterminal.DB.DatabaseHandler;
+import mavonie.subterminal.DB.VersionUtils;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.models.User;
 
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity
         Jumps.OnFragmentInteractionListener,
         Gear.OnListFragmentInteractionListener,
         GearForm.OnFragmentInteractionListener {
+
+    DatabaseHandler db;
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -78,6 +81,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            db = new DatabaseHandler(this.getApplicationContext(), "database", null,
+                    VersionUtils.getVersionCode(this.getApplicationContext()));
+            db.getReadableDatabase();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         activity = this;
         FacebookSdk.sdkInitialize(getApplicationContext());

@@ -59,14 +59,16 @@ public class GearForm extends Fragment {
     }
 
     private void updateForm() {
-        this.containerManufacturer.setText(getItem().getContainerManufacturer());
-        this.containerType.setText(getItem().getContainerType());
-        this.containerSerial.setText(getItem().getContainerSerial());
-        this.containerDateInUse.setText(getItem().getContainerDateInUse().toString());
-        this.canopyManufacturer.setText(getItem().getCanopyManufacturer());
-        this.canopyType.setText(getItem().getCanopyType());
-        this.canopySerial.setText(getItem().getCanopySerial());
-        this.canopyDateInUse.setText(getItem().getCanopyDateInUse().toString());
+        if (getItem().exists()) {
+            this.containerManufacturer.setText(getItem().getContainerManufacturer());
+            this.containerType.setText(getItem().getContainerType());
+            this.containerSerial.setText(getItem().getContainerSerial());
+            this.containerDateInUse.setText(getItem().getContainerDateInUse().toString());
+            this.canopyManufacturer.setText(getItem().getCanopyManufacturer());
+            this.canopyType.setText(getItem().getCanopyType());
+            this.canopySerial.setText(getItem().getCanopySerial());
+            this.canopyDateInUse.setText(getItem().getCanopyDateInUse().toString());
+        }
     }
 
     @Override
@@ -131,7 +133,11 @@ public class GearForm extends Fragment {
      */
     private Gear getItem() {
         if (this._item == null) {
-            this._item = (Gear) getArguments().getSerializable("item");
+            if (getArguments() != null && !getArguments().isEmpty()) {
+                this._item = (Gear) getArguments().getSerializable("item");
+            } else {
+                this._item = new Gear();
+            }
         }
         return this._item;
     }
@@ -166,9 +172,17 @@ public class GearForm extends Fragment {
         getItem().setCanopySerial(this.canopySerial.getText().toString());
         //getItem().setCanopyDateInUse(new Date(this.canopyDateInUse.getText().toString()));
 
+        String message = "";
+
         //Popup and redirect
+        if (getItem().save()) {
+            message = "Item has been saved";
+        } else {
+            message = "Could not save item";
+        }
+
         MainActivity.getActivity().goToFragment(R.id.nav_gear);
-        Snackbar.make(this.getView(), "Your gear has been updated", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Snackbar.make(this.getView(), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
         InputMethodManager inputManager = (InputMethodManager)
                 MainActivity.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
