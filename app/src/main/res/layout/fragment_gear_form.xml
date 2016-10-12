@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Container"
+            android:textSize="10pt"></TextView>
+
+        <EditText
+            android:id="@+id/edit_container_manufacturer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/gear_manufacturer"
+            android:inputType="textPersonName"></EditText>
+
+        <EditText
+            android:id="@+id/edit_container_type"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/gear_type"
+            android:inputType="textPersonName"></EditText>
+
+        <EditText
+            android:id="@+id/edit_container_serial"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Serial"
+            android:inputType="textPersonName"></EditText>
+
+        <EditText
+            android:id="@+id/edit_container_dateInUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Date in use"
+            android:inputType="date" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Canopy"
+            android:textSize="10pt"></TextView>
+
+        <EditText
+            android:id="@+id/edit_canopy_manufacturer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Manufacturer"
+            android:inputType="textPersonName"></EditText>
+
+        <EditText
+            android:id="@+id/edit_canopy_type"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/gear_type"
+            android:inputType="textPersonName"></EditText>
+
+        <EditText
+            android:id="@+id/edit_canopy_serial"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Serial"
+            android:inputType="textPersonName"></EditText>
+
+        <EditText
+            android:id="@+id/edit_canopy_dateInUse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Date in use"
+            android:inputType="date" />
+
+        <Button
+            android:id="@+id/gear_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="save"
+            android:text="Save" />
+
+    </LinearLayout>
+</ScrollView>
