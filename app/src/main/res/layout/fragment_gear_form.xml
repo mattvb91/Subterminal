@@ -7,33 +7,35 @@
 
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Container"
             android:textSize="10pt"></TextView>
 
         <EditText
             android:id="@+id/edit_container_manufacturer"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/gear_manufacturer"
             android:inputType="textPersonName"></EditText>
 
         <EditText
             android:id="@+id/edit_container_type"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/gear_type"
             android:inputType="textPersonName"></EditText>
 
         <EditText
             android:id="@+id/edit_container_serial"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Serial"
             android:inputType="textPersonName"></EditText>
@@ -47,28 +49,28 @@
             android:inputType="date" />
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Canopy"
             android:textSize="10pt"></TextView>
 
         <EditText
             android:id="@+id/edit_canopy_manufacturer"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Manufacturer"
             android:inputType="textPersonName"></EditText>
 
         <EditText
             android:id="@+id/edit_canopy_type"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/gear_type"
             android:inputType="textPersonName"></EditText>
 
         <EditText
             android:id="@+id/edit_canopy_serial"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Serial"
             android:inputType="textPersonName"></EditText>
