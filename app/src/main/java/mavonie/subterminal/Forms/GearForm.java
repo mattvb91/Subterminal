@@ -46,9 +46,29 @@ public class GearForm extends Fragment {
 
         Gear item = (Gear) getArguments().getSerializable("item");
 
-        EditText gearManufacturer = (EditText) view.findViewById(R.id.edit_gear_manufacturer);
-        gearManufacturer.setText(item.getContainerManufacturer());
+        EditText containerManufacturer = (EditText) view.findViewById(R.id.edit_container_manufacturer);
+        containerManufacturer.setText(item.getContainerManufacturer());
 
+        EditText containerType = (EditText) view.findViewById(R.id.edit_container_type);
+        containerType.setText(item.getContainerType());
+
+        EditText containerSerial = (EditText) view.findViewById(R.id.edit_container_serial);
+        containerSerial.setText(item.getContainerSerial());
+
+        EditText containerDateInUse = (EditText) view.findViewById(R.id.edit_container_dateInUse);
+        containerDateInUse.setText(item.getContainerDateInUse().toString());
+
+        EditText canopyManufacturer = (EditText) view.findViewById(R.id.edit_canopy_manufacturer);
+        canopyManufacturer.setText(item.getCanopyManufacturer());
+
+        EditText canopyType = (EditText) view.findViewById(R.id.edit_canopy_type);
+        canopyType.setText(item.getCanopyType());
+
+        EditText canopySerial = (EditText) view.findViewById(R.id.edit_canopy_serial);
+        canopySerial.setText(item.getCanopySerial());
+
+        EditText canopyDateInUse = (EditText) view.findViewById(R.id.edit_canopy_dateInUse);
+        canopyDateInUse.setText(item.getCanopyDateInUse().toString());
     }
 
     @Override
@@ -57,7 +77,7 @@ public class GearForm extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gear_form, container, false);
 
-        if(!getArguments().isEmpty()) {
+        if (!getArguments().isEmpty()) {
             updateForm(view);
         }
 

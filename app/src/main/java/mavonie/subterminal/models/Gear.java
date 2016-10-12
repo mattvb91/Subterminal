@@ -19,10 +19,10 @@ public class Gear implements Serializable {
     private String canopySerial;
     private Date canopyDateInUse;
 
-    public Gear(int id, String s1, String s2) {
+    public Gear(int id, String containerManufacturer, String containerSerial) {
         this.id = id;
-        containerManufacturer = s1;
-        containerSerial = s2;
+        this.containerManufacturer = containerManufacturer;
+        this.containerSerial = containerSerial;
     }
 
     public String getContainerManufacturer() {

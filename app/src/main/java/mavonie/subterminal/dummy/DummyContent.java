@@ -1,6 +1,7 @@
 package mavonie.subterminal.dummy;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,15 +41,14 @@ public class DummyContent {
     }
 
     private static Gear createDummyItem(int position) {
-        return new Gear(position, "Gear " + position, makeDetails(position));
-    }
+        Gear gear = new Gear(position, "Manufacturer " + position, "Container_" + position);
+        gear.setContainerDateInUse(new Date());
+        gear.setContainerType("Container type");
+        gear.setCanopyType("Canopy type");
+        gear.setCanopyManufacturer("Canopy Manufacturer");
+        gear.setCanopySerial("Canopy Serial" + position);
+        gear.setCanopyDateInUse(new Date());
 
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
+        return gear;
     }
 }
