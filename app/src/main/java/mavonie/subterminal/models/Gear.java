@@ -19,6 +19,8 @@ public class Gear implements Serializable {
     private String canopySerial;
     private Date canopyDateInUse;
 
+    public Gear() {};
+
     public Gear(int id, String containerManufacturer, String containerSerial) {
         this.id = id;
         this.containerManufacturer = containerManufacturer;

@@ -3,15 +3,18 @@ package mavonie.subterminal.Forms;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.Date;
 
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.models.Gear;
 
@@ -162,5 +165,15 @@ public class GearForm extends Fragment {
         getItem().setCanopyType(this.canopyType.getText().toString());
         getItem().setCanopySerial(this.canopySerial.getText().toString());
         //getItem().setCanopyDateInUse(new Date(this.canopyDateInUse.getText().toString()));
+
+        //Popup and redirect
+        MainActivity.getActivity().goToFragment(R.id.nav_gear);
+        Snackbar.make(this.getView(), "Your gear has been updated", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+        InputMethodManager inputManager = (InputMethodManager)
+                MainActivity.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(MainActivity.getActivity().getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
