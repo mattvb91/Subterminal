@@ -1,16 +1,21 @@
 package mavonie.subterminal.Forms;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -60,6 +65,7 @@ public class GearForm extends Fragment {
 
     private void updateForm() {
         if (getItem().exists()) {
+            MainActivity.getActivity().setActiveModel(getItem());
             this.containerManufacturer.setText(getItem().getContainerManufacturer());
             this.containerType.setText(getItem().getContainerType());
             this.containerSerial.setText(getItem().getContainerSerial());
@@ -81,6 +87,7 @@ public class GearForm extends Fragment {
 
         if (this.getItem() != null) {
             updateForm();
+            MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
         }
 
         return view;

@@ -1,5 +1,7 @@
 package mavonie.subterminal;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
@@ -24,6 +27,7 @@ import com.facebook.login.widget.ProfilePictureView;
 import mavonie.subterminal.DB.DatabaseHandler;
 import mavonie.subterminal.DB.VersionUtils;
 import mavonie.subterminal.Forms.GearForm;
+import mavonie.subterminal.models.Model;
 import mavonie.subterminal.models.User;
 
 public class MainActivity extends AppCompatActivity
@@ -40,6 +44,12 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
     FloatingActionButton fab;
+
+    public Menu getOptionsMenu() {
+        return optionsMenu;
+    }
+
+    Menu optionsMenu;
 
     FragmentManager fragmentManager;
 
@@ -146,6 +156,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        this.optionsMenu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -180,24 +191,29 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_home:
                 fragmentClass = Home.class;
+                setTitle("Subterminal");
                 fab.hide();
                 break;
             case R.id.nav_jumps:
                 fragmentClass = Jumps.class;
+                setTitle("Jumps");
                 fab.hide();
                 break;
             case R.id.nav_gear:
                 fragmentClass = Gear.class;
-
+                setTitle("Gear");
                 fab.show();
                 break;
             case R.id.nav_login:
+                setTitle("Login");
                 fragmentClass = Login.class;
                 break;
         }
 
         setActiveFragment(id);
         activateFragment(fragmentClass);
+        setActiveModel(null);
+        getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -248,4 +264,34 @@ public class MainActivity extends AppCompatActivity
 
         getSupportFragmentManager().beginTransaction().replace(R.id.flContent, form).commit();
     }
+
+    public void deleteDialog(MenuItem item) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Confirm delete")
+                .setMessage("Delete this item?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        getActiveModel().delete();
+                        goToFragment(FRAGMENT_HOME); //TODO proper navigation
+                        Toast.makeText(MainActivity.getActivity(), "Item has been deleted", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    /**
+     * Set an active model so we can access it throughout
+     * popups etc..
+     */
+    public Model getActiveModel() {
+        return activeModel;
+    }
+
+    public void setActiveModel(Model activeModel) {
+        this.activeModel = activeModel;
+    }
+
+    private Model activeModel;
 }

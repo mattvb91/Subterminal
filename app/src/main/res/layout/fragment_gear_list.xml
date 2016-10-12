@@ -10,4 +10,7 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="mavonie.subterminal.Gear"
-    tools:listitem="@layout/fragment_gear" />
+    tools:listitem="@layout/fragment_gear"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"/>
