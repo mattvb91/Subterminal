@@ -10,7 +10,7 @@ import java.util.Date;
  */
 
 public class Gear extends Model {
-    private int id;
+
     private String containerManufacturer;
     private String containerType;
     private String containerSerial;
@@ -39,7 +39,6 @@ public class Gear extends Model {
     }
 
     public Gear(int id, String containerManufacturer, String containerSerial) {
-        this.id = id;
         this.containerManufacturer = containerManufacturer;
         this.containerSerial = containerSerial;
     }
@@ -106,10 +105,6 @@ public class Gear extends Model {
 
     public void setCanopyDateInUse(Date canopyDateInUse) {
         this.canopyDateInUse = canopyDateInUse;
-    }
-
-    public int getId() {
-        return id;
     }
 
     //TODO abstract down to model to handle this in one go for every future model

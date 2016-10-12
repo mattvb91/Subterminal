@@ -1,5 +1,5 @@
 CREATE TABLE gear (
-    _ID INTEGER PRIMARY KEY,
+    _id INTEGER PRIMARY KEY,
     container_manufacturer TEXT,
     container_type TEXT,
     container_serial TEXT,

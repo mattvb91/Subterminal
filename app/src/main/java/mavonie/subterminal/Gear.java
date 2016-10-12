@@ -67,7 +67,9 @@ public class Gear extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new GearRecycler(DummyContent.ITEMS, mListener));
+            mavonie.subterminal.models.Gear gear = new mavonie.subterminal.models.Gear();
+
+            recyclerView.setAdapter(new GearRecycler(gear.getItems(null), mListener));
         }
         return view;
     }

@@ -63,11 +63,11 @@ public class GearForm extends Fragment {
             this.containerManufacturer.setText(getItem().getContainerManufacturer());
             this.containerType.setText(getItem().getContainerType());
             this.containerSerial.setText(getItem().getContainerSerial());
-            this.containerDateInUse.setText(getItem().getContainerDateInUse().toString());
+            //this.containerDateInUse.setText(getItem().getContainerDateInUse().toString());
             this.canopyManufacturer.setText(getItem().getCanopyManufacturer());
             this.canopyType.setText(getItem().getCanopyType());
             this.canopySerial.setText(getItem().getCanopySerial());
-            this.canopyDateInUse.setText(getItem().getCanopyDateInUse().toString());
+            //this.canopyDateInUse.setText(getItem().getCanopyDateInUse().toString());
         }
     }
 

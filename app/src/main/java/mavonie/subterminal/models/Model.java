@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import mavonie.subterminal.DB.DatabaseHandler;
 import mavonie.subterminal.DB.VersionUtils;
@@ -31,7 +34,7 @@ abstract public class Model implements BaseColumns, Serializable {
     }
 
     public boolean exists() {
-        return true;
+        return this.getId() > 0;
     }
 
     protected static DatabaseHandler _db;
@@ -61,6 +64,27 @@ abstract public class Model implements BaseColumns, Serializable {
         return null;
     }
 
+    /**
+     * Get items associated with this model
+     *
+     * @param filter
+     * @return List
+     */
+    public List getItems(Array filter) {
+        Cursor cursor = _db.getReadableDatabase().rawQuery("select * from " + getTableName(), null);
+
+        List<Model> list = new ArrayList<Model>();
+
+        if (cursor.moveToFirst()) {
+            while (cursor.isAfterLast() == false) {
+                Model item = populateFromCursor(cursor);
+                list.add(item);
+                cursor.moveToNext();
+            }
+        }
+        return list;
+    }
+
     abstract Model populateFromCursor(Cursor cursor);
 
     abstract void populateContentValues(ContentValues contentValues);
@@ -81,8 +105,15 @@ abstract public class Model implements BaseColumns, Serializable {
             e.printStackTrace();
         }
 
-        long res = _db.getWritableDatabase().insert(getTableName(), null, contentValues);
+        long res = 0;
 
-        return true;
+        //If item exists we want to update associated row
+        if(this.exists()) {
+            res = _db.getWritableDatabase().update(getTableName(), contentValues, _ID + " = " + this.getId(), null);
+        }else {
+            res = _db.getWritableDatabase().insert(getTableName(), null, contentValues);
+        }
+
+        return res == 1;
     }
 }
