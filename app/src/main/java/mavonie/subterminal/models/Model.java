@@ -94,7 +94,7 @@ abstract public class Model implements BaseColumns, Serializable {
     /**
      * Write a model to the DB
      *
-     * @return
+     * @return Boolean
      */
     public boolean save() {
         ContentValues contentValues = new ContentValues();
@@ -108,9 +108,9 @@ abstract public class Model implements BaseColumns, Serializable {
         long res = 0;
 
         //If item exists we want to update associated row
-        if(this.exists()) {
+        if (this.exists()) {
             res = _db.getWritableDatabase().update(getTableName(), contentValues, _ID + " = " + this.getId(), null);
-        }else {
+        } else {
             res = _db.getWritableDatabase().insert(getTableName(), null, contentValues);
         }
 
@@ -119,10 +119,10 @@ abstract public class Model implements BaseColumns, Serializable {
 
     /**
      * Delete a row
-     * @return
+     *
+     * @return Boolean
      */
-    public boolean delete()
-    {
+    public boolean delete() {
         long res = _db.getWritableDatabase().delete(getTableName(), _ID + " = " + this.getId(), null);
 
         return res == 1;

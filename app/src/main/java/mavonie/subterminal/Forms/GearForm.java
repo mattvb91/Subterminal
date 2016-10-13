@@ -85,7 +85,7 @@ public class GearForm extends Fragment {
 
         assignFormElements(view);
 
-        if (this.getItem() != null) {
+        if (this.getItem() != null && this.getItem().exists()) {
             updateForm();
             MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
         }
@@ -170,31 +170,65 @@ public class GearForm extends Fragment {
      * //TODO call item.save() method
      */
     public void save() {
-        getItem().setContainerManufacturer(this.containerManufacturer.getText().toString());
-        getItem().setContainerType(this.containerType.getText().toString());
-        getItem().setContainerSerial(this.containerSerial.getText().toString());
-        //getItem().setContainerDateInUse(new Date(this.containerDateInUse.getText().toString()));
-        getItem().setCanopyManufacturer(this.canopyManufacturer.getText().toString());
-        getItem().setCanopyType(this.canopyType.getText().toString());
-        getItem().setCanopySerial(this.canopySerial.getText().toString());
-        //getItem().setCanopyDateInUse(new Date(this.canopyDateInUse.getText().toString()));
+        //Required fields
+        String containerManufacturer = this.containerManufacturer.getText().toString();
+        String containerType = this.containerType.getText().toString();
+        String canopyManufacturer = this.canopyManufacturer.getText().toString();
 
-        String message = "";
+        if (validateForm()) {
+            getItem().setContainerManufacturer(containerManufacturer);
+            getItem().setContainerType(containerType);
+            getItem().setContainerSerial(this.containerSerial.getText().toString());
+            //getItem().setContainerDateInUse(new Date(this.containerDateInUse.getText().toString()));
+            getItem().setCanopyManufacturer(canopyManufacturer);
+            getItem().setCanopyType(this.canopyType.getText().toString());
+            getItem().setCanopySerial(this.canopySerial.getText().toString());
+            //getItem().setCanopyDateInUse(new Date(this.canopyDateInUse.getText().toString()));
 
-        //Popup and redirect
-        if (getItem().save()) {
-            message = "Item has been saved";
-        } else {
-            message = "Could not save item";
+            String message = "";
+
+            //Popup and redirect
+            if (getItem().save()) {
+                message = "Item has been saved";
+            } else {
+                message = "Could not save item";
+            }
+
+            MainActivity.getActivity().goToFragment(R.id.nav_gear);
+            Snackbar.make(this.getView(), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+            InputMethodManager inputManager = (InputMethodManager)
+                    MainActivity.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            inputManager.hideSoftInputFromWindow(MainActivity.getActivity().getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    /**
+     * Validate our input
+     *
+     * @return boolean
+     */
+    private boolean validateForm() {
+
+        boolean valid = true;
+
+        if (containerManufacturer.getText().length() == 0) {
+            this.containerManufacturer.setError("Manufacturer required");
+            valid = false;
         }
 
-        MainActivity.getActivity().goToFragment(R.id.nav_gear);
-        Snackbar.make(this.getView(), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        if (containerType.getText().length() == 0) {
+            this.containerType.setError("Type required");
+            valid = false;
+        }
 
-        InputMethodManager inputManager = (InputMethodManager)
-                MainActivity.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (canopyManufacturer.getText().length() == 0) {
+            this.canopyManufacturer.setError("Manufacturer required");
+            valid = false;
+        }
 
-        inputManager.hideSoftInputFromWindow(MainActivity.getActivity().getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
+        return valid;
     }
 }
