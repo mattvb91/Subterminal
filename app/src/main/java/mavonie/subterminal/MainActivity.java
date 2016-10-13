@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity
 
     Menu optionsMenu;
 
-    FragmentManager fragmentManager;
-
     private static final int FRAGMENT_HOME = R.id.nav_home;
     private static final int FRAGMENT_JUMPS = R.id.nav_jumps;
     private static final int FRAGMENT_GEAR = R.id.nav_gear;
@@ -125,8 +123,9 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flContent, fragment)
+                .addToBackStack(null).commit();
     }
 
     @Override
