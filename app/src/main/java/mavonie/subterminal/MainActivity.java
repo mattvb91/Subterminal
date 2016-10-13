@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity
         Login.OnFragmentInteractionListener,
         Jumps.OnFragmentInteractionListener,
         Gear.OnListFragmentInteractionListener,
-        GearForm.OnFragmentInteractionListener {
+        GearForm.OnFragmentInteractionListener,
+        Exit.OnListFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -189,6 +190,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_login:
                 fragmentClass = Login.class;
                 break;
+            case R.id.nav_exits:
+                fragmentClass = Exit.class;
+                break;
         }
 
         setActiveFragment(id);
@@ -225,8 +229,8 @@ public class MainActivity extends AppCompatActivity
         profileName.setText(this.getUser().getFullName());
         profileEmail.setText(this.getUser().getEmail());
 
-        //Menu nav_Menu = nav.getMenu();
-        //nav_Menu.findItem(R.id.nav_login).setVisible(false);
+        Menu nav_Menu = nav.getMenu();
+        nav_Menu.findItem(R.id.nav_login).setTitle("Logout");
     }
 
     @Override
@@ -244,6 +248,11 @@ public class MainActivity extends AppCompatActivity
         form.setArguments(args);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.flContent, form).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onExitListFragmentInteraction(mavonie.subterminal.models.Exit item) {
+
     }
 
     public void deleteDialog(MenuItem item) {
