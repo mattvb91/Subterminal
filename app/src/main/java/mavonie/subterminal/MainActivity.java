@@ -24,6 +24,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 
 import mavonie.subterminal.Forms.GearForm;
+import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.models.Model;
 import mavonie.subterminal.models.User;
 
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity
         Jumps.OnFragmentInteractionListener,
         Gear.OnListFragmentInteractionListener,
         GearForm.OnFragmentInteractionListener,
-        Exit.OnListFragmentInteractionListener {
+        Exit.OnListFragmentInteractionListener,
+        ExitView.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -252,7 +254,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onExitListFragmentInteraction(mavonie.subterminal.models.Exit item) {
+        fab.hide();
 
+        Bundle args = new Bundle();
+        args.putSerializable("item", item);
+        ExitView view = new ExitView();
+        view.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, view).addToBackStack(null).commit();
     }
 
     public void deleteDialog(MenuItem item) {

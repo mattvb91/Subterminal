@@ -3,7 +3,6 @@ package mavonie.subterminal.models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,8 +47,8 @@ public class Exit extends Model {
     private Integer difficulty_wingsuit_overall;
     private String description;
     private String rules;
-    private long latitude;
-    private long longtitude;
+    private double latitude;
+    private double longtitude;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "exit";
@@ -73,19 +72,19 @@ public class Exit extends Model {
 
     /* END DB DEFINITIONS */
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public long getLongtitude() {
+    public double getLongtitude() {
         return longtitude;
     }
 
-    public void setLongtitude(long longtitude) {
+    public void setLongtitude(double longtitude) {
         this.longtitude = longtitude;
     }
 
@@ -233,8 +232,9 @@ public class Exit extends Model {
             exit.setDifficulty_wingsuit_overall(cursor.getInt(difficultyWingsuitOverall));
             exit.setDescription(cursor.getString(description));
             exit.setRules(cursor.getString(rules));
-            exit.setLatitude(cursor.getLong(latitude));
-            exit.setLongtitude(cursor.getLong(longtitude));
+
+            exit.setLatitude(Double.parseDouble(cursor.getString(latitude)));
+            exit.setLongtitude(Double.parseDouble(cursor.getString(longtitude)));
 
             return exit;
 

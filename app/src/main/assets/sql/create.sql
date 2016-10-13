@@ -24,8 +24,8 @@ CREATE TABLE exit (
     difficulty_wingsuit_overall INTEGER,
     description TEXT,
     rules TEXT,
-    lat LONG,
-    long LONG );
+    lat TEXT,
+    long TEXT );
 
 INSERT INTO exit (
     _id,
@@ -57,11 +57,11 @@ INSERT INTO exit (
         2,
         3,
         "",
-        "SPECIFIC RULES FOR THIS JUMP_\n
-        \n
-         Air Glacier airspace!\n
-         Call Air Glacier before every jump: +41 33 856 05 60\n
+        "SPECIFIC RULES FOR THIS JUMP_<br/>
+        <br/>
+         Air Glacier airspace!<br/>
+         Call Air Glacier before every jump: +41 33 856 05 60<br/>
          Check for helicopters visually and acoustically",
-         46.580544,
-         7.905281
+         46.579998,
+         7.905217
     );
