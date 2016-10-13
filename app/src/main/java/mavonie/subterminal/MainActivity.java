@@ -2,12 +2,12 @@ package mavonie.subterminal;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,9 +23,6 @@ import android.widget.Toast;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 
-
-import mavonie.subterminal.DB.DatabaseHandler;
-import mavonie.subterminal.DB.VersionUtils;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.models.Model;
 import mavonie.subterminal.models.User;
@@ -37,8 +34,6 @@ public class MainActivity extends AppCompatActivity
         Jumps.OnFragmentInteractionListener,
         Gear.OnListFragmentInteractionListener,
         GearForm.OnFragmentInteractionListener {
-
-    DatabaseHandler db;
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -92,15 +87,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
-            db = new DatabaseHandler(this.getApplicationContext(), "database", null,
-                    VersionUtils.getVersionCode(this.getApplicationContext()));
-            db.getReadableDatabase();
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
         activity = this;
         FacebookSdk.sdkInitialize(getApplicationContext());
 
@@ -140,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
     }
 
     @Override
@@ -191,21 +177,17 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_home:
                 fragmentClass = Home.class;
-                setTitle("Subterminal");
                 fab.hide();
                 break;
             case R.id.nav_jumps:
                 fragmentClass = Jumps.class;
-                setTitle("Jumps");
                 fab.hide();
                 break;
             case R.id.nav_gear:
                 fragmentClass = Gear.class;
-                setTitle("Gear");
                 fab.show();
                 break;
             case R.id.nav_login:
-                setTitle("Login");
                 fragmentClass = Login.class;
                 break;
         }
@@ -262,7 +244,7 @@ public class MainActivity extends AppCompatActivity
         GearForm form = new GearForm();
         form.setArguments(args);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, form).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, form).addToBackStack(null).commit();
     }
 
     public void deleteDialog(MenuItem item) {
@@ -284,6 +266,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * Set an active model so we can access it throughout
      * popups etc..
+     * TODO clean this up
      */
     public Model getActiveModel() {
         return activeModel;

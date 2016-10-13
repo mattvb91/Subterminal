@@ -105,4 +105,11 @@ public class Gear extends Fragment {
         // TODO: Update argument type and name
         void onGearListFragmentInteraction(mavonie.subterminal.models.Gear item);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Set title
+        MainActivity.getActivity().setTitle(R.string.title_gear);
+    }
 }

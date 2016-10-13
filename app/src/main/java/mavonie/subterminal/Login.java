@@ -137,4 +137,11 @@ public class Login extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Set title
+        MainActivity.getActivity().setTitle(R.string.title_login);
+    }
 }

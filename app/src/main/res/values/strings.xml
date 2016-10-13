@@ -12,4 +12,9 @@
     <string name="gear_manufacturer">Manufacturer</string>
     <string name="gear">Gear</string>
     <string name="gear_type">Type</string>
+    <string name="title_jumps">Jumps</string>
+    <string name="title_login">Login</string>
+    <string name="title_gear">Gear</string>
+
+
 </resources>
