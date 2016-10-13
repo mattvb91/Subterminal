@@ -61,6 +61,8 @@ abstract public class Model implements BaseColumns, Serializable {
             return populateFromCursor(cursor);
         }
 
+        cursor.close();
+
         return null;
     }
 
@@ -82,6 +84,9 @@ abstract public class Model implements BaseColumns, Serializable {
                 cursor.moveToNext();
             }
         }
+
+        cursor.close();
+
         return list;
     }
 
@@ -126,5 +131,19 @@ abstract public class Model implements BaseColumns, Serializable {
         long res = _db.getWritableDatabase().delete(getTableName(), _ID + " = " + this.getId(), null);
 
         return res == 1;
+    }
+
+    /**
+     * Count how many rows on this model
+     *
+     * @return int
+     */
+    public int count() {
+        Cursor mCount = _db.getReadableDatabase().rawQuery("SELECT count(" + _ID + ") FROM " + getTableName() + ";", null);
+        mCount.moveToFirst();
+        int count = mCount.getInt(0);
+        mCount.close();
+
+        return count;
     }
 }

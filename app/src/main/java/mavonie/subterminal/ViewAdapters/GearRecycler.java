@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import mavonie.subterminal.Gear.OnListFragmentInteractionListener;
 import mavonie.subterminal.R;
+import mavonie.subterminal.models.Gear;
+import mavonie.subterminal.models.Model;
 
 import java.util.List;
 
