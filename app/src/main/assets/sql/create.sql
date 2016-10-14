@@ -56,7 +56,10 @@ INSERT INTO exit (
         3,
         2,
         3,
-        "",
+        "Description of jump <br/>
+        <br/>
+        More description of jump bla blabl
+        blablabla",
         "SPECIFIC RULES FOR THIS JUMP_<br/>
         <br/>
          Air Glacier airspace!<br/>

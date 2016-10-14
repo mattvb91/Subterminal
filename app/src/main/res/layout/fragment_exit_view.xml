@@ -2,26 +2,283 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:shrinkColumns="1">
 
-        <TextView
-            android:id="@+id/exit_view_description"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:text="Exit"/>
+        <TableRow>
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/exit_view_map"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Rockdrop distance:"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/exit_view_rockdrop_distance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Rockdrop time:"/>
+
+            <TextView
+                android:id="@+id/exit_view_rockdrop_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Altitude to landing:"/>
+
+            <TextView
+                android:id="@+id/exit_view_altitude_to_landing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:text="Exit Info"
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/exit_view_description"
+                android:layout_width="match_parent"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:text=""/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:text="Jump Rules"
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/exit_view_rules"
+                android:layout_width="match_parent"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:text=""/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:text="Difficulty Tracking"
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Exit:"/>
+
+            <TextView
+                android:id="@+id/exit_view_difficulty_tracking_exit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Freefall:"/>
+
+            <TextView
+                android:id="@+id/exit_view_difficulty_tracking_freefall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Landing:"/>
+
+            <TextView
+                android:id="@+id/exit_view_difficulty_tracking_landing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Overall:"/>
+
+            <TextView
+                android:id="@+id/exit_view_difficulty_tracking_overall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:text="Difficulty Wingsuit"
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Exit:"/>
+
+            <TextView
+                android:id="@+id/exit_view_difficulty_wingsuit_exit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Freefall:"/>
+
+            <TextView
+                android:id="@+id/exit_view_difficulty_wingsuit_freefall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Landing:"/>
+
+            <TextView
+                android:id="@+id/exit_view_difficulty_wingsuit_landing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Overall:"/>
+
+            <TextView
+                android:id="@+id/exit_view_difficulty_wingsuit_overall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=""
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow
+            android:paddingTop="10dp">
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/exit_view_map"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_span="2"
+                android:layout_weight="1"/>
+        </TableRow>
+
+
+    </TableLayout>
 
 </ScrollView>

@@ -3,6 +3,7 @@ package mavonie.subterminal.models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -253,5 +254,32 @@ public class Exit extends Model {
     @Override
     String getTableName() {
         return "exit";
+    }
+
+    public String getFormatedAltitudeToLanding() {
+        return this.getAltitude_to_landing() + "m (" + Math.round(this.getAltitude_to_landing() * 3.28) + "ft)";
+    }
+
+    public String getFormatedRockdrop() {
+        return this.getRockdrop_distance() + "m (" +  Math.round(this.getRockdrop_distance() * 3.28) + "ft)";
+    }
+
+    public static String getDifficultyColor(int difficulty)
+    {
+        return difficulty_color.get(difficulty);
+    }
+
+    public static String getDifficultyDescriptor(int difficulty)
+    {
+        return difficulty_descriptor.get(difficulty);
+    }
+
+    //TODO make sure this is right
+    public String getFormattedRockdropTime()
+    {
+        double time = Math.sqrt(2 * this.getRockdrop_distance() / 9.8 );
+        DecimalFormat df = new DecimalFormat("#.#");
+
+        return  df.format(time) + "s";
     }
 }

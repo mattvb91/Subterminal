@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     FloatingActionButton fab;
 
+    private ProfilePictureView profilePictureView;
+
     public Menu getOptionsMenu() {
         return optionsMenu;
     }
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
         View headerView = nav.getHeaderView(0);
 
-        ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
+        profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
         profilePictureView.setProfileId(this.getUser().getFacebookToken().getUserId());
 
         TextView profileName = (TextView) headerView.findViewById(R.id.profile_name);
