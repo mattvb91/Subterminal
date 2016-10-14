@@ -26,6 +26,20 @@
             android:hint="@string/exit_name"
             android:inputType="textPersonName"></EditText>
 
+        <EditText
+            android:id="@+id/exit_edit_lat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Latitude"
+            android:inputType="textPersonName"></EditText>
+
+        <EditText
+            android:id="@+id/exit_edit_long"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Longtitude"
+            android:inputType="textPersonName"></EditText>
+
 
         <Button
             android:id="@+id/gear_save"
