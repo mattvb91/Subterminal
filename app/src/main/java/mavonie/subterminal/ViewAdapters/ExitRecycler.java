@@ -38,8 +38,8 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.mIdView.setText(Integer.toString(mValues.get(position).getId()));
-        holder.mContentView.setText(mValues.get(position).getName());
+        holder.mHeight.setText(mValues.get(position).getFormatedRockdrop());
+        holder.mName.setText(mValues.get(position).getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,15 +60,15 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView mHeight;
+        public final TextView mName;
         public mavonie.subterminal.models.Exit mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.exit_id);
-            mContentView = (TextView) view.findViewById(R.id.exit_name);
+            mHeight = (TextView) view.findViewById(R.id.exit_list_height);
+            mName = (TextView) view.findViewById(R.id.exit_list_name);
         }
     }
 }
