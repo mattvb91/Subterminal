@@ -17,7 +17,7 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.models.Exit;
 
-public class ExitForm extends BaseForm implements LocationListener {
+public class ExitForm extends BaseForm {
 
     LocationManager locationManager;
     LocationListener locationListener;
