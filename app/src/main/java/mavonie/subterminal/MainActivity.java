@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 
+import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.models.Model;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     private static final int FRAGMENT_HOME = R.id.nav_home;
     private static final int FRAGMENT_JUMPS = R.id.nav_jumps;
     private static final int FRAGMENT_GEAR = R.id.nav_gear;
+    private static final int FRAGMENT_EXIT = R.id.nav_exits;
 
     protected static int activeFragment;
 
@@ -104,6 +106,9 @@ public class MainActivity extends AppCompatActivity
                 switch (getActiveFragment()) {
                     case FRAGMENT_GEAR:
                         activateFragment(GearForm.class);
+                        break;
+                    case FRAGMENT_EXIT:
+                        activateFragment(ExitForm.class);
                         break;
                 }
             }
@@ -194,6 +199,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_exits:
                 fragmentClass = Exit.class;
+                fab.show();
                 break;
         }
 

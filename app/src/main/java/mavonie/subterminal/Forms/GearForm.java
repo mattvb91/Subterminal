@@ -1,41 +1,22 @@
 package mavonie.subterminal.Forms;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.Date;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.models.Gear;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link GearForm.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GearForm#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class GearForm extends Fragment {
-
-    private OnFragmentInteractionListener mListener;
-
-    private Gear _item;
+public class GearForm extends BaseForm {
 
     private EditText containerManufacturer;
     private EditText containerType;
@@ -59,11 +40,12 @@ public class GearForm extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected Gear getItem() {
+        return (Gear) super.getItem();
     }
 
-    private void updateForm() {
+
+    protected void updateForm() {
         if (getItem().exists()) {
             MainActivity.getActivity().setActiveModel(getItem());
             this.containerManufacturer.setText(getItem().getContainerManufacturer());
@@ -77,23 +59,7 @@ public class GearForm extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_gear_form, container, false);
-
-        assignFormElements(view);
-
-        if (this.getItem() != null && this.getItem().exists()) {
-            updateForm();
-            MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
-        }
-
-        return view;
-    }
-
-    private void assignFormElements(View view) {
+    protected void assignFormElements(View view) {
         this.containerManufacturer = (EditText) view.findViewById(R.id.edit_container_manufacturer);
         this.containerType = (EditText) view.findViewById(R.id.edit_container_type);
         this.containerSerial = (EditText) view.findViewById(R.id.edit_container_serial);
@@ -111,59 +77,17 @@ public class GearForm extends Fragment {
         });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+
+    @Override
+    protected String getItemClass() {
+        return Gear.class.getCanonicalName();
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    protected int getParentFragmentId() {
+        return R.id.nav_gear;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * @return Gear|Null
-     */
-    private Gear getItem() {
-        if (this._item == null) {
-            if (getArguments() != null && !getArguments().isEmpty()) {
-                this._item = (Gear) getArguments().getSerializable("item");
-            } else {
-                this._item = new Gear();
-            }
-        }
-        return this._item;
-    }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 
     /**
      * Save the item
@@ -185,23 +109,7 @@ public class GearForm extends Fragment {
             getItem().setCanopySerial(this.canopySerial.getText().toString());
             //getItem().setCanopyDateInUse(new Date(this.canopyDateInUse.getText().toString()));
 
-            String message = "";
-
-            //Popup and redirect
-            if (getItem().save()) {
-                message = "Item has been saved";
-            } else {
-                message = "Could not save item";
-            }
-
-            MainActivity.getActivity().goToFragment(R.id.nav_gear);
-            Snackbar.make(this.getView(), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-            InputMethodManager inputManager = (InputMethodManager)
-                    MainActivity.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-            inputManager.hideSoftInputFromWindow(MainActivity.getActivity().getCurrentFocus().getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+            super.save();
         }
     }
 
@@ -210,7 +118,7 @@ public class GearForm extends Fragment {
      *
      * @return boolean
      */
-    private boolean validateForm() {
+    protected boolean validateForm() {
 
         boolean valid = true;
 
@@ -230,5 +138,10 @@ public class GearForm extends Fragment {
         }
 
         return valid;
+    }
+
+    @Override
+    protected int getLayoutName() {
+        return R.layout.fragment_gear_form;
     }
 }

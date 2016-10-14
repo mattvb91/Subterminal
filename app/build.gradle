@@ -45,6 +45,6 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.3.0'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
-    testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-maps:9.6.1'
+    testCompile 'junit:junit:4.12'
 }
