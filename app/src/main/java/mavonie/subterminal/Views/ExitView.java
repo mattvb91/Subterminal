@@ -81,6 +81,9 @@ public class ExitView extends Fragment implements OnMapReadyCallback {
         }
 
         MapsInitializer.initialize(getContext());
+        MainActivity.getActivity().setActiveModel(this.getItem());
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
     }
 
     /**
@@ -119,7 +122,7 @@ public class ExitView extends Fragment implements OnMapReadyCallback {
         TextView altitudeToLanding = (TextView) view.findViewById(R.id.exit_view_altitude_to_landing);
         altitudeToLanding.setText(getItem().getFormatedAltitudeToLanding());
 
-        if(getItem().getDifficulty_tracking_exit() != 0){
+        if (getItem().getDifficulty_tracking_exit() != 0) {
             TextView difficultyTrackingExit = (TextView) view.findViewById(R.id.exit_view_difficulty_tracking_exit);
             difficultyTrackingExit.setText(getItem().getDifficultyDescriptor(getItem().getDifficulty_tracking_exit()));
             difficultyTrackingExit.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDifficulty_tracking_exit())));
@@ -233,6 +236,10 @@ public class ExitView extends Fragment implements OnMapReadyCallback {
         if (mMapView != null) {
             mMapView.onPause();
         }
+
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
+
         super.onPause();
     }
 

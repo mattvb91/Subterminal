@@ -106,9 +106,11 @@ public class MainActivity extends AppCompatActivity
                 switch (getActiveFragment()) {
                     case FRAGMENT_GEAR:
                         activateFragment(GearForm.class);
+                        fab.hide();
                         break;
                     case FRAGMENT_EXIT:
                         activateFragment(ExitForm.class);
+                        fab.hide();
                         break;
                 }
             }
@@ -207,6 +209,7 @@ public class MainActivity extends AppCompatActivity
         activateFragment(fragmentClass);
         setActiveModel(null);
         getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
+        getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -284,6 +287,10 @@ public class MainActivity extends AppCompatActivity
                     }
                 })
                 .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    public void editItem(MenuItem item) {
+        Toast.makeText(MainActivity.getActivity(), "CLick edit", Toast.LENGTH_SHORT).show();
     }
 
     /**
