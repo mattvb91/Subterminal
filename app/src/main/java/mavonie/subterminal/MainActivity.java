@@ -2,12 +2,10 @@ package mavonie.subterminal;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,10 +21,9 @@ import android.widget.Toast;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 
-
-import mavonie.subterminal.DB.DatabaseHandler;
-import mavonie.subterminal.DB.VersionUtils;
+import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
+import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.models.Model;
 import mavonie.subterminal.models.User;
 
@@ -36,14 +33,16 @@ public class MainActivity extends AppCompatActivity
         Login.OnFragmentInteractionListener,
         Jumps.OnFragmentInteractionListener,
         Gear.OnListFragmentInteractionListener,
-        GearForm.OnFragmentInteractionListener {
-
-    DatabaseHandler db;
+        GearForm.OnFragmentInteractionListener,
+        Exit.OnListFragmentInteractionListener,
+        ExitView.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
     FloatingActionButton fab;
+
+    private ProfilePictureView profilePictureView;
 
     public Menu getOptionsMenu() {
         return optionsMenu;
@@ -51,11 +50,10 @@ public class MainActivity extends AppCompatActivity
 
     Menu optionsMenu;
 
-    FragmentManager fragmentManager;
-
     private static final int FRAGMENT_HOME = R.id.nav_home;
     private static final int FRAGMENT_JUMPS = R.id.nav_jumps;
     private static final int FRAGMENT_GEAR = R.id.nav_gear;
+    private static final int FRAGMENT_EXIT = R.id.nav_exits;
 
     protected static int activeFragment;
 
@@ -92,15 +90,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
-            db = new DatabaseHandler(this.getApplicationContext(), "database", null,
-                    VersionUtils.getVersionCode(this.getApplicationContext()));
-            db.getReadableDatabase();
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
         activity = this;
         FacebookSdk.sdkInitialize(getApplicationContext());
 
@@ -117,6 +106,9 @@ public class MainActivity extends AppCompatActivity
                 switch (getActiveFragment()) {
                     case FRAGMENT_GEAR:
                         activateFragment(GearForm.class);
+                        break;
+                    case FRAGMENT_EXIT:
+                        activateFragment(ExitForm.class);
                         break;
                 }
             }
@@ -139,8 +131,9 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flContent, fragment)
+                .addToBackStack(null).commit();
     }
 
     @Override
@@ -191,22 +184,22 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_home:
                 fragmentClass = Home.class;
-                setTitle("Subterminal");
                 fab.hide();
                 break;
             case R.id.nav_jumps:
                 fragmentClass = Jumps.class;
-                setTitle("Jumps");
                 fab.hide();
                 break;
             case R.id.nav_gear:
                 fragmentClass = Gear.class;
-                setTitle("Gear");
                 fab.show();
                 break;
             case R.id.nav_login:
-                setTitle("Login");
                 fragmentClass = Login.class;
+                break;
+            case R.id.nav_exits:
+                fragmentClass = Exit.class;
+                fab.show();
                 break;
         }
 
@@ -235,7 +228,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
         View headerView = nav.getHeaderView(0);
 
-        ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
+        profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
         profilePictureView.setProfileId(this.getUser().getFacebookToken().getUserId());
 
         TextView profileName = (TextView) headerView.findViewById(R.id.profile_name);
@@ -244,8 +237,8 @@ public class MainActivity extends AppCompatActivity
         profileName.setText(this.getUser().getFullName());
         profileEmail.setText(this.getUser().getEmail());
 
-        //Menu nav_Menu = nav.getMenu();
-        //nav_Menu.findItem(R.id.nav_login).setVisible(false);
+        Menu nav_Menu = nav.getMenu();
+        nav_Menu.findItem(R.id.nav_login).setTitle("Logout");
     }
 
     @Override
@@ -262,7 +255,19 @@ public class MainActivity extends AppCompatActivity
         GearForm form = new GearForm();
         form.setArguments(args);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, form).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, form).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onExitListFragmentInteraction(mavonie.subterminal.models.Exit item) {
+        fab.hide();
+
+        Bundle args = new Bundle();
+        args.putSerializable("item", item);
+        ExitView view = new ExitView();
+        view.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, view).addToBackStack(null).commit();
     }
 
     public void deleteDialog(MenuItem item) {
@@ -284,6 +289,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * Set an active model so we can access it throughout
      * popups etc..
+     * TODO clean this up
      */
     public Model getActiveModel() {
         return activeModel;

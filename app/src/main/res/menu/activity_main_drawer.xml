@@ -14,6 +14,11 @@
             android:id="@+id/nav_gear"
             android:icon="@drawable/ic_menu_manage"
             android:title="Gear" />
+
+        <item
+            android:id="@+id/nav_exits"
+            android:icon="@android:drawable/ic_dialog_map"
+            android:title="Exits" />
     </group>
 
     <item android:title="Account">

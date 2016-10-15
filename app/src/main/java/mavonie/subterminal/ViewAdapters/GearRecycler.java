@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import mavonie.subterminal.Gear.OnListFragmentInteractionListener;
 import mavonie.subterminal.R;
+import mavonie.subterminal.models.Gear;
+import mavonie.subterminal.models.Model;
 
 import java.util.List;
 
@@ -36,8 +38,9 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(Integer.toString(mValues.get(position).getId()));
-        holder.mContentView.setText(mValues.get(position).getContainerManufacturer());
+        holder.mIdView.setText(mValues.get(position).getContainerManufacturer());
+        holder.mContentView.setText(mValues.get(position).getContainerType());
+        holder.listContentCanopyType.setText(mValues.get(position).getCanopyType());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,13 +63,15 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView listContentCanopyType;
         public mavonie.subterminal.models.Gear mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = (TextView) view.findViewById(R.id.gear_container_manufacturer);
+            mContentView = (TextView) view.findViewById(R.id.gear_container_type);
+            listContentCanopyType = (TextView) view.findViewById(R.id.gear_canopy_type);
         }
 
         @Override

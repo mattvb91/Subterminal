@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import mavonie.subterminal.ViewAdapters.GearRecycler;
+import mavonie.subterminal.ViewAdapters.ExitRecycler;
 
 /**
  * A fragment representing a list of Items.
@@ -18,7 +18,7 @@ import mavonie.subterminal.ViewAdapters.GearRecycler;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class Gear extends Fragment {
+public class Exit extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -30,13 +30,13 @@ public class Gear extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public Gear() {
+    public Exit() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static Gear newInstance(int columnCount) {
-        Gear fragment = new Gear();
+    public static Exit newInstance(int columnCount) {
+        Exit fragment = new Exit();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -55,7 +55,7 @@ public class Gear extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_gear_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_exit_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -66,9 +66,7 @@ public class Gear extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            mavonie.subterminal.models.Gear gear = new mavonie.subterminal.models.Gear();
-
-            recyclerView.setAdapter(new GearRecycler(gear.getItems(null), mListener));
+            recyclerView.setAdapter(new ExitRecycler(new mavonie.subterminal.models.Exit().getItems(null), mListener));
         }
         return view;
     }
@@ -103,13 +101,15 @@ public class Gear extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onGearListFragmentInteraction(mavonie.subterminal.models.Gear item);
+        void onExitListFragmentInteraction(mavonie.subterminal.models.Exit item);
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
         // Set title
-        MainActivity.getActivity().setTitle(R.string.title_gear);
+        MainActivity.getActivity().setTitle(R.string.title_exit);
     }
+
 }

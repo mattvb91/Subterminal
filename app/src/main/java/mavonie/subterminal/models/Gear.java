@@ -112,7 +112,7 @@ public class Gear extends Model {
         try {
             Gear gear = new Gear();
 
-            int idIndex = cursor.getColumnIndexOrThrow("_ID");
+            int idIndex = cursor.getColumnIndexOrThrow("_id");
             int containerManufacturerIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CONTAINER_MANUFACTURER);
             int containerTypeIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CONTAINER_TYPE);
             int containerSerialIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CONTAINER_SERIAL);
