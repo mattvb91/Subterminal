@@ -232,7 +232,12 @@ public class Exit extends Model {
             exit.setDifficulty_wingsuit_landing(cursor.getInt(difficultyWingsuitlanding));
             exit.setDifficulty_wingsuit_overall(cursor.getInt(difficultyWingsuitOverall));
             exit.setDescription(cursor.getString(description));
-            exit.setRules(cursor.getString(rules));
+
+            String rulesText = "";
+            if (!cursor.isNull(rules)) {
+                rulesText = cursor.getString(rules);
+            }
+            exit.setRules(rulesText);
 
             exit.setLatitude(Double.parseDouble(cursor.getString(latitude)));
             exit.setLongtitude(Double.parseDouble(cursor.getString(longtitude)));
@@ -248,7 +253,10 @@ public class Exit extends Model {
 
     @Override
     void populateContentValues(ContentValues contentValues) {
-
+        contentValues.put(COLUMN_NAME_DESCRIPTION, this.getDescription());
+        contentValues.put(COLUMN_NAME_NAME, this.getName());
+        contentValues.put(COLUMN_NAME_LATITUDE, this.getLatitude());
+        contentValues.put(COLUMN_NAME_LONGTITUDE, this.getLongtitude());
     }
 
     @Override
@@ -261,25 +269,22 @@ public class Exit extends Model {
     }
 
     public String getFormatedRockdrop() {
-        return this.getRockdrop_distance() + "m (" +  Math.round(this.getRockdrop_distance() * 3.28) + "ft)";
+        return this.getRockdrop_distance() + "m (" + Math.round(this.getRockdrop_distance() * 3.28) + "ft)";
     }
 
-    public static String getDifficultyColor(int difficulty)
-    {
+    public static String getDifficultyColor(int difficulty) {
         return difficulty_color.get(difficulty);
     }
 
-    public static String getDifficultyDescriptor(int difficulty)
-    {
+    public static String getDifficultyDescriptor(int difficulty) {
         return difficulty_descriptor.get(difficulty);
     }
 
     //TODO make sure this is right
-    public String getFormattedRockdropTime()
-    {
-        double time = Math.sqrt(2 * this.getRockdrop_distance() / 9.8 );
+    public String getFormattedRockdropTime() {
+        double time = Math.sqrt(2 * this.getRockdrop_distance() / 9.8);
         DecimalFormat df = new DecimalFormat("#.#");
 
-        return  df.format(time) + "s";
+        return df.format(time) + "s";
     }
 }

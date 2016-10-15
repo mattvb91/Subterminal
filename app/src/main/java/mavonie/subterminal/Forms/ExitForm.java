@@ -11,6 +11,8 @@ import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import mavonie.subterminal.MainActivity;
@@ -24,12 +26,17 @@ public class ExitForm extends BaseForm {
 
     View view;
 
+    private EditText exit_edit_name;
+    private EditText exit_edit_lat;
+    private EditText exit_edit_long;
+    private EditText exit_edit_description;
+
+
     //TODO move the gps tracking out of here and off into its own class
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         locationManager = (LocationManager) MainActivity.getActivity().getSystemService(Context.LOCATION_SERVICE);
-        view = inflater.inflate(this.getLayoutName(), container, false);
 
 
         if (ActivityCompat.checkSelfPermission(MainActivity.getActivity().getApplicationContext(),
@@ -75,6 +82,7 @@ public class ExitForm extends BaseForm {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
+        view = super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
 
@@ -90,8 +98,19 @@ public class ExitForm extends BaseForm {
 
     @Override
     protected void assignFormElements(View view) {
+        this.exit_edit_name = (EditText) view.findViewById(R.id.exit_edit_name);
+        this.exit_edit_lat = (EditText) view.findViewById(R.id.exit_edit_lat);
+        this.exit_edit_long = (EditText) view.findViewById(R.id.exit_edit_long);
+        this.exit_edit_description = (EditText) view.findViewById(R.id.exit_edit_description);
 
+        Button button = (Button) view.findViewById(R.id.exit_save);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                save();
+            }
+        });
     }
+
 
     @Override
     protected void updateForm() {
@@ -99,12 +118,47 @@ public class ExitForm extends BaseForm {
     }
 
     @Override
-    protected boolean validateForm() {
-        return false;
-    }
-
-    @Override
     protected int getLayoutName() {
         return R.layout.fragment_exit_form;
+    }
+
+    public void save() {
+        //Required fields
+        String exitName = this.exit_edit_name.getText().toString();
+        String exitLat = this.exit_edit_lat.getText().toString();
+        String exitLong = this.exit_edit_long.getText().toString();
+        String exitDescription = this.exit_edit_description.getText().toString();
+
+        if (validateForm()) {
+            getItem().setName(exitName);
+            getItem().setLatitude(Double.parseDouble(exitLat));
+            getItem().setLongtitude(Double.parseDouble(exitLong));
+            getItem().setDescription(exitDescription);
+
+            super.save();
+        }
+    }
+
+    /**
+     * Validate our input
+     *
+     * @return boolean
+     */
+    protected boolean validateForm() {
+
+        boolean valid = true;
+
+        if (exit_edit_name.getText().length() == 0) {
+            this.exit_edit_name.setError("Exit name required");
+            valid = false;
+        }
+
+
+        return valid;
+    }
+
+
+    public Exit getItem() {
+        return (Exit) super.getItem();
     }
 }

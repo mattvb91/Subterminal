@@ -27,6 +27,17 @@
             android:inputType="textPersonName"></EditText>
 
         <EditText
+            android:id="@+id/exit_edit_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="3"
+            android:minLines="3"
+            android:gravity="top|left"
+            android:hint="Description"
+            android:inputType="textMultiLine"></EditText>
+
+        <EditText
+            android:paddingTop="20dp"
             android:id="@+id/exit_edit_lat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,9 +51,8 @@
             android:hint="Longtitude"
             android:inputType="textPersonName"></EditText>
 
-
         <Button
-            android:id="@+id/gear_save"
+            android:id="@+id/exit_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="save"
