@@ -31,8 +31,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rig"
             android:paddingTop="10dp"
+            android:text="Rig"
             android:textSize="7pt"></TextView>
 
         <Spinner
@@ -43,8 +43,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pilot Chute"
             android:paddingTop="10dp"
+            android:text="Pilot Chute"
             android:textSize="7pt"></TextView>
 
         <Spinner
@@ -55,8 +55,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Slider Configuration"
             android:paddingTop="10dp"
+            android:text="Slider Configuration"
             android:textSize="7pt"></TextView>
 
         <Spinner
@@ -69,17 +69,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Delay"
-            android:inputType="textPersonName"></EditText>
+            android:inputType="number"></EditText>
 
         <EditText
             android:id="@+id/jump_edit_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="3"
-            android:minLines="3"
             android:gravity="top|left"
             android:hint="Description"
-            android:inputType="textMultiLine"></EditText>
+            android:inputType="textMultiLine"
+            android:lines="3"
+            android:minLines="3"></EditText>
 
 
         <Button

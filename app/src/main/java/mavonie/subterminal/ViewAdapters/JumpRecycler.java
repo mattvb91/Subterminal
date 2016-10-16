@@ -29,15 +29,16 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_jump_list, parent, false);
+                .inflate(R.layout.fragment_jump, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getId());
-        holder.mContentView.setText(mValues.get(position).getId());
+        mavonie.subterminal.models.Jump jump = (mavonie.subterminal.models.Jump) mValues.get(position);
+        holder.mIdView.setText(Integer.toString(mValues.get(position).getId()));
+        holder.mContentView.setText(Integer.toString(mValues.get(position).getId()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +66,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
+            mIdView = (TextView) view.findViewById(R.id.jump_list_id);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 

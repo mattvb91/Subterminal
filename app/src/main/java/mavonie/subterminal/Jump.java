@@ -68,6 +68,7 @@ public class Jump extends Fragment {
             }
             recyclerView.setAdapter(new JumpRecycler(new mavonie.subterminal.models.Jump().getItems(null), mListener));
         }
+
         return view;
     }
 

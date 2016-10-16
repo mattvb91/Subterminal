@@ -140,14 +140,33 @@ public class Jump extends Model {
         this.delay = delay;
     }
 
+    //TODO fill in properly
     @Override
-    Model populateFromCursor(Cursor cursor) {
+    public Jump populateFromCursor(Cursor cursor) {
+        try {
+            Jump jump = new Jump();
+
+            int idIndex = cursor.getColumnIndexOrThrow("_id");
+
+            jump.setId(cursor.getInt(idIndex));
+
+            return jump;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
     @Override
     void populateContentValues(ContentValues contentValues) {
-
+        contentValues.put(COLUMN_NAME_EXIT_ID, this.getId());
+        contentValues.put(COLUMN_NAME_DESCRIPTION, this.getDescription());
+        contentValues.put(COLUMN_NAME_DELAY, this.getDelay());
+        contentValues.put(COLUMN_NAME_PC_SIZE, this.getPc_size());
+        contentValues.put(COLUMN_NAME_GEAR_ID, this.getGear_id());
+        contentValues.put(COLUMN_NAME_SLIDER, this.getSlider());
     }
 
     @Override
