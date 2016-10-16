@@ -120,6 +120,7 @@ abstract public class Model implements BaseColumns, Serializable {
             res = _db.getWritableDatabase().update(getTableName(), contentValues, _ID + " = " + this.getId(), null);
         } else {
             res = _db.getWritableDatabase().insert(getTableName(), null, contentValues);
+            this.setId(Integer.parseInt(Long.toString(res)));
         }
 
         return res > 0;

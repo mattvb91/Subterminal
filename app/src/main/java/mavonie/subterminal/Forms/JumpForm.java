@@ -91,6 +91,12 @@ public class JumpForm extends BaseForm {
 
             Exit exit = (Exit) new Exit().getItem(new Pair<String, String>("name", exitName));
 
+            if(exit == null) {
+                exit = new Exit();
+                exit.setName(exitName);
+                exit.save();
+            }
+
             long rigId = rig.getSelectedItemId();
             long pilotChuteId = pilotChute.getSelectedItemId();
             long sliderConfigID = sliderConfig.getSelectedItemId();
