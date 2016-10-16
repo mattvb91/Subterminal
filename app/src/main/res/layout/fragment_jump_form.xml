@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jump"
+            android:text="Log Jump"
             android:textSize="10pt"></TextView>
 
         <AutoCompleteTextView
@@ -27,6 +27,60 @@
             android:layout_centerHorizontal="true"
             android:ems="10"
             android:hint="Exit name"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rig"
+            android:paddingTop="10dp"
+            android:textSize="7pt"></TextView>
+
+        <Spinner
+            android:id="@+id/jump_edit_gear"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pilot Chute"
+            android:paddingTop="10dp"
+            android:textSize="7pt"></TextView>
+
+        <Spinner
+            android:id="@+id/jump_edit_pc_size"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Slider Configuration"
+            android:paddingTop="10dp"
+            android:textSize="7pt"></TextView>
+
+        <Spinner
+            android:id="@+id/jump_edit_slider"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <EditText
+            android:id="@+id/jump_edit_delay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Delay"
+            android:inputType="textPersonName"></EditText>
+
+        <EditText
+            android:id="@+id/jump_edit_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="3"
+            android:minLines="3"
+            android:gravity="top|left"
+            android:hint="Description"
+            android:inputType="textMultiLine"></EditText>
+
 
         <Button
             android:id="@+id/jump_save"

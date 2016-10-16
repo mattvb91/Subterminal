@@ -3,6 +3,7 @@ package mavonie.subterminal.models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,10 @@ public class Jump extends Model {
     static int SLIDER_DOWN = 0;
     static int SLIDER_UP = 1;
 
-    private static final Map<Integer, String> slider_config;
+    private static final Integer[] pc_sizes = {32, 36, 38, 40, 42, 46, 48};
+
+    private static final HashMap<Integer, String> slider_config;
+
 
     static {
         slider_config = new HashMap<Integer, String>();
@@ -32,6 +36,20 @@ public class Jump extends Model {
         slider_config.put(SLIDER_UP, "Up");
     }
 
+    public String[] getSliderConfigArray() {
+
+        String[] sliderArray = new String[slider_config.size()];
+
+        for (int i = 0; i < slider_config.size(); i++) {
+            sliderArray[i] = slider_config.get(i);
+        }
+
+        return sliderArray;
+    }
+
+    public Integer[] getPcSizeArray() {
+        return pc_sizes;
+    }
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "jump";
