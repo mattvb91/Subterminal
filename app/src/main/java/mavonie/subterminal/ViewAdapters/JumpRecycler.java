@@ -6,22 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import mavonie.subterminal.Gear.OnListFragmentInteractionListener;
+import mavonie.subterminal.Jump;
 import mavonie.subterminal.R;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link mavonie.subterminal.models.Gear} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * {@link RecyclerView.Adapter} that can display a {@link mavonie.subterminal.models.Jump} and makes a call to the
+ * specified {@link mavonie.subterminal.Jump.OnJumpListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> {
+public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> {
 
-    private final List<mavonie.subterminal.models.Gear> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final List<mavonie.subterminal.models.Jump> mValues;
+    private final Jump.OnJumpListFragmentInteractionListener mListener;
 
-    public GearRecycler(List<mavonie.subterminal.models.Gear> items, OnListFragmentInteractionListener listener) {
+    public JumpRecycler(List<mavonie.subterminal.models.Jump> items, Jump.OnJumpListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -29,16 +29,15 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_gear, parent, false);
+                .inflate(R.layout.fragment_jump_list, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getContainerManufacturer());
-        holder.mContentView.setText(mValues.get(position).getContainerType());
-        holder.listContentCanopyType.setText(mValues.get(position).getCanopyType());
+        holder.mIdView.setText(mValues.get(position).getId());
+        holder.mContentView.setText(mValues.get(position).getId());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +45,7 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onGearListFragmentInteraction(holder.mItem);
+                    mListener.onJumpListFragmentInteraction(holder.mItem);
                 }
             }
         });
@@ -61,15 +60,13 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public final TextView listContentCanopyType;
-        public mavonie.subterminal.models.Gear mItem;
+        public mavonie.subterminal.models.Jump mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.gear_container_manufacturer);
-            mContentView = (TextView) view.findViewById(R.id.gear_container_type);
-            listContentCanopyType = (TextView) view.findViewById(R.id.gear_canopy_type);
+            mIdView = (TextView) view.findViewById(R.id.id);
+            mContentView = (TextView) view.findViewById(R.id.content);
         }
 
         @Override

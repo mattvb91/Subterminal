@@ -39,6 +39,8 @@ abstract public class Model implements BaseColumns, Serializable {
 
     protected static DatabaseHandler _db;
 
+    protected ArrayList<String> itemsForSelect;
+
     //Declare db once
     static {
         try {
@@ -53,7 +55,7 @@ abstract public class Model implements BaseColumns, Serializable {
         }
     }
 
-    public Model getOneById(int id) throws Exception {
+    public Model getOneById(int id) {
         SQLiteDatabase db = _db.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("select * from " + getTableName() + "where _ID ='" + id + "'", null);
@@ -145,5 +147,27 @@ abstract public class Model implements BaseColumns, Serializable {
         mCount.close();
 
         return count;
+    }
+
+    public ArrayList<String> getItemsForSelectArray(String fieldName) {
+
+        if (this.itemsForSelect == null) {
+            this.itemsForSelect = new ArrayList<String>();
+        }
+
+        Cursor cursor = _db.getReadableDatabase().rawQuery("select " + fieldName + " from " + getTableName(), null);
+
+        if (cursor.moveToFirst()) {
+            while (cursor.isAfterLast() == false) {
+                String string = cursor.getString(cursor.getPosition());
+                itemsForSelect.add(string);
+                cursor.moveToNext();
+            }
+        }
+
+        cursor.close();
+
+
+        return this.itemsForSelect;
     }
 }

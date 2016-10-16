@@ -27,6 +27,16 @@ CREATE TABLE exit (
     lat TEXT,
     long TEXT );
 
+CREATE TABLE jump (
+        _id INTEGER PRIMARY KEY,
+        date TEXT,
+        exit_id INTEGER,
+        gear_id INTEGER,
+        pc_size INTEGER,
+        slider INTEGER,
+        delay INTEGER,
+        description TEXT);
+
 INSERT INTO exit (
     _id,
     name ,

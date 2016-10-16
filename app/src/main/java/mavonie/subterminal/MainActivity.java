@@ -23,6 +23,7 @@ import com.facebook.login.widget.ProfilePictureView;
 
 import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
+import mavonie.subterminal.Forms.JumpForm;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.models.Model;
 import mavonie.subterminal.models.User;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         Home.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
-        Jumps.OnFragmentInteractionListener,
+        Jump.OnJumpListFragmentInteractionListener,
         Gear.OnListFragmentInteractionListener,
         GearForm.OnFragmentInteractionListener,
         Exit.OnListFragmentInteractionListener,
@@ -112,6 +113,10 @@ public class MainActivity extends AppCompatActivity
                         activateFragment(ExitForm.class);
                         fab.hide();
                         break;
+                    case FRAGMENT_JUMPS:
+                        activateFragment(JumpForm.class);
+                        fab.hide();
+                        break;
                 }
             }
         });
@@ -189,8 +194,8 @@ public class MainActivity extends AppCompatActivity
                 fab.hide();
                 break;
             case R.id.nav_jumps:
-                fragmentClass = Jumps.class;
-                fab.hide();
+                fragmentClass = Jump.class;
+                fab.show();
                 break;
             case R.id.nav_gear:
                 fragmentClass = Gear.class;
@@ -307,4 +312,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     private Model activeModel;
+
+    @Override
+    public void onJumpListFragmentInteraction(mavonie.subterminal.models.Jump item) {
+        fab.hide();
+
+        Bundle args = new Bundle();
+        args.putSerializable("item", item);
+//        JumpView view = new JumpView();
+//        view.setArguments(args);
+
+//        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, view).addToBackStack(null).commit();
+    }
 }
