@@ -107,8 +107,10 @@ public class ExitView extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_exit_view, container, false);
 
-        TextView description = (TextView) view.findViewById(R.id.exit_view_description);
-        description.setText(Html.fromHtml(getItem().getDescription()));
+        if (getItem().getDescription() != null) {
+            TextView description = (TextView) view.findViewById(R.id.exit_view_description);
+            description.setText(Html.fromHtml(getItem().getDescription()));
+        }
 
         TextView rules = (TextView) view.findViewById(R.id.exit_view_rules);
         rules.setText(Html.fromHtml(getItem().getRules()));
