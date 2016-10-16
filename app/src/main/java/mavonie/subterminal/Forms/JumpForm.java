@@ -1,17 +1,12 @@
 package mavonie.subterminal.Forms;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Pair;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -93,16 +88,24 @@ public class JumpForm extends BaseForm {
 
         if (validateForm()) {
             String exitName = exitNameAutoComplete.getText().toString();
+
+            Exit exit = (Exit) new Exit().getItem(new Pair<String, String>("name", exitName));
+
             long rigId = rig.getSelectedItemId();
             long pilotChuteId = pilotChute.getSelectedItemId();
             long sliderConfigID = sliderConfig.getSelectedItemId();
             String delayString = delay.getText().toString();
             String descriptionString = description.getText().toString();
 
+            getItem().setExit_id(exit.getId());
             getItem().setGear_id(Integer.parseInt(Long.toString(rigId)));
             getItem().setPc_size(Integer.parseInt(Long.toString(pilotChuteId)));
             getItem().setSlider(Integer.parseInt(Long.toString(sliderConfigID)));
-            getItem().setDelay(Integer.parseInt(delayString));
+
+            if(delayString.length() > 0) {
+                getItem().setDelay(Integer.parseInt(delayString));
+            }
+
             getItem().setDescription(descriptionString);
         }
 

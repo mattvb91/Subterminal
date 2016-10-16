@@ -36,9 +36,8 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        mavonie.subterminal.models.Jump jump = (mavonie.subterminal.models.Jump) mValues.get(position);
-        holder.mIdView.setText(Integer.toString(mValues.get(position).getId()));
-        holder.mContentView.setText(Integer.toString(mValues.get(position).getId()));
+        holder.jumpId.setText(Integer.toString(mValues.get(position).getId()));
+        holder.exitName.setText(mValues.get(position).getExit().getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,20 +58,20 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView jumpId;
+        public final TextView exitName;
         public mavonie.subterminal.models.Jump mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.jump_list_id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            jumpId = (TextView) view.findViewById(R.id.jump_list_id);
+            exitName = (TextView) view.findViewById(R.id.just_list_exit_name);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + exitName.getText() + "'";
         }
     }
 }

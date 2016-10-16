@@ -202,7 +202,7 @@ public class Exit extends Model {
         try {
             Exit exit = new Exit();
 
-            int idIndex = cursor.getColumnIndexOrThrow("_id");
+            int idIndex = cursor.getColumnIndexOrThrow(_ID);
             int name = cursor.getColumnIndexOrThrow(COLUMN_NAME_NAME);
             int rockDropDistance = cursor.getColumnIndexOrThrow(COLUMN_NAME_ROCKDROP_DISTANCE);
             int altitudeToLanding = cursor.getColumnIndexOrThrow(COLUMN_NAME_ALTITUDE_TO_LANDING);

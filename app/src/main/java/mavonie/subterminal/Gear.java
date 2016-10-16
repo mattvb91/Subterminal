@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import mavonie.subterminal.ViewAdapters.GearRecycler;
+import mavonie.subterminal.models.*;
+import mavonie.subterminal.models.Jump;
 
 /**
  * A fragment representing a list of Items.

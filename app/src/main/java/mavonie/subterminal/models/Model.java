@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+import android.util.Pair;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -58,7 +59,7 @@ abstract public class Model implements BaseColumns, Serializable {
     public Model getOneById(int id) {
         SQLiteDatabase db = _db.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select * from " + getTableName() + "where _ID ='" + id + "'", null);
+        Cursor cursor = db.rawQuery("select * from " + getTableName() + " where " + _ID + " = " + id, null);
         if (cursor.moveToFirst()) {
             return populateFromCursor(cursor);
         }
@@ -121,7 +122,7 @@ abstract public class Model implements BaseColumns, Serializable {
             res = _db.getWritableDatabase().insert(getTableName(), null, contentValues);
         }
 
-        return res == 1;
+        return res > 0;
     }
 
     /**
@@ -159,15 +160,30 @@ abstract public class Model implements BaseColumns, Serializable {
 
         if (cursor.moveToFirst()) {
             while (cursor.isAfterLast() == false) {
-                String string = cursor.getString(cursor.getPosition());
+                String string = cursor.getString(0);
                 itemsForSelect.add(string);
                 cursor.moveToNext();
             }
         }
 
         cursor.close();
-
+        cursor = null;
 
         return this.itemsForSelect;
+    }
+
+    public Model getItem(Pair<String, String> filter) {
+        String field = filter.first;
+        String[] keyword = {filter.second};
+
+        Cursor cursor = _db.getReadableDatabase().rawQuery("select * from " + getTableName() + " WHERE " + field + "=?", keyword);
+
+        Model item = null;
+
+        if (cursor.moveToFirst()) {
+            item = populateFromCursor(cursor);
+        }
+
+        return item;
     }
 }

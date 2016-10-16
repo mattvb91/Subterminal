@@ -3,10 +3,8 @@ package mavonie.subterminal.models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by mavon on 15/10/16.
@@ -146,9 +144,11 @@ public class Jump extends Model {
         try {
             Jump jump = new Jump();
 
-            int idIndex = cursor.getColumnIndexOrThrow("_id");
+            int idIndex = cursor.getColumnIndexOrThrow(_ID);
+            int idExitId = cursor.getColumnIndexOrThrow(COLUMN_NAME_EXIT_ID);
 
             jump.setId(cursor.getInt(idIndex));
+            jump.setExit_id(cursor.getInt(idExitId));
 
             return jump;
 
@@ -161,7 +161,7 @@ public class Jump extends Model {
 
     @Override
     void populateContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_NAME_EXIT_ID, this.getId());
+        contentValues.put(COLUMN_NAME_EXIT_ID, this.getExit_id());
         contentValues.put(COLUMN_NAME_DESCRIPTION, this.getDescription());
         contentValues.put(COLUMN_NAME_DELAY, this.getDelay());
         contentValues.put(COLUMN_NAME_PC_SIZE, this.getPc_size());
