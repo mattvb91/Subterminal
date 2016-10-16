@@ -10,6 +10,7 @@ import android.util.Pair;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import mavonie.subterminal.DB.DatabaseHandler;
@@ -75,8 +76,19 @@ abstract public class Model implements BaseColumns, Serializable {
      * @param filter
      * @return List
      */
-    public List getItems(Array filter) {
-        Cursor cursor = _db.getReadableDatabase().rawQuery("select * from " + getTableName(), null);
+    public List getItems(HashMap<String, String> filter) {
+
+        String query = "select * from " + getTableName();
+
+        if (filter != null) {
+
+            String orderDir = filter.get("order_dir");
+            if (orderDir != null) {
+                query += " ORDER BY " + _ID + " " + orderDir;
+            }
+        }
+
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
         List<Model> list = new ArrayList<Model>();
 

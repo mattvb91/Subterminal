@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
+
 import mavonie.subterminal.ViewAdapters.JumpRecycler;
 
 /**
@@ -66,7 +68,10 @@ public class Jump extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new JumpRecycler(new mavonie.subterminal.models.Jump().getItems(null), mListener));
+            HashMap<String, String> params = new HashMap<>();
+            params.put("order_dir", "DESC");
+
+            recyclerView.setAdapter(new JumpRecycler(new mavonie.subterminal.models.Jump().getItems(params), mListener));
         }
 
         return view;
