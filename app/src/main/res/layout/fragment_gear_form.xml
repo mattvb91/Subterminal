@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Date in use"
+            android:focusable="false"
             android:inputType="date" />
 
         <TextView
@@ -80,6 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:focusable="false"
             android:hint="Date in use"
             android:inputType="date" />
 

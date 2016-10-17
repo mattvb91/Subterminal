@@ -3,7 +3,10 @@ package mavonie.subterminal.models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.text.ParseException;
 import java.util.Date;
+
+import mavonie.subterminal.Custom.DateFormat;
 
 /**
  * Created by mavon on 11/10/16.
@@ -14,12 +17,12 @@ public class Gear extends Model {
     private String containerManufacturer;
     private String containerType;
     private String containerSerial;
-    private Date containerDateInUse;
+    private String containerDateInUse;
 
     private String canopyManufacturer;
     private String canopyType;
     private String canopySerial;
-    private Date canopyDateInUse;
+    private String canopyDateInUse;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "gear";
@@ -67,11 +70,11 @@ public class Gear extends Model {
         this.containerSerial = containerSerial;
     }
 
-    public Date getContainerDateInUse() {
+    public String getContainerDateInUse() {
         return containerDateInUse;
     }
 
-    public void setContainerDateInUse(Date containerDateInUse) {
+    public void setContainerDateInUse(String containerDateInUse) {
         this.containerDateInUse = containerDateInUse;
     }
 
@@ -99,11 +102,11 @@ public class Gear extends Model {
         this.canopySerial = canopySerial;
     }
 
-    public Date getCanopyDateInUse() {
+    public String getCanopyDateInUse() {
         return canopyDateInUse;
     }
 
-    public void setCanopyDateInUse(Date canopyDateInUse) {
+    public void setCanopyDateInUse(String canopyDateInUse) {
         this.canopyDateInUse = canopyDateInUse;
     }
 
@@ -127,12 +130,12 @@ public class Gear extends Model {
             gear.setContainerManufacturer(cursor.getString(containerManufacturerIndex));
             gear.setContainerType(cursor.getString(containerTypeIndex));
             gear.setContainerSerial(cursor.getString(containerSerialIndex));
-            //gear.setContainerDateInUse(cursor.getString(containerDateIndex));
+            gear.setContainerDateInUse(cursor.getString(containerDateIndex));
 
             gear.setCanopyManufacturer(cursor.getString(canopyManufacturerIndex));
             gear.setCanopyType(cursor.getString(canopyTypeIndex));
             gear.setCanopySerial(cursor.getString(canopySerialIndex));
-            //gear.setCanopyDateInUse(cursor.getString(canopyDateIndex));
+            gear.setCanopyDateInUse(cursor.getString(canopyDateIndex));
 
             return gear;
 
@@ -151,9 +154,11 @@ public class Gear extends Model {
         contentValues.put(COLUMN_NAME_CONTAINER_MANUFACTURER, this.getContainerManufacturer());
         contentValues.put(COLUMN_NAME_CONTAINER_TYPE, this.getContainerType());
         contentValues.put(COLUMN_NAME_CONTAINER_SERIAL, this.getContainerSerial());
-//        contentValues.put(COLUMN_NAME_CONTAINER_DATE_IN_USE, this.getContainerDateInUse());
+        contentValues.put(COLUMN_NAME_CONTAINER_DATE_IN_USE, this.getContainerDateInUse().toString());
         contentValues.put(COLUMN_NAME_CANOPY_MANUFACTURER, this.getCanopyManufacturer());
         contentValues.put(COLUMN_NAME_CANOPY_TYPE, this.getCanopyType());
         contentValues.put(COLUMN_NAME_CANOPY_SERIAL, this.getCanopySerial());
+        contentValues.put(COLUMN_NAME_CANOPY_DATE_IN_USE, this.getCanopyDateInUse());
+
     }
 }

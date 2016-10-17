@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flContent, fragment)
+                .replace(R.id.flContent, fragment, fragmentClass.getCanonicalName())
                 .addToBackStack(null).commit();
     }
 

@@ -1,9 +1,18 @@
 package mavonie.subterminal.Forms;
 
+import android.app.DatePickerDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+import mavonie.subterminal.Custom.DateFormat;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.models.Gear;
@@ -18,6 +27,8 @@ public class GearForm extends BaseForm {
     private EditText canopyType;
     private EditText canopySerial;
     private EditText canopyDateInUse;
+
+    Calendar myCalendar = Calendar.getInstance();
 
     /**
      * Use this factory method to create a new instance of
@@ -43,11 +54,11 @@ public class GearForm extends BaseForm {
             this.containerManufacturer.setText(getItem().getContainerManufacturer());
             this.containerType.setText(getItem().getContainerType());
             this.containerSerial.setText(getItem().getContainerSerial());
-            //this.containerDateInUse.setText(getItem().getContainerDateInUse().toString());
+            this.containerDateInUse.setText(getItem().getContainerDateInUse());
             this.canopyManufacturer.setText(getItem().getCanopyManufacturer());
             this.canopyType.setText(getItem().getCanopyType());
             this.canopySerial.setText(getItem().getCanopySerial());
-            //this.canopyDateInUse.setText(getItem().getCanopyDateInUse().toString());
+            this.canopyDateInUse.setText(getItem().getCanopyDateInUse());
         }
     }
 
@@ -55,11 +66,60 @@ public class GearForm extends BaseForm {
         this.containerManufacturer = (EditText) view.findViewById(R.id.edit_container_manufacturer);
         this.containerType = (EditText) view.findViewById(R.id.edit_container_type);
         this.containerSerial = (EditText) view.findViewById(R.id.edit_container_serial);
+
         this.containerDateInUse = (EditText) view.findViewById(R.id.edit_container_dateInUse);
+
+        final DatePickerDialog.OnDateSetListener containerDate = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateContainerDate();
+            }
+
+        };
+
+        final DatePickerDialog.OnDateSetListener canopyDate = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateCanopyDate();
+            }
+
+        };
+
+        this.containerDateInUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(getContext(), containerDate, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
         this.canopyManufacturer = (EditText) view.findViewById(R.id.edit_canopy_manufacturer);
         this.canopyType = (EditText) view.findViewById(R.id.edit_canopy_type);
         this.canopySerial = (EditText) view.findViewById(R.id.edit_canopy_serial);
+
         this.canopyDateInUse = (EditText) view.findViewById(R.id.edit_canopy_dateInUse);
+
+        this.canopyDateInUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(getContext(), canopyDate, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         Button button = (Button) view.findViewById(R.id.gear_save);
         button.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +127,18 @@ public class GearForm extends BaseForm {
                 save();
             }
         });
+    }
+
+    private void updateContainerDate() {
+
+        DateFormat df = new DateFormat();
+        this.containerDateInUse.setText(df.format(myCalendar.getTime()));
+    }
+
+    private void updateCanopyDate() {
+
+        DateFormat df = new DateFormat();
+        this.canopyDateInUse.setText(df.format(myCalendar.getTime()));
     }
 
 
@@ -95,11 +167,12 @@ public class GearForm extends BaseForm {
             getItem().setContainerManufacturer(containerManufacturer);
             getItem().setContainerType(containerType);
             getItem().setContainerSerial(this.containerSerial.getText().toString());
-            //getItem().setContainerDateInUse(new Date(this.containerDateInUse.getText().toString()));
+            getItem().setContainerDateInUse(this.containerDateInUse.getText().toString());
+
             getItem().setCanopyManufacturer(canopyManufacturer);
             getItem().setCanopyType(this.canopyType.getText().toString());
             getItem().setCanopySerial(this.canopySerial.getText().toString());
-            //getItem().setCanopyDateInUse(new Date(this.canopyDateInUse.getText().toString()));
+            getItem().setCanopyDateInUse(this.canopyDateInUse.getText().toString());
 
             super.save();
         }
