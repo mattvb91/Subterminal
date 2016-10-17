@@ -114,6 +114,7 @@ public class Jump extends Fragment {
     public void onResume() {
         super.onResume();
         // Set title
-        MainActivity.getActivity().setTitle(R.string.title_jumps);
+        String title = getString(R.string.title_jumps) + " (" + new mavonie.subterminal.models.Jump().count() + ")";
+        MainActivity.getActivity().setTitle(title);
     }
 }

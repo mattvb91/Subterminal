@@ -112,6 +112,7 @@ public class Gear extends Fragment {
     public void onResume() {
         super.onResume();
         // Set title
-        MainActivity.getActivity().setTitle(R.string.title_gear);
+        String title = getString(R.string.title_gear) + " (" + new mavonie.subterminal.models.Gear().count() + ")";
+        MainActivity.getActivity().setTitle(title);
     }
 }

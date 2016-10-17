@@ -109,7 +109,9 @@ public class Exit extends Fragment {
     public void onResume() {
         super.onResume();
         // Set title
-        MainActivity.getActivity().setTitle(R.string.title_exit);
+        // Set title
+        String title = getString(R.string.title_exit) + " (" + new mavonie.subterminal.models.Exit().count() + ")";
+        MainActivity.getActivity().setTitle(title);
     }
 
 }
