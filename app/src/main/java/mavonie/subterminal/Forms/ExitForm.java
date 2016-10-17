@@ -131,8 +131,14 @@ public class ExitForm extends BaseForm {
 
         if (validateForm()) {
             getItem().setName(exitName);
-            getItem().setLatitude(Double.parseDouble(exitLat));
-            getItem().setLongtitude(Double.parseDouble(exitLong));
+
+            if (!exitLat.isEmpty()) {
+                getItem().setLatitude(Double.parseDouble(exitLat));
+            }
+            if (!exitLong.isEmpty()) {
+                getItem().setLongtitude(Double.parseDouble(exitLong));
+            }
+
             getItem().setDescription(exitDescription);
 
             super.save();
