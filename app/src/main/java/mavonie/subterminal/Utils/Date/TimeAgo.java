@@ -3,7 +3,6 @@ package mavonie.subterminal.Utils.Date;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +34,10 @@ public class TimeAgo {
             return res.toString();
     }
 
+    /**
+     * @param date "dd/mm/yy"
+     * @return
+     */
     public static String sinceToday(String date) {
 
         DateFormat df = new DateFormat();
@@ -48,7 +51,7 @@ public class TimeAgo {
 
             long since = msToday - msDate;
 
-            if(since < 86400000) {
+            if (since < 86400000) {
                 return "Today";
             }
 

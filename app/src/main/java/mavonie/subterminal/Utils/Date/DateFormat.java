@@ -9,6 +9,6 @@ import java.text.SimpleDateFormat;
 public class DateFormat extends SimpleDateFormat {
 
     public DateFormat() {
-        super("dd/MM/yy");
+        super.applyPattern("yyyy-MM-dd");
     }
 }

@@ -3,11 +3,11 @@ CREATE TABLE gear (
     container_manufacturer TEXT,
     container_type TEXT,
     container_serial TEXT,
-    container_date_in_use TEXT,
+    container_date_in_use DATE,
     canopy_manufacturer TEXT,
     canopy_type TEXT,
     canopy_serial TEXT,
-    canopy_date_in_use TEXT );
+    canopy_date_in_use DATE );
 
 CREATE TABLE exit (
     _id INTEGER PRIMARY KEY,
@@ -29,7 +29,7 @@ CREATE TABLE exit (
 
 CREATE TABLE jump (
         _id INTEGER PRIMARY KEY,
-        date TEXT,
+        date DATE,
         exit_id INTEGER,
         gear_id INTEGER,
         pc_size INTEGER,

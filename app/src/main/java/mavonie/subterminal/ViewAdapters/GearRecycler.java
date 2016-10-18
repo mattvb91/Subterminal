@@ -36,9 +36,9 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getContainerManufacturer());
-        holder.mContentView.setText(mValues.get(position).getContainerType());
-        holder.listContentCanopyType.setText(mValues.get(position).getCanopyType());
+        holder.listContainerManu.setText(mValues.get(position).getContainerManufacturer());
+        holder.listContainerType.setText(mValues.get(position).getContainerType());
+        holder.listCanopyType.setText(mValues.get(position).getCanopyType());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,22 +59,17 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public final TextView listContentCanopyType;
+        public final TextView listContainerManu;
+        public final TextView listContainerType;
+        public final TextView listCanopyType;
         public mavonie.subterminal.models.Gear mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.gear_container_manufacturer);
-            mContentView = (TextView) view.findViewById(R.id.gear_container_type);
-            listContentCanopyType = (TextView) view.findViewById(R.id.gear_canopy_type);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            listContainerManu = (TextView) view.findViewById(R.id.gear_container_manufacturer);
+            listContainerType = (TextView) view.findViewById(R.id.gear_container_type);
+            listCanopyType = (TextView) view.findViewById(R.id.gear_canopy_type);
         }
     }
 }

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import java.util.HashMap;
 
 import mavonie.subterminal.ViewAdapters.JumpRecycler;
+import mavonie.subterminal.models.Model;
 
 /**
  * A fragment representing a list of Items.
@@ -69,7 +70,8 @@ public class Jump extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             HashMap<String, String> params = new HashMap<>();
-            params.put("order_dir", "DESC");
+            params.put(Model.FILTER_ORDER_DIR, "DESC");
+            params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.models.Jump.COLUMN_NAME_DATE);
 
             recyclerView.setAdapter(new JumpRecycler(new mavonie.subterminal.models.Jump().getItems(params), mListener));
         }

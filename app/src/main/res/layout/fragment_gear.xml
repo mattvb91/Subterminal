@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:weightSum="3">
 
     <TextView
         android:id="@+id/gear_container_manufacturer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:textAppearance="?attr/textAppearanceListItem"/>
 
     <TextView
         android:id="@+id/gear_container_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:layout_weight="1"
+        android:textAppearance="?attr/textAppearanceListItem"/>
 
     <TextView
         android:id="@+id/gear_canopy_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem"
+        android:ellipsize="end"
         android:maxLines="1"
-        android:ellipsize="end" />
+        android:textAppearance="?attr/textAppearanceListItem"/>
 
 </LinearLayout>

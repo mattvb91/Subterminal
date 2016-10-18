@@ -13,7 +13,6 @@ import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Date.TimeAgo;
 import mavonie.subterminal.models.Exit;
 
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -41,7 +40,6 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.jumpId.setText(Integer.toString(mValues.get(position).getId()));
 
         Exit exit = mValues.get(position).getExit();
         if (exit != null) {
@@ -77,7 +75,6 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView jumpId;
         public final TextView exitName;
         public final TextView ago;
         public mavonie.subterminal.models.Jump mItem;
@@ -85,7 +82,6 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            jumpId = (TextView) view.findViewById(R.id.jump_list_id);
             ago = (TextView) view.findViewById(R.id.jump_list_ago);
             exitName = (TextView) view.findViewById(R.id.jump_list_exit_name);
         }

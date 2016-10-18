@@ -83,6 +83,8 @@ public class JumpForm extends BaseForm {
         sliderConfigSpinner.setAdapter(sliderAdapter);
 
         this.date = (EditText) view.findViewById(R.id.jump_edit_date);
+        DateFormat df = new DateFormat();
+        this.date.setText(df.format(myCalendar.getTime()));
 
         final DatePickerDialog.OnDateSetListener jumpDate = new DatePickerDialog.OnDateSetListener() {
             @Override
