@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class Jump extends Model {
 
     private String description;
-    private Date date;
+    private String date;
     private int gear_id;
     private int exit_id;
     private int pc_size;
@@ -70,11 +70,11 @@ public class Jump extends Model {
         this.description = description;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -146,9 +146,11 @@ public class Jump extends Model {
 
             int idIndex = cursor.getColumnIndexOrThrow(_ID);
             int idExitId = cursor.getColumnIndexOrThrow(COLUMN_NAME_EXIT_ID);
+            int idDateId = cursor.getColumnIndexOrThrow(COLUMN_NAME_DATE);
 
             jump.setId(cursor.getInt(idIndex));
             jump.setExit_id(cursor.getInt(idExitId));
+            jump.setDate(cursor.getString(idDateId));
 
             return jump;
 
@@ -162,6 +164,7 @@ public class Jump extends Model {
     @Override
     void populateContentValues(ContentValues contentValues) {
         contentValues.put(COLUMN_NAME_EXIT_ID, this.getExit_id());
+        contentValues.put(COLUMN_NAME_DATE, this.getDate());
         contentValues.put(COLUMN_NAME_DESCRIPTION, this.getDescription());
         contentValues.put(COLUMN_NAME_DELAY, this.getDelay());
         contentValues.put(COLUMN_NAME_PC_SIZE, this.getPc_size());

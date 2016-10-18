@@ -1,17 +1,22 @@
 package mavonie.subterminal.Forms;
 
+import android.app.DatePickerDialog;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.models.Exit;
 import mavonie.subterminal.models.Gear;
 import mavonie.subterminal.models.Jump;
@@ -28,6 +33,7 @@ public class JumpForm extends BaseForm {
     private Spinner sliderConfig;
     private TextView delay;
     private TextView description;
+    private TextView date;
 
     @Override
     protected String getItemClass() {
@@ -76,12 +82,43 @@ public class JumpForm extends BaseForm {
         sliderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sliderConfigSpinner.setAdapter(sliderAdapter);
 
+        this.date = (EditText) view.findViewById(R.id.jump_edit_date);
+
+        final DatePickerDialog.OnDateSetListener jumpDate = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateDate();
+            }
+        };
+
+        this.date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(getContext(), jumpDate, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+
         Button button = (Button) view.findViewById(R.id.jump_save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 save();
             }
         });
+    }
+
+    private void updateDate() {
+
+        DateFormat df = new DateFormat();
+        this.date.setText(df.format(myCalendar.getTime()));
     }
 
     public void save() {
@@ -91,7 +128,7 @@ public class JumpForm extends BaseForm {
 
             Exit exit = (Exit) new Exit().getItem(new Pair<String, String>("name", exitName));
 
-            if(exit == null) {
+            if (exit == null) {
                 exit = new Exit();
                 exit.setName(exitName);
                 exit.save();
@@ -107,8 +144,9 @@ public class JumpForm extends BaseForm {
             getItem().setGear_id(Integer.parseInt(Long.toString(rigId)));
             getItem().setPc_size(Integer.parseInt(Long.toString(pilotChuteId)));
             getItem().setSlider(Integer.parseInt(Long.toString(sliderConfigID)));
+            getItem().setDate(date.getText().toString());
 
-            if(delayString.length() > 0) {
+            if (delayString.length() > 0) {
                 getItem().setDelay(Integer.parseInt(delayString));
             }
 

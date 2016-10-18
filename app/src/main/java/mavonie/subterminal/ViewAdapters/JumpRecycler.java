@@ -7,8 +7,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import mavonie.subterminal.Jump;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.Date.DateFormat;
+import mavonie.subterminal.Utils.Date.TimeAgo;
+import mavonie.subterminal.models.Exit;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -37,7 +42,21 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.jumpId.setText(Integer.toString(mValues.get(position).getId()));
-        holder.exitName.setText(mValues.get(position).getExit().getName());
+
+        Exit exit = mValues.get(position).getExit();
+        if (exit != null) {
+            holder.exitName.setText(mValues.get(position).getExit().getName());
+        } else {
+            holder.exitName.setText("No exit info");
+            holder.exitName.setTextColor(MainActivity.getActivity().getResources().getColor(R.color.grey));
+        }
+
+        DateFormat df = new DateFormat();
+        String date = mValues.get(position).getDate();
+
+        if (date != null) {
+            holder.ago.setText(TimeAgo.sinceToday(date));
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,13 +79,15 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         public final View mView;
         public final TextView jumpId;
         public final TextView exitName;
+        public final TextView ago;
         public mavonie.subterminal.models.Jump mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             jumpId = (TextView) view.findViewById(R.id.jump_list_id);
-            exitName = (TextView) view.findViewById(R.id.just_list_exit_name);
+            ago = (TextView) view.findViewById(R.id.jump_list_ago);
+            exitName = (TextView) view.findViewById(R.id.jump_list_exit_name);
         }
 
         @Override

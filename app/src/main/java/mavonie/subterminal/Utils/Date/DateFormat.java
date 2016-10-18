@@ -1,4 +1,4 @@
-package mavonie.subterminal.Custom;
+package mavonie.subterminal.Utils.Date;
 
 import java.text.SimpleDateFormat;
 

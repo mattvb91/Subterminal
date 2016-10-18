@@ -28,6 +28,15 @@
             android:ems="10"
             android:hint="Exit name"/>
 
+        <EditText
+            android:id="@+id/jump_edit_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:focusable="false"
+            android:hint="Date"
+            android:inputType="date" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

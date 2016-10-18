@@ -3,11 +3,6 @@ package mavonie.subterminal.models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import java.text.ParseException;
-import java.util.Date;
-
-import mavonie.subterminal.Custom.DateFormat;
-
 /**
  * Created by mavon on 11/10/16.
  */

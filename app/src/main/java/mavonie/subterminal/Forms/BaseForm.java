@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import java.lang.reflect.Constructor;
+import java.util.Calendar;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
@@ -25,6 +26,8 @@ public abstract class BaseForm extends Fragment {
     private Model _item;
 
     private OnFragmentInteractionListener mListener;
+
+    Calendar myCalendar = Calendar.getInstance();
 
     protected abstract String getItemClass();
 

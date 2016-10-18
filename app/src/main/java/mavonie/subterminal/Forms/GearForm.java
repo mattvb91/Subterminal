@@ -6,13 +6,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
-import mavonie.subterminal.Custom.DateFormat;
+import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.models.Gear;
@@ -27,8 +23,6 @@ public class GearForm extends BaseForm {
     private EditText canopyType;
     private EditText canopySerial;
     private EditText canopyDateInUse;
-
-    Calendar myCalendar = Calendar.getInstance();
 
     /**
      * Use this factory method to create a new instance of
