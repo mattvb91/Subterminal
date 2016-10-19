@@ -243,6 +243,7 @@ public class ExitView extends Fragment implements OnMapReadyCallback {
 
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
+        MainActivity.getActivity().getFab().show();
 
         super.onPause();
     }

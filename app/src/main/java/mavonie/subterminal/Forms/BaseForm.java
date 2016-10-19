@@ -75,7 +75,7 @@ public abstract class BaseForm extends Fragment {
                 try {
                     Class<?> clazz = Class.forName(this.getItemClass());
                     Constructor<?> ctor = clazz.getConstructor();
-                    Object object = ctor.newInstance(new Object[] { });
+                    Object object = ctor.newInstance(new Object[]{});
 
                     this._item = (Model) object;
 
@@ -109,6 +109,14 @@ public abstract class BaseForm extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mListener = null;
+        MainActivity.getActivity().getFab().show();
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
     }
 
     public void save() {

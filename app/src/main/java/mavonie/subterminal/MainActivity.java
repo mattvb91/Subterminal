@@ -41,6 +41,14 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
+
+    /**
+     * @return FloatingActionButton
+     */
+    public FloatingActionButton getFab() {
+        return fab;
+    }
+
     FloatingActionButton fab;
 
     private ProfilePictureView profilePictureView;

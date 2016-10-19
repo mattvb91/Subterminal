@@ -28,6 +28,7 @@
         * Updated list design
         * Sort exits by name
         * fetch GPS coordinates button on exit edit
+        * bugfix - add button disapearing on back navigation
       $ END_OF_CHANGE_LOG
     $ 0.8.0-alpha
       % Version 0.8.0-alpha
