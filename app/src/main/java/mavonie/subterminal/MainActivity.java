@@ -23,20 +23,18 @@ import com.facebook.login.widget.ProfilePictureView;
 import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.JumpForm;
+import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.ChangeLog;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
+import mavonie.subterminal.Views.JumpView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         Home.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
-        Jump.OnJumpListFragmentInteractionListener,
-        Gear.OnListFragmentInteractionListener,
-        GearForm.OnFragmentInteractionListener,
-        Exit.OnListFragmentInteractionListener,
-        ExitView.OnFragmentInteractionListener {
+        GearForm.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -261,34 +259,6 @@ public class MainActivity extends AppCompatActivity
 //        nav_Menu.findItem(R.id.nav_login).setTitle("Logout");
 //    }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
-    public void onGearListFragmentInteraction(mavonie.subterminal.Models.Gear item) {
-        fab.hide();
-
-        Bundle args = new Bundle();
-        args.putSerializable("item", item);
-        GearForm form = new GearForm();
-        form.setArguments(args);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, form).addToBackStack(null).commit();
-    }
-
-    @Override
-    public void onExitListFragmentInteraction(mavonie.subterminal.Models.Exit item) {
-        fab.hide();
-
-        Bundle args = new Bundle();
-        args.putSerializable("item", item);
-        ExitView view = new ExitView();
-        view.setArguments(args);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, view).addToBackStack(null).commit();
-    }
 
     public void deleteDialog(MenuItem item) {
         new AlertDialog.Builder(MainActivity.this)
@@ -336,15 +306,31 @@ public class MainActivity extends AppCompatActivity
 
     private Model activeModel;
 
+
     @Override
-    public void onJumpListFragmentInteraction(mavonie.subterminal.Models.Jump item) {
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Model mItem) {
+
         fab.hide();
-
         Bundle args = new Bundle();
-        args.putSerializable("item", item);
-//        JumpView view = new JumpView();
-//        view.setArguments(args);
+        args.putSerializable("item", mItem);
 
-//        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, view).addToBackStack(null).commit();
+        BaseFragment fragment = null;
+
+        if (mItem instanceof mavonie.subterminal.Models.Exit) {
+            fragment = new ExitView();
+        } else if (mItem instanceof mavonie.subterminal.Models.Gear) {
+            fragment = new GearForm();
+        } else if (mItem instanceof mavonie.subterminal.Models.Jump) {
+            fragment = new JumpView();
+        }
+
+        fragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
     }
 }

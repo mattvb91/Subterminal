@@ -10,14 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.ViewAdapters.GearRecycler;
 
 /**
  * Gear list fragment
  */
-public class Gear extends Fragment {
-
-    private OnListFragmentInteractionListener mListener;
+public class Gear extends BaseFragment {
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,42 +38,15 @@ public class Gear extends Fragment {
 
             mavonie.subterminal.Models.Gear gear = new mavonie.subterminal.Models.Gear();
 
-            recyclerView.setAdapter(new GearRecycler(gear.getItems(null), mListener));
+            recyclerView.setAdapter(new GearRecycler(gear.getItems(null), getmListener()));
         }
         return view;
     }
 
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onGearListFragmentInteraction(mavonie.subterminal.Models.Gear item);
+    protected String getItemClass() {
+        return mavonie.subterminal.Models.Gear.class.getCanonicalName();
     }
 
     @Override

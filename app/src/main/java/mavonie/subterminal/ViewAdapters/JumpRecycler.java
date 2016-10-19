@@ -9,6 +9,7 @@ import android.widget.TextView;
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Date.TimeAgo;
 import mavonie.subterminal.Models.Exit;
@@ -16,16 +17,14 @@ import mavonie.subterminal.Models.Exit;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link mavonie.subterminal.Models.Jump} and makes a call to the
- * specified {@link mavonie.subterminal.Jump.OnJumpListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * Jump recycler
  */
 public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> {
 
     private final List<mavonie.subterminal.Models.Jump> mValues;
-    private final Jump.OnJumpListFragmentInteractionListener mListener;
+    private final BaseFragment.OnFragmentInteractionListener mListener;
 
-    public JumpRecycler(List<mavonie.subterminal.Models.Jump> items, Jump.OnJumpListFragmentInteractionListener listener) {
+    public JumpRecycler(List<mavonie.subterminal.Models.Jump> items, BaseFragment.OnFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -62,7 +61,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onJumpListFragmentInteraction(holder.mItem);
+                    mListener.onFragmentInteraction(holder.mItem);
                 }
             }
         });

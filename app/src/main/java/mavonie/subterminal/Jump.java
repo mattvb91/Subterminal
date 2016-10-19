@@ -11,16 +11,14 @@ import android.view.ViewGroup;
 
 import java.util.HashMap;
 
+import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.ViewAdapters.JumpRecycler;
 import mavonie.subterminal.Models.Model;
 
 /**
  * Jump list fragment
  */
-public class Jump extends Fragment {
-
-
-    private OnJumpListFragmentInteractionListener mListener;
+public class Jump extends BaseFragment {
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,43 +42,10 @@ public class Jump extends Fragment {
             params.put(Model.FILTER_ORDER_DIR, "DESC");
             params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Jump.COLUMN_NAME_DATE);
 
-            recyclerView.setAdapter(new JumpRecycler(new mavonie.subterminal.Models.Jump().getItems(params), mListener));
+            recyclerView.setAdapter(new JumpRecycler(new mavonie.subterminal.Models.Jump().getItems(params), this.getmListener()));
         }
 
         return view;
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnJumpListFragmentInteractionListener) {
-            mListener = (OnJumpListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnJumpListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onJumpListFragmentInteraction(mavonie.subterminal.Models.Jump item);
     }
 
     @Override
@@ -90,4 +55,10 @@ public class Jump extends Fragment {
         String title = getString(R.string.title_jumps) + " (" + new mavonie.subterminal.Models.Jump().count() + ")";
         MainActivity.getActivity().setTitle(title);
     }
+
+    @Override
+    protected String getItemClass() {
+        return mavonie.subterminal.Models.Jump.class.getCanonicalName();
+    }
+
 }

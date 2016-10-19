@@ -8,21 +8,21 @@ import android.widget.TextView;
 
 import mavonie.subterminal.Exit;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.BaseFragment;
 
 
 import java.util.List;
 
+
 /**
- * {@link RecyclerView.Adapter} that can display a {@link mavonie.subterminal.Models.Exit} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * Exit Recycler
  */
 public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> {
 
     private final List<mavonie.subterminal.Models.Exit> mValues;
-    private final Exit.OnListFragmentInteractionListener mListener;
+    private final BaseFragment.OnFragmentInteractionListener mListener;
 
-    public ExitRecycler(List<mavonie.subterminal.Models.Exit> items, Exit.OnListFragmentInteractionListener listener) {
+    public ExitRecycler(List<mavonie.subterminal.Models.Exit> items, BaseFragment.OnFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -47,7 +47,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onExitListFragmentInteraction(holder.mItem);
+                    mListener.onFragmentInteraction(holder.mItem);
                 }
             }
         });
