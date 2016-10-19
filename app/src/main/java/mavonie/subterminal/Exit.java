@@ -13,17 +13,10 @@ import android.view.ViewGroup;
 import mavonie.subterminal.ViewAdapters.ExitRecycler;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
+ * Exit list fragment
  */
 public class Exit extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -31,25 +24,6 @@ public class Exit extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public Exit() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static Exit newInstance(int columnCount) {
-        Exit fragment = new Exit();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -60,13 +34,10 @@ public class Exit extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
+
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new ExitRecycler(new mavonie.subterminal.models.Exit().getItems(null), mListener));
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setAdapter(new ExitRecycler(new mavonie.subterminal.Models.Exit().getItems(null), mListener));
         }
         return view;
     }
@@ -101,7 +72,7 @@ public class Exit extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onExitListFragmentInteraction(mavonie.subterminal.models.Exit item);
+        void onExitListFragmentInteraction(mavonie.subterminal.Models.Exit item);
     }
 
 
@@ -109,8 +80,7 @@ public class Exit extends Fragment {
     public void onResume() {
         super.onResume();
         // Set title
-        // Set title
-        String title = getString(R.string.title_exit) + " (" + new mavonie.subterminal.models.Exit().count() + ")";
+        String title = getString(R.string.title_exit) + " (" + new mavonie.subterminal.Models.Exit().count() + ")";
         MainActivity.getActivity().setTitle(title);
     }
 

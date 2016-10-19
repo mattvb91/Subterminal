@@ -12,16 +12,16 @@ import mavonie.subterminal.R;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link mavonie.subterminal.models.Gear} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link mavonie.subterminal.Models.Gear} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> {
 
-    private final List<mavonie.subterminal.models.Gear> mValues;
+    private final List<mavonie.subterminal.Models.Gear> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public GearRecycler(List<mavonie.subterminal.models.Gear> items, OnListFragmentInteractionListener listener) {
+    public GearRecycler(List<mavonie.subterminal.Models.Gear> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -62,7 +62,7 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
         public final TextView listContainerManu;
         public final TextView listContainerType;
         public final TextView listCanopyType;
-        public mavonie.subterminal.models.Gear mItem;
+        public mavonie.subterminal.Models.Gear mItem;
 
         public ViewHolder(View view) {
             super(view);

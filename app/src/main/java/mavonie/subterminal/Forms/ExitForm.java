@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
-import mavonie.subterminal.models.Exit;
+import mavonie.subterminal.Models.Exit;
 
 public class ExitForm extends BaseForm {
 

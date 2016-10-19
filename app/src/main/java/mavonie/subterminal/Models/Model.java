@@ -1,4 +1,4 @@
-package mavonie.subterminal.models;
+package mavonie.subterminal.Models;
 
 import android.content.ContentValues;
 import android.content.pm.PackageManager;
@@ -8,7 +8,6 @@ import android.provider.BaseColumns;
 import android.util.Pair;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

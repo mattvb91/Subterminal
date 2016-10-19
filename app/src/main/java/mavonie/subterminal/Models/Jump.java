@@ -1,9 +1,8 @@
-package mavonie.subterminal.models;
+package mavonie.subterminal.Models;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import java.util.Date;
 import java.util.HashMap;
 
 /**

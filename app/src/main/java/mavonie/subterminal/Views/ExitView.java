@@ -24,7 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
-import mavonie.subterminal.models.Exit;
+import mavonie.subterminal.Models.Exit;
 
 /**
  * A simple {@link Fragment} subclass.

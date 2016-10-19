@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import mavonie.subterminal.models.Gear;
+import mavonie.subterminal.Models.Gear;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package mavonie.subterminal.models;
+package mavonie.subterminal.Models;
 
 import android.os.Bundle;
 

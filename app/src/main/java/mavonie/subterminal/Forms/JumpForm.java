@@ -17,9 +17,9 @@ import java.util.Calendar;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Date.DateFormat;
-import mavonie.subterminal.models.Exit;
-import mavonie.subterminal.models.Gear;
-import mavonie.subterminal.models.Jump;
+import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Models.Jump;
 
 /**
  * Created by mavon on 15/10/16.

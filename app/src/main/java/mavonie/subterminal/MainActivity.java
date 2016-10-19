@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
@@ -26,8 +25,8 @@ import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.JumpForm;
 import mavonie.subterminal.Utils.ChangeLog;
 import mavonie.subterminal.Views.ExitView;
-import mavonie.subterminal.models.Model;
-import mavonie.subterminal.models.User;
+import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -260,7 +259,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onGearListFragmentInteraction(mavonie.subterminal.models.Gear item) {
+    public void onGearListFragmentInteraction(mavonie.subterminal.Models.Gear item) {
         fab.hide();
 
         Bundle args = new Bundle();
@@ -272,7 +271,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onExitListFragmentInteraction(mavonie.subterminal.models.Exit item) {
+    public void onExitListFragmentInteraction(mavonie.subterminal.Models.Exit item) {
         fab.hide();
 
         Bundle args = new Bundle();
@@ -319,7 +318,7 @@ public class MainActivity extends AppCompatActivity
     private Model activeModel;
 
     @Override
-    public void onJumpListFragmentInteraction(mavonie.subterminal.models.Jump item) {
+    public void onJumpListFragmentInteraction(mavonie.subterminal.Models.Jump item) {
         fab.hide();
 
         Bundle args = new Bundle();

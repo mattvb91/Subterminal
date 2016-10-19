@@ -11,21 +11,21 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Date.TimeAgo;
-import mavonie.subterminal.models.Exit;
+import mavonie.subterminal.Models.Exit;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link mavonie.subterminal.models.Jump} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link mavonie.subterminal.Models.Jump} and makes a call to the
  * specified {@link mavonie.subterminal.Jump.OnJumpListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> {
 
-    private final List<mavonie.subterminal.models.Jump> mValues;
+    private final List<mavonie.subterminal.Models.Jump> mValues;
     private final Jump.OnJumpListFragmentInteractionListener mListener;
 
-    public JumpRecycler(List<mavonie.subterminal.models.Jump> items, Jump.OnJumpListFragmentInteractionListener listener) {
+    public JumpRecycler(List<mavonie.subterminal.Models.Jump> items, Jump.OnJumpListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -77,7 +77,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         public final View mView;
         public final TextView exitName;
         public final TextView ago;
-        public mavonie.subterminal.models.Jump mItem;
+        public mavonie.subterminal.Models.Jump mItem;
 
         public ViewHolder(View view) {
             super(view);

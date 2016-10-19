@@ -15,7 +15,7 @@ import java.util.Calendar;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
-import mavonie.subterminal.models.Model;
+import mavonie.subterminal.Models.Model;
 
 /**
  * Created by mavon on 14/10/16.
