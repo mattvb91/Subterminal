@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
+
+import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.ViewAdapters.ExitRecycler;
 
 /**
@@ -37,7 +40,12 @@ public class Exit extends Fragment {
 
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new ExitRecycler(new mavonie.subterminal.Models.Exit().getItems(null), mListener));
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_ASC);
+            params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Exit.COLUMN_NAME_NAME);
+
+            recyclerView.setAdapter(new ExitRecycler(new mavonie.subterminal.Models.Exit().getItems(params), mListener));
         }
         return view;
     }

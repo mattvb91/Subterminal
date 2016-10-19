@@ -71,6 +71,8 @@ abstract public class Model implements BaseColumns, Serializable {
 
     public static final String FILTER_ORDER_FIELD = "order_field";
     public static final String FILTER_ORDER_DIR = "order_dir";
+    public static final String FILTER_ORDER_DIR_DESC = "DESC";
+    public static final String FILTER_ORDER_DIR_ASC = "ASC";
 
     /**
      * Get items associated with this model
@@ -88,7 +90,7 @@ abstract public class Model implements BaseColumns, Serializable {
             String orderField = filter.get(FILTER_ORDER_FIELD);
 
             if (orderField != null) {
-                query += " ORDER BY " + orderField + " " + orderDir + "," + _ID + " DESC";
+                query += " ORDER BY LOWER(" + orderField + ") " + orderDir + "," + _ID + " DESC";
             }
             else if (orderDir != null) {
                 query += " ORDER BY " + _ID + " " + orderDir;
