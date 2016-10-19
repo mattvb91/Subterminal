@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
 
     Menu optionsMenu;
 
-    private static final int FRAGMENT_HOME = R.id.nav_home;
+//    private static final int FRAGMENT_HOME = R.id.nav_home;
     private static final int FRAGMENT_JUMPS = R.id.nav_jumps;
     private static final int FRAGMENT_GEAR = R.id.nav_gear;
     private static final int FRAGMENT_EXIT = R.id.nav_exits;
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        activateFragment(Home.class);
+        activateFragment(Jump.class);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -189,10 +189,10 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass = null;
 
         switch (id) {
-            case R.id.nav_home:
-                fragmentClass = Home.class;
-                fab.hide();
-                break;
+//            case R.id.nav_home:
+//                fragmentClass = Home.class;
+//                fab.hide();
+//                break;
             case R.id.nav_jumps:
                 fragmentClass = Jump.class;
                 fab.show();
@@ -202,8 +202,7 @@ public class MainActivity extends AppCompatActivity
                 fab.show();
                 break;
             case R.id.nav_login:
-                fragmentClass = Login.class;
-                break;
+                return;
             case R.id.nav_exits:
                 fragmentClass = Exit.class;
                 fab.show();
@@ -231,23 +230,23 @@ public class MainActivity extends AppCompatActivity
         actionBarDrawerToggle.syncState();
     }
 
-    public void updateDrawerProfile() {
-
-        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
-        View headerView = nav.getHeaderView(0);
-
-        profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
-        profilePictureView.setProfileId(this.getUser().getFacebookToken().getUserId());
-
-        TextView profileName = (TextView) headerView.findViewById(R.id.profile_name);
-        TextView profileEmail = (TextView) headerView.findViewById(R.id.profile_email);
-
-        profileName.setText(this.getUser().getFullName());
-        profileEmail.setText(this.getUser().getEmail());
-
-        Menu nav_Menu = nav.getMenu();
-        nav_Menu.findItem(R.id.nav_login).setTitle("Logout");
-    }
+//    public void updateDrawerProfile() {
+//
+//        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
+//        View headerView = nav.getHeaderView(0);
+//
+//        profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
+//        profilePictureView.setProfileId(this.getUser().getFacebookToken().getUserId());
+//
+//        TextView profileName = (TextView) headerView.findViewById(R.id.profile_name);
+//        TextView profileEmail = (TextView) headerView.findViewById(R.id.profile_email);
+//
+//        profileName.setText(this.getUser().getFullName());
+//        profileEmail.setText(this.getUser().getEmail());
+//
+//        Menu nav_Menu = nav.getMenu();
+//        nav_Menu.findItem(R.id.nav_login).setTitle("Logout");
+//    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -287,7 +286,7 @@ public class MainActivity extends AppCompatActivity
 
                     public void onClick(DialogInterface dialog, int whichButton) {
                         getActiveModel().delete();
-                        goToFragment(FRAGMENT_HOME); //TODO proper navigation
+                        goToFragment(FRAGMENT_JUMPS); //TODO proper navigation
                         Toast.makeText(MainActivity.getActivity(), "Item has been deleted", Toast.LENGTH_SHORT).show();
                     }
                 })

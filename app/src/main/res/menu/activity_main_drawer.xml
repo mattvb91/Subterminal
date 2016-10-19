@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Home" />
+        <!--<item-->
+            <!--android:id="@+id/nav_home"-->
+            <!--android:icon="@drawable/ic_menu_camera"-->
+            <!--android:title="Home" />-->
         <item
             android:id="@+id/nav_jumps"
             android:icon="@drawable/ic_menu_gallery"
@@ -25,7 +25,7 @@
         <menu>
             <item
                 android:icon="@drawable/ic_menu_send"
-                android:title="Sign in"
+                android:title="Sign in (Coming soon)"
                 android:id="@+id/nav_login" />
         </menu>
     </item>

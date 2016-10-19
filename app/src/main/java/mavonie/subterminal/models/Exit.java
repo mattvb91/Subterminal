@@ -287,4 +287,17 @@ public class Exit extends Model {
 
         return df.format(time) + "s";
     }
+
+    /**
+     * Check to see if the map should be active for this Exit
+     *
+     * @return boolean
+     */
+    public boolean isMapActive() {
+        if (this.getLatitude() != 0.00 && this.getLongtitude() != 0.00) {
+            return true;
+        }
+
+        return false;
+    }
 }

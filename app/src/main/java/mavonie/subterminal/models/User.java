@@ -84,7 +84,7 @@ public class User {
                             user.setSurname(response.getJSONObject().getString("last_name"));
                             user.setFacebookProfile(Profile.getCurrentProfile());
 
-                            MainActivity.getActivity().updateDrawerProfile();
+//                            MainActivity.getActivity().updateDrawerProfile();
 
                         } catch (JSONException e) {
                             e.printStackTrace();

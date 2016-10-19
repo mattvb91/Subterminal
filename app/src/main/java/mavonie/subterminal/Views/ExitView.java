@@ -158,10 +158,12 @@ public class ExitView extends Fragment implements OnMapReadyCallback {
             difficultyWingsuitOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDifficulty_wingsuit_overall())));
         }
 
-        mMapView = (MapView) view.findViewById(R.id.exit_view_map);
-        mMapView.getMapAsync(this);
-
-        mMapView.onCreate(savedInstanceState);
+        if (getItem().isMapActive()) {
+            mMapView = (MapView) view.findViewById(R.id.exit_view_map);
+            mMapView.setVisibility(View.VISIBLE);
+            mMapView.getMapAsync(this);
+            mMapView.onCreate(savedInstanceState);
+        }
 
         return view;
     }
@@ -228,7 +230,7 @@ public class ExitView extends Fragment implements OnMapReadyCallback {
         // Set title
         MainActivity.getActivity().setTitle(this.getItem().getName());
 
-        if (mMapView != null) {
+        if (mMapView != null && getItem().isMapActive()) {
             mMapView.onResume();
         }
     }
