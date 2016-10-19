@@ -25,6 +25,7 @@
         * Added changelog dialog
         * Fixed bug when adding jump without gear
         * Jump only saved when an exit is provided
+        * Updated list design
       $ END_OF_CHANGE_LOG
     $ 0.8.0-alpha
       % Version 0.8.0-alpha
