@@ -299,7 +299,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void editItem(MenuItem item) {
-        Toast.makeText(MainActivity.getActivity(), "CLick edit", Toast.LENGTH_SHORT).show();
+
+        Bundle args = new Bundle();
+        args.putSerializable("item", getActiveModel());
+
+        if (getActiveModel().canEdit()) {
+            if (getActiveModel() instanceof mavonie.subterminal.Models.Exit) {
+                ExitForm exitForm = new ExitForm();
+                exitForm.setArguments(args);
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.flContent, exitForm).addToBackStack(null).commit();
+            }
+        }
     }
 
     /**

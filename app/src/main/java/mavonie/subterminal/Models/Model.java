@@ -91,8 +91,7 @@ abstract public class Model implements BaseColumns, Serializable {
 
             if (orderField != null) {
                 query += " ORDER BY LOWER(" + orderField + ") " + orderDir + "," + _ID + " DESC";
-            }
-            else if (orderDir != null) {
+            } else if (orderDir != null) {
                 query += " ORDER BY " + _ID + " " + orderDir;
             }
         }
@@ -207,5 +206,15 @@ abstract public class Model implements BaseColumns, Serializable {
         }
 
         return item;
+    }
+
+    /**
+     * We may be adding remote global entities into the database.
+     * Check that the user can edit these locally.
+     *
+     * @return boolean
+     */
+    public boolean canEdit() {
+        return true;
     }
 }

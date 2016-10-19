@@ -27,6 +27,7 @@
         * Jump only saved when an exit is provided
         * Updated list design
         * Sort exits by name
+        * fetch GPS coordinates button on exit edit
       $ END_OF_CHANGE_LOG
     $ 0.8.0-alpha
       % Version 0.8.0-alpha
