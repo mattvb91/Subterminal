@@ -143,7 +143,11 @@ public class JumpForm extends BaseForm {
             String descriptionString = description.getText().toString();
 
             getItem().setExit_id(exit.getId());
-            getItem().setGear_id(Integer.parseInt(Long.toString(rigId)));
+
+            if (rigId > 0) {
+                getItem().setGear_id(Integer.parseInt(Long.toString(rigId)));
+            }
+
             getItem().setPc_size(Integer.parseInt(Long.toString(pilotChuteId)));
             getItem().setSlider(Integer.parseInt(Long.toString(sliderConfigID)));
             getItem().setDate(date.getText().toString());
@@ -153,9 +157,9 @@ public class JumpForm extends BaseForm {
             }
 
             getItem().setDescription(descriptionString);
-        }
 
-        super.save();
+            super.save();
+        }
     }
 
     @Override
