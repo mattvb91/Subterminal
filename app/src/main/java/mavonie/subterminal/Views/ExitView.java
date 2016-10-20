@@ -3,6 +3,7 @@ package mavonie.subterminal.Views;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,7 +32,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
+import java.util.List;
+
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Utils.BaseFragment;
@@ -53,8 +58,8 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         MapsInitializer.initialize(getContext());
         MainActivity.getActivity().setActiveModel(this.getItem());
-        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
-        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
+//        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
+//        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
     }
 
 
@@ -118,6 +123,12 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             difficultyWingsuitOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDifficulty_wingsuit_overall())));
         }
 
+        List<Image> images = Image.loadImagesForEntity(getItem());
+
+        if (!images.isEmpty()) {
+            showImages(images);
+        }
+
         Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
         pictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +145,26 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         }
 
         return view;
+    }
+
+    private void showImages(List<Image> images) {
+        for (Image current : images) {
+
+            ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
+
+            String path = current.getFullPath();
+
+            image.setImageBitmap(BitmapFactory.decodeFile(path));
+            image.setPadding(2, 2, 2, 2);
+            image.setMaxWidth(300);
+            image.setMaxHeight(300);
+            image.setAdjustViewBounds(true);
+            image.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            this.imageLayout.addView(image);
+
+            image = null;
+        }
     }
 
     @Override
@@ -169,17 +200,20 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         }
 
         //Check if an image has been added
-        Bitmap test = MainActivity.getActivity().getLastBitmap();
+        Bitmap bitMap = MainActivity.getActivity().getLastBitmap();
         if (MainActivity.getActivity().getLastBitmap() instanceof Bitmap) {
 
-            ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
-            image.setImageBitmap(test);
-            image.setPadding(2, 2, 2, 2);
-            image.setMaxWidth(300);
-            image.setMaxHeight(300);
-            image.setAdjustViewBounds(true);
-            image.setScaleType(ImageView.ScaleType.FIT_XY);
-            this.imageLayout.addView(image);
+            if (Image.createFromBitmap(bitMap, MainActivity.getActivity().getActiveModel())) {
+                ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
+                image.setImageBitmap(bitMap);
+                image.setPadding(2, 2, 2, 2);
+                image.setMaxWidth(300);
+                image.setMaxHeight(300);
+                image.setAdjustViewBounds(true);
+                image.setScaleType(ImageView.ScaleType.FIT_XY);
+                this.imageLayout.addView(image);
+            }
+
             MainActivity.getActivity().lastBitmap = null;
         }
     }
@@ -189,6 +223,8 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         if (mMapView != null) {
             mMapView.onPause();
         }
+
+        this.imageLayout = null;
 
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);

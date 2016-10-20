@@ -73,6 +73,8 @@ abstract public class Model implements BaseColumns, Serializable {
     public static final String FILTER_ORDER_DIR = "order_dir";
     public static final String FILTER_ORDER_DIR_DESC = "DESC";
     public static final String FILTER_ORDER_DIR_ASC = "ASC";
+    public static final String FILTER_WHERE_FIELD = "where_field";
+    public static final String FILTER_WHERE_VALUE = "where_value";
 
     /**
      * Get items associated with this model
@@ -88,6 +90,13 @@ abstract public class Model implements BaseColumns, Serializable {
 
             String orderDir = filter.get(FILTER_ORDER_DIR);
             String orderField = filter.get(FILTER_ORDER_FIELD);
+
+            String whereField = filter.get(FILTER_WHERE_FIELD);
+            String whereValue = filter.get(FILTER_WHERE_VALUE);
+
+            if (whereField != null) {
+                query += " WHERE " + whereField + " = " + whereValue;
+            }
 
             if (orderField != null) {
                 query += " ORDER BY LOWER(" + orderField + ") " + orderDir + "," + _ID + " DESC";

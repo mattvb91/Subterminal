@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         activity = this;
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -236,10 +236,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        if (this.getUser().getFacebookToken() != null && this.getUser().getFacebookToken().isExpired() == false) {
-            this.getUser().init();
-        }
+//
+//        if (this.getUser().getFacebookToken() != null && this.getUser().getFacebookToken().isExpired() == false) {
+//            this.getUser().init();
+//        }
 
         actionBarDrawerToggle.syncState();
     }
