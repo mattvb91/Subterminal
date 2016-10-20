@@ -281,12 +281,17 @@ public class MainActivity extends AppCompatActivity
         Bundle args = new Bundle();
         args.putSerializable("item", getActiveModel());
 
+        Fragment fragment = null;
+
         if (getActiveModel().canEdit()) {
             if (getActiveModel() instanceof mavonie.subterminal.Models.Exit) {
-                ExitForm exitForm = new ExitForm();
-                exitForm.setArguments(args);
+                fragment = new ExitForm();
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.flContent, exitForm).addToBackStack(null).commit();
+                fragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+
+            } else if (getActiveModel() instanceof mavonie.subterminal.Models.Jump) {
+                fragment = new JumpForm();
             }
         }
     }

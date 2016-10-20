@@ -146,10 +146,16 @@ public class Jump extends Model {
             int idIndex = cursor.getColumnIndexOrThrow(_ID);
             int idExitId = cursor.getColumnIndexOrThrow(COLUMN_NAME_EXIT_ID);
             int idDateId = cursor.getColumnIndexOrThrow(COLUMN_NAME_DATE);
+            int idPcSize = cursor.getColumnIndexOrThrow(COLUMN_NAME_PC_SIZE);
+            int idDescription = cursor.getColumnIndexOrThrow(COLUMN_NAME_DESCRIPTION);
+            int idDelay = cursor.getColumnIndexOrThrow(COLUMN_NAME_DELAY);
 
             jump.setId(cursor.getInt(idIndex));
             jump.setExit_id(cursor.getInt(idExitId));
             jump.setDate(cursor.getString(idDateId));
+            jump.setPc_size(cursor.getInt(idPcSize));
+            jump.setDescription(cursor.getString(idDescription));
+            jump.setDelay(cursor.getInt(idDelay));
 
             return jump;
 
@@ -174,5 +180,12 @@ public class Jump extends Model {
     @Override
     String getTableName() {
         return TABLE_NAME;
+    }
+
+    /**
+     * @return String
+     */
+    public String getFormattedSlider() {
+        return this.getSliderConfigArray()[this.getSlider()];
     }
 }

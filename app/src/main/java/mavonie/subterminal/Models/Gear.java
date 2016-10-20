@@ -156,4 +156,10 @@ public class Gear extends Model {
         contentValues.put(COLUMN_NAME_CANOPY_DATE_IN_USE, this.getCanopyDateInUse());
 
     }
+
+    //TODO add canopy type
+    public String getDisplayName() {
+        return this.getContainerManufacturer() + " " +
+                this.getContainerType();
+    }
 }

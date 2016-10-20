@@ -136,19 +136,16 @@ public class JumpForm extends BaseForm {
                 exit.save();
             }
 
-            long rigId = rig.getSelectedItemId();
-            long pilotChuteId = pilotChute.getSelectedItemId();
+            long rigId = rig.getSelectedItemPosition();
+            String pilotChuteSize = pilotChute.getSelectedItem().toString();
             long sliderConfigID = sliderConfig.getSelectedItemId();
             String delayString = delay.getText().toString();
             String descriptionString = description.getText().toString();
 
             getItem().setExit_id(exit.getId());
 
-            if (rigId > 0) {
-                getItem().setGear_id(Integer.parseInt(Long.toString(rigId)));
-            }
-
-            getItem().setPc_size(Integer.parseInt(Long.toString(pilotChuteId)));
+            getItem().setGear_id(Integer.parseInt(Long.toString(rigId)));
+            getItem().setPc_size(Integer.parseInt(pilotChuteSize));
             getItem().setSlider(Integer.parseInt(Long.toString(sliderConfigID)));
             getItem().setDate(date.getText().toString());
 
@@ -169,7 +166,16 @@ public class JumpForm extends BaseForm {
 
     @Override
     protected void updateForm() {
+        if (getItem().exists()) {
+            MainActivity.getActivity().setActiveModel(getItem());
 
+            this.exitNameAutoComplete.setText(getItem().getExit().getName());
+            this.date.setText(getItem().getDate());
+            this.pilotChute.setSelection(getItem().getPc_size());
+            this.delay.setText(Integer.toString(getItem().getDelay()));
+
+            this.description.setText(getItem().getDescription());
+        }
     }
 
     @Override
