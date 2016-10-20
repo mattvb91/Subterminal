@@ -2,6 +2,8 @@ package mavonie.subterminal;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +27,7 @@ import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.JumpForm;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.ChangeLog;
+import mavonie.subterminal.Utils.ImagePicker;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
@@ -337,5 +340,32 @@ public class MainActivity extends AppCompatActivity
         fragment.setArguments(args);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+    }
+
+    private static final int PICK_IMAGE_ID = 234; // the number doesn't matter
+
+    public void onPickImage(View view) {
+        Intent chooseImageIntent = ImagePicker.getPickImageIntent(this);
+        startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
+    }
+
+    public Bitmap getLastBitmap() {
+        return lastBitmap;
+    }
+
+    public Bitmap lastBitmap = null;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) {
+            case PICK_IMAGE_ID:
+                this.lastBitmap = ImagePicker.getImageFromResult(this, resultCode, data);
+                // TODO use bitmap
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
     }
 }

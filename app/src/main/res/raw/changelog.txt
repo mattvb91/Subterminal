@@ -19,6 +19,11 @@
     </style>
   </head>
   <body>
+    $ 0.8.2-alpha
+          % Version 0.8.2-alpha
+          _ 20-10-2016
+          * Implemented adding images to exit
+        $ END_OF_CHANGE_LOG
     $ 0.8.1-alpha
         % Version 0.8.1-alpha
         _ 20-10-2016

@@ -1,12 +1,24 @@
 package mavonie.subterminal.Views;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,7 +35,6 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Utils.BaseFragment;
-
 
 /**
  * Exit view
@@ -52,12 +63,14 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_exit_view, container, false);
+        final View view = inflater.inflate(R.layout.fragment_exit_view, container, false);
 
         if (getItem().getDescription() != null) {
             TextView description = (TextView) view.findViewById(R.id.exit_view_description);
             description.setText(Html.fromHtml(getItem().getDescription()));
         }
+
+        this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
         TextView rules = (TextView) view.findViewById(R.id.exit_view_rules);
         rules.setText(Html.fromHtml(getItem().getRules()));
@@ -105,6 +118,14 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             difficultyWingsuitOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDifficulty_wingsuit_overall())));
         }
 
+        Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
+        pictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getActivity().onPickImage(view);
+            }
+        });
+
         if (getItem().isMapActive()) {
             mMapView = (MapView) view.findViewById(R.id.exit_view_map);
             mMapView.setVisibility(View.VISIBLE);
@@ -145,6 +166,21 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         if (mMapView != null && getItem().isMapActive()) {
             mMapView.onResume();
+        }
+
+        //Check if an image has been added
+        Bitmap test = MainActivity.getActivity().getLastBitmap();
+        if (MainActivity.getActivity().getLastBitmap() instanceof Bitmap) {
+
+            ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
+            image.setImageBitmap(test);
+            image.setPadding(2, 2, 2, 2);
+            image.setMaxWidth(300);
+            image.setMaxHeight(300);
+            image.setAdjustViewBounds(true);
+            image.setScaleType(ImageView.ScaleType.FIT_XY);
+            this.imageLayout.addView(image);
+            MainActivity.getActivity().lastBitmap = null;
         }
     }
 

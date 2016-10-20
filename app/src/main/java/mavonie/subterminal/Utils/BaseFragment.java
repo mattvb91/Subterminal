@@ -3,12 +3,17 @@ package mavonie.subterminal.Utils;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.lang.reflect.Constructor;
 
 import mavonie.subterminal.Forms.BaseForm;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.R;
 
 /**
  * Created by mavon on 19/10/16.
@@ -21,6 +26,8 @@ public abstract class BaseFragment extends Fragment {
     protected abstract String getItemClass();
 
     protected OnFragmentInteractionListener _mListener;
+
+    protected LinearLayout imageLayout;
 
     protected OnFragmentInteractionListener getmListener() {
         return _mListener;
