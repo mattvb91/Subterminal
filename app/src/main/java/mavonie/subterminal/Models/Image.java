@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -159,6 +160,32 @@ public class Image extends Model {
 
     public static List<Image> loadImagesForEntity(Model entity) {
 
+        HashMap<String, Object> params = whereParamsForCurrentEntity(entity);
+
+        return new Image().getItems(params);
+    }
+
+    /**
+     * Gets the first image associated with this entity
+     *
+     * @param entity
+     * @return Image|Null
+     */
+    public static Image loadThumbForEntity(Model entity) {
+        HashMap<String, Object> params = whereParamsForCurrentEntity(entity);
+        params.put(FILTER_LIMIT, "1");
+
+        List result = new Image().getItems(params);
+
+        if (result.size() > 0) {
+            return (Image) result.get(0);
+        }
+
+        return null;
+    }
+
+    @NonNull
+    private static HashMap<String, Object> whereParamsForCurrentEntity(Model entity) {
         HashMap<String, Object> params = new HashMap<>();
 
         HashMap<String, Object> whereId = new HashMap<>();
@@ -174,8 +201,7 @@ public class Image extends Model {
         wheres.put(wheres.size(), whereId);
 
         params.put(Model.FILTER_WHERE, wheres);
-
-        return new Image().getItems(params);
+        return params;
     }
 
     public String getFullPath() {
@@ -183,6 +209,21 @@ public class Image extends Model {
         return root + IMAGE_PATH + "/" + this.getFilename();
     }
 
+    /**
+     * @param width
+     * @param height
+     * @return Bitmap
+     */
+    public Bitmap decodeSampledBitmapFromResource(int width, int height) {
+        return decodeSampledBitmapFromResource(this.getFullPath(), width, height);
+    }
+
+    /**
+     * @param path
+     * @param reqWidth
+     * @param reqHeight
+     * @return Bitmap
+     */
     public static Bitmap decodeSampledBitmapFromResource(String path,
                                                          int reqWidth, int reqHeight) {
 

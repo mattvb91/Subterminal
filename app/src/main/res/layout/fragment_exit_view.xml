@@ -300,7 +300,7 @@
         <TableRow
             android:paddingTop="10dp">
 
-            <mavonie.subterminal.Views.MapView
+            <mavonie.subterminal.Utils.Views.MapView
                 android:id="@+id/exit_view_map"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"

@@ -300,4 +300,13 @@ public class Exit extends Model {
 
         return false;
     }
+
+    /**
+     * Just get the first image we can find
+     *
+     * @return Image
+     */
+    public Image getThumbImage() {
+        return Image.loadImagesForEntity(this).get(0);
+    }
 }

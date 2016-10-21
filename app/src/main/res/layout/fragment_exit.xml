@@ -14,12 +14,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
+        <mavonie.subterminal.Utils.Views.SquareImageView
+            android:id="@+id/exit_list_thumb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left" />
+
         <TextView
             android:id="@+id/exit_list_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:gravity="left"
+            android:gravity="center"
             android:textAlignment="gravity"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textStyle="bold"/>

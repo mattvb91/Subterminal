@@ -1,16 +1,21 @@
 package mavonie.subterminal.Utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.lang.reflect.Constructor;
+import java.util.List;
 
 import mavonie.subterminal.Forms.BaseForm;
+import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.R;
@@ -82,6 +87,69 @@ public abstract class BaseFragment extends Fragment {
         super.onDetach();
         _mListener = null;
     }
+
+    @Override
+    public void onPause() {
+
+        if (this.imageLayout != null) {
+            int count = this.imageLayout.getChildCount();
+            for (int i = 0; i < count; i++) {
+                ImageView image = (ImageView) this.imageLayout.getChildAt(i);
+                image.setImageDrawable(null);
+            }
+
+            this.imageLayout = null;
+        }
+
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+
+        //Check if an image has been added
+        Bitmap bitMap = MainActivity.getActivity().getLastBitmap();
+        if (bitMap instanceof Bitmap) {
+
+            if (Image.createFromBitmap(bitMap, MainActivity.getActivity().getActiveModel())) {
+                ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
+                image.setImageBitmap(bitMap);
+                image.setPadding(2, 2, 2, 2);
+                image.setMaxWidth(300);
+                image.setMaxHeight(300);
+                image.setAdjustViewBounds(true);
+                image.setScaleType(ImageView.ScaleType.FIT_XY);
+                this.imageLayout.addView(image);
+            }
+
+            MainActivity.getActivity().lastBitmap = null;
+        }
+
+        super.onResume();
+    }
+
+    protected void showImages(List<Image> images) {
+        for (Image current : images) {
+
+            ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
+
+            String path = current.getFullPath();
+
+            Bitmap bitmap = current.decodeSampledBitmapFromResource(path, 200, 200);
+            image.setImageBitmap(bitmap);
+            image.setPadding(2, 2, 2, 2);
+            image.setMaxWidth(300);
+            image.setMaxHeight(300);
+            image.setAdjustViewBounds(true);
+            image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+            this.imageLayout.addView(image);
+
+            image = null;
+            bitmap = null;
+        }
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

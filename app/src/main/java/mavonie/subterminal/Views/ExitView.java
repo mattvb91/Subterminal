@@ -1,25 +1,14 @@
 package mavonie.subterminal.Views;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,7 +21,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.File;
 import java.util.List;
 
 import mavonie.subterminal.MainActivity;
@@ -40,6 +28,7 @@ import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.Views.MapView;
 
 /**
  * Exit view
@@ -147,28 +136,6 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         return view;
     }
 
-    private void showImages(List<Image> images) {
-        for (Image current : images) {
-
-            ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
-
-            String path = current.getFullPath();
-
-            Bitmap bitmap = current.decodeSampledBitmapFromResource(path, 200, 200);
-            image.setImageBitmap(bitmap);
-            image.setPadding(2, 2, 2, 2);
-            image.setMaxWidth(300);
-            image.setMaxHeight(300);
-            image.setAdjustViewBounds(true);
-            image.setScaleType(ImageView.ScaleType.FIT_XY);
-
-            this.imageLayout.addView(image);
-
-            image = null;
-            bitmap = null;
-        }
-    }
-
     @Override
     protected String getItemClass() {
         return Exit.class.getCanonicalName();
@@ -200,24 +167,6 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         if (mMapView != null && getItem().isMapActive()) {
             mMapView.onResume();
         }
-
-        //Check if an image has been added
-        Bitmap bitMap = MainActivity.getActivity().getLastBitmap();
-        if (MainActivity.getActivity().getLastBitmap() instanceof Bitmap) {
-
-            if (Image.createFromBitmap(bitMap, MainActivity.getActivity().getActiveModel())) {
-                ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
-                image.setImageBitmap(bitMap);
-                image.setPadding(2, 2, 2, 2);
-                image.setMaxWidth(300);
-                image.setMaxHeight(300);
-                image.setAdjustViewBounds(true);
-                image.setScaleType(ImageView.ScaleType.FIT_XY);
-                this.imageLayout.addView(image);
-            }
-
-            MainActivity.getActivity().lastBitmap = null;
-        }
     }
 
     @Override
@@ -230,13 +179,6 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
         MainActivity.getActivity().getFab().show();
 
-        int count = this.imageLayout.getChildCount();
-        for(int i = 0; i < count; i++) {
-            ImageView image = (ImageView) this.imageLayout.getChildAt(i);
-            image.setImageDrawable(null);
-        }
-
-        this.imageLayout = null;
         super.onPause();
     }
 

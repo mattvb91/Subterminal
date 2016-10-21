@@ -76,6 +76,7 @@ abstract public class Model implements BaseColumns, Serializable {
     public static final String FILTER_WHERE = "WHERE";
     public static final String FILTER_WHERE_FIELD = "where_field";
     public static final String FILTER_WHERE_VALUE = "where_value";
+    public static final String FILTER_LIMIT = "LIMIT";
 
     /**
      * Get items associated with this model
@@ -125,6 +126,11 @@ abstract public class Model implements BaseColumns, Serializable {
             } else if (orderDir != null) {
                 query += " ORDER BY " + _ID + " " + orderDir;
             }
+
+            if (filter.containsKey(FILTER_LIMIT)) {
+                query += " " + FILTER_LIMIT + " " + filter.get(FILTER_LIMIT);
+            }
+
         }
 
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
