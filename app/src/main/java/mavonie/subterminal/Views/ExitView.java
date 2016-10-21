@@ -154,7 +154,7 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
             String path = current.getFullPath();
 
-            image.setImageBitmap(BitmapFactory.decodeFile(path));
+            image.setImageBitmap(current.decodeSampledBitmapFromResource(path, 200, 200));
             image.setPadding(2, 2, 2, 2);
             image.setMaxWidth(300);
             image.setMaxHeight(300);
