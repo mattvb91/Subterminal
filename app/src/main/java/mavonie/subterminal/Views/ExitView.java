@@ -154,7 +154,8 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
             String path = current.getFullPath();
 
-            image.setImageBitmap(current.decodeSampledBitmapFromResource(path, 200, 200));
+            Bitmap bitmap = current.decodeSampledBitmapFromResource(path, 200, 200);
+            image.setImageBitmap(bitmap);
             image.setPadding(2, 2, 2, 2);
             image.setMaxWidth(300);
             image.setMaxHeight(300);
@@ -164,6 +165,7 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             this.imageLayout.addView(image);
 
             image = null;
+            bitmap = null;
         }
     }
 
@@ -224,12 +226,17 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             mMapView.onPause();
         }
 
-        this.imageLayout = null;
-
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
         MainActivity.getActivity().getFab().show();
 
+        int count = this.imageLayout.getChildCount();
+        for(int i = 0; i < count; i++) {
+            ImageView image = (ImageView) this.imageLayout.getChildAt(i);
+            image.setImageDrawable(null);
+        }
+
+        this.imageLayout = null;
         super.onPause();
     }
 
@@ -242,6 +249,7 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
                 Log.e("", "Error while attempting MapView.onDestroy(), ignoring exception", e);
             }
         }
+
         super.onDestroy();
     }
 
