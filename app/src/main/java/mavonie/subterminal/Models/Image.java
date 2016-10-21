@@ -158,10 +158,21 @@ public class Image extends Model {
 
     public static List<Image> loadImagesForEntity(Model entity) {
 
-        HashMap<String, String> params = new HashMap<>();
+        HashMap<String, Object> params = new HashMap<>();
 
-        params.put(Model.FILTER_WHERE_FIELD, COLUMN_NAME_ENTITY_TYPE);
-        params.put(Model.FILTER_WHERE_VALUE, Integer.toString(getEntityTypeFromModel(entity)));
+        HashMap<String, Object> whereId = new HashMap<>();
+        whereId.put(Model.FILTER_WHERE_FIELD, COLUMN_NAME_ENTITY_ID);
+        whereId.put(Model.FILTER_WHERE_VALUE, entity.getId());
+
+        HashMap<String, Object> whereEntityType = new HashMap<>();
+        whereEntityType.put(Model.FILTER_WHERE_FIELD, COLUMN_NAME_ENTITY_TYPE);
+        whereEntityType.put(Model.FILTER_WHERE_VALUE, Integer.toString(getEntityTypeFromModel(entity)));
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereEntityType);
+        wheres.put(wheres.size(), whereId);
+
+        params.put(Model.FILTER_WHERE, wheres);
 
         return new Image().getItems(params);
     }

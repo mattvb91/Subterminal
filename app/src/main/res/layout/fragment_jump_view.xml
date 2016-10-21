@@ -113,7 +113,7 @@
                     android:id="@+id/jump_view_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_span="3"
                     android:gravity="left"
                     android:textAppearance="?attr/textAppearanceListItem"/>
             </TableRow>

@@ -39,7 +39,7 @@ public class Exit extends BaseFragment {
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-            HashMap<String, String> params = new HashMap<>();
+            HashMap<String, Object> params = new HashMap<>();
             params.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_ASC);
             params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Exit.COLUMN_NAME_NAME);
 

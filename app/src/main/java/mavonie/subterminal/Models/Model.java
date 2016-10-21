@@ -73,6 +73,7 @@ abstract public class Model implements BaseColumns, Serializable {
     public static final String FILTER_ORDER_DIR = "order_dir";
     public static final String FILTER_ORDER_DIR_DESC = "DESC";
     public static final String FILTER_ORDER_DIR_ASC = "ASC";
+    public static final String FILTER_WHERE = "WHERE";
     public static final String FILTER_WHERE_FIELD = "where_field";
     public static final String FILTER_WHERE_VALUE = "where_value";
 
@@ -81,21 +82,42 @@ abstract public class Model implements BaseColumns, Serializable {
      *
      * @param filter
      * @return List
+     * <p>
+     * TODO refactor/improve WHERE filtering to get rid of heavy hashmap usage
      */
-    public List getItems(HashMap<String, String> filter) {
+    public List getItems(HashMap<String, Object> filter) {
 
         String query = "select * from " + getTableName();
 
         if (filter != null) {
 
-            String orderDir = filter.get(FILTER_ORDER_DIR);
-            String orderField = filter.get(FILTER_ORDER_FIELD);
+            String orderDir = (String) filter.get(FILTER_ORDER_DIR);
+            String orderField = (String) filter.get(FILTER_ORDER_FIELD);
 
-            String whereField = filter.get(FILTER_WHERE_FIELD);
-            String whereValue = filter.get(FILTER_WHERE_VALUE);
+            boolean multipleWhere = filter.containsKey(FILTER_WHERE);
 
-            if (whereField != null) {
-                query += " WHERE " + whereField + " = " + whereValue;
+            if (!multipleWhere) {
+                String whereField = (String) filter.get(FILTER_WHERE_FIELD);
+                String whereValue = (String) filter.get(FILTER_WHERE_VALUE);
+
+                if (whereField != null) {
+                    query += " WHERE " + whereField + " = " + whereValue;
+                }
+            } else {
+                HashMap wheres = (HashMap<Integer, HashMap>) filter.get(FILTER_WHERE);
+
+                for (int i = 0; i < wheres.size(); i++) {
+                    HashMap where = (HashMap) wheres.get(i);
+
+                    String whereField = (String) where.get(FILTER_WHERE_FIELD);
+                    Object whereValue = where.get(FILTER_WHERE_VALUE);
+
+                    if (i == 0) {
+                        query += " WHERE " + whereField + " = " + whereValue.toString();
+                    } else {
+                        query += " AND " + whereField + " = " + whereValue.toString();
+                    }
+                }
             }
 
             if (orderField != null) {
