@@ -36,6 +36,8 @@ public class Image extends Model {
     public static final String COLUMN_NAME_SYNCED = "synced";
 
     public static final int ENTITY_TYPE_EXIT = 0;
+    public static final int ENTITY_TYPE_JUMP = 1;
+
 
     public String getFilename() {
         return filename;
@@ -153,6 +155,8 @@ public class Image extends Model {
     private static int getEntityTypeFromModel(Model associatedEntity) {
         if (associatedEntity instanceof Exit) {
             return ENTITY_TYPE_EXIT;
+        } else if (associatedEntity instanceof Jump) {
+            return ENTITY_TYPE_JUMP;
         }
 
         return ENTITY_TYPE_EXIT;

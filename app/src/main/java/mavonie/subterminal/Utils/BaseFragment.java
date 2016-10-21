@@ -91,7 +91,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onPause() {
 
-        if (this.imageLayout != null) {
+        if (this.imageLayout != null &! this.isVisible()) {
             int count = this.imageLayout.getChildCount();
             for (int i = 0; i < count; i++) {
                 ImageView image = (ImageView) this.imageLayout.getChildAt(i);

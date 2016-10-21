@@ -5,10 +5,15 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.List;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
@@ -59,6 +64,21 @@ public class JumpView extends BaseFragment {
         TextView jumpDescription = (TextView) view.findViewById(R.id.jump_view_description);
         jumpDescription.setText(getItem().getDescription());
 
+        this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
+
+        List<Image> images = Image.loadImagesForEntity(getItem());
+
+        if (!images.isEmpty()) {
+            showImages(images);
+        }
+
+        Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
+        pictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getActivity().onPickImage(v);
+            }
+        });
 
         return view;
     }

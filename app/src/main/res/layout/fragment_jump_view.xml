@@ -118,7 +118,35 @@
                     android:textAppearance="?attr/textAppearanceListItem"/>
             </TableRow>
 
-        </TableLayout>
+            <TableRow>
 
+                <Button
+                    android:id="@+id/exit_picture_button"
+                    android:text="Add Picture"/>
+
+            </TableRow>
+
+            <TableRow>
+
+                <HorizontalScrollView
+                    android:id="@+id/horizontal_scroll"
+                    android:layout_span="3"
+                    android:layout_width="match_parent"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/image_thumbs"
+                        android:layout_span="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+            </TableRow>
+
+        </TableLayout>
     </android.support.v7.widget.CardView>
 </FrameLayout>

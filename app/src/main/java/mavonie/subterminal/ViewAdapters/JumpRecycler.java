@@ -4,15 +4,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Date.TimeAgo;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Utils.Views.SquareImageView;
 
 import java.util.List;
 
@@ -21,6 +24,7 @@ import java.util.List;
  */
 public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> {
 
+    private static final int THUMB_SIZE = 80;
     private final List<mavonie.subterminal.Models.Jump> mValues;
     private final BaseFragment.OnFragmentInteractionListener mListener;
 
@@ -55,6 +59,12 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
             holder.ago.setText(TimeAgo.sinceToday(date));
         }
 
+        Image thumb = Image.loadThumbForEntity(mValues.get(position));
+
+        if (thumb != null) {
+            holder.mThumb.setImageBitmap(thumb.decodeSampledBitmapFromResource(THUMB_SIZE, THUMB_SIZE));
+        }
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +86,8 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         public final View mView;
         public final TextView exitName;
         public final TextView ago;
+        public final SquareImageView mThumb;
+
         public mavonie.subterminal.Models.Jump mItem;
 
         public ViewHolder(View view) {
@@ -83,11 +95,11 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
             mView = view;
             ago = (TextView) view.findViewById(R.id.jump_list_ago);
             exitName = (TextView) view.findViewById(R.id.jump_list_exit_name);
-        }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + exitName.getText() + "'";
+            mThumb = (SquareImageView) view.findViewById(R.id.jump_list_thumb);
+            mThumb.getLayoutParams().width = THUMB_SIZE;
+            mThumb.setAdjustViewBounds(true);
+            mThumb.setScaleType(ImageView.ScaleType.FIT_XY);
         }
     }
 }
