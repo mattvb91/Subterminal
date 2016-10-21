@@ -21,7 +21,7 @@
   <body>
     $ 0.8.2-alpha
           % Version 0.8.2-alpha
-          _ 20-10-2016
+          _ 21-10-2016
           * add images to exit, jump
           * Thumbnails on lists pages (exit, jump)
           * Performance improvements

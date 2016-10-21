@@ -78,3 +78,13 @@ INSERT INTO exit (
          46.579998,
          7.905217
     );
+
+-- Version 0.8.2-alpha versioncode 3
+
+CREATE TABLE image (
+        _id INTEGER PRIMARY KEY,
+        filename TEXT,
+        entity_type INTEGER,
+        entity_id INTEGER,
+        synced INTEGER DEFAULT 0
+);
