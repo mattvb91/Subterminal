@@ -1,7 +1,5 @@
 package mavonie.subterminal.unit;
 
-import android.support.annotation.NonNull;
-
 import org.junit.Test;
 
 import mavonie.subterminal.Models.Jump;

@@ -2,8 +2,15 @@ package mavonie.subterminal.unit;
 
 
 import org.junit.Test;
+import org.robolectric.RuntimeEnvironment;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static junit.framework.Assert.*;
@@ -33,6 +40,37 @@ public class GearTest extends BaseDBUnit {
 
         assertTrue(gear.delete());
         assertNull(gear.getOneById(gear.getId()));
+    }
+
+    /**
+     * Check getItemsForSelect along with the linkedHashMapAdapter
+     */
+    @Test
+    public void testGetItemsForSelect() {
+        Gear gear = createGear();
+        Gear gear2 = createGear();
+
+        LinkedHashMap gearItems = new Gear().getItemsForSelect(Gear.COLUMN_NAME_CONTAINER_MANUFACTURER);
+
+        assertNotNull(gearItems);
+        assertEquals(gearItems.size(), new Gear().count());
+
+        LinkedHashMapAdapter exitsAdapter = new LinkedHashMapAdapter<String, String>(
+                RuntimeEnvironment.application,
+                R.layout.item_simple,
+                gearItems,
+                LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE
+        );
+
+        Map.Entry entry = exitsAdapter.getItem(1);
+        assertEquals(gear2.getId(), Integer.parseInt((String) entry.getKey()));
+
+        int id = gear2.getId();
+
+        Integer position = exitsAdapter.findPositionFromKey(id);
+        Map.Entry entry2 = exitsAdapter.getItem(position);
+
+        assertEquals(id, Integer.parseInt((String) entry2.getKey()));
     }
 
     private Gear createGear() {
