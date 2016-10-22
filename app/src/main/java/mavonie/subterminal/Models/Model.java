@@ -10,6 +10,7 @@ import android.util.Pair;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import mavonie.subterminal.DB.DatabaseHandler;
@@ -40,12 +41,12 @@ abstract public class Model implements BaseColumns, Serializable {
 
     protected static DatabaseHandler _db;
 
-    protected ArrayList<String> itemsForSelect;
+    protected LinkedHashMap<String, String> itemsForSelect;
 
     //Declare db once
     public Model() {
 
-        if(_db == null) {
+        if (_db == null) {
             try {
                 _db = new DatabaseHandler(
                         MainActivity.getActivity().getApplicationContext(),
@@ -215,24 +216,24 @@ abstract public class Model implements BaseColumns, Serializable {
         return count;
     }
 
-    public ArrayList<String> getItemsForSelectArray(String fieldName) {
+    public LinkedHashMap<String, String> getItemsForSelect(String fieldName) {
 
         if (this.itemsForSelect == null) {
-            this.itemsForSelect = new ArrayList<String>();
+            this.itemsForSelect = new LinkedHashMap<String, String>();
         }
 
-        Cursor cursor = _db.getReadableDatabase().rawQuery("select " + fieldName + " from " + getTableName(), null);
+        Cursor cursor = _db.getReadableDatabase().rawQuery("select " + _ID + ", " + fieldName + " from " + getTableName(), null);
 
         if (cursor.moveToFirst()) {
             while (cursor.isAfterLast() == false) {
-                String string = cursor.getString(0);
-                itemsForSelect.add(string);
+                int id = cursor.getInt(0);
+                String string = cursor.getString(1);
+                itemsForSelect.put(Integer.toString(id), string);
                 cursor.moveToNext();
             }
         }
 
         cursor.close();
-        cursor = null;
 
         return this.itemsForSelect;
     }

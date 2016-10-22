@@ -151,6 +151,7 @@ public class Jump extends Model {
             int idDescription = cursor.getColumnIndexOrThrow(COLUMN_NAME_DESCRIPTION);
             int idDelay = cursor.getColumnIndexOrThrow(COLUMN_NAME_DELAY);
             int idGear = cursor.getColumnIndexOrThrow(COLUMN_NAME_GEAR_ID);
+            int idSlider = cursor.getColumnIndexOrThrow(COLUMN_NAME_SLIDER);
 
             jump.setId(cursor.getInt(idIndex));
             jump.setExit_id(cursor.getInt(idExitId));
@@ -159,6 +160,7 @@ public class Jump extends Model {
             jump.setDescription(cursor.getString(idDescription));
             jump.setDelay(cursor.getInt(idDelay));
             jump.setGear_id(cursor.getInt(idGear));
+            jump.setSlider(cursor.getInt(idSlider));
 
             return jump;
 

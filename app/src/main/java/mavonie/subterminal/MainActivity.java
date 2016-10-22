@@ -289,13 +289,11 @@ public class MainActivity extends AppCompatActivity
         if (getActiveModel().canEdit()) {
             if (getActiveModel() instanceof mavonie.subterminal.Models.Exit) {
                 fragment = new ExitForm();
-
-                fragment.setArguments(args);
-                getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
-
             } else if (getActiveModel() instanceof mavonie.subterminal.Models.Jump) {
                 fragment = new JumpForm();
             }
+            fragment.setArguments(args);
+            getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
         }
     }
 
@@ -361,7 +359,6 @@ public class MainActivity extends AppCompatActivity
         switch (requestCode) {
             case PICK_IMAGE_ID:
                 this.lastBitmap = ImagePicker.getImageFromResult(this, resultCode, data);
-                // TODO use bitmap
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
