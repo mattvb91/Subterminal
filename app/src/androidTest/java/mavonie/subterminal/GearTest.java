@@ -24,12 +24,8 @@ import static org.hamcrest.Matchers.allOf;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 
 
-@LargeTest
-@RunWith(AndroidJUnit4.class)
-public class GearTest {
+public class GearTest extends BaseTest{
 
-    @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void addGearTest() {
@@ -60,8 +56,21 @@ public class GearTest {
         appCompatEditText2.perform(scrollTo(), replaceText("test type"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
+                withId(R.id.edit_container_serial));
+        appCompatEditText3.perform(scrollTo(), replaceText("test serial"), closeSoftKeyboard());
+
+
+        ViewInteraction appCompatEditText5 = onView(
                 withId(R.id.edit_canopy_manufacturer));
-        appCompatEditText3.perform(scrollTo(), replaceText("test canopy"), closeSoftKeyboard());
+        appCompatEditText5.perform(scrollTo(), replaceText("canopy manufacturer"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText6 = onView(
+                withId(R.id.edit_canopy_type));
+        appCompatEditText6.perform(scrollTo(), replaceText("canopy type"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText7= onView(
+                withId(R.id.edit_canopy_type));
+        appCompatEditText7.perform(scrollTo(), replaceText("canopy serial"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.gear_save), withText("Save")));
@@ -87,5 +96,4 @@ public class GearTest {
                 allOf(withId(android.R.id.button1), withText("OK"), isDisplayed()));
         appCompatButton2.perform(click());
     }
-
 }
