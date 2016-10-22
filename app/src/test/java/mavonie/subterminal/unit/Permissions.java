@@ -8,14 +8,14 @@ import static org.junit.Assert.*;
 
 import java.util.HashSet;
 
-import mavonie.subterminal.unit.Base.BaseUnitTest;
+import mavonie.subterminal.unit.Base.BaseUnit;
 
 /**
  * Make sure permissions are as we expect and nothing else
  * has been introduced through third party libs
  */
 
-public final class PermissionsTest extends BaseUnitTest {
+public final class Permissions extends BaseUnit {
 
     private static final String[] EXPECTED_PERMISSIONS = {
             "android.permission.INTERNET",

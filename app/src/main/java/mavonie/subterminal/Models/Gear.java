@@ -110,7 +110,7 @@ public class Gear extends Model {
         try {
             Gear gear = new Gear();
 
-            int idIndex = cursor.getColumnIndexOrThrow("_id");
+            int idIndex = cursor.getColumnIndexOrThrow(_ID);
             int containerManufacturerIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CONTAINER_MANUFACTURER);
             int containerTypeIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CONTAINER_TYPE);
             int containerSerialIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CONTAINER_SERIAL);
@@ -161,5 +161,31 @@ public class Gear extends Model {
     public String getDisplayName() {
         return this.getContainerManufacturer() + " " +
                 this.getContainerType();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Gear gear = (Gear) o;
+
+        if (this.getId() != gear.getId()) return false;
+        if (containerManufacturer != null ? !containerManufacturer.equals(gear.containerManufacturer) : gear.containerManufacturer != null)
+            return false;
+        if (containerType != null ? !containerType.equals(gear.containerType) : gear.containerType != null)
+            return false;
+        if (containerSerial != null ? !containerSerial.equals(gear.containerSerial) : gear.containerSerial != null)
+            return false;
+        if (containerDateInUse != null ? !containerDateInUse.equals(gear.containerDateInUse) : gear.containerDateInUse != null)
+            return false;
+        if (canopyManufacturer != null ? !canopyManufacturer.equals(gear.canopyManufacturer) : gear.canopyManufacturer != null)
+            return false;
+        if (canopyType != null ? !canopyType.equals(gear.canopyType) : gear.canopyType != null)
+            return false;
+        if (canopySerial != null ? !canopySerial.equals(gear.canopySerial) : gear.canopySerial != null)
+            return false;
+        return canopyDateInUse != null ? canopyDateInUse.equals(gear.canopyDateInUse) : gear.canopyDateInUse == null;
+
     }
 }

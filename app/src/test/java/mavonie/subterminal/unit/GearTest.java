@@ -1,119 +1,53 @@
 package mavonie.subterminal.unit;
 
-import org.junit.After;
-import org.junit.Before;
+
 import org.junit.Test;
 
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.unit.Base.BaseDBUnit;
 
-import static org.junit.Assert.*;
+import static junit.framework.Assert.*;
 
-/**
- * Created by mavon on 12/10/16.
- */
-public class GearTest {
+public class GearTest extends BaseDBUnit {
 
-    Gear gear;
-
-    @Before
-    public void setUp() throws Exception {
-        this.gear = new Gear();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
+    /**
+     * Validate what we save into the database is what
+     * we get out of it
+     */
     @Test
-    public void getContainerManufacturer() throws Exception {
-        setContainerManufacturer();
-        assertSame(gear.getContainerManufacturer(), "Manufacturer");
+    public void saveToDb() {
+
+        Gear gear = createGear();
+        assertTrue(gear.exists());
+        Gear dbGear = (Gear) new Gear().getOneById(gear.getId());
+
+        assertTrue(gear.equals(dbGear));
     }
 
+    /**
+     * Make sure item gets removed from db
+     */
     @Test
-    public void setContainerManufacturer() throws Exception {
-        this.gear.setContainerManufacturer("Manufacturer");
+    public void deleteFromDB() {
+        Gear gear = createGear();
+
+        assertTrue(gear.delete());
+        assertNull(gear.getOneById(gear.getId()));
     }
 
-    @Test
-    public void getContainerType() throws Exception {
+    private Gear createGear() {
+        Gear gear = new Gear();
 
+        gear.setContainerManufacturer("Adrenaline");
+        gear.setContainerType("LD3");
+        gear.setContainerSerial("Container_Serial");
+        gear.setContainerDateInUse("2010-06-05");
+        gear.setCanopyDateInUse("2010-06-05");
+        gear.setCanopyManufacturer("Atair");
+        gear.setCanopySerial("atair_serial");
+        gear.setCanopyType("Troll 285");
+        gear.save();
+
+        return gear;
     }
-
-    @Test
-    public void setContainerType() throws Exception {
-
-    }
-
-    @Test
-    public void getContainerSerial() throws Exception {
-
-    }
-
-    @Test
-    public void setContainerSerial() throws Exception {
-
-    }
-
-    @Test
-    public void getContainerDateInUse() throws Exception {
-
-    }
-
-    @Test
-    public void setContainerDateInUse() throws Exception {
-
-    }
-
-    @Test
-    public void getCanopyManufacturer() throws Exception {
-
-    }
-
-    @Test
-    public void setCanopyManufacturer() throws Exception {
-
-    }
-
-    @Test
-    public void getCanopyType() throws Exception {
-
-    }
-
-    @Test
-    public void setCanopyType() throws Exception {
-
-    }
-
-    @Test
-    public void getCanopySerial() throws Exception {
-
-    }
-
-    @Test
-    public void setCanopySerial() throws Exception {
-
-    }
-
-    @Test
-    public void getCanopyDateInUse() throws Exception {
-
-    }
-
-    @Test
-    public void setCanopyDateInUse() throws Exception {
-
-    }
-
-    @Test
-    public void getId() throws Exception {
-
-    }
-
-    @Test
-    public void save() throws Exception {
-
-    }
-
 }

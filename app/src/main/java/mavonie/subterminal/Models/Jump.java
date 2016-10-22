@@ -13,14 +13,15 @@ public class Jump extends Model {
 
     private String description;
     private String date;
+
     private int gear_id;
     private int exit_id;
     private int pc_size;
     private int slider;
     private int delay;
 
-    static int SLIDER_DOWN = 0;
-    static int SLIDER_UP = 1;
+    public static int SLIDER_DOWN = 0;
+    public static int SLIDER_UP = 1;
 
     private static final Integer[] pc_sizes = {32, 36, 38, 40, 42, 46, 48};
 
@@ -149,6 +150,7 @@ public class Jump extends Model {
             int idPcSize = cursor.getColumnIndexOrThrow(COLUMN_NAME_PC_SIZE);
             int idDescription = cursor.getColumnIndexOrThrow(COLUMN_NAME_DESCRIPTION);
             int idDelay = cursor.getColumnIndexOrThrow(COLUMN_NAME_DELAY);
+            int idGear = cursor.getColumnIndexOrThrow(COLUMN_NAME_GEAR_ID);
 
             jump.setId(cursor.getInt(idIndex));
             jump.setExit_id(cursor.getInt(idExitId));
@@ -156,6 +158,7 @@ public class Jump extends Model {
             jump.setPc_size(cursor.getInt(idPcSize));
             jump.setDescription(cursor.getString(idDescription));
             jump.setDelay(cursor.getInt(idDelay));
+            jump.setGear_id(cursor.getInt(idGear));
 
             return jump;
 
@@ -188,4 +191,26 @@ public class Jump extends Model {
     public String getFormattedSlider() {
         return this.getSliderConfigArray()[this.getSlider()];
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Jump jump = (Jump) o;
+
+        if (this.getId() != jump.getId()) return false;
+        if (gear_id != jump.gear_id) return false;
+        if (exit_id != jump.exit_id) return false;
+        if (pc_size != jump.pc_size) return false;
+        if (slider != jump.slider) return false;
+        if (delay != jump.delay) return false;
+        if (description != null ? !description.equals(jump.description) : jump.description != null)
+            return false;
+        if (!date.equals(jump.date)) return false;
+        if (_gear != null ? !_gear.equals(jump._gear) : jump._gear != null) return false;
+
+        return true;
+    }
+
 }

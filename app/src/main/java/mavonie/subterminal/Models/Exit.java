@@ -13,10 +13,10 @@ import java.util.Map;
 
 public class Exit extends Model {
 
-    private static Integer DIFFICULTY_BEGINNER = 1;
-    private static Integer DIFFICULTY_INTERMEDIATE = 2;
-    private static Integer DIFFICULTY_ADVANCED = 3;
-    private static Integer DIFFICULTY_EXPERT = 4;
+    public static Integer DIFFICULTY_BEGINNER = 1;
+    public static Integer DIFFICULTY_INTERMEDIATE = 2;
+    public static Integer DIFFICULTY_ADVANCED = 3;
+    public static Integer DIFFICULTY_EXPERT = 4;
 
     private static final Map<Integer, String> difficulty_descriptor;
     private static final Map<Integer, String> difficulty_color;
@@ -257,6 +257,17 @@ public class Exit extends Model {
         contentValues.put(COLUMN_NAME_NAME, this.getName());
         contentValues.put(COLUMN_NAME_LATITUDE, this.getLatitude());
         contentValues.put(COLUMN_NAME_LONGTITUDE, this.getLongtitude());
+        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_EXIT, this.getDifficulty_tracking_exit());
+        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_FREEFALL, this.getDifficulty_tracking_freefall());
+        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_LANDING, this.getDifficulty_tracking_landing());
+        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_OVERALL, this.getDifficulty_tracking_overall());
+        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_EXIT, this.getDifficulty_wingsuit_exit());
+        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_FREEFALL, this.getDifficulty_wingsuit_freefall());
+        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING, this.getDifficulty_wingsuit_landing());
+        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL, this.getDifficulty_wingsuit_overall());
+        contentValues.put(COLUMN_NAME_RULES, this.getRules());
+        contentValues.put(COLUMN_NAME_ROCKDROP_DISTANCE, this.getRockdrop_distance());
+        contentValues.put(COLUMN_NAME_ALTITUDE_TO_LANDING, this.getAltitude_to_landing());
     }
 
     @Override
@@ -308,5 +319,42 @@ public class Exit extends Model {
      */
     public Image getThumbImage() {
         return Image.loadImagesForEntity(this).get(0);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Exit exit = (Exit) o;
+
+        if (exit.getId() != this.getId()) return false;
+        if (Double.compare(exit.latitude, latitude) != 0) return false;
+        if (Double.compare(exit.longtitude, longtitude) != 0) return false;
+        if (!name.equals(exit.name)) return false;
+        if (rockdrop_distance != null ? !rockdrop_distance.equals(exit.rockdrop_distance) : exit.rockdrop_distance != null)
+            return false;
+        if (altitude_to_landing != null ? !altitude_to_landing.equals(exit.altitude_to_landing) : exit.altitude_to_landing != null)
+            return false;
+        if (difficulty_tracking_exit != null ? !difficulty_tracking_exit.equals(exit.difficulty_tracking_exit) : exit.difficulty_tracking_exit != null)
+            return false;
+        if (difficulty_tracking_freefall != null ? !difficulty_tracking_freefall.equals(exit.difficulty_tracking_freefall) : exit.difficulty_tracking_freefall != null)
+            return false;
+        if (difficulty_tracking_landing != null ? !difficulty_tracking_landing.equals(exit.difficulty_tracking_landing) : exit.difficulty_tracking_landing != null)
+            return false;
+        if (difficulty_tracking_overall != null ? !difficulty_tracking_overall.equals(exit.difficulty_tracking_overall) : exit.difficulty_tracking_overall != null)
+            return false;
+        if (difficulty_wingsuit_exit != null ? !difficulty_wingsuit_exit.equals(exit.difficulty_wingsuit_exit) : exit.difficulty_wingsuit_exit != null)
+            return false;
+        if (difficulty_wingsuit_freefall != null ? !difficulty_wingsuit_freefall.equals(exit.difficulty_wingsuit_freefall) : exit.difficulty_wingsuit_freefall != null)
+            return false;
+        if (difficulty_wingsuit_landing != null ? !difficulty_wingsuit_landing.equals(exit.difficulty_wingsuit_landing) : exit.difficulty_wingsuit_landing != null)
+            return false;
+        if (difficulty_wingsuit_overall != null ? !difficulty_wingsuit_overall.equals(exit.difficulty_wingsuit_overall) : exit.difficulty_wingsuit_overall != null)
+            return false;
+        if (description != null ? !description.equals(exit.description) : exit.description != null)
+            return false;
+        return rules != null ? rules.equals(exit.rules) : exit.rules == null;
+
     }
 }
