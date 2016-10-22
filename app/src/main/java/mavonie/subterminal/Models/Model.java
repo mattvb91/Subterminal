@@ -43,17 +43,24 @@ abstract public class Model implements BaseColumns, Serializable {
     protected ArrayList<String> itemsForSelect;
 
     //Declare db once
-    static {
-        try {
-            _db = new DatabaseHandler(
-                    MainActivity.getActivity().getApplicationContext(),
-                    "database",
-                    null,
-                    VersionUtils.getVersionCode(MainActivity.getActivity().getApplicationContext())
-            );
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+    public Model() {
+
+        if(_db == null) {
+            try {
+                _db = new DatabaseHandler(
+                        MainActivity.getActivity().getApplicationContext(),
+                        "database",
+                        null,
+                        VersionUtils.getVersionCode(MainActivity.getActivity().getApplicationContext())
+                );
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    public static void setDB(DatabaseHandler db) {
+        _db = db;
     }
 
     public Model getOneById(int id) {
