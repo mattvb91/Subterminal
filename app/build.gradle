@@ -11,8 +11,8 @@ android {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 3
-        versionName "0.8.2-alpha"
+        versionCode 4
+        versionName "0.8.3-alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
