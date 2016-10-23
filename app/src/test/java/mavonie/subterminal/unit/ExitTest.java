@@ -55,7 +55,7 @@ public class ExitTest extends BaseDBUnit {
         assertEquals(size, new Exit().count());
     }
 
-    private Exit createExit() {
+    public static Exit createExit() {
         Exit exit = new Exit();
 
         exit.setName("Test exit");

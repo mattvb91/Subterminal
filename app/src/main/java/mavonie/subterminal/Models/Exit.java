@@ -318,7 +318,7 @@ public class Exit extends Model {
      * @return Image
      */
     public Image getThumbImage() {
-        return Image.loadImagesForEntity(this).get(0);
+        return Image.loadThumbForEntity(this);
     }
 
     @Override

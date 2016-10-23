@@ -152,6 +152,12 @@ public class Image extends Model {
         return false;
     }
 
+    /**
+     * Figure out what entity we are dealing with.
+     *
+     * @param associatedEntity
+     * @return Model
+     */
     private static int getEntityTypeFromModel(Model associatedEntity) {
         if (associatedEntity instanceof Exit) {
             return ENTITY_TYPE_EXIT;
@@ -159,7 +165,7 @@ public class Image extends Model {
             return ENTITY_TYPE_JUMP;
         }
 
-        return ENTITY_TYPE_EXIT;
+        return -1;
     }
 
     public static List<Image> loadImagesForEntity(Model entity) {
@@ -265,5 +271,42 @@ public class Image extends Model {
         }
 
         return inSampleSize;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Image image = (Image) o;
+
+        if (this.getId() != ((Image) o).getId()) return false;
+        if (entity_type != image.entity_type) return false;
+        if (entity_id != image.entity_id) return false;
+        if (synced != image.synced) return false;
+        if (bitmap != null ? !bitmap.equals(image.bitmap) : image.bitmap != null) return false;
+        return filename.equals(image.filename);
+
+    }
+
+    /**
+     * Delete all images associated with this entity.
+     *
+     * @param model
+     */
+    public static boolean deleteForEntity(Model model) {
+
+        if (getEntityTypeFromModel(model) >= 0) {
+            for (Image image : loadImagesForEntity(model)) {
+                File file = new File(image.getFullPath());
+                boolean res = file.delete();
+
+                if (!res & !image.delete()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

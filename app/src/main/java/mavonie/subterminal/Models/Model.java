@@ -197,9 +197,16 @@ abstract public class Model implements BaseColumns, Serializable {
      * @return Boolean
      */
     public boolean delete() {
-        long res = _db.getWritableDatabase().delete(getTableName(), _ID + " = " + this.getId(), null);
 
-        return res == 1;
+        //Delete any associated images with this entity
+        boolean result = Image.deleteForEntity(this);
+
+        if (result) {
+            long dbDelete = _db.getWritableDatabase().delete(getTableName(), _ID + " = " + this.getId(), null);
+            return dbDelete == 1;
+        }
+
+        return result;
     }
 
     /**
