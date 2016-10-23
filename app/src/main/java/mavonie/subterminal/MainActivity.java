@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
@@ -162,8 +165,13 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
+        replaceFragment(fragment);
+    }
+
+    private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flContent, fragment, fragmentClass.getCanonicalName())
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .replace(R.id.flContent, fragment, fragment.getClass().getCanonicalName())
                 .addToBackStack(null).commit();
     }
 
@@ -202,10 +210,19 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        goToFragment(id);
+    public boolean onNavigationItemSelected(final MenuItem item) {
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(Gravity.LEFT);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Handle navigation view item clicks here.
+                goToFragment(item.getItemId());
+            }
+        }, 300);
+
         return true;
     }
 
@@ -238,9 +255,6 @@ public class MainActivity extends AppCompatActivity
         setActiveModel(null);
         getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
         getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
     }
 
     @Override
@@ -303,7 +317,8 @@ public class MainActivity extends AppCompatActivity
                 fragment = new JumpForm();
             }
             fragment.setArguments(args);
-            getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+
+            replaceFragment(fragment);
         }
     }
 
@@ -347,7 +362,7 @@ public class MainActivity extends AppCompatActivity
 
         fragment.setArguments(args);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+        replaceFragment(fragment);
     }
 
     private static final int PICK_IMAGE_ID = 234; // the number doesn't matter
