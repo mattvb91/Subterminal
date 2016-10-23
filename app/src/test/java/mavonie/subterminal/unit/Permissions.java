@@ -25,7 +25,8 @@ public final class Permissions extends BaseUnit {
             "android.permission.ACCESS_NETWORK_STATE",
             "android.permission.ACCESS_COARSE_LOCATION",
             "android.permission.CAMERA",
-            "android.permission.WRITE_EXTERNAL_STORAGE"
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
     };
 
     private static final String MERGED_MANIFEST = "build/intermediates/manifests/full/debug/AndroidManifest.xml";

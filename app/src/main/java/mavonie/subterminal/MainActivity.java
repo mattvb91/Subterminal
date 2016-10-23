@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import de.cketti.library.changelog.ChangeLog;
 import mavonie.subterminal.Forms.ExitForm;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
+    private RefWatcher refWatcher;
 
     /**
      * @return FloatingActionButton
@@ -99,6 +102,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        this.refWatcher = LeakCanary.install(this.getApplication());
 
         activity = this;
 //        FacebookSdk.sdkInitialize(getApplicationContext());
@@ -364,5 +374,9 @@ public class MainActivity extends AppCompatActivity
                 super.onActivityResult(requestCode, resultCode, data);
                 break;
         }
+    }
+
+    public RefWatcher getRefWatcher() {
+        return refWatcher;
     }
 }

@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.lang.reflect.Constructor;
 import java.util.List;
 
@@ -102,6 +104,13 @@ public abstract class BaseFragment extends Fragment {
         }
 
         super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        MainActivity.getActivity().getRefWatcher().watch(this);
     }
 
     @Override
