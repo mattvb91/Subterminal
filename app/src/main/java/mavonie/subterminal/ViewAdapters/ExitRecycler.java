@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import mavonie.subterminal.Exit;
@@ -50,6 +51,8 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
 
         if (thumb != null) {
             holder.mThumb.setImageBitmap(thumb.decodeSampledBitmapFromResource(THUMB_SIZE, THUMB_SIZE));
+        }else{
+            holder.mThumb.setVisibility(View.INVISIBLE);
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

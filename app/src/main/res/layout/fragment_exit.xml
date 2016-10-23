@@ -9,35 +9,74 @@
     app:cardCornerRadius="4dp"
     app:cardUseCompatPadding="true">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
 
-        <mavonie.subterminal.Utils.Views.SquareImageView
-            android:id="@+id/exit_list_thumb"
-            android:layout_width="match_parent"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dip">
+
+        <!--  ListRow Left sied Thumbnail image -->
+        <LinearLayout
+            android:id="@+id/exit_list_thumb_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="left" />
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dip"
+            android:background="@drawable/image_bg"
+            android:padding="3dip">
+
+            <mavonie.subterminal.Utils.Views.SquareImageView
+                android:id="@+id/exit_list_thumb"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:gravity="left"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/exit_list_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:gravity="center"
-            android:textAlignment="gravity"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textStyle="bold"/>
+            android:layout_alignTop="@+id/exit_list_thumb_layout"
+            android:layout_toRightOf="@+id/exit_list_thumb_layout"
+            android:text="Exit Name"
+            android:textColor="#040404"
+            android:textSize="15dip"
+            android:textStyle="bold"
+            android:typeface="sans"/>
 
         <TextView
             android:id="@+id/exit_list_height"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:gravity="right"
-            android:textAlignment="gravity"
-            android:textAppearance="?attr/textAppearanceListItem"/>
+            android:layout_below="@id/exit_list_name"
+            android:layout_marginTop="1dip"
+            android:layout_toRightOf="@+id/exit_list_thumb_layout"
+            android:text="Exit Height"
+            android:textColor="#343434"
+            android:textSize="10dip"/>
 
-    </FrameLayout>
+        <!-- Rightend Duration -->
+        <TextView
+            android:id="@+id/exit_list_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/exit_list_name"
+            android:layout_marginRight="5dip"
+            android:gravity="right"
+            android:text="Country"
+            android:textColor="#343434"
+            android:textSize="10dip"
+            android:textStyle="bold"/>
+
+        <!-- Rightend Arrow -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/arrow_down_float"/>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

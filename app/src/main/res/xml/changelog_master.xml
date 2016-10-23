@@ -3,6 +3,7 @@
     <release
         version="0.8.3-alpha"
         versioncode="4">
+        <change>Updated exit list/detail view</change>
         <change>Delete associated images when an exit/jump is removed</change>
         <change>Improved changelog</change>
     </release>
