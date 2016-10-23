@@ -2,6 +2,8 @@ package mavonie.subterminal;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,32 +17,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 
+import de.cketti.library.changelog.ChangeLog;
 import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.JumpForm;
+import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.ImagePicker;
 import mavonie.subterminal.Views.ExitView;
-import mavonie.subterminal.models.Model;
-import mavonie.subterminal.models.User;
+import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.User;
+import mavonie.subterminal.Views.JumpView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         Home.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
-        Jump.OnJumpListFragmentInteractionListener,
-        Gear.OnListFragmentInteractionListener,
-        GearForm.OnFragmentInteractionListener,
-        Exit.OnListFragmentInteractionListener,
-        ExitView.OnFragmentInteractionListener {
+        GearForm.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
+
+    /**
+     * @return FloatingActionButton
+     */
+    public FloatingActionButton getFab() {
+        return fab;
+    }
+
     FloatingActionButton fab;
 
     private ProfilePictureView profilePictureView;
@@ -51,7 +60,7 @@ public class MainActivity extends AppCompatActivity
 
     Menu optionsMenu;
 
-//    private static final int FRAGMENT_HOME = R.id.nav_home;
+    //    private static final int FRAGMENT_HOME = R.id.nav_home;
     private static final int FRAGMENT_JUMPS = R.id.nav_jumps;
     private static final int FRAGMENT_GEAR = R.id.nav_gear;
     private static final int FRAGMENT_EXIT = R.id.nav_exits;
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         activity = this;
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -128,6 +137,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ChangeLog cl = new ChangeLog(this);
+        if (cl.isFirstRun()) {
+            cl.getLogDialog().show();
+        }
     }
 
     private void activateFragment(Class fragmentClass) {
@@ -222,10 +236,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        if (this.getUser().getFacebookToken() != null && this.getUser().getFacebookToken().isExpired() == false) {
-            this.getUser().init();
-        }
+//
+//        if (this.getUser().getFacebookToken() != null && this.getUser().getFacebookToken().isExpired() == false) {
+//            this.getUser().init();
+//        }
 
         actionBarDrawerToggle.syncState();
     }
@@ -248,34 +262,6 @@ public class MainActivity extends AppCompatActivity
 //        nav_Menu.findItem(R.id.nav_login).setTitle("Logout");
 //    }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-    @Override
-    public void onGearListFragmentInteraction(mavonie.subterminal.models.Gear item) {
-        fab.hide();
-
-        Bundle args = new Bundle();
-        args.putSerializable("item", item);
-        GearForm form = new GearForm();
-        form.setArguments(args);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, form).addToBackStack(null).commit();
-    }
-
-    @Override
-    public void onExitListFragmentInteraction(mavonie.subterminal.models.Exit item) {
-        fab.hide();
-
-        Bundle args = new Bundle();
-        args.putSerializable("item", item);
-        ExitView view = new ExitView();
-        view.setArguments(args);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, view).addToBackStack(null).commit();
-    }
 
     public void deleteDialog(MenuItem item) {
         new AlertDialog.Builder(MainActivity.this)
@@ -294,7 +280,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void editItem(MenuItem item) {
-        Toast.makeText(MainActivity.getActivity(), "CLick edit", Toast.LENGTH_SHORT).show();
+
+        Bundle args = new Bundle();
+        args.putSerializable("item", getActiveModel());
+
+        Fragment fragment = null;
+
+        if (getActiveModel().canEdit()) {
+            if (getActiveModel() instanceof mavonie.subterminal.Models.Exit) {
+                fragment = new ExitForm();
+            } else if (getActiveModel() instanceof mavonie.subterminal.Models.Jump) {
+                fragment = new JumpForm();
+            }
+            fragment.setArguments(args);
+            getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+        }
     }
 
     /**
@@ -312,15 +312,57 @@ public class MainActivity extends AppCompatActivity
 
     private Model activeModel;
 
+
     @Override
-    public void onJumpListFragmentInteraction(mavonie.subterminal.models.Jump item) {
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Model mItem) {
+
         fab.hide();
-
         Bundle args = new Bundle();
-        args.putSerializable("item", item);
-//        JumpView view = new JumpView();
-//        view.setArguments(args);
+        args.putSerializable("item", mItem);
 
-//        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, view).addToBackStack(null).commit();
+        BaseFragment fragment = null;
+
+        if (mItem instanceof mavonie.subterminal.Models.Exit) {
+            fragment = new ExitView();
+        } else if (mItem instanceof mavonie.subterminal.Models.Gear) {
+            fragment = new GearForm();
+        } else if (mItem instanceof mavonie.subterminal.Models.Jump) {
+            fragment = new JumpView();
+        }
+
+        fragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+    }
+
+    private static final int PICK_IMAGE_ID = 234; // the number doesn't matter
+
+    public void onPickImage(View view) {
+        Intent chooseImageIntent = ImagePicker.getPickImageIntent(this);
+        startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
+    }
+
+    public Bitmap getLastBitmap() {
+        return lastBitmap;
+    }
+
+    public Bitmap lastBitmap = null;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) {
+            case PICK_IMAGE_ID:
+                this.lastBitmap = ImagePicker.getImageFromResult(this, resultCode, data);
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
     }
 }

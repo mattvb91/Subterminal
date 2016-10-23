@@ -11,7 +11,7 @@ import java.util.Calendar;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
-import mavonie.subterminal.models.Gear;
+import mavonie.subterminal.Models.Gear;
 
 public class GearForm extends BaseForm {
 

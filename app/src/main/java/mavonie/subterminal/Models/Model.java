@@ -1,4 +1,4 @@
-package mavonie.subterminal.models;
+package mavonie.subterminal.Models;
 
 import android.content.ContentValues;
 import android.content.pm.PackageManager;
@@ -8,9 +8,9 @@ import android.provider.BaseColumns;
 import android.util.Pair;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import mavonie.subterminal.DB.DatabaseHandler;
@@ -41,20 +41,27 @@ abstract public class Model implements BaseColumns, Serializable {
 
     protected static DatabaseHandler _db;
 
-    protected ArrayList<String> itemsForSelect;
+    protected LinkedHashMap<String, String> itemsForSelect;
 
     //Declare db once
-    static {
-        try {
-            _db = new DatabaseHandler(
-                    MainActivity.getActivity().getApplicationContext(),
-                    "database",
-                    null,
-                    VersionUtils.getVersionCode(MainActivity.getActivity().getApplicationContext())
-            );
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+    public Model() {
+
+        if (_db == null) {
+            try {
+                _db = new DatabaseHandler(
+                        MainActivity.getActivity().getApplicationContext(),
+                        "database",
+                        null,
+                        VersionUtils.getVersionCode(MainActivity.getActivity().getApplicationContext())
+                );
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    public static void setDB(DatabaseHandler db) {
+        _db = db;
     }
 
     public Model getOneById(int id) {
@@ -72,28 +79,66 @@ abstract public class Model implements BaseColumns, Serializable {
 
     public static final String FILTER_ORDER_FIELD = "order_field";
     public static final String FILTER_ORDER_DIR = "order_dir";
+    public static final String FILTER_ORDER_DIR_DESC = "DESC";
+    public static final String FILTER_ORDER_DIR_ASC = "ASC";
+    public static final String FILTER_WHERE = "WHERE";
+    public static final String FILTER_WHERE_FIELD = "where_field";
+    public static final String FILTER_WHERE_VALUE = "where_value";
+    public static final String FILTER_LIMIT = "LIMIT";
 
     /**
      * Get items associated with this model
      *
      * @param filter
      * @return List
+     * <p>
+     * TODO refactor/improve WHERE filtering to get rid of heavy hashmap usage
      */
-    public List getItems(HashMap<String, String> filter) {
+    public List getItems(HashMap<String, Object> filter) {
 
         String query = "select * from " + getTableName();
 
         if (filter != null) {
 
-            String orderDir = filter.get(FILTER_ORDER_DIR);
-            String orderField = filter.get(FILTER_ORDER_FIELD);
+            String orderDir = (String) filter.get(FILTER_ORDER_DIR);
+            String orderField = (String) filter.get(FILTER_ORDER_FIELD);
+
+            boolean multipleWhere = filter.containsKey(FILTER_WHERE);
+
+            if (!multipleWhere) {
+                String whereField = (String) filter.get(FILTER_WHERE_FIELD);
+                String whereValue = (String) filter.get(FILTER_WHERE_VALUE);
+
+                if (whereField != null) {
+                    query += " WHERE " + whereField + " = " + whereValue;
+                }
+            } else {
+                HashMap wheres = (HashMap<Integer, HashMap>) filter.get(FILTER_WHERE);
+
+                for (int i = 0; i < wheres.size(); i++) {
+                    HashMap where = (HashMap) wheres.get(i);
+
+                    String whereField = (String) where.get(FILTER_WHERE_FIELD);
+                    Object whereValue = where.get(FILTER_WHERE_VALUE);
+
+                    if (i == 0) {
+                        query += " WHERE " + whereField + " = " + whereValue.toString();
+                    } else {
+                        query += " AND " + whereField + " = " + whereValue.toString();
+                    }
+                }
+            }
 
             if (orderField != null) {
-                query += " ORDER BY " + orderField + " " + orderDir + "," + _ID + " DESC";
-            }
-            else if (orderDir != null) {
+                query += " ORDER BY LOWER(" + orderField + ") " + orderDir + "," + _ID + " DESC";
+            } else if (orderDir != null) {
                 query += " ORDER BY " + _ID + " " + orderDir;
             }
+
+            if (filter.containsKey(FILTER_LIMIT)) {
+                query += " " + FILTER_LIMIT + " " + filter.get(FILTER_LIMIT);
+            }
+
         }
 
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
@@ -152,9 +197,16 @@ abstract public class Model implements BaseColumns, Serializable {
      * @return Boolean
      */
     public boolean delete() {
-        long res = _db.getWritableDatabase().delete(getTableName(), _ID + " = " + this.getId(), null);
 
-        return res == 1;
+        //Delete any associated images with this entity
+        boolean result = Image.deleteForEntity(this);
+
+        if (result) {
+            long dbDelete = _db.getWritableDatabase().delete(getTableName(), _ID + " = " + this.getId(), null);
+            return dbDelete == 1;
+        }
+
+        return result;
     }
 
     /**
@@ -171,24 +223,24 @@ abstract public class Model implements BaseColumns, Serializable {
         return count;
     }
 
-    public ArrayList<String> getItemsForSelectArray(String fieldName) {
+    public LinkedHashMap<String, String> getItemsForSelect(String fieldName) {
 
         if (this.itemsForSelect == null) {
-            this.itemsForSelect = new ArrayList<String>();
+            this.itemsForSelect = new LinkedHashMap<String, String>();
         }
 
-        Cursor cursor = _db.getReadableDatabase().rawQuery("select " + fieldName + " from " + getTableName(), null);
+        Cursor cursor = _db.getReadableDatabase().rawQuery("select " + _ID + ", " + fieldName + " from " + getTableName(), null);
 
         if (cursor.moveToFirst()) {
             while (cursor.isAfterLast() == false) {
-                String string = cursor.getString(0);
-                itemsForSelect.add(string);
+                int id = cursor.getInt(0);
+                String string = cursor.getString(1);
+                itemsForSelect.put(Integer.toString(id), string);
                 cursor.moveToNext();
             }
         }
 
         cursor.close();
-        cursor = null;
 
         return this.itemsForSelect;
     }
@@ -206,5 +258,15 @@ abstract public class Model implements BaseColumns, Serializable {
         }
 
         return item;
+    }
+
+    /**
+     * We may be adding remote global entities into the database.
+     * Check that the user can edit these locally.
+     *
+     * @return boolean
+     */
+    public boolean canEdit() {
+        return true;
     }
 }

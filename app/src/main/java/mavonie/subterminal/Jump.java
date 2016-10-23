@@ -3,7 +3,6 @@ package mavonie.subterminal;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,47 +11,20 @@ import android.view.ViewGroup;
 
 import java.util.HashMap;
 
+import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.ViewAdapters.JumpRecycler;
-import mavonie.subterminal.models.Model;
+import mavonie.subterminal.Models.Model;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnJumpListFragmentInteractionListener}
- * interface.
+ * Jump list fragment
  */
-public class Jump extends Fragment {
-
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    private OnJumpListFragmentInteractionListener mListener;
+public class Jump extends BaseFragment {
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public Jump() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static Jump newInstance(int columnCount) {
-        Jump fragment = new Jump();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -64,59 +36,29 @@ public class Jump extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            HashMap<String, String> params = new HashMap<>();
-            params.put(Model.FILTER_ORDER_DIR, "DESC");
-            params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.models.Jump.COLUMN_NAME_DATE);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-            recyclerView.setAdapter(new JumpRecycler(new mavonie.subterminal.models.Jump().getItems(params), mListener));
+            HashMap<String, Object> params = new HashMap<>();
+            params.put(Model.FILTER_ORDER_DIR, "DESC");
+            params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Jump.COLUMN_NAME_DATE);
+
+            recyclerView.setAdapter(new JumpRecycler(new mavonie.subterminal.Models.Jump().getItems(params), this.getmListener()));
         }
 
         return view;
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnJumpListFragmentInteractionListener) {
-            mListener = (OnJumpListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnJumpListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onJumpListFragmentInteraction(mavonie.subterminal.models.Jump item);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         // Set title
-        String title = getString(R.string.title_jumps) + " (" + new mavonie.subterminal.models.Jump().count() + ")";
+        String title = getString(R.string.title_jumps) + " (" + new mavonie.subterminal.Models.Jump().count() + ")";
         MainActivity.getActivity().setTitle(title);
     }
+
+    @Override
+    protected String getItemClass() {
+        return mavonie.subterminal.Models.Jump.class.getCanonicalName();
+    }
+
 }

@@ -1,3 +1,5 @@
+--- This file is used to test the migrations build from the original db state upwards
+
 CREATE TABLE gear (
     _id INTEGER PRIMARY KEY,
     container_manufacturer TEXT,
@@ -78,13 +80,3 @@ INSERT INTO exit (
          46.579998,
          7.905217
     );
-
--- Version 0.8.2-alpha versioncode 3
-
-CREATE TABLE image (
-        _id INTEGER PRIMARY KEY,
-        filename TEXT,
-        entity_type INTEGER,
-        entity_id INTEGER,
-        synced INTEGER DEFAULT 0
-);

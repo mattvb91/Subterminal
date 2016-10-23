@@ -1,4 +1,4 @@
-package mavonie.subterminal.Views;
+package mavonie.subterminal.Utils.Views;
 
 
 import android.content.Context;

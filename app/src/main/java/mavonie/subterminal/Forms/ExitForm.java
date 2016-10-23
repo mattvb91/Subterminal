@@ -1,6 +1,7 @@
 package mavonie.subterminal.Forms;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,12 +18,14 @@ import android.widget.TextView;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
-import mavonie.subterminal.models.Exit;
+import mavonie.subterminal.Models.Exit;
 
 public class ExitForm extends BaseForm {
 
     LocationManager locationManager;
     LocationListener locationListener;
+
+    ProgressDialog progress;
 
     View view;
 
@@ -38,21 +41,6 @@ public class ExitForm extends BaseForm {
 
         locationManager = (LocationManager) MainActivity.getActivity().getSystemService(Context.LOCATION_SERVICE);
 
-
-        if (ActivityCompat.checkSelfPermission(MainActivity.getActivity().getApplicationContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(MainActivity.getActivity().getApplicationContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return null;
-        }
-
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -61,6 +49,8 @@ public class ExitForm extends BaseForm {
 
                 TextView editLong = (TextView) view.findViewById(R.id.exit_edit_long);
                 editLong.setText(Double.toString(location.getLongitude()));
+
+                progress.dismiss();
             }
 
             @Override
@@ -78,9 +68,6 @@ public class ExitForm extends BaseForm {
 
             }
         };
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
         view = super.onCreateView(inflater, container, savedInstanceState);
         return view;
@@ -103,6 +90,30 @@ public class ExitForm extends BaseForm {
         this.exit_edit_long = (EditText) view.findViewById(R.id.exit_edit_long);
         this.exit_edit_description = (EditText) view.findViewById(R.id.exit_edit_description);
 
+        Button gpsButton = (Button) view.findViewById(R.id.exit_edit_gps_button);
+        gpsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(MainActivity.getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(MainActivity.getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+
+                progress = new ProgressDialog(MainActivity.getActivity());
+                progress.setTitle("Loading");
+                progress.setMessage("Fetching GPS...");
+                progress.show();
+            }
+        });
+
         Button button = (Button) view.findViewById(R.id.exit_save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -114,7 +125,13 @@ public class ExitForm extends BaseForm {
 
     @Override
     protected void updateForm() {
-
+        if (getItem().exists()) {
+            MainActivity.getActivity().setActiveModel(getItem());
+            this.exit_edit_name.setText(getItem().getName());
+            this.exit_edit_description.setText(getItem().getDescription());
+            this.exit_edit_lat.setText(Double.toString(getItem().getLatitude()));
+            this.exit_edit_long.setText(Double.toString(getItem().getLongtitude()));
+        }
     }
 
     @Override

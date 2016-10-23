@@ -4,28 +4,31 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Date.TimeAgo;
-import mavonie.subterminal.models.Exit;
+import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Utils.Views.SquareImageView;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link mavonie.subterminal.models.Jump} and makes a call to the
- * specified {@link mavonie.subterminal.Jump.OnJumpListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ * Jump recycler
  */
 public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> {
 
-    private final List<mavonie.subterminal.models.Jump> mValues;
-    private final Jump.OnJumpListFragmentInteractionListener mListener;
+    private static final int THUMB_SIZE = 80;
+    private final List<mavonie.subterminal.Models.Jump> mValues;
+    private final BaseFragment.OnFragmentInteractionListener mListener;
 
-    public JumpRecycler(List<mavonie.subterminal.models.Jump> items, Jump.OnJumpListFragmentInteractionListener listener) {
+    public JumpRecycler(List<mavonie.subterminal.Models.Jump> items, BaseFragment.OnFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -56,13 +59,19 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
             holder.ago.setText(TimeAgo.sinceToday(date));
         }
 
+        Image thumb = Image.loadThumbForEntity(mValues.get(position));
+
+        if (thumb != null) {
+            holder.mThumb.setImageBitmap(thumb.decodeSampledBitmapFromResource(THUMB_SIZE, THUMB_SIZE));
+        }
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onJumpListFragmentInteraction(holder.mItem);
+                    mListener.onFragmentInteraction(holder.mItem);
                 }
             }
         });
@@ -77,18 +86,20 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         public final View mView;
         public final TextView exitName;
         public final TextView ago;
-        public mavonie.subterminal.models.Jump mItem;
+        public final SquareImageView mThumb;
+
+        public mavonie.subterminal.Models.Jump mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             ago = (TextView) view.findViewById(R.id.jump_list_ago);
             exitName = (TextView) view.findViewById(R.id.jump_list_exit_name);
-        }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + exitName.getText() + "'";
+            mThumb = (SquareImageView) view.findViewById(R.id.jump_list_thumb);
+            mThumb.getLayoutParams().width = THUMB_SIZE;
+            mThumb.setAdjustViewBounds(true);
+            mThumb.setScaleType(ImageView.ScaleType.FIT_XY);
         }
     }
 }
