@@ -110,6 +110,8 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             TextView difficultyWingsuitOverall = (TextView) view.findViewById(R.id.exit_view_difficulty_wingsuit_overall);
             difficultyWingsuitOverall.setText(getItem().getDifficultyDescriptor(getItem().getDifficulty_wingsuit_overall()));
             difficultyWingsuitOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDifficulty_wingsuit_overall())));
+        } else {
+            view.findViewById(R.id.exit_view_difficulty_card).setVisibility(View.INVISIBLE);
         }
 
         List<Image> images = Image.loadImagesForEntity(getItem());
@@ -131,6 +133,8 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             mMapView.setVisibility(View.VISIBLE);
             mMapView.getMapAsync(this);
             mMapView.onCreate(savedInstanceState);
+        } else {
+            view.findViewById(R.id.exit_view_map_card).setVisibility(View.INVISIBLE);
         }
 
         return view;
