@@ -17,13 +17,13 @@ import mavonie.subterminal.Models.Model;
 @Config(manifest = Config.NONE, sdk = 23, constants = BuildConfig.class)
 public class BaseDBUnit extends BaseUnit {
 
-    DatabaseHandler _db = null;
+    public DatabaseHandler _db = null;
 
     @Before
     public void setUp() throws Exception {
         if(_db == null) {
-            DatabaseHandler db = new DatabaseHandler(RuntimeEnvironment.application, "test_database", null, VersionUtils.getVersionCode(RuntimeEnvironment.application));
-            Model.setDB(db);
+            this._db = new DatabaseHandler(RuntimeEnvironment.application, "test_database", null, VersionUtils.getVersionCode(RuntimeEnvironment.application));
+            Model.setDB(this._db);
         }
     }
 }

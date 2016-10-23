@@ -1,8 +1,14 @@
 package mavonie.subterminal.unit;
 
+import android.util.Pair;
+
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.List;
+
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static org.junit.Assert.*;
@@ -27,6 +33,17 @@ public class ExitTest extends BaseDBUnit {
         Exit exitDb = (Exit) new Exit().getOneById(exit.getId());
 
         assertTrue(exit.equals(exitDb));
+
+        Exit exit1 = (Exit) new Exit().getItem(new Pair<String, String>(Model._ID, Integer.toString(exitDb.getId())));
+        assertEquals(exit1, exitDb);
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_ASC);
+        params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Exit.COLUMN_NAME_NAME);
+
+        List exits = new Exit().getItems(params);
+
+        assertNotNull(exits);
     }
 
     /**

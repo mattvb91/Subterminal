@@ -43,7 +43,7 @@ public class JumpTest extends BaseTest {
         appCompatAutoCompleteTextView.perform(scrollTo(), replaceText("exit name"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.jump_edit_date), withText("2016-10-22")));
+                allOf(withId(R.id.jump_edit_date)));
         appCompatEditText.perform(scrollTo(), click());
 
         ViewInteraction appCompatButton2 = onView(
