@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release
+        version="0.8.3-alpha"
+        versioncode="4">
+        <change>Delete associated images when an exit/jump is removed</change>
+        <change>Improved changelog</change>
+    </release>
+    <release
+        version="0.8.2-alpha"
+        versioncode="3">
+        <change>add images to exit, jump</change>
+        <change>Thumbnails on lists pages (exit, jump)</change>
+        <change>Performance improvements</change>
+    </release>
+    <release
+        version="0.8.1-alpha"
+        versioncode="2">
+        <change>Added changelog dialog</change>
+        <change>Fixed bug when adding jump without gear</change>
+        <change>Jump only saved when an exit is provided</change>
+        <change>Updated list design</change>
+        <change>Sort exits by name</change>
+        <change>fetch GPS coordinates button on exit edit</change>
+        <change>bugfix - add button disapearing on back navigation</change>
+        <change>added basic jump detail view</change>
+    </release>
+    <release
+        version="0.8.0-alpha"
+        versioncode="1">
+        <change>Basic feature set (Add exit, jump, gear)</change>
+    </release>
+</changelog>

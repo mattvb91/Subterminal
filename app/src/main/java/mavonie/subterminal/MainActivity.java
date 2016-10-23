@@ -22,11 +22,11 @@ import android.widget.Toast;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 
+import de.cketti.library.changelog.ChangeLog;
 import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.JumpForm;
 import mavonie.subterminal.Utils.BaseFragment;
-import mavonie.subterminal.Utils.ChangeLog;
 import mavonie.subterminal.Utils.ImagePicker;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Models.Model;
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         ChangeLog cl = new ChangeLog(this);
-        if (cl.firstRun()) {
+        if (cl.isFirstRun()) {
             cl.getLogDialog().show();
         }
     }
