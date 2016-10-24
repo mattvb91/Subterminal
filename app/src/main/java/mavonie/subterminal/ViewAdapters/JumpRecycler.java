@@ -7,7 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
@@ -26,7 +31,7 @@ import java.util.List;
  */
 public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> {
 
-    private static final int THUMB_SIZE = 80;
+    private static final int THUMB_SIZE = 50;
     private final List<mavonie.subterminal.Models.Jump> mValues;
     private final BaseFragment.OnFragmentInteractionListener mListener;
 
@@ -46,9 +51,9 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        Exit exit = mValues.get(position).getExit();
+        Exit exit = holder.mItem.getExit();
         if (exit != null) {
-            holder.exitName.setText(holder.mItem.getExit().getName());
+            holder.exitName.setText(exit.getName());
         } else {
             holder.exitName.setText("No exit info");
             holder.exitName.setTextColor(MainActivity.getActivity().getResources().getColor(R.color.grey));
@@ -63,7 +68,16 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         Image thumb = Image.loadThumbForEntity(holder.mItem);
 
         if (thumb != null) {
-            holder.mThumb.setImageURI(thumb.getUri());
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(thumb.getUri())
+                    .setResizeOptions(new ResizeOptions(THUMB_SIZE, THUMB_SIZE))
+                    .build();
+
+            PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+                    .setOldController(holder.mThumb.getController())
+                    .setImageRequest(request)
+                    .build();
+
+            holder.mThumb.setController(controller);
             holder.mThumb.setVisibility(View.VISIBLE);
         } else {
             holder.mThumb.setVisibility(View.INVISIBLE);

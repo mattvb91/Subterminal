@@ -10,7 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.lang.reflect.Constructor;
@@ -118,9 +123,17 @@ public abstract class BaseFragment extends Fragment {
         for (Image current : images) {
 
             SimpleDraweeView image = new SimpleDraweeView(MainActivity.getActivity().getApplicationContext());
-            image.setImageURI(current.getUri());
-            image.setMinimumHeight(150);
+
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(current.getUri())
+                    .setResizeOptions(new ResizeOptions(150, 150))
+                    .build();
+
+            PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+                    .setImageRequest(request)
+                    .build();
+            image.setController(controller);
             image.setMinimumWidth(150);
+            image.setMinimumHeight(150);
 
             this.imageLayout.addView(image);
         }
