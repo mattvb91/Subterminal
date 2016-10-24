@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
@@ -46,23 +48,25 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
 
         Exit exit = mValues.get(position).getExit();
         if (exit != null) {
-            holder.exitName.setText(mValues.get(position).getExit().getName());
+            holder.exitName.setText(holder.mItem.getExit().getName());
         } else {
             holder.exitName.setText("No exit info");
             holder.exitName.setTextColor(MainActivity.getActivity().getResources().getColor(R.color.grey));
         }
 
-        DateFormat df = new DateFormat();
-        String date = mValues.get(position).getDate();
+        String date = holder.mItem.getDate();
 
         if (date != null) {
             holder.ago.setText(TimeAgo.sinceToday(date));
         }
 
-        Image thumb = Image.loadThumbForEntity(mValues.get(position));
+        Image thumb = Image.loadThumbForEntity(holder.mItem);
 
         if (thumb != null) {
-            holder.mThumb.setImageBitmap(thumb.decodeSampledBitmapFromResource(THUMB_SIZE, THUMB_SIZE));
+            holder.mThumb.setImageURI(thumb.getUri());
+            holder.mThumb.setVisibility(View.VISIBLE);
+        } else {
+            holder.mThumb.setVisibility(View.INVISIBLE);
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +90,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         public final View mView;
         public final TextView exitName;
         public final TextView ago;
-        public final SquareImageView mThumb;
+        public final SimpleDraweeView mThumb;
 
         public mavonie.subterminal.Models.Jump mItem;
 
@@ -95,11 +99,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
             mView = view;
             ago = (TextView) view.findViewById(R.id.jump_list_ago);
             exitName = (TextView) view.findViewById(R.id.jump_list_exit_name);
-
-            mThumb = (SquareImageView) view.findViewById(R.id.jump_list_thumb);
-            mThumb.getLayoutParams().width = THUMB_SIZE;
-            mThumb.setAdjustViewBounds(true);
-            mThumb.setScaleType(ImageView.ScaleType.FIT_XY);
+            mThumb = (SimpleDraweeView) view.findViewById(R.id.jump_list_thumb);
         }
     }
 }

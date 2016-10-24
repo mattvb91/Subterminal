@@ -40,7 +40,7 @@ public class ImageTest extends BaseDBUnit {
     public void testCreateFromBitmapAssociated() {
         Exit exit = ExitTest.createExit();
 
-        assertTrue(Image.createFromBitmap(bmp, exit));
+        assertNotNull(Image.createFromBitmap(bmp, exit));
 
         Image thumb = exit.getThumbImage();
         assertNotNull(thumb);
@@ -57,8 +57,8 @@ public class ImageTest extends BaseDBUnit {
     public void testEntityDeletion() {
         Exit exit = ExitTest.createExit();
 
-        assertTrue(Image.createFromBitmap(bmp, exit));
-        assertTrue(Image.createFromBitmap(bmp, exit));
+        assertNotNull(Image.createFromBitmap(bmp, exit));
+        assertNotNull(Image.createFromBitmap(bmp, exit));
 
         List<Image> list = Image.loadImagesForEntity(exit);
         assertEquals(list.size(), 2);

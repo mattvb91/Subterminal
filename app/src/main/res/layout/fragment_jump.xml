@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
@@ -14,13 +15,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <mavonie.subterminal.Utils.Views.SquareImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/jump_list_thumb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="left" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:gravity="left"/>
 
         <TextView
             android:id="@+id/jump_list_exit_name"

@@ -1,5 +1,6 @@
 package mavonie.subterminal.ViewAdapters;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
 import mavonie.subterminal.Exit;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
@@ -15,6 +18,7 @@ import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Views.SquareImageView;
 
 
+import java.io.File;
 import java.util.List;
 
 
@@ -50,8 +54,8 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
         Image thumb = Image.loadThumbForEntity(mValues.get(position));
 
         if (thumb != null) {
-            holder.mThumb.setImageBitmap(thumb.decodeSampledBitmapFromResource(THUMB_SIZE, THUMB_SIZE));
-        }else{
+            holder.mThumb.setImageURI(thumb.getUri());
+        } else {
             holder.mThumb.setVisibility(View.INVISIBLE);
         }
 
@@ -65,6 +69,8 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
                 }
             }
         });
+
+        thumb = null;
     }
 
     @Override
@@ -76,7 +82,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
         public final View mView;
         public final TextView mHeight;
         public final TextView mName;
-        public final SquareImageView mThumb;
+        public final SimpleDraweeView mThumb;
         public mavonie.subterminal.Models.Exit mItem;
 
         public ViewHolder(View view) {
@@ -85,7 +91,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
             mHeight = (TextView) view.findViewById(R.id.exit_list_height);
             mName = (TextView) view.findViewById(R.id.exit_list_name);
 
-            mThumb = (SquareImageView) view.findViewById(R.id.exit_list_thumb);
+            mThumb = (SimpleDraweeView) view.findViewById(R.id.exit_list_thumb);
             mThumb.getLayoutParams().width = THUMB_SIZE;
             mThumb.setAdjustViewBounds(true);
             mThumb.setScaleType(ImageView.ScaleType.FIT_XY);

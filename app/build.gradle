@@ -48,6 +48,9 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:9.6.1'
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
+    compile('com.facebook.fresco:fresco:0.14.1') {
+        exclude group: 'com.parse.bolts', module: 'bolts-tasks';
+    }
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

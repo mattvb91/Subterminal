@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.login.widget.ProfilePictureView;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         this.refWatcher = LeakCanary.install(this.getApplication());
+
+        Fresco.initialize(this);
 
         activity = this;
 //        FacebookSdk.sdkInitialize(getApplicationContext());

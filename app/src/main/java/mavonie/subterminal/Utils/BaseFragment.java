@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.lang.reflect.Constructor;
@@ -93,7 +94,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onPause() {
 
-        if (this.imageLayout != null &! this.isVisible()) {
+        if (this.imageLayout != null & !this.isVisible()) {
             int count = this.imageLayout.getChildCount();
             for (int i = 0; i < count; i++) {
                 ImageView image = (ImageView) this.imageLayout.getChildAt(i);
@@ -120,15 +121,15 @@ public abstract class BaseFragment extends Fragment {
         Bitmap bitMap = MainActivity.getActivity().getLastBitmap();
         if (bitMap instanceof Bitmap) {
 
-            if (Image.createFromBitmap(bitMap, Subterminal.getActiveModel())) {
-                ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
-                image.setImageBitmap(bitMap);
-                image.setPadding(2, 2, 2, 2);
-                image.setMaxWidth(300);
-                image.setMaxHeight(300);
-                image.setAdjustViewBounds(true);
-                image.setScaleType(ImageView.ScaleType.FIT_XY);
-                this.imageLayout.addView(image);
+            Image image = Image.createFromBitmap(bitMap, Subterminal.getActiveModel());
+
+            if (image != null) {
+                SimpleDraweeView imageView = new SimpleDraweeView(MainActivity.getActivity().getApplicationContext());
+                imageView.setImageURI(image.getUri());
+                imageView.setMinimumHeight(150);
+                imageView.setMinimumWidth(150);
+
+                this.imageLayout.addView(imageView);
             }
 
             MainActivity.getActivity().lastBitmap = null;
@@ -140,22 +141,12 @@ public abstract class BaseFragment extends Fragment {
     protected void showImages(List<Image> images) {
         for (Image current : images) {
 
-            ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
-
-            String path = current.getFullPath();
-
-            Bitmap bitmap = current.decodeSampledBitmapFromResource(path, 200, 200);
-            image.setImageBitmap(bitmap);
-            image.setPadding(2, 2, 2, 2);
-            image.setMaxWidth(300);
-            image.setMaxHeight(300);
-            image.setAdjustViewBounds(true);
-            image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            SimpleDraweeView image = new SimpleDraweeView(MainActivity.getActivity().getApplicationContext());
+            image.setImageURI(current.getUri());
+            image.setMinimumHeight(150);
+            image.setMinimumWidth(150);
 
             this.imageLayout.addView(image);
-
-            image = null;
-            bitmap = null;
         }
     }
 

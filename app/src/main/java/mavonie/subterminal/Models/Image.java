@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 
@@ -137,7 +138,7 @@ public class Image extends Model {
         return TABLE_NAME;
     }
 
-    public static boolean createFromBitmap(Bitmap bitMap, Model associatedEntity) {
+    public static Image createFromBitmap(Bitmap bitMap, Model associatedEntity) {
 
         String path = writeToStorage(bitMap);
 
@@ -146,10 +147,11 @@ public class Image extends Model {
             image.setEntity_type(getEntityTypeFromModel(associatedEntity));
             image.setEntity_id(associatedEntity.getId());
             image.setFilename(path);
-            return image.save();
+            image.save();
+            return image;
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -308,5 +310,15 @@ public class Image extends Model {
         }
 
         return true;
+    }
+
+    /**
+     * @return Uri
+     */
+    public Uri getUri() {
+        File file = new File(this.getFullPath());
+        Uri uri = Uri.fromFile(file);
+
+        return uri;
     }
 }

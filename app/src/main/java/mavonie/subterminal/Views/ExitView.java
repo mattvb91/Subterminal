@@ -120,6 +120,7 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         if (!images.isEmpty()) {
             showImages(images);
+            this.imageLayout.invalidate();
         }
 
         Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
