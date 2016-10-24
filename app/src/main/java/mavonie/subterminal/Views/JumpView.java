@@ -67,11 +67,7 @@ public class JumpView extends BaseFragment {
 
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
-        List<Image> images = Image.loadImagesForEntity(getItem());
-
-        if (!images.isEmpty()) {
-            showImages(images);
-        }
+        loadImages();
 
         Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
         pictureButton.setOnClickListener(new View.OnClickListener() {

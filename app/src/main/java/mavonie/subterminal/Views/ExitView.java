@@ -116,12 +116,7 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             view.findViewById(R.id.exit_view_difficulty_card).setVisibility(View.INVISIBLE);
         }
 
-        List<Image> images = Image.loadImagesForEntity(getItem());
-
-        if (!images.isEmpty()) {
-            showImages(images);
-            this.imageLayout.invalidate();
-        }
+        loadImages();
 
         Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
         pictureButton.setOnClickListener(new View.OnClickListener() {

@@ -114,30 +114,6 @@ public abstract class BaseFragment extends Fragment {
         MainActivity.getActivity().getRefWatcher().watch(this);
     }
 
-    @Override
-    public void onResume() {
-
-        //Check if an image has been added
-        Bitmap bitMap = MainActivity.getActivity().getLastBitmap();
-        if (bitMap instanceof Bitmap) {
-
-            Image image = Image.createFromBitmap(bitMap, Subterminal.getActiveModel());
-
-            if (image != null) {
-                SimpleDraweeView imageView = new SimpleDraweeView(MainActivity.getActivity().getApplicationContext());
-                imageView.setImageURI(image.getUri());
-                imageView.setMinimumHeight(150);
-                imageView.setMinimumWidth(150);
-
-                this.imageLayout.addView(imageView);
-            }
-
-            MainActivity.getActivity().lastBitmap = null;
-        }
-
-        super.onResume();
-    }
-
     protected void showImages(List<Image> images) {
         for (Image current : images) {
 
@@ -147,6 +123,15 @@ public abstract class BaseFragment extends Fragment {
             image.setMinimumWidth(150);
 
             this.imageLayout.addView(image);
+        }
+    }
+
+    protected void loadImages() {
+        List<Image> images = Image.loadImagesForEntity(getItem());
+
+        if (!images.isEmpty()) {
+            showImages(images);
+            this.imageLayout.invalidate();
         }
     }
 

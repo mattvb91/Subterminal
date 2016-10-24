@@ -18,14 +18,21 @@ import android.view.View;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.login.widget.ProfilePictureView;
+import com.kbeanie.multipicker.api.ImagePicker;
+import com.kbeanie.multipicker.api.Picker;
+import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
+import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
+import java.util.List;
+
 import de.cketti.library.changelog.ChangeLog;
 import mavonie.subterminal.Forms.GearForm;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
-import mavonie.subterminal.Utils.ImagePicker;
+import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 
 import static mavonie.subterminal.Utils.UIHelper.openFragmentForEntity;
@@ -206,11 +213,28 @@ public class MainActivity extends AppCompatActivity
         openFragmentForEntity(mItem);
     }
 
-    private static final int PICK_IMAGE_ID = 234; // the number doesn't matter
+    ImagePicker imagePicker = new ImagePicker(this);
 
     public void onPickImage(View view) {
-        Intent chooseImageIntent = ImagePicker.getPickImageIntent(this);
-        startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
+        imagePicker = new ImagePicker(this);
+        imagePicker.setImagePickerCallback(
+                new ImagePickerCallback() {
+                    @Override
+                    public void onImagesChosen(List<ChosenImage> images) {
+                        // Display images
+                        for (ChosenImage image : images) {
+                            Image.createFromPath(image.getOriginalPath());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        // Do error handling
+                    }
+                }
+        );
+
+        imagePicker.pickImage();
     }
 
     public Bitmap getLastBitmap() {
@@ -222,13 +246,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        switch (requestCode) {
-            case PICK_IMAGE_ID:
-                this.lastBitmap = ImagePicker.getImageFromResult(this, resultCode, data);
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-                break;
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Picker.PICK_IMAGE_DEVICE) {
+                if (imagePicker == null) {
+                    imagePicker = new ImagePicker(this);
+                }
+                imagePicker.submit(data);
+            }
         }
     }
 

@@ -9,10 +9,15 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+
+import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Created by mavon on 20/10/16.
@@ -72,32 +77,6 @@ public class Image extends Model {
         this.synced = synced;
     }
 
-    public static String writeToStorage(Bitmap finalBitmap) {
-
-        String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + IMAGE_PATH);
-        myDir.mkdirs();
-        Random generator = new Random();
-        int n = 10000;
-        n = generator.nextInt(n);
-        String fname = "Image-" + n + ".jpg";
-        File file = new File(myDir, fname);
-        if (file.exists()) file.delete();
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-
-            return fname;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
     @Override
     Model populateFromCursor(Cursor cursor) {
 
@@ -138,21 +117,6 @@ public class Image extends Model {
         return TABLE_NAME;
     }
 
-    public static Image createFromBitmap(Bitmap bitMap, Model associatedEntity) {
-
-        String path = writeToStorage(bitMap);
-
-        if (path != null) {
-            Image image = new Image();
-            image.setEntity_type(getEntityTypeFromModel(associatedEntity));
-            image.setEntity_id(associatedEntity.getId());
-            image.setFilename(path);
-            image.save();
-            return image;
-        }
-
-        return null;
-    }
 
     /**
      * Figure out what entity we are dealing with.
@@ -221,60 +185,6 @@ public class Image extends Model {
         return root + IMAGE_PATH + "/" + this.getFilename();
     }
 
-    /**
-     * @param width
-     * @param height
-     * @return Bitmap
-     */
-    public Bitmap decodeSampledBitmapFromResource(int width, int height) {
-        return decodeSampledBitmapFromResource(this.getFullPath(), width, height);
-    }
-
-    /**
-     * @param path
-     * @param reqWidth
-     * @param reqHeight
-     * @return Bitmap
-     */
-    public static Bitmap decodeSampledBitmapFromResource(String path,
-                                                         int reqWidth, int reqHeight) {
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-
-        return BitmapFactory.decodeFile(path, options);
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) >= reqHeight
-                    && (halfWidth / inSampleSize) >= reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -320,5 +230,44 @@ public class Image extends Model {
         Uri uri = Uri.fromFile(file);
 
         return uri;
+    }
+
+    public static Image createFromPath(String originalPath) {
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + IMAGE_PATH);
+        myDir.mkdirs();
+
+        Random generator = new Random();
+        int n = 10000;
+        n = generator.nextInt(n);
+        String fname = "Image-" + n + ".jpg";
+
+        try {
+            copy(new File(originalPath), new File(myDir, fname));
+
+            Image image = new Image();
+            image.setEntity_type(getEntityTypeFromModel(Subterminal.getActiveModel()));
+            image.setEntity_id(Subterminal.getActiveModel().getId());
+            image.setFilename(fname);
+            image.save();
+
+            return image;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static void copy(File src, File dst) throws IOException {
+        FileInputStream inStream = new FileInputStream(src);
+        FileOutputStream outStream = new FileOutputStream(dst);
+        FileChannel inChannel = inStream.getChannel();
+        FileChannel outChannel = outStream.getChannel();
+        inChannel.transferTo(0, inChannel.size(), outChannel);
+        inStream.close();
+        outStream.close();
     }
 }
