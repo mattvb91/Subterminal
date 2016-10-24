@@ -232,7 +232,7 @@ public class Image extends Model {
         return uri;
     }
 
-    public static Image createFromPath(String originalPath) {
+    public static Image createFromPath(String originalPath, Model model) {
 
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + IMAGE_PATH);
@@ -247,8 +247,8 @@ public class Image extends Model {
             copy(new File(originalPath), new File(myDir, fname));
 
             Image image = new Image();
-            image.setEntity_type(getEntityTypeFromModel(Subterminal.getActiveModel()));
-            image.setEntity_id(Subterminal.getActiveModel().getId());
+            image.setEntity_type(getEntityTypeFromModel(model));
+            image.setEntity_id(model.getId());
             image.setFilename(fname);
             image.save();
 

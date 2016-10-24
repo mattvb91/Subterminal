@@ -4,6 +4,7 @@
         version="0.8.4-alpha"
         versioncode="5">
         <change>Improved navigation/page loading</change>
+        <change>Optimized image loading</change>
     </release>
     <release
         version="0.8.3-alpha"

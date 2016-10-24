@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity
                     public void onImagesChosen(List<ChosenImage> images) {
                         // Display images
                         for (ChosenImage image : images) {
-                            Image.createFromPath(image.getOriginalPath());
+                            Image.createFromPath(image.getOriginalPath(), Subterminal.getActiveModel());
                         }
                     }
 
