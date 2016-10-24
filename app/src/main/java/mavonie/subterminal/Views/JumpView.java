@@ -18,6 +18,7 @@ import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Date.TimeAgo;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 
 /**
  * Jump view
@@ -97,7 +98,7 @@ public class JumpView extends BaseFragment {
     public void onPause() {
         super.onPause();
         _mListener = null;
-        MainActivity.getActivity().getFab().show();
+        UIHelper.getAddButton().show();
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
     }

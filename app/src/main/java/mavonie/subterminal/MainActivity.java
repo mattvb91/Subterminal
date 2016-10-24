@@ -1,46 +1,33 @@
 package mavonie.subterminal;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.view.Gravity;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.Toast;
+import android.view.View;
 
-import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import de.cketti.library.changelog.ChangeLog;
-import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
-import mavonie.subterminal.Forms.JumpForm;
-import mavonie.subterminal.Utils.BaseFragment;
-import mavonie.subterminal.Utils.ImagePicker;
-import mavonie.subterminal.Utils.Subterminal;
-import mavonie.subterminal.Utils.UIHelper;
-import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
-import mavonie.subterminal.Views.JumpView;
+import mavonie.subterminal.Utils.ImagePicker;
+import mavonie.subterminal.Utils.UIHelper;
 
-import static mavonie.subterminal.Utils.UIHelper.*;
+import static mavonie.subterminal.Utils.UIHelper.openFragmentForEntity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -53,15 +40,6 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     private RefWatcher refWatcher;
 
-    /**
-     * @return FloatingActionButton
-     */
-    public FloatingActionButton getFab() {
-        return fab;
-    }
-
-    FloatingActionButton fab;
-
     private ProfilePictureView profilePictureView;
 
     public Menu getOptionsMenu() {
@@ -69,12 +47,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     Menu optionsMenu;
-
-    //    private static final int FRAGMENT_HOME = R.id.nav_home;
-    private static final int FRAGMENT_JUMPS = R.id.nav_jumps;
-    private static final int FRAGMENT_GEAR = R.id.nav_gear;
-    private static final int FRAGMENT_EXIT = R.id.nav_exits;
-
 
     protected static User user;
 
@@ -115,28 +87,8 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        activateFragment(Jump.class);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (Subterminal.getActiveFragment()) {
-                    case FRAGMENT_GEAR:
-                        activateFragment(GearForm.class);
-                        fab.hide();
-                        break;
-                    case FRAGMENT_EXIT:
-                        activateFragment(ExitForm.class);
-                        fab.hide();
-                        break;
-                    case FRAGMENT_JUMPS:
-                        activateFragment(JumpForm.class);
-                        fab.hide();
-                        break;
-                }
-            }
-        });
+        UIHelper.replaceFragment(new Jump());
+        UIHelper.initAddButton();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -196,42 +148,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 // Handle navigation view item clicks here.
-                goToFragment(item.getItemId());
+                UIHelper.goToFragment(item.getItemId());
             }
         }, 300);
 
         return true;
-    }
-
-    public void goToFragment(int id) {
-        Class fragmentClass = null;
-
-        switch (id) {
-//            case R.id.nav_home:
-//                fragmentClass = Home.class;
-//                fab.hide();
-//                break;
-            case R.id.nav_jumps:
-                fragmentClass = Jump.class;
-                fab.show();
-                break;
-            case R.id.nav_gear:
-                fragmentClass = Gear.class;
-                fab.show();
-                break;
-            case R.id.nav_login:
-                return;
-            case R.id.nav_exits:
-                fragmentClass = Exit.class;
-                fab.show();
-                break;
-        }
-
-        Subterminal.setActiveFragment(id);
-        activateFragment(fragmentClass);
-        Subterminal.setActiveModel(null);
-        getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
-        getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
     }
 
     @Override
@@ -265,19 +186,7 @@ public class MainActivity extends AppCompatActivity
 
 
     public void deleteDialog(MenuItem item) {
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle("Confirm delete")
-                .setMessage("Delete this item?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        Subterminal.getActiveModel().delete();
-                        goToFragment(FRAGMENT_JUMPS); //TODO proper navigation
-                        Toast.makeText(MainActivity.getActivity(), "Item has been deleted", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null).show();
+        UIHelper.deleteDialog();
     }
 
     public void editItem(MenuItem item) {

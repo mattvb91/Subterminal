@@ -17,6 +17,7 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.UIHelper;
 
 /**
  * Created by mavon on 14/10/16.
@@ -61,7 +62,7 @@ public abstract class BaseForm extends BaseFragment {
     public void onPause() {
         super.onPause();
         _mListener = null;
-        MainActivity.getActivity().getFab().show();
+        UIHelper.getAddButton().show();
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
     }
 
@@ -76,7 +77,7 @@ public abstract class BaseForm extends BaseFragment {
             message = "Could not save item";
         }
 
-        MainActivity.getActivity().goToFragment(getParentFragmentId());
+        UIHelper.goToFragment(getParentFragmentId());
         Snackbar.make(this.getView(), message, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
         InputMethodManager inputManager = (InputMethodManager)

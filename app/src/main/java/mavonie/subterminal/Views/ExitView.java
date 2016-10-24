@@ -29,6 +29,7 @@ import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Utils.Views.MapView;
 
 /**
@@ -182,7 +183,7 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
-        MainActivity.getActivity().getFab().show();
+        UIHelper.getAddButton().show();
 
         super.onPause();
     }
