@@ -19,6 +19,7 @@ import android.widget.TextView;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Utils.Subterminal;
 
 public class ExitForm extends BaseForm {
 
@@ -126,7 +127,7 @@ public class ExitForm extends BaseForm {
     @Override
     protected void updateForm() {
         if (getItem().exists()) {
-            MainActivity.getActivity().setActiveModel(getItem());
+            Subterminal.setActiveModel(getItem());
             this.exit_edit_name.setText(getItem().getName());
             this.exit_edit_description.setText(getItem().getDescription());
             this.exit_edit_lat.setText(Double.toString(getItem().getLatitude()));

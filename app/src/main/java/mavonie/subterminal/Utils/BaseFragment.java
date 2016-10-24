@@ -120,7 +120,7 @@ public abstract class BaseFragment extends Fragment {
         Bitmap bitMap = MainActivity.getActivity().getLastBitmap();
         if (bitMap instanceof Bitmap) {
 
-            if (Image.createFromBitmap(bitMap, MainActivity.getActivity().getActiveModel())) {
+            if (Image.createFromBitmap(bitMap, Subterminal.getActiveModel())) {
                 ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
                 image.setImageBitmap(bitMap);
                 image.setPadding(2, 2, 2, 2);

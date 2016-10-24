@@ -33,10 +33,14 @@ import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.JumpForm;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.ImagePicker;
+import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
 import mavonie.subterminal.Views.JumpView;
+
+import static mavonie.subterminal.Utils.UIHelper.*;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -71,15 +75,6 @@ public class MainActivity extends AppCompatActivity
     private static final int FRAGMENT_GEAR = R.id.nav_gear;
     private static final int FRAGMENT_EXIT = R.id.nav_exits;
 
-    protected static int activeFragment;
-
-    protected static void setActiveFragment(int i) {
-        activeFragment = i;
-    }
-
-    protected int getActiveFragment() {
-        return activeFragment;
-    }
 
     protected static User user;
 
@@ -126,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (getActiveFragment()) {
+                switch (Subterminal.getActiveFragment()) {
                     case FRAGMENT_GEAR:
                         activateFragment(GearForm.class);
                         fab.hide();
@@ -155,24 +150,6 @@ public class MainActivity extends AppCompatActivity
         if (cl.isFirstRun()) {
             cl.getLogDialog().show();
         }
-    }
-
-    private void activateFragment(Class fragmentClass) {
-        Fragment fragment = null;
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        replaceFragment(fragment);
-    }
-
-    private void replaceFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                .replace(R.id.flContent, fragment, fragment.getClass().getCanonicalName())
-                .addToBackStack(null).commit();
     }
 
     @Override
@@ -250,9 +227,9 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        setActiveFragment(id);
+        Subterminal.setActiveFragment(id);
         activateFragment(fragmentClass);
-        setActiveModel(null);
+        Subterminal.setActiveModel(null);
         getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
         getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
     }
@@ -295,7 +272,7 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        getActiveModel().delete();
+                        Subterminal.getActiveModel().delete();
                         goToFragment(FRAGMENT_JUMPS); //TODO proper navigation
                         Toast.makeText(MainActivity.getActivity(), "Item has been deleted", Toast.LENGTH_SHORT).show();
                     }
@@ -304,39 +281,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void editItem(MenuItem item) {
-
-        Bundle args = new Bundle();
-        args.putSerializable("item", getActiveModel());
-
-        Fragment fragment = null;
-
-        if (getActiveModel().canEdit()) {
-            if (getActiveModel() instanceof mavonie.subterminal.Models.Exit) {
-                fragment = new ExitForm();
-            } else if (getActiveModel() instanceof mavonie.subterminal.Models.Jump) {
-                fragment = new JumpForm();
-            }
-            fragment.setArguments(args);
-
-            replaceFragment(fragment);
-        }
+        UIHelper.editEntity();
     }
-
-    /**
-     * Set an active model so we can access it throughout
-     * popups etc..
-     * TODO clean this up
-     */
-    public Model getActiveModel() {
-        return activeModel;
-    }
-
-    public void setActiveModel(Model activeModel) {
-        this.activeModel = activeModel;
-    }
-
-    private Model activeModel;
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -345,24 +291,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Model mItem) {
-
-        fab.hide();
-        Bundle args = new Bundle();
-        args.putSerializable("item", mItem);
-
-        BaseFragment fragment = null;
-
-        if (mItem instanceof mavonie.subterminal.Models.Exit) {
-            fragment = new ExitView();
-        } else if (mItem instanceof mavonie.subterminal.Models.Gear) {
-            fragment = new GearForm();
-        } else if (mItem instanceof mavonie.subterminal.Models.Jump) {
-            fragment = new JumpView();
-        }
-
-        fragment.setArguments(args);
-
-        replaceFragment(fragment);
+        openFragmentForEntity(mItem);
     }
 
     private static final int PICK_IMAGE_ID = 234; // the number doesn't matter

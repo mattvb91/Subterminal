@@ -1,7 +1,6 @@
 package mavonie.subterminal.Views;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Date.TimeAgo;
+import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Jump view
@@ -32,7 +32,7 @@ public class JumpView extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MainActivity.getActivity().setActiveModel(getItem());
+        Subterminal.setActiveModel(getItem());
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
     }
