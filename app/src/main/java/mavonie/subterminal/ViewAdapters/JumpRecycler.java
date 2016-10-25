@@ -61,6 +61,10 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
 
         String date = holder.mItem.getDate();
 
+        holder.slider.setText("Slider: " + holder.mItem.getFormattedSlider());
+        holder.delay.setText("Delay: " + holder.mItem.getDelay() + "s");
+        holder.row_id.setText("#" + holder.mItem.getRow_id());
+
         if (date != null) {
             holder.ago.setText(TimeAgo.sinceToday(date));
         }
@@ -104,6 +108,9 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         public final View mView;
         public final TextView exitName;
         public final TextView ago;
+        public final TextView delay;
+        public final TextView slider;
+        public final TextView row_id;
         public final SimpleDraweeView mThumb;
 
         public mavonie.subterminal.Models.Jump mItem;
@@ -113,6 +120,9 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
             mView = view;
             ago = (TextView) view.findViewById(R.id.jump_list_ago);
             exitName = (TextView) view.findViewById(R.id.jump_list_exit_name);
+            delay = (TextView) view.findViewById(R.id.jump_list_delay);
+            row_id = (TextView) view.findViewById(R.id.jump_list_row_id);
+            slider = (TextView) view.findViewById(R.id.jump_list_slider);
             mThumb = (SimpleDraweeView) view.findViewById(R.id.jump_list_thumb);
         }
     }

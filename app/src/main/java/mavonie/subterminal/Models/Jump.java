@@ -20,6 +20,9 @@ public class Jump extends Model {
     private int slider;
     private int delay;
 
+    //use this to get the current position from the query
+    private int row_id;
+
     public static int SLIDER_DOWN = 0;
     public static int SLIDER_UP = 1;
 
@@ -162,6 +165,8 @@ public class Jump extends Model {
             jump.setGear_id(cursor.getInt(idGear));
             jump.setSlider(cursor.getInt(idSlider));
 
+            jump.setRow_id(cursor.getCount() - cursor.getPosition());
+
             return jump;
 
         } catch (Exception e) {
@@ -215,4 +220,11 @@ public class Jump extends Model {
         return true;
     }
 
+    public int getRow_id() {
+        return row_id;
+    }
+
+    public void setRow_id(int row_id) {
+        this.row_id = row_id;
+    }
 }

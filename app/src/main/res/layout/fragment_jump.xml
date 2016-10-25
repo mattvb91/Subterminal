@@ -10,35 +10,99 @@
     app:cardCornerRadius="4dp"
     app:cardUseCompatPadding="true">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dip">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/jump_list_thumb"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:gravity="left"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/row_id"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/jump_list_row_id"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="30dp"
+                android:padding="10dp"
+                android:text="#1"/>
+
+        </LinearLayout>
+        <!--  ListRow Left sied Thumbnail image -->
+        <LinearLayout
+            android:id="@+id/jump_list_thumb_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/row_id"
+            android:layout_marginRight="5dip"
+            android:background="@drawable/image_bg"
+            android:padding="3dip">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/jump_list_thumb"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_toRightOf="@+id/jump_list_row_id"
+                android:gravity="left"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/jump_list_exit_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:gravity="center"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textStyle="bold"/>
+            android:layout_alignTop="@+id/jump_list_thumb_layout"
+            android:layout_toRightOf="@+id/jump_list_thumb_layout"
+            android:text="Exit Name"
+            android:textColor="#040404"
+            android:textSize="15dip"
+            android:textStyle="bold"
+            android:typeface="sans"/>
 
         <TextView
-            android:id="@+id/jump_list_ago"
+            android:id="@+id/jump_list_delay"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:ellipsize="end"
-            android:gravity="right"
-            android:textAppearance="?attr/textAppearanceListItem"/>
+            android:layout_below="@id/jump_list_exit_name"
+            android:layout_marginTop="1dip"
+            android:layout_toRightOf="@+id/jump_list_thumb_layout"
+            android:text="Delay"
+            android:textColor="#343434"
+            android:textSize="10dip"/>
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/jump_list_slider"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/jump_list_delay"
+            android:layout_marginTop="1dip"
+            android:layout_toRightOf="@+id/jump_list_thumb_layout"
+            android:text="Slider"
+            android:textColor="#343434"
+            android:textSize="10dip"/>
+
+        <!-- Rightend Duration -->
+        <TextView
+            android:id="@+id/jump_list_ago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/jump_list_exit_name"
+            android:layout_marginRight="5dip"
+            android:gravity="right"
+            android:text="Object Type"
+            android:textColor="#343434"
+            android:textSize="10dip"
+            android:textStyle="bold"/>
+
+        <!-- Rightend Arrow -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/arrow_down_float"/>
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>
