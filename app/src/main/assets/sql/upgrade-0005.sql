@@ -1,0 +1,1 @@
+ALTER TABLE exit ADD COLUMN object_type INTEGER;

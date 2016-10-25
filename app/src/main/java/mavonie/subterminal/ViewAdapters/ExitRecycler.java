@@ -55,6 +55,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
 
         holder.mHeight.setText(holder.mItem.getFormatedRockdrop());
         holder.mName.setText(holder.mItem.getName());
+        holder.mObjectType.setText(holder.mItem.getFormattedObjectType());
 
         Image thumb = Image.loadThumbForEntity(holder.mItem);
 
@@ -97,6 +98,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
         public final View mView;
         public final TextView mHeight;
         public final TextView mName;
+        public final TextView mObjectType;
         public final SimpleDraweeView mThumb;
         public mavonie.subterminal.Models.Exit mItem;
 
@@ -105,6 +107,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
             mView = view;
             mHeight = (TextView) view.findViewById(R.id.exit_list_height);
             mName = (TextView) view.findViewById(R.id.exit_list_name);
+            mObjectType = (TextView) view.findViewById(R.id.exit_list_object_type);
 
             mThumb = (SimpleDraweeView) view.findViewById(R.id.exit_list_thumb);
             mThumb.getLayoutParams().width = THUMB_SIZE;

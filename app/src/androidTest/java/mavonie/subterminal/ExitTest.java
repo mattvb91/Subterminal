@@ -39,6 +39,22 @@ public class ExitTest extends BaseTest {
                 withId(R.id.exit_edit_name));
         appCompatEditText.perform(scrollTo(), replaceText("test"), closeSoftKeyboard());
 
+        ViewInteraction appCompatEditRockdrop = onView(
+                withId(R.id.exit_edit_rockdrop_distance));
+        appCompatEditRockdrop.perform(scrollTo(), replaceText("100"), closeSoftKeyboard());
+
+        ViewInteraction appCompactDistanceToLanding = onView(
+                withId(R.id.exit_edit_distance_to_landing));
+        appCompactDistanceToLanding.perform(scrollTo(), replaceText("120"), closeSoftKeyboard());
+
+        ViewInteraction objectType = onView(
+                withId(R.id.exit_object_type));
+        objectType.perform(scrollTo(), click());
+
+        ViewInteraction objectTypeClick = onView(
+                allOf(withId(android.R.id.text1), withText("Span"), isDisplayed()));
+        objectTypeClick.perform(click());
+
         ViewInteraction appCompatEditText2 = onView(
                 withId(R.id.exit_edit_description));
         appCompatEditText2.perform(scrollTo(), replaceText("test"), closeSoftKeyboard());

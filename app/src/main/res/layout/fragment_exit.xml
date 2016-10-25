@@ -59,14 +59,14 @@
 
         <!-- Rightend Duration -->
         <TextView
-            android:id="@+id/exit_list_country"
+            android:id="@+id/exit_list_object_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/exit_list_name"
             android:layout_marginRight="5dip"
             android:gravity="right"
-            android:text="Country"
+            android:text="Object Type"
             android:textColor="#343434"
             android:textSize="10dip"
             android:textStyle="bold"/>

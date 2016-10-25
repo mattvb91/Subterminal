@@ -5,6 +5,7 @@
         versioncode="5">
         <change>Improved navigation/page loading</change>
         <change>Optimized image loading</change>
+        <change>Edit exits.</change>
     </release>
     <release
         version="0.8.3-alpha"

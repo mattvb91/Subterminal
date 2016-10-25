@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -13,15 +14,29 @@ import java.util.Map;
 
 public class Exit extends Model {
 
+    public static Integer TYPE_BUILDING = 1;
+    public static Integer TYPE_ANTENNA = 2;
+    public static Integer TYPE_SPAN = 3;
+    public static Integer TYPE_EARTH = 4;
+    public static Integer TYPE_OTHER = 5;
+
     public static Integer DIFFICULTY_BEGINNER = 1;
     public static Integer DIFFICULTY_INTERMEDIATE = 2;
     public static Integer DIFFICULTY_ADVANCED = 3;
     public static Integer DIFFICULTY_EXPERT = 4;
 
+    private static final LinkedHashMap<String, String> object_types;
     private static final Map<Integer, String> difficulty_descriptor;
     private static final Map<Integer, String> difficulty_color;
 
     static {
+        object_types = new LinkedHashMap<>();
+        object_types.put(TYPE_BUILDING.toString(), "Building");
+        object_types.put(TYPE_ANTENNA.toString(), "Antenna");
+        object_types.put(TYPE_SPAN.toString(), "Span");
+        object_types.put(TYPE_EARTH.toString(), "Earth");
+        object_types.put(TYPE_OTHER.toString(), "Other");
+
         difficulty_descriptor = new HashMap<Integer, String>();
         difficulty_descriptor.put(DIFFICULTY_BEGINNER, "Beginner");
         difficulty_descriptor.put(DIFFICULTY_INTERMEDIATE, "Intermediate");
@@ -50,6 +65,7 @@ public class Exit extends Model {
     private String rules;
     private double latitude;
     private double longtitude;
+    private Integer object_type;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "exit";
@@ -69,7 +85,7 @@ public class Exit extends Model {
     public static final String COLUMN_NAME_RULES = "rules";
     public static final String COLUMN_NAME_LATITUDE = "lat";
     public static final String COLUMN_NAME_LONGTITUDE = "long";
-
+    public static final String COLUMN_NAME_OBJECT_TYPE = "object_type";
 
     /* END DB DEFINITIONS */
 
@@ -196,6 +212,18 @@ public class Exit extends Model {
         this.rules = rules;
     }
 
+    public int getObject_type() {
+        return object_type;
+    }
+
+    public void setObject_type(Integer object_type) {
+        this.object_type = object_type;
+    }
+
+    public static LinkedHashMap<String, String> getObject_types() {
+        return object_types;
+    }
+
     @Override
     public Exit populateFromCursor(Cursor cursor) {
 
@@ -218,6 +246,7 @@ public class Exit extends Model {
             int rules = cursor.getColumnIndexOrThrow(COLUMN_NAME_RULES);
             int latitude = cursor.getColumnIndexOrThrow(COLUMN_NAME_LATITUDE);
             int longtitude = cursor.getColumnIndexOrThrow(COLUMN_NAME_LONGTITUDE);
+            int object_type = cursor.getColumnIndexOrThrow(COLUMN_NAME_OBJECT_TYPE);
 
             exit.setId(cursor.getInt(idIndex));
             exit.setName(cursor.getString(name));
@@ -241,6 +270,7 @@ public class Exit extends Model {
 
             exit.setLatitude(Double.parseDouble(cursor.getString(latitude)));
             exit.setLongtitude(Double.parseDouble(cursor.getString(longtitude)));
+            exit.setObject_type(cursor.getInt(object_type));
 
             return exit;
 
@@ -268,11 +298,12 @@ public class Exit extends Model {
         contentValues.put(COLUMN_NAME_RULES, this.getRules());
         contentValues.put(COLUMN_NAME_ROCKDROP_DISTANCE, this.getRockdrop_distance());
         contentValues.put(COLUMN_NAME_ALTITUDE_TO_LANDING, this.getAltitude_to_landing());
+        contentValues.put(COLUMN_NAME_OBJECT_TYPE, this.getObject_type());
     }
 
     @Override
     String getTableName() {
-        return "exit";
+        return TABLE_NAME;
     }
 
     public String getFormatedAltitudeToLanding() {
@@ -289,6 +320,10 @@ public class Exit extends Model {
 
     public static String getDifficultyDescriptor(int difficulty) {
         return difficulty_descriptor.get(difficulty);
+    }
+
+    public String getFormattedObjectType() {
+        return object_types.get(Integer.toString(this.getObject_type()));
     }
 
     //TODO make sure this is right
@@ -353,6 +388,8 @@ public class Exit extends Model {
         if (difficulty_wingsuit_overall != null ? !difficulty_wingsuit_overall.equals(exit.difficulty_wingsuit_overall) : exit.difficulty_wingsuit_overall != null)
             return false;
         if (description != null ? !description.equals(exit.description) : exit.description != null)
+            return false;
+        if (object_type != null ? !object_type.equals(exit.object_type) : exit.object_type != null)
             return false;
         return rules != null ? rules.equals(exit.rules) : exit.rules == null;
 

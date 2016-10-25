@@ -73,6 +73,7 @@ public class ExitTest extends BaseDBUnit {
         exit.setRules("Test rules");
         exit.setLatitude(59.02342);
         exit.setLongtitude(24.30456);
+        exit.setObject_type(Exit.TYPE_EARTH);
         exit.save();
 
         return exit;
