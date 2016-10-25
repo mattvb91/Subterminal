@@ -11,8 +11,8 @@ android {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 4
-        versionName "0.8.3-alpha"
+        versionCode 5
+        versionName "0.8.4-alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -48,6 +48,13 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:9.6.1'
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
+    compile('com.facebook.fresco:fresco:0.14.1') {
+        exclude group: 'com.parse.bolts', module: 'bolts-tasks';
+    }
+    compile 'com.kbeanie:multipicker:1.1.2@aar'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'org.robolectric:robolectric:3.1.2'
     testCompile 'junit:junit:4.12'
     testCompile 'org.xerial:sqlite-jdbc:3.8.11.2'

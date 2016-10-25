@@ -25,6 +25,7 @@ import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
+import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Created by mavon on 15/10/16.
@@ -193,7 +194,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
     @Override
     protected void updateForm() {
         if (getItem().exists()) {
-            MainActivity.getActivity().setActiveModel(getItem());
+            Subterminal.setActiveModel(getItem());
 
             this.exitNameAutoComplete.setText(getItem().getExit().getName());
             this.date.setText(getItem().getDate());

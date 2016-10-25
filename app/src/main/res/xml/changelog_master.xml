@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="0.8.4-alpha"
+        versioncode="5">
+        <change>Improved navigation/page loading</change>
+        <change>Optimized image loading</change>
+        <change>Edit exits</change>
+        <change>Jump count displayed on list view</change>
+    </release>
+    <release
         version="0.8.3-alpha"
         versioncode="4">
         <change>Updated exit list/detail view</change>

@@ -25,7 +25,8 @@ CREATE TABLE exit (
     description TEXT,
     rules TEXT,
     lat TEXT,
-    long TEXT );
+    long TEXT,
+    object_type INTEGER);
 
 CREATE TABLE jump (
         _id INTEGER PRIMARY KEY,
@@ -53,7 +54,8 @@ INSERT INTO exit (
     description ,
     rules ,
     lat ,
-    long ) VALUES (
+    long,
+    object_type) VALUES (
         NULL,
         "Nose 1",
         390,
@@ -76,10 +78,9 @@ INSERT INTO exit (
          Call Air Glacier before every jump: +41 33 856 05 60<br/>
          Check for helicopters visually and acoustically",
          46.579998,
-         7.905217
+         7.905217,
+         4
     );
-
--- Version 0.8.2-alpha versioncode 3
 
 CREATE TABLE image (
         _id INTEGER PRIMARY KEY,

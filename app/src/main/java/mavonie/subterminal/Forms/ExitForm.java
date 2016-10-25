@@ -12,15 +12,23 @@ import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
+import mavonie.subterminal.Utils.Subterminal;
 
-public class ExitForm extends BaseForm {
+public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedListener {
 
     LocationManager locationManager;
     LocationListener locationListener;
@@ -33,12 +41,18 @@ public class ExitForm extends BaseForm {
     private EditText exit_edit_lat;
     private EditText exit_edit_long;
     private EditText exit_edit_description;
+    private EditText exit_edit_rockdrop_distance;
+    private EditText exit_edit_altitude_to_landing;
+    private Spinner exit_edit_object_type;
 
+    private LinkedHashMap<String, String> object_types;
+    LinkedHashMapAdapter<String, String> objectTypeAdapter;
 
     //TODO move the gps tracking out of here and off into its own class
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        this.object_types = Exit.getObject_types();
         locationManager = (LocationManager) MainActivity.getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         locationListener = new LocationListener() {
@@ -89,10 +103,19 @@ public class ExitForm extends BaseForm {
         this.exit_edit_lat = (EditText) view.findViewById(R.id.exit_edit_lat);
         this.exit_edit_long = (EditText) view.findViewById(R.id.exit_edit_long);
         this.exit_edit_description = (EditText) view.findViewById(R.id.exit_edit_description);
+        this.exit_edit_rockdrop_distance = (EditText) view.findViewById(R.id.exit_edit_rockdrop_distance);
+        this.exit_edit_altitude_to_landing = (EditText) view.findViewById(R.id.exit_edit_distance_to_landing);
+
+        exit_edit_object_type = (Spinner) view.findViewById(R.id.exit_object_type);
+        this.objectTypeAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.object_types);
+        this.objectTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        exit_edit_object_type.setAdapter(this.objectTypeAdapter);
+        exit_edit_object_type.setOnItemSelectedListener(this);
 
         Button gpsButton = (Button) view.findViewById(R.id.exit_edit_gps_button);
         gpsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 if (ActivityCompat.checkSelfPermission(MainActivity.getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                         && ActivityCompat.checkSelfPermission(MainActivity.getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -126,11 +149,18 @@ public class ExitForm extends BaseForm {
     @Override
     protected void updateForm() {
         if (getItem().exists()) {
-            MainActivity.getActivity().setActiveModel(getItem());
+            Subterminal.setActiveModel(getItem());
             this.exit_edit_name.setText(getItem().getName());
             this.exit_edit_description.setText(getItem().getDescription());
             this.exit_edit_lat.setText(Double.toString(getItem().getLatitude()));
             this.exit_edit_long.setText(Double.toString(getItem().getLongtitude()));
+            this.exit_edit_rockdrop_distance.setText(getItem().getRockdrop_distance().toString());
+            this.exit_edit_altitude_to_landing.setText(getItem().getAltitude_to_landing().toString());
+
+            Integer object_type_position = this.objectTypeAdapter.findPositionFromKey(getItem().getObject_type());
+            if (object_type_position != null) {
+                this.exit_edit_object_type.setSelection(object_type_position);
+            }
         }
     }
 
@@ -145,6 +175,8 @@ public class ExitForm extends BaseForm {
         String exitLat = this.exit_edit_lat.getText().toString();
         String exitLong = this.exit_edit_long.getText().toString();
         String exitDescription = this.exit_edit_description.getText().toString();
+        String rockDropDistance = this.exit_edit_rockdrop_distance.getText().toString();
+        String distanceToLanding = this.exit_edit_altitude_to_landing.getText().toString();
 
         if (validateForm()) {
             getItem().setName(exitName);
@@ -157,6 +189,9 @@ public class ExitForm extends BaseForm {
             }
 
             getItem().setDescription(exitDescription);
+            getItem().setObject_type(Integer.parseInt(objectEntry.getKey()));
+            getItem().setRockdrop_distance(Integer.parseInt(rockDropDistance));
+            getItem().setAltitude_to_landing(Integer.parseInt(distanceToLanding));
 
             super.save();
         }
@@ -183,5 +218,17 @@ public class ExitForm extends BaseForm {
 
     public Exit getItem() {
         return (Exit) super.getItem();
+    }
+
+    private Map.Entry<String, String> objectEntry;
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        objectEntry = this.objectTypeAdapter.getItem(position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

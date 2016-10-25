@@ -28,6 +28,8 @@ import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Utils.Views.MapView;
 
 /**
@@ -46,9 +48,9 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         MapsInitializer.initialize(getContext());
-        MainActivity.getActivity().setActiveModel(this.getItem());
-//        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
-//        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
+        Subterminal.setActiveModel(this.getItem());
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
     }
 
 
@@ -114,11 +116,7 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             view.findViewById(R.id.exit_view_difficulty_card).setVisibility(View.INVISIBLE);
         }
 
-        List<Image> images = Image.loadImagesForEntity(getItem());
-
-        if (!images.isEmpty()) {
-            showImages(images);
-        }
+        loadImages();
 
         Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
         pictureButton.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +179,7 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
-        MainActivity.getActivity().getFab().show();
+        UIHelper.getAddButton().show();
 
         super.onPause();
     }

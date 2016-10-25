@@ -1,5 +1,6 @@
 package mavonie.subterminal.ViewAdapters;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
+
 import mavonie.subterminal.Exit;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
@@ -15,6 +23,7 @@ import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Views.SquareImageView;
 
 
+import java.io.File;
 import java.util.List;
 
 
@@ -44,14 +53,25 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.mHeight.setText(mValues.get(position).getFormatedRockdrop());
-        holder.mName.setText(mValues.get(position).getName());
+        holder.mHeight.setText(holder.mItem.getFormatedRockdrop());
+        holder.mName.setText(holder.mItem.getName());
+        holder.mObjectType.setText(holder.mItem.getFormattedObjectType());
 
-        Image thumb = Image.loadThumbForEntity(mValues.get(position));
+        Image thumb = Image.loadThumbForEntity(holder.mItem);
 
         if (thumb != null) {
-            holder.mThumb.setImageBitmap(thumb.decodeSampledBitmapFromResource(THUMB_SIZE, THUMB_SIZE));
-        }else{
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(thumb.getUri())
+                    .setResizeOptions(new ResizeOptions(THUMB_SIZE, THUMB_SIZE))
+                    .build();
+
+            PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+                    .setOldController(holder.mThumb.getController())
+                    .setImageRequest(request)
+                    .build();
+
+            holder.mThumb.setController(controller);
+            holder.mThumb.setVisibility(View.VISIBLE);
+        } else {
             holder.mThumb.setVisibility(View.INVISIBLE);
         }
 
@@ -65,6 +85,8 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
                 }
             }
         });
+
+        thumb = null;
     }
 
     @Override
@@ -76,7 +98,8 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
         public final View mView;
         public final TextView mHeight;
         public final TextView mName;
-        public final SquareImageView mThumb;
+        public final TextView mObjectType;
+        public final SimpleDraweeView mThumb;
         public mavonie.subterminal.Models.Exit mItem;
 
         public ViewHolder(View view) {
@@ -84,8 +107,9 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
             mView = view;
             mHeight = (TextView) view.findViewById(R.id.exit_list_height);
             mName = (TextView) view.findViewById(R.id.exit_list_name);
+            mObjectType = (TextView) view.findViewById(R.id.exit_list_object_type);
 
-            mThumb = (SquareImageView) view.findViewById(R.id.exit_list_thumb);
+            mThumb = (SimpleDraweeView) view.findViewById(R.id.exit_list_thumb);
             mThumb.getLayoutParams().width = THUMB_SIZE;
             mThumb.setAdjustViewBounds(true);
             mThumb.setScaleType(ImageView.ScaleType.FIT_XY);

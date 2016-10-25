@@ -12,6 +12,7 @@ import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Utils.Subterminal;
 
 public class GearForm extends BaseForm {
 
@@ -44,7 +45,7 @@ public class GearForm extends BaseForm {
 
     protected void updateForm() {
         if (getItem().exists()) {
-            MainActivity.getActivity().setActiveModel(getItem());
+            Subterminal.setActiveModel(getItem());
             this.containerManufacturer.setText(getItem().getContainerManufacturer());
             this.containerType.setText(getItem().getContainerType());
             this.containerSerial.setText(getItem().getContainerSerial());

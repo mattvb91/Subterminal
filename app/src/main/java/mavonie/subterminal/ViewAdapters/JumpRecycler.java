@@ -7,6 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
+
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
@@ -24,7 +31,7 @@ import java.util.List;
  */
 public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> {
 
-    private static final int THUMB_SIZE = 80;
+    private static final int THUMB_SIZE = 50;
     private final List<mavonie.subterminal.Models.Jump> mValues;
     private final BaseFragment.OnFragmentInteractionListener mListener;
 
@@ -44,25 +51,40 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        Exit exit = mValues.get(position).getExit();
+        Exit exit = holder.mItem.getExit();
         if (exit != null) {
-            holder.exitName.setText(mValues.get(position).getExit().getName());
+            holder.exitName.setText(exit.getName());
         } else {
             holder.exitName.setText("No exit info");
             holder.exitName.setTextColor(MainActivity.getActivity().getResources().getColor(R.color.grey));
         }
 
-        DateFormat df = new DateFormat();
-        String date = mValues.get(position).getDate();
+        String date = holder.mItem.getDate();
+
+        holder.slider.setText("Slider: " + holder.mItem.getFormattedSlider());
+        holder.delay.setText("Delay: " + holder.mItem.getDelay() + "s");
+        holder.row_id.setText("#" + holder.mItem.getRow_id());
 
         if (date != null) {
             holder.ago.setText(TimeAgo.sinceToday(date));
         }
 
-        Image thumb = Image.loadThumbForEntity(mValues.get(position));
+        Image thumb = Image.loadThumbForEntity(holder.mItem);
 
         if (thumb != null) {
-            holder.mThumb.setImageBitmap(thumb.decodeSampledBitmapFromResource(THUMB_SIZE, THUMB_SIZE));
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(thumb.getUri())
+                    .setResizeOptions(new ResizeOptions(THUMB_SIZE, THUMB_SIZE))
+                    .build();
+
+            PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+                    .setOldController(holder.mThumb.getController())
+                    .setImageRequest(request)
+                    .build();
+
+            holder.mThumb.setController(controller);
+            holder.mThumb.setVisibility(View.VISIBLE);
+        } else {
+            holder.mThumb.setVisibility(View.INVISIBLE);
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +108,10 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         public final View mView;
         public final TextView exitName;
         public final TextView ago;
-        public final SquareImageView mThumb;
+        public final TextView delay;
+        public final TextView slider;
+        public final TextView row_id;
+        public final SimpleDraweeView mThumb;
 
         public mavonie.subterminal.Models.Jump mItem;
 
@@ -95,11 +120,10 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
             mView = view;
             ago = (TextView) view.findViewById(R.id.jump_list_ago);
             exitName = (TextView) view.findViewById(R.id.jump_list_exit_name);
-
-            mThumb = (SquareImageView) view.findViewById(R.id.jump_list_thumb);
-            mThumb.getLayoutParams().width = THUMB_SIZE;
-            mThumb.setAdjustViewBounds(true);
-            mThumb.setScaleType(ImageView.ScaleType.FIT_XY);
+            delay = (TextView) view.findViewById(R.id.jump_list_delay);
+            row_id = (TextView) view.findViewById(R.id.jump_list_row_id);
+            slider = (TextView) view.findViewById(R.id.jump_list_slider);
+            mThumb = (SimpleDraweeView) view.findViewById(R.id.jump_list_thumb);
         }
     }
 }

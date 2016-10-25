@@ -1,37 +1,41 @@
 package mavonie.subterminal;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.view.View;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
 
-import com.facebook.FacebookSdk;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.login.widget.ProfilePictureView;
+import com.kbeanie.multipicker.api.ImagePicker;
+import com.kbeanie.multipicker.api.Picker;
+import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
+import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
+
+import java.util.List;
 
 import de.cketti.library.changelog.ChangeLog;
-import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
-import mavonie.subterminal.Forms.JumpForm;
-import mavonie.subterminal.Utils.BaseFragment;
-import mavonie.subterminal.Utils.ImagePicker;
-import mavonie.subterminal.Views.ExitView;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
-import mavonie.subterminal.Views.JumpView;
+import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
+
+import static mavonie.subterminal.Utils.UIHelper.openFragmentForEntity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -42,15 +46,7 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
-
-    /**
-     * @return FloatingActionButton
-     */
-    public FloatingActionButton getFab() {
-        return fab;
-    }
-
-    FloatingActionButton fab;
+    private RefWatcher refWatcher;
 
     private ProfilePictureView profilePictureView;
 
@@ -59,21 +55,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     Menu optionsMenu;
-
-    //    private static final int FRAGMENT_HOME = R.id.nav_home;
-    private static final int FRAGMENT_JUMPS = R.id.nav_jumps;
-    private static final int FRAGMENT_GEAR = R.id.nav_gear;
-    private static final int FRAGMENT_EXIT = R.id.nav_exits;
-
-    protected static int activeFragment;
-
-    protected static void setActiveFragment(int i) {
-        activeFragment = i;
-    }
-
-    protected int getActiveFragment() {
-        return activeFragment;
-    }
 
     protected static User user;
 
@@ -100,6 +81,15 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        this.refWatcher = LeakCanary.install(this.getApplication());
+
+        Fresco.initialize(this);
+
         activity = this;
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 
@@ -107,28 +97,8 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        activateFragment(Jump.class);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (getActiveFragment()) {
-                    case FRAGMENT_GEAR:
-                        activateFragment(GearForm.class);
-                        fab.hide();
-                        break;
-                    case FRAGMENT_EXIT:
-                        activateFragment(ExitForm.class);
-                        fab.hide();
-                        break;
-                    case FRAGMENT_JUMPS:
-                        activateFragment(JumpForm.class);
-                        fab.hide();
-                        break;
-                }
-            }
-        });
+        UIHelper.replaceFragment(new Jump());
+        UIHelper.initAddButton();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -142,19 +112,6 @@ public class MainActivity extends AppCompatActivity
         if (cl.isFirstRun()) {
             cl.getLogDialog().show();
         }
-    }
-
-    private void activateFragment(Class fragmentClass) {
-        Fragment fragment = null;
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flContent, fragment, fragmentClass.getCanonicalName())
-                .addToBackStack(null).commit();
     }
 
     @Override
@@ -192,45 +149,20 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        goToFragment(id);
-        return true;
-    }
-
-    public void goToFragment(int id) {
-        Class fragmentClass = null;
-
-        switch (id) {
-//            case R.id.nav_home:
-//                fragmentClass = Home.class;
-//                fab.hide();
-//                break;
-            case R.id.nav_jumps:
-                fragmentClass = Jump.class;
-                fab.show();
-                break;
-            case R.id.nav_gear:
-                fragmentClass = Gear.class;
-                fab.show();
-                break;
-            case R.id.nav_login:
-                return;
-            case R.id.nav_exits:
-                fragmentClass = Exit.class;
-                fab.show();
-                break;
-        }
-
-        setActiveFragment(id);
-        activateFragment(fragmentClass);
-        setActiveModel(null);
-        getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
-        getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
+    public boolean onNavigationItemSelected(final MenuItem item) {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(Gravity.LEFT);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Handle navigation view item clicks here.
+                UIHelper.goToFragment(item.getItemId());
+            }
+        }, 300);
+
+        return true;
     }
 
     @Override
@@ -264,54 +196,12 @@ public class MainActivity extends AppCompatActivity
 
 
     public void deleteDialog(MenuItem item) {
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle("Confirm delete")
-                .setMessage("Delete this item?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        getActiveModel().delete();
-                        goToFragment(FRAGMENT_JUMPS); //TODO proper navigation
-                        Toast.makeText(MainActivity.getActivity(), "Item has been deleted", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null).show();
+        UIHelper.deleteDialog();
     }
 
     public void editItem(MenuItem item) {
-
-        Bundle args = new Bundle();
-        args.putSerializable("item", getActiveModel());
-
-        Fragment fragment = null;
-
-        if (getActiveModel().canEdit()) {
-            if (getActiveModel() instanceof mavonie.subterminal.Models.Exit) {
-                fragment = new ExitForm();
-            } else if (getActiveModel() instanceof mavonie.subterminal.Models.Jump) {
-                fragment = new JumpForm();
-            }
-            fragment.setArguments(args);
-            getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
-        }
+        UIHelper.editEntity();
     }
-
-    /**
-     * Set an active model so we can access it throughout
-     * popups etc..
-     * TODO clean this up
-     */
-    public Model getActiveModel() {
-        return activeModel;
-    }
-
-    public void setActiveModel(Model activeModel) {
-        this.activeModel = activeModel;
-    }
-
-    private Model activeModel;
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -320,31 +210,31 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Model mItem) {
-
-        fab.hide();
-        Bundle args = new Bundle();
-        args.putSerializable("item", mItem);
-
-        BaseFragment fragment = null;
-
-        if (mItem instanceof mavonie.subterminal.Models.Exit) {
-            fragment = new ExitView();
-        } else if (mItem instanceof mavonie.subterminal.Models.Gear) {
-            fragment = new GearForm();
-        } else if (mItem instanceof mavonie.subterminal.Models.Jump) {
-            fragment = new JumpView();
-        }
-
-        fragment.setArguments(args);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, fragment).addToBackStack(null).commit();
+        openFragmentForEntity(mItem);
     }
 
-    private static final int PICK_IMAGE_ID = 234; // the number doesn't matter
+    ImagePicker imagePicker = new ImagePicker(this);
 
     public void onPickImage(View view) {
-        Intent chooseImageIntent = ImagePicker.getPickImageIntent(this);
-        startActivityForResult(chooseImageIntent, PICK_IMAGE_ID);
+        imagePicker = new ImagePicker(this);
+        imagePicker.setImagePickerCallback(
+                new ImagePickerCallback() {
+                    @Override
+                    public void onImagesChosen(List<ChosenImage> images) {
+                        // Display images
+                        for (ChosenImage image : images) {
+                            Image.createFromPath(image.getOriginalPath(), Subterminal.getActiveModel());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        // Do error handling
+                    }
+                }
+        );
+
+        imagePicker.pickImage();
     }
 
     public Bitmap getLastBitmap() {
@@ -356,13 +246,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        switch (requestCode) {
-            case PICK_IMAGE_ID:
-                this.lastBitmap = ImagePicker.getImageFromResult(this, resultCode, data);
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-                break;
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Picker.PICK_IMAGE_DEVICE) {
+                if (imagePicker == null) {
+                    imagePicker = new ImagePicker(this);
+                }
+                imagePicker.submit(data);
+            }
         }
+    }
+
+    public RefWatcher getRefWatcher() {
+        return refWatcher;
     }
 }

@@ -26,6 +26,28 @@
             android:hint="@string/exit_name"
             android:inputType="textPersonName"></EditText>
 
+        <Spinner
+            android:id="@+id/exit_object_type"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/exit_edit_rockdrop_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|left"
+            android:hint="Rockdrop distance (Meters)"
+            android:inputType="textPersonName"/>
+
+        <EditText
+            android:id="@+id/exit_edit_distance_to_landing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|left"
+            android:hint="Altitude to landing (Meters)"
+            android:inputType="textPersonName"/>
+
         <EditText
             android:id="@+id/exit_edit_description"
             android:layout_width="match_parent"

@@ -10,6 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.squareup.leakcanary.RefWatcher;
+
 import java.lang.reflect.Constructor;
 import java.util.List;
 
@@ -91,7 +99,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onPause() {
 
-        if (this.imageLayout != null &! this.isVisible()) {
+        if (this.imageLayout != null & !this.isVisible()) {
             int count = this.imageLayout.getChildCount();
             for (int i = 0; i < count; i++) {
                 ImageView image = (ImageView) this.imageLayout.getChildAt(i);
@@ -105,48 +113,38 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
+    public void onDestroy() {
+        super.onDestroy();
 
-        //Check if an image has been added
-        Bitmap bitMap = MainActivity.getActivity().getLastBitmap();
-        if (bitMap instanceof Bitmap) {
-
-            if (Image.createFromBitmap(bitMap, MainActivity.getActivity().getActiveModel())) {
-                ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
-                image.setImageBitmap(bitMap);
-                image.setPadding(2, 2, 2, 2);
-                image.setMaxWidth(300);
-                image.setMaxHeight(300);
-                image.setAdjustViewBounds(true);
-                image.setScaleType(ImageView.ScaleType.FIT_XY);
-                this.imageLayout.addView(image);
-            }
-
-            MainActivity.getActivity().lastBitmap = null;
-        }
-
-        super.onResume();
+        MainActivity.getActivity().getRefWatcher().watch(this);
     }
 
     protected void showImages(List<Image> images) {
         for (Image current : images) {
 
-            ImageView image = new ImageView(MainActivity.getActivity().getApplicationContext());
+            SimpleDraweeView image = new SimpleDraweeView(MainActivity.getActivity().getApplicationContext());
 
-            String path = current.getFullPath();
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(current.getUri())
+                    .setResizeOptions(new ResizeOptions(150, 150))
+                    .build();
 
-            Bitmap bitmap = current.decodeSampledBitmapFromResource(path, 200, 200);
-            image.setImageBitmap(bitmap);
-            image.setPadding(2, 2, 2, 2);
-            image.setMaxWidth(300);
-            image.setMaxHeight(300);
-            image.setAdjustViewBounds(true);
-            image.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
+                    .setImageRequest(request)
+                    .build();
+            image.setController(controller);
+            image.setMinimumWidth(150);
+            image.setMinimumHeight(150);
 
             this.imageLayout.addView(image);
+        }
+    }
 
-            image = null;
-            bitmap = null;
+    protected void loadImages() {
+        List<Image> images = Image.loadImagesForEntity(getItem());
+
+        if (!images.isEmpty()) {
+            showImages(images);
+            this.imageLayout.invalidate();
         }
     }
 
