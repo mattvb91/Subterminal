@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity
                         // Display images
                         for (ChosenImage image : images) {
                             Image.createFromPath(image.getOriginalPath(), Subterminal.getActiveModel());
+                            openFragmentForEntity(Subterminal.getActiveModel());
                         }
                     }
 
@@ -236,12 +237,6 @@ public class MainActivity extends AppCompatActivity
 
         imagePicker.pickImage();
     }
-
-    public Bitmap getLastBitmap() {
-        return lastBitmap;
-    }
-
-    public Bitmap lastBitmap = null;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

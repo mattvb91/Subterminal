@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="0.8.5-alpha"
+        versioncode="6">
+        <change>Fixed images not showing up after adding</change>
+    </release>
+    <release
         version="0.8.4-alpha"
         versioncode="5">
         <change>Improved navigation/page loading</change>
