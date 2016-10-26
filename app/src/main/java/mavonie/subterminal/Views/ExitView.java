@@ -17,16 +17,12 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.List;
-
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Image;
-import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;

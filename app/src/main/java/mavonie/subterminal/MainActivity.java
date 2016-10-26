@@ -1,7 +1,6 @@
 package mavonie.subterminal;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
