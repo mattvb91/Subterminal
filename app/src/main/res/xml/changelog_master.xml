@@ -4,6 +4,7 @@
         version="0.8.5-alpha"
         versioncode="6">
         <change>Fixed images not showing up after adding</change>
+        <change>Updated gear list view</change>
     </release>
     <release
         version="0.8.4-alpha"
