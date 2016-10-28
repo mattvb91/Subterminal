@@ -51,6 +51,7 @@ public class Exit extends Model {
     }
 
     private String name;
+    private String global_id;
     private Integer rockdrop_distance;
     private Integer altitude_to_landing;
     private Integer difficulty_tracking_exit;
@@ -393,5 +394,13 @@ public class Exit extends Model {
             return false;
         return rules != null ? rules.equals(exit.rules) : exit.rules == null;
 
+    }
+
+    public String getGlobal_id() {
+        return global_id;
+    }
+
+    public void setGlobal_id(String global_id) {
+        this.global_id = global_id;
     }
 }
