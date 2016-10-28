@@ -1,12 +1,15 @@
 package mavonie.subterminal.Utils;
 
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.List;
 
@@ -18,6 +21,7 @@ import mavonie.subterminal.Models.Api.Exits;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
+import mavonie.subterminal.Utils.Api.Intercepter;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +34,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class API implements Callback {
 
     private retrofit2.Retrofit retrofit;
+    private Context context;
+
+    public API(Context context) {
+        this.context = context;
+    }
 
     /**
      * Get our retrofit client.
@@ -44,17 +53,7 @@ public class API implements Callback {
             String apiUrl = null;
 
             try {
-
-                // loading CAs from an InputStream
-                CertificateFactory cf = CertificateFactory.getInstance("X.509");
-                InputStream cert = MainActivity.getActivity().getApplicationContext()
-                        .getResources().openRawResource(R.raw.subterminal);
-                Certificate ca;
-                try {
-                    ca = cf.generateCertificate(cert);
-                } finally {
-                    cert.close();
-                }
+                Certificate ca = getCertificate();
 
                 // creating a KeyStore containing our trusted CAs
                 String keyStoreType = KeyStore.getDefaultType();
@@ -71,14 +70,11 @@ public class API implements Callback {
                 SSLContext sslContext = SSLContext.getInstance("TLS");
                 sslContext.init(null, tmf.getTrustManagers(), null);
 
-                okHttpClient = new OkHttpClient.Builder()
+                okHttpClient = new OkHttpClient.Builder().addInterceptor(new Intercepter(this.context))
                         .sslSocketFactory(sslContext.getSocketFactory())
                         .build();
 
-                ApplicationInfo ai = MainActivity.getActivity().getPackageManager()
-                        .getApplicationInfo(MainActivity.getActivity().getPackageName(), PackageManager.GET_META_DATA);
-                Bundle bundle = ai.metaData;
-                apiUrl = bundle.getString("mavonie.subterminal.API_URL");
+                apiUrl = Subterminal.getMetaData(this.context, "mavonie.subterminal.API_URL");
 
             } catch (Exception e) {
 
@@ -94,7 +90,23 @@ public class API implements Callback {
         return this.retrofit;
     }
 
-    private EndpointInterface getEndpoints() {
+    private Certificate getCertificate() throws CertificateException, IOException {
+
+        // loading CAs from an InputStream
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+        InputStream cert = this.context.getResources().openRawResource(R.raw.subterminal);
+        Certificate ca;
+
+        try {
+            ca = cf.generateCertificate(cert);
+        } finally {
+            cert.close();
+        }
+
+        return ca;
+    }
+
+    public EndpointInterface getEndpoints() {
         return this.getClient().create(EndpointInterface.class);
     }
 

@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        this.api = new API();
+        this.api = new API(this);
         this.api.init();
     }
 
