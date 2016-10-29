@@ -15,6 +15,15 @@ CREATE TABLE exit (
     name TEXT,
     rockdrop_distance INTEGER,
     altitude_to_landing INTEGER,
+    description TEXT,
+    lat TEXT,
+    long TEXT,
+    object_type INTEGER);
+
+CREATE TABLE exit_details (
+    _id INTEGER PRIMARY KEY,
+    exit_id INTEGER,
+    rules TEXT,
     difficulty_tracking_exit INTEGER,
     difficulty_tracking_freefall INTEGER,
     difficulty_tracking_landing INTEGER,
@@ -22,12 +31,7 @@ CREATE TABLE exit (
     difficulty_wingsuit_exit INTEGER,
     difficulty_wingsuit_freefall INTEGER,
     difficulty_wingsuit_landing INTEGER,
-    difficulty_wingsuit_overall INTEGER,
-    description TEXT,
-    rules TEXT,
-    lat TEXT,
-    long TEXT,
-    object_type INTEGER);
+    difficulty_wingsuit_overall INTEGER);
 
 CREATE TABLE jump (
         _id INTEGER PRIMARY KEY,
