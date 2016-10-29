@@ -15,13 +15,6 @@ import static org.junit.Assert.*;
 
 public class ExitTest extends BaseDBUnit {
 
-    @Test
-    public void testGetExit() {
-        Exit exit = (Exit) new Exit().getOneById(1);
-
-        assertNotNull(exit);
-    }
-
     /**
      * Test the item we save comes back the same
      */

@@ -122,12 +122,9 @@ public class API implements Callback {
             List<Exit> exits = ((Exits) response.body()).getExits();
 
             for (Exit exit : exits) {
-                //TODO check if we already have one that matches,
-                //If we dont, save it, if we do, check if it is different/needs to be updated
+                Exit.createOrUpdate(exit);
             }
         }
-
-
     }
 
     @Override

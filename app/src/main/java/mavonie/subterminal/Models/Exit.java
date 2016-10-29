@@ -2,6 +2,7 @@ package mavonie.subterminal.Models;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Pair;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -87,6 +88,7 @@ public class Exit extends Model {
     public static final String COLUMN_NAME_LATITUDE = "lat";
     public static final String COLUMN_NAME_LONGTITUDE = "long";
     public static final String COLUMN_NAME_OBJECT_TYPE = "object_type";
+    public static final String COLUMN_NAME_GLOBAL_ID = "global_id";
 
     /* END DB DEFINITIONS */
 
@@ -248,6 +250,7 @@ public class Exit extends Model {
             int latitude = cursor.getColumnIndexOrThrow(COLUMN_NAME_LATITUDE);
             int longtitude = cursor.getColumnIndexOrThrow(COLUMN_NAME_LONGTITUDE);
             int object_type = cursor.getColumnIndexOrThrow(COLUMN_NAME_OBJECT_TYPE);
+            int global_id = cursor.getColumnIndexOrThrow(COLUMN_NAME_GLOBAL_ID);
 
             exit.setId(cursor.getInt(idIndex));
             exit.setName(cursor.getString(name));
@@ -262,6 +265,7 @@ public class Exit extends Model {
             exit.setDifficulty_wingsuit_landing(cursor.getInt(difficultyWingsuitlanding));
             exit.setDifficulty_wingsuit_overall(cursor.getInt(difficultyWingsuitOverall));
             exit.setDescription(cursor.getString(description));
+            exit.setGlobal_id(cursor.getString(global_id));
 
             String rulesText = "";
             if (!cursor.isNull(rules)) {
@@ -300,6 +304,7 @@ public class Exit extends Model {
         contentValues.put(COLUMN_NAME_ROCKDROP_DISTANCE, this.getRockdrop_distance());
         contentValues.put(COLUMN_NAME_ALTITUDE_TO_LANDING, this.getAltitude_to_landing());
         contentValues.put(COLUMN_NAME_OBJECT_TYPE, this.getObject_type());
+        contentValues.put(COLUMN_NAME_GLOBAL_ID, this.getGlobal_id());
     }
 
     @Override
@@ -364,7 +369,6 @@ public class Exit extends Model {
 
         Exit exit = (Exit) o;
 
-        if (exit.getId() != this.getId()) return false;
         if (Double.compare(exit.latitude, latitude) != 0) return false;
         if (Double.compare(exit.longtitude, longtitude) != 0) return false;
         if (!name.equals(exit.name)) return false;
@@ -392,6 +396,8 @@ public class Exit extends Model {
             return false;
         if (object_type != null ? !object_type.equals(exit.object_type) : exit.object_type != null)
             return false;
+        if (global_id != null ? !global_id.equals(exit.global_id) : exit.global_id != null)
+            return false;
         return rules != null ? rules.equals(exit.rules) : exit.rules == null;
 
     }
@@ -402,5 +408,34 @@ public class Exit extends Model {
 
     public void setGlobal_id(String global_id) {
         this.global_id = global_id;
+    }
+
+    public boolean isGlobal() {
+        return this.getGlobal_id() != null;
+    }
+
+    /**
+     * Check if we already have matching exit and insert/update
+     * as appropriate.
+     *
+     * @param exit
+     */
+    public static void createOrUpdate(Exit exit) {
+
+        if (exit.isGlobal()) {
+            //Its a global exit check if we already have it.
+            Exit dbExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_GLOBAL_ID, exit.getGlobal_id()));
+
+            //Check if it equals
+            if (dbExit != null) {
+                if (!dbExit.equals(exit)) {
+                    //Update if it doesnt
+                    exit.setId(dbExit.getId());
+                    exit.save();
+                }
+            } else {
+                exit.save();
+            }
+        }
     }
 }

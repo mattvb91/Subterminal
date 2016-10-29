@@ -45,8 +45,11 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         MapsInitializer.initialize(getContext());
         Subterminal.setActiveModel(this.getItem());
-        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
-        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
+
+        if (!this.getItem().isGlobal()) {
+            MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
+            MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
+        }
     }
 
 

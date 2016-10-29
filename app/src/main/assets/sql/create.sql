@@ -11,6 +11,7 @@ CREATE TABLE gear (
 
 CREATE TABLE exit (
     _id INTEGER PRIMARY KEY,
+    global_id TEXT,
     name TEXT,
     rockdrop_distance INTEGER,
     altitude_to_landing INTEGER,
@@ -37,50 +38,6 @@ CREATE TABLE jump (
         slider INTEGER,
         delay INTEGER,
         description TEXT);
-
-INSERT INTO exit (
-    _id,
-    name ,
-    rockdrop_distance ,
-    altitude_to_landing ,
-    difficulty_tracking_exit ,
-    difficulty_tracking_freefall ,
-    difficulty_tracking_landing ,
-    difficulty_tracking_overall ,
-    difficulty_wingsuit_exit ,
-    difficulty_wingsuit_freefall ,
-    difficulty_wingsuit_landing ,
-    difficulty_wingsuit_overall ,
-    description ,
-    rules ,
-    lat ,
-    long,
-    object_type) VALUES (
-        NULL,
-        "Nose 1",
-        390,
-        455,
-        2,
-        2,
-        2,
-        2,
-        2,
-        3,
-        2,
-        3,
-        "Description of jump <br/>
-        <br/>
-        More description of jump bla blabl
-        blablabla",
-        "SPECIFIC RULES FOR THIS JUMP_<br/>
-        <br/>
-         Air Glacier airspace!<br/>
-         Call Air Glacier before every jump: +41 33 856 05 60<br/>
-         Check for helicopters visually and acoustically",
-         46.579998,
-         7.905217,
-         4
-    );
 
 CREATE TABLE image (
         _id INTEGER PRIMARY KEY,
