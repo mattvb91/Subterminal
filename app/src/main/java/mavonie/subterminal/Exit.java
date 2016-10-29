@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 
 import java.util.HashMap;
 
-import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Utils.BaseFragment;
-import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.ViewAdapters.ExitRecycler;
 
 /**

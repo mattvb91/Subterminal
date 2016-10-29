@@ -8,10 +8,9 @@ import android.widget.EditText;
 
 import java.util.Calendar;
 
-import mavonie.subterminal.Utils.Date.DateFormat;
-import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Subterminal;
 
 public class GearForm extends BaseForm {

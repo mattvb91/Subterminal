@@ -1,14 +1,10 @@
 package mavonie.subterminal.Utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
-import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
@@ -16,7 +12,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-import com.squareup.leakcanary.RefWatcher;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
@@ -24,9 +19,7 @@ import java.util.List;
 import mavonie.subterminal.Forms.BaseForm;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
-import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.R;
 
 /**
  * Created by mavon on 19/10/16.

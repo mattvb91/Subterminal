@@ -8,11 +8,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.List;
-
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
-import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;

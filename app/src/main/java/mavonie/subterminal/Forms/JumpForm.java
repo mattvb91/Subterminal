@@ -12,19 +12,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.R;
-import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
-import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
+import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
+import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**

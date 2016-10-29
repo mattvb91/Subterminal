@@ -1,21 +1,17 @@
 package mavonie.subterminal.Forms;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-import java.lang.reflect.Constructor;
 import java.util.Calendar;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
-import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.UIHelper;
 

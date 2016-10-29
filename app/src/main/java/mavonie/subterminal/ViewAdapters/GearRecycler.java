@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
-
-import java.util.List;
 
 /**
  * Gear recycler

@@ -1,9 +1,7 @@
 package mavonie.subterminal.Utils;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -134,6 +132,6 @@ public class API implements Callback {
 
     @Override
     public void onFailure(Call call, Throwable t) {
-
+        Toast.makeText(MainActivity.getActivity(), "Could not update from server", Toast.LENGTH_SHORT).show();
     }
 }

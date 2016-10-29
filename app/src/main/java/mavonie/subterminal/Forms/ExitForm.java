@@ -22,9 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Gear;
-import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Subterminal;
 
