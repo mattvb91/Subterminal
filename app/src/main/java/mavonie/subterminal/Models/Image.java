@@ -3,7 +3,6 @@ package mavonie.subterminal.Models;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -16,8 +15,6 @@ import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-
-import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Created by mavon on 20/10/16.

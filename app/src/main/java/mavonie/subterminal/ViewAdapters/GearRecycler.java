@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
-
-import java.util.List;
 
 /**
  * Gear recycler
@@ -34,9 +34,10 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.listContainerManu.setText(mValues.get(position).getContainerManufacturer());
-        holder.listContainerType.setText(mValues.get(position).getContainerType());
-        holder.listCanopyType.setText(mValues.get(position).getCanopyType());
+        holder.listContainerManu.setText(holder.mItem.getContainerManufacturer());
+        holder.listContainerType.setText(holder.mItem.getContainerType());
+        holder.listCanopyType.setText(holder.mItem.getCanopyType());
+        holder.listCanopyManufacturer.setText(holder.mItem.getCanopyManufacturer());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +61,7 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
         public final TextView listContainerManu;
         public final TextView listContainerType;
         public final TextView listCanopyType;
+        public final TextView listCanopyManufacturer;
         public mavonie.subterminal.Models.Gear mItem;
 
         public ViewHolder(View view) {
@@ -68,6 +70,7 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
             listContainerManu = (TextView) view.findViewById(R.id.gear_container_manufacturer);
             listContainerType = (TextView) view.findViewById(R.id.gear_container_type);
             listCanopyType = (TextView) view.findViewById(R.id.gear_canopy_type);
+            listCanopyManufacturer = (TextView) view.findViewById(R.id.gear_canopy_manufacturer);
         }
     }
 }

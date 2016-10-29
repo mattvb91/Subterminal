@@ -43,6 +43,7 @@ public class DBMigrationTest extends BaseDBUnit {
             e.printStackTrace();
         }
         baseDir = new File("build/tmp/migration");
+        baseDir.mkdir();
         newFile = new File(baseDir, "new.db");
         upgradedFile = new File(baseDir, "upgraded.db");
     }

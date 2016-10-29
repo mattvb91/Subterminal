@@ -22,9 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Gear;
-import mavonie.subterminal.R;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Subterminal;
 
@@ -190,8 +189,14 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
 
             getItem().setDescription(exitDescription);
             getItem().setObject_type(Integer.parseInt(objectEntry.getKey()));
-            getItem().setRockdrop_distance(Integer.parseInt(rockDropDistance));
-            getItem().setAltitude_to_landing(Integer.parseInt(distanceToLanding));
+
+            if (!rockDropDistance.isEmpty()) {
+                getItem().setRockdrop_distance(Integer.parseInt(rockDropDistance));
+            }
+
+            if (!distanceToLanding.isEmpty()) {
+                getItem().setAltitude_to_landing(Integer.parseInt(distanceToLanding));
+            }
 
             super.save();
         }

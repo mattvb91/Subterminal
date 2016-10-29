@@ -11,8 +11,8 @@ android {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 5
-        versionName "0.8.4-alpha"
+        versionCode 6
+        versionName "0.8.5-alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -52,6 +52,8 @@ dependencies {
         exclude group: 'com.parse.bolts', module: 'bolts-tasks';
     }
     compile 'com.kbeanie:multipicker:1.1.2@aar'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

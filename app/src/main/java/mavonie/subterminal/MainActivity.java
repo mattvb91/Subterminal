@@ -1,7 +1,6 @@
 package mavonie.subterminal;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +31,7 @@ import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
+import mavonie.subterminal.Utils.API;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity
     Menu optionsMenu;
 
     protected static User user;
+
+    protected API api;
 
     /**
      * We want only one user instance for the main activity
@@ -112,6 +114,10 @@ public class MainActivity extends AppCompatActivity
         if (cl.isFirstRun()) {
             cl.getLogDialog().show();
         }
+
+
+        this.api = new API(this);
+        this.api.init();
     }
 
     @Override
@@ -224,6 +230,7 @@ public class MainActivity extends AppCompatActivity
                         // Display images
                         for (ChosenImage image : images) {
                             Image.createFromPath(image.getOriginalPath(), Subterminal.getActiveModel());
+                            openFragmentForEntity(Subterminal.getActiveModel());
                         }
                     }
 
@@ -236,12 +243,6 @@ public class MainActivity extends AppCompatActivity
 
         imagePicker.pickImage();
     }
-
-    public Bitmap getLastBitmap() {
-        return lastBitmap;
-    }
-
-    public Bitmap lastBitmap = null;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

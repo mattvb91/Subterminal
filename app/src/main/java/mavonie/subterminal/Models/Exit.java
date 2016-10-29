@@ -2,6 +2,7 @@ package mavonie.subterminal.Models;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Pair;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -51,21 +52,15 @@ public class Exit extends Model {
     }
 
     private String name;
+    private String global_id;
     private Integer rockdrop_distance;
     private Integer altitude_to_landing;
-    private Integer difficulty_tracking_exit;
-    private Integer difficulty_tracking_freefall;
-    private Integer difficulty_tracking_landing;
-    private Integer difficulty_tracking_overall;
-    private Integer difficulty_wingsuit_exit;
-    private Integer difficulty_wingsuit_freefall;
-    private Integer difficulty_wingsuit_landing;
-    private Integer difficulty_wingsuit_overall;
     private String description;
-    private String rules;
     private double latitude;
     private double longtitude;
     private Integer object_type;
+
+    private ExitDetails details;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "exit";
@@ -73,19 +68,11 @@ public class Exit extends Model {
     public static final String COLUMN_NAME_NAME = "name";
     public static final String COLUMN_NAME_ROCKDROP_DISTANCE = "rockdrop_distance";
     public static final String COLUMN_NAME_ALTITUDE_TO_LANDING = "altitude_to_landing";
-    public static final String COLUMN_NAME_DIFFICULTY_TRACKING_EXIT = "difficulty_tracking_exit";
-    public static final String COLUMN_NAME_DIFFICULTY_TRACKING_FREEFALL = "difficulty_tracking_freefall";
-    public static final String COLUMN_NAME_DIFFICULTY_TRACKING_LANDING = "difficulty_tracking_landing";
-    public static final String COLUMN_NAME_DIFFICULTY_TRACKING_OVERALL = "difficulty_tracking_overall";
-    public static final String COLUMN_NAME_DIFFICULTY_WINGSUIT_EXIT = "difficulty_wingsuit_exit";
-    public static final String COLUMN_NAME_DIFFICULTY_WINGSUIT_FREEFALL = "difficulty_wingsuit_freefall";
-    public static final String COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING = "difficulty_wingsuit_landing";
-    public static final String COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL = "difficulty_wingsuit_overall";
     public static final String COLUMN_NAME_DESCRIPTION = "description";
-    public static final String COLUMN_NAME_RULES = "rules";
     public static final String COLUMN_NAME_LATITUDE = "lat";
     public static final String COLUMN_NAME_LONGTITUDE = "long";
     public static final String COLUMN_NAME_OBJECT_TYPE = "object_type";
+    public static final String COLUMN_NAME_GLOBAL_ID = "global_id";
 
     /* END DB DEFINITIONS */
 
@@ -132,69 +119,6 @@ public class Exit extends Model {
         this.altitude_to_landing = altitude_to_landing;
     }
 
-    public Integer getDifficulty_tracking_exit() {
-        return difficulty_tracking_exit;
-    }
-
-    public void setDifficulty_tracking_exit(Integer difficulty_tracking_exit) {
-        this.difficulty_tracking_exit = difficulty_tracking_exit;
-    }
-
-    public Integer getDifficulty_tracking_freefall() {
-        return difficulty_tracking_freefall;
-    }
-
-    public void setDifficulty_tracking_freefall(Integer difficulty_tracking_freefall) {
-        this.difficulty_tracking_freefall = difficulty_tracking_freefall;
-    }
-
-    public Integer getDifficulty_tracking_landing() {
-        return difficulty_tracking_landing;
-    }
-
-    public void setDifficulty_tracking_landing(Integer difficulty_tracking_landing) {
-        this.difficulty_tracking_landing = difficulty_tracking_landing;
-    }
-
-    public Integer getDifficulty_tracking_overall() {
-        return difficulty_tracking_overall;
-    }
-
-    public void setDifficulty_tracking_overall(Integer difficulty_tracking_overall) {
-        this.difficulty_tracking_overall = difficulty_tracking_overall;
-    }
-
-    public Integer getDifficulty_wingsuit_exit() {
-        return difficulty_wingsuit_exit;
-    }
-
-    public void setDifficulty_wingsuit_exit(Integer difficulty_wingsuit_exit) {
-        this.difficulty_wingsuit_exit = difficulty_wingsuit_exit;
-    }
-
-    public Integer getDifficulty_wingsuit_freefall() {
-        return difficulty_wingsuit_freefall;
-    }
-
-    public void setDifficulty_wingsuit_freefall(Integer difficulty_wingsuit_freefall) {
-        this.difficulty_wingsuit_freefall = difficulty_wingsuit_freefall;
-    }
-
-    public Integer getDifficulty_wingsuit_landing() {
-        return difficulty_wingsuit_landing;
-    }
-
-    public void setDifficulty_wingsuit_landing(Integer difficulty_wingsuit_landing) {
-        this.difficulty_wingsuit_landing = difficulty_wingsuit_landing;
-    }
-
-    public Integer getDifficulty_wingsuit_overall() {
-        return difficulty_wingsuit_overall;
-    }
-
-    public void setDifficulty_wingsuit_overall(Integer difficulty_wingsuit_overall) {
-        this.difficulty_wingsuit_overall = difficulty_wingsuit_overall;
-    }
 
     public String getDescription() {
         return description;
@@ -202,14 +126,6 @@ public class Exit extends Model {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getRules() {
-        return rules;
-    }
-
-    public void setRules(String rules) {
-        this.rules = rules;
     }
 
     public int getObject_type() {
@@ -234,39 +150,18 @@ public class Exit extends Model {
             int name = cursor.getColumnIndexOrThrow(COLUMN_NAME_NAME);
             int rockDropDistance = cursor.getColumnIndexOrThrow(COLUMN_NAME_ROCKDROP_DISTANCE);
             int altitudeToLanding = cursor.getColumnIndexOrThrow(COLUMN_NAME_ALTITUDE_TO_LANDING);
-            int difficultyTrackingExit = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_EXIT);
-            int difficultyTrackingfreefall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_FREEFALL);
-            int difficultyTrackinglanding = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_LANDING);
-            int difficultyTrackingOverall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_OVERALL);
-            int difficultyWingsuitExit = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_EXIT);
-            int difficultyWingsuitfreefall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_FREEFALL);
-            int difficultyWingsuitlanding = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING);
-            int difficultyWingsuitOverall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL);
             int description = cursor.getColumnIndexOrThrow(COLUMN_NAME_DESCRIPTION);
-            int rules = cursor.getColumnIndexOrThrow(COLUMN_NAME_RULES);
             int latitude = cursor.getColumnIndexOrThrow(COLUMN_NAME_LATITUDE);
             int longtitude = cursor.getColumnIndexOrThrow(COLUMN_NAME_LONGTITUDE);
             int object_type = cursor.getColumnIndexOrThrow(COLUMN_NAME_OBJECT_TYPE);
+            int global_id = cursor.getColumnIndexOrThrow(COLUMN_NAME_GLOBAL_ID);
 
             exit.setId(cursor.getInt(idIndex));
             exit.setName(cursor.getString(name));
             exit.setRockdrop_distance(cursor.getInt(rockDropDistance));
             exit.setAltitude_to_landing(cursor.getInt(altitudeToLanding));
-            exit.setDifficulty_tracking_exit(cursor.getInt(difficultyTrackingExit));
-            exit.setDifficulty_tracking_freefall(cursor.getInt(difficultyTrackingfreefall));
-            exit.setDifficulty_tracking_landing(cursor.getInt(difficultyTrackinglanding));
-            exit.setDifficulty_tracking_overall(cursor.getInt(difficultyTrackingOverall));
-            exit.setDifficulty_wingsuit_exit(cursor.getInt(difficultyWingsuitExit));
-            exit.setDifficulty_wingsuit_freefall(cursor.getInt(difficultyWingsuitfreefall));
-            exit.setDifficulty_wingsuit_landing(cursor.getInt(difficultyWingsuitlanding));
-            exit.setDifficulty_wingsuit_overall(cursor.getInt(difficultyWingsuitOverall));
             exit.setDescription(cursor.getString(description));
-
-            String rulesText = "";
-            if (!cursor.isNull(rules)) {
-                rulesText = cursor.getString(rules);
-            }
-            exit.setRules(rulesText);
+            exit.setGlobal_id(cursor.getString(global_id));
 
             exit.setLatitude(Double.parseDouble(cursor.getString(latitude)));
             exit.setLongtitude(Double.parseDouble(cursor.getString(longtitude)));
@@ -287,18 +182,10 @@ public class Exit extends Model {
         contentValues.put(COLUMN_NAME_NAME, this.getName());
         contentValues.put(COLUMN_NAME_LATITUDE, this.getLatitude());
         contentValues.put(COLUMN_NAME_LONGTITUDE, this.getLongtitude());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_EXIT, this.getDifficulty_tracking_exit());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_FREEFALL, this.getDifficulty_tracking_freefall());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_LANDING, this.getDifficulty_tracking_landing());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_OVERALL, this.getDifficulty_tracking_overall());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_EXIT, this.getDifficulty_wingsuit_exit());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_FREEFALL, this.getDifficulty_wingsuit_freefall());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING, this.getDifficulty_wingsuit_landing());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL, this.getDifficulty_wingsuit_overall());
-        contentValues.put(COLUMN_NAME_RULES, this.getRules());
         contentValues.put(COLUMN_NAME_ROCKDROP_DISTANCE, this.getRockdrop_distance());
         contentValues.put(COLUMN_NAME_ALTITUDE_TO_LANDING, this.getAltitude_to_landing());
         contentValues.put(COLUMN_NAME_OBJECT_TYPE, this.getObject_type());
+        contentValues.put(COLUMN_NAME_GLOBAL_ID, this.getGlobal_id());
     }
 
     @Override
@@ -363,7 +250,6 @@ public class Exit extends Model {
 
         Exit exit = (Exit) o;
 
-        if (exit.getId() != this.getId()) return false;
         if (Double.compare(exit.latitude, latitude) != 0) return false;
         if (Double.compare(exit.longtitude, longtitude) != 0) return false;
         if (!name.equals(exit.name)) return false;
@@ -371,27 +257,85 @@ public class Exit extends Model {
             return false;
         if (altitude_to_landing != null ? !altitude_to_landing.equals(exit.altitude_to_landing) : exit.altitude_to_landing != null)
             return false;
-        if (difficulty_tracking_exit != null ? !difficulty_tracking_exit.equals(exit.difficulty_tracking_exit) : exit.difficulty_tracking_exit != null)
-            return false;
-        if (difficulty_tracking_freefall != null ? !difficulty_tracking_freefall.equals(exit.difficulty_tracking_freefall) : exit.difficulty_tracking_freefall != null)
-            return false;
-        if (difficulty_tracking_landing != null ? !difficulty_tracking_landing.equals(exit.difficulty_tracking_landing) : exit.difficulty_tracking_landing != null)
-            return false;
-        if (difficulty_tracking_overall != null ? !difficulty_tracking_overall.equals(exit.difficulty_tracking_overall) : exit.difficulty_tracking_overall != null)
-            return false;
-        if (difficulty_wingsuit_exit != null ? !difficulty_wingsuit_exit.equals(exit.difficulty_wingsuit_exit) : exit.difficulty_wingsuit_exit != null)
-            return false;
-        if (difficulty_wingsuit_freefall != null ? !difficulty_wingsuit_freefall.equals(exit.difficulty_wingsuit_freefall) : exit.difficulty_wingsuit_freefall != null)
-            return false;
-        if (difficulty_wingsuit_landing != null ? !difficulty_wingsuit_landing.equals(exit.difficulty_wingsuit_landing) : exit.difficulty_wingsuit_landing != null)
-            return false;
-        if (difficulty_wingsuit_overall != null ? !difficulty_wingsuit_overall.equals(exit.difficulty_wingsuit_overall) : exit.difficulty_wingsuit_overall != null)
-            return false;
         if (description != null ? !description.equals(exit.description) : exit.description != null)
             return false;
         if (object_type != null ? !object_type.equals(exit.object_type) : exit.object_type != null)
             return false;
-        return rules != null ? rules.equals(exit.rules) : exit.rules == null;
+        if (global_id != null ? !global_id.equals(exit.global_id) : exit.global_id != null)
+            return false;
+        if (this.getDetails() != null ? !details.equals(exit.details) : exit.details != null)
+            return false;
 
+        return true;
+    }
+
+    public String getGlobal_id() {
+        return global_id;
+    }
+
+    public void setGlobal_id(String global_id) {
+        this.global_id = global_id;
+    }
+
+    public boolean isGlobal() {
+        return this.getGlobal_id() != null;
+    }
+
+    /**
+     * Check if we already have matching exit and insert/update
+     * as appropriate.
+     *
+     * @param exit
+     */
+    public static void createOrUpdate(Exit exit) {
+
+        if (exit.isGlobal()) {
+            //Its a global exit check if we already have it.
+            Exit dbExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_GLOBAL_ID, exit.getGlobal_id()));
+
+            //Check if it equals
+            if (dbExit != null) {
+                if (!dbExit.equals(exit)) {
+                    //Update if it doesnt
+                    exit.setId(dbExit.getId());
+                    exit.save();
+                }
+            } else {
+                exit.save();
+            }
+        }
+    }
+
+    /**
+     * Get the exit details
+     *
+     * @return
+     */
+    public ExitDetails getDetails() {
+        if (this.details == null) {
+            this.details = (ExitDetails) new ExitDetails().getItem(
+                    new Pair<String, String>("exit_id", Integer.toString(this.getId()))
+            );
+        }
+        return details;
+    }
+
+    public void setDetails(ExitDetails details) {
+        this.details = details;
+    }
+
+    /**
+     * Override because we need to also save the associated
+     * details if its a global
+     *
+     * @return
+     */
+    public boolean save() {
+
+        if (this.isGlobal()) {
+            this.getDetails().setExit_id(this.getId());
+            this.getDetails().save();
+        }
+        return super.save();
     }
 }
