@@ -189,8 +189,14 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
 
             getItem().setDescription(exitDescription);
             getItem().setObject_type(Integer.parseInt(objectEntry.getKey()));
-            getItem().setRockdrop_distance(Integer.parseInt(rockDropDistance));
-            getItem().setAltitude_to_landing(Integer.parseInt(distanceToLanding));
+
+            if (!rockDropDistance.isEmpty()) {
+                getItem().setRockdrop_distance(Integer.parseInt(rockDropDistance));
+            }
+
+            if (!distanceToLanding.isEmpty()) {
+                getItem().setAltitude_to_landing(Integer.parseInt(distanceToLanding));
+            }
 
             super.save();
         }

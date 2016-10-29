@@ -5,6 +5,7 @@
         versioncode="6">
         <change>Fixed images not showing up after adding</change>
         <change>Updated gear list view</change>
+        <change>App now downloads global public exits</change>
     </release>
     <release
         version="0.8.4-alpha"
