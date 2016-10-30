@@ -43,6 +43,7 @@ dependencies {
     compile('com.facebook.fresco:fresco:0.14.1') {
         exclude group: 'com.parse.bolts', module: 'bolts-tasks';
     }
+    compile 'com.google.firebase:firebase-core:9.8.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'me.relex:photodraweeview:1.1.2'
@@ -62,3 +63,5 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
+
+apply plugin: 'com.google.gms.google-services'

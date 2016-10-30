@@ -27,6 +27,9 @@ public final class Permissions extends BaseUnit {
             "android.permission.CAMERA",
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE",
+            "mavonie.subterminal.permission.C2D_MESSAGE",
+            "com.google.android.c2dm.permission.RECEIVE",
+            "android.permission.WAKE_LOCK",
     };
 
     private static final String MERGED_MANIFEST = "build/intermediates/manifests/full/debug/AndroidManifest.xml";

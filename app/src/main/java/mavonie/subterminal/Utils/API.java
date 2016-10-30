@@ -3,6 +3,10 @@ package mavonie.subterminal.Utils;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdReceiver;
+import com.google.firebase.iid.FirebaseInstanceIdService;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -19,6 +23,7 @@ import mavonie.subterminal.Models.Api.Exits;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
+import mavonie.subterminal.Utils.Api.FirebaseService;
 import mavonie.subterminal.Utils.Api.Intercepter;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -111,6 +116,8 @@ public class API implements Callback {
     public void init() {
         EndpointInterface endpoints = this.getEndpoints();
         Call publicExits = endpoints.listPublicExits();
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
         publicExits.enqueue(this);
     }
