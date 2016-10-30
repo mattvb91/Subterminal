@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
-        version="0.8.6-alpha"
+        version="0.9.0-beta"
         versioncode="7">
         <change>fixed exit difficulties not saving on first load</change>
         <change>fixed exit view map position when no difficulties exist</change>
+        <change>added image placeholder on lists</change>
     </release>
     <release
         version="0.8.5-alpha"

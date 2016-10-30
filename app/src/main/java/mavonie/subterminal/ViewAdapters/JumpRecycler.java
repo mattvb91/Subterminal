@@ -79,9 +79,9 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
 
             holder.mThumb.setController(controller);
             holder.mThumb.setVisibility(View.VISIBLE);
-        } else {
-            holder.mThumb.setVisibility(View.INVISIBLE);
         }
+
+        holder.mThumb.setHierarchy(Image.getHierarchy());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

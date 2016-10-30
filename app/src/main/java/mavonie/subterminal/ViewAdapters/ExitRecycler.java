@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
@@ -16,6 +18,7 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.util.List;
 
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
@@ -65,9 +68,9 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
 
             holder.mThumb.setController(controller);
             holder.mThumb.setVisibility(View.VISIBLE);
-        } else {
-            holder.mThumb.setVisibility(View.INVISIBLE);
         }
+
+        holder.mThumb.setHierarchy(Image.getHierarchy());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
