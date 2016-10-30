@@ -23,8 +23,8 @@ public class Jump extends Model {
     //use this to get the current position from the query
     private int row_id;
 
-    public static int SLIDER_DOWN = 0;
-    public static int SLIDER_UP = 1;
+    public static final int SLIDER_DOWN = 0;
+    public static final int SLIDER_UP = 1;
 
     private static final Integer[] pc_sizes = {32, 36, 38, 40, 42, 46, 48};
 
