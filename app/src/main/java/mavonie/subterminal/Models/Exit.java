@@ -332,10 +332,11 @@ public class Exit extends Model {
      */
     public boolean save() {
 
-        if (this.isGlobal()) {
+        boolean res = super.save();
+        if (res && this.isGlobal()) {
             this.getDetails().setExit_id(this.getId());
             this.getDetails().save();
         }
-        return super.save();
+        return res;
     }
 }

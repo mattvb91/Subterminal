@@ -7,6 +7,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,6 +18,9 @@ import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+
+import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.R;
 
 /**
  * Created by mavon on 20/10/16.
@@ -266,5 +272,19 @@ public class Image extends Model {
         inChannel.transferTo(0, inChannel.size(), outChannel);
         inStream.close();
         outStream.close();
+    }
+
+    /**
+     * Only need this currently for setting a placeholder image
+     *
+     * @return
+     */
+    public static GenericDraweeHierarchy getHierarchy() {
+        GenericDraweeHierarchyBuilder builder =
+                new GenericDraweeHierarchyBuilder(MainActivity.getActivity().getResources());
+
+        return builder
+                .setPlaceholderImage(R.mipmap.ic_image_placeholder)
+                .build();
     }
 }
