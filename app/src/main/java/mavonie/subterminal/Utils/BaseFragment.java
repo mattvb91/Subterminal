@@ -20,6 +20,7 @@ import mavonie.subterminal.Forms.BaseForm;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Utils.Listeners.ImageListener;
 
 /**
  * Created by mavon on 19/10/16.
@@ -127,6 +128,8 @@ public abstract class BaseFragment extends Fragment {
             image.setController(controller);
             image.setMinimumWidth(150);
             image.setMinimumHeight(150);
+
+            image.setOnClickListener(new ImageListener(current));
 
             this.imageLayout.addView(image);
         }

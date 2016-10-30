@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="0.9.1-beta"
+        versioncode="8">
+        <change>Fullscreen support for images</change>
+    </release>
+    <release
         version="0.9.0-beta"
         versioncode="7">
         <change>fixed exit difficulties not saving on first load</change>
