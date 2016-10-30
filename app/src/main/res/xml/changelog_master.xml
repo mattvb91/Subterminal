@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="0.8.6-alpha"
+        versioncode="7">
+        <change>fixed exit difficulties not saving on first load</change>
+    </release>
+    <release
         version="0.8.5-alpha"
         versioncode="6">
         <change>Fixed images not showing up after adding</change>
