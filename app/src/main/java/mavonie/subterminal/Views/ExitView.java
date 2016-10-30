@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -113,7 +114,10 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             difficultyWingsuitOverall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficulty_wingsuit_overall()));
             difficultyWingsuitOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficulty_wingsuit_overall())));
         } else {
-            view.findViewById(R.id.exit_view_difficulty_card).setVisibility(View.INVISIBLE);
+            RelativeLayout mapLayout = (RelativeLayout) view.findViewById(R.id.exit_view_map_card);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapLayout.getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.exit_view_images_card);
+            mapLayout.setLayoutParams(params);
         }
 
         loadImages();

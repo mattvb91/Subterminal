@@ -4,6 +4,7 @@
         version="0.8.6-alpha"
         versioncode="7">
         <change>fixed exit difficulties not saving on first load</change>
+        <change>fixed exit view map position when no difficulties exist</change>
     </release>
     <release
         version="0.8.5-alpha"
