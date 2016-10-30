@@ -102,8 +102,6 @@ public class JumpTest extends BaseTest {
                         isDisplayed()));
         recyclerView.perform(actionOnItemAtPosition(0, click()));
 
-        ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.exit_picture_button), withText("Add Picture"), isDisplayed()));
-        appCompatButton3.perform(click());
+        onView(allOf(withId(R.id.exit_picture_button), withText("Add Picture"), isDisplayed()));
     }
 }
