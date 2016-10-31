@@ -2,6 +2,7 @@ package mavonie.subterminal;
 
 
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import org.junit.Test;
 
@@ -24,15 +25,7 @@ public class JumpTest extends BaseTest {
     @Test
     public void addJump() {
 
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Open navigation drawer"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
-
-        ViewInteraction appCompatCheckedTextView = onView(
-                allOf(withId(R.id.design_menu_item_text), withText("Jumps"), isDisplayed()));
-        appCompatCheckedTextView.perform(click());
+        navigateToJumpsList();
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.fab), isDisplayed()));
@@ -40,7 +33,7 @@ public class JumpTest extends BaseTest {
 
         ViewInteraction appCompatAutoCompleteTextView = onView(
                 withId(R.id.jump_edit_exit_name));
-        appCompatAutoCompleteTextView.perform(scrollTo(), replaceText("exit name"), closeSoftKeyboard());
+        appCompatAutoCompleteTextView.perform(scrollTo(), replaceText(this.randomString(5)), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.jump_edit_date)));
@@ -73,7 +66,7 @@ public class JumpTest extends BaseTest {
 
         ViewInteraction appCompatEditText3 = onView(
                 withId(R.id.jump_edit_description));
-        appCompatEditText3.perform(scrollTo(), replaceText("description"), closeSoftKeyboard());
+        appCompatEditText3.perform(scrollTo(), replaceText(this.randomString(30)), closeSoftKeyboard());
 
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.jump_save), withText("Save")));
@@ -81,11 +74,7 @@ public class JumpTest extends BaseTest {
 
     }
 
-    @Test
-    public void testViewJump() {
-
-        addJump();
-
+    protected void navigateToJumpsList() {
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Open navigation drawer"),
                         withParent(withId(R.id.toolbar)),
@@ -95,6 +84,13 @@ public class JumpTest extends BaseTest {
         ViewInteraction appCompatCheckedTextView = onView(
                 allOf(withId(R.id.design_menu_item_text), withText("Jumps"), isDisplayed()));
         appCompatCheckedTextView.perform(click());
+    }
+
+    @Test
+    public void testViewJump() {
+
+        addJump();
+        navigateToJumpsList();
 
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.list),
@@ -104,4 +100,21 @@ public class JumpTest extends BaseTest {
 
         onView(allOf(withId(R.id.exit_picture_button), withText("Add Picture"), isDisplayed()));
     }
+
+    @Test
+    public void clickRandomItemTest() {
+
+        for (int i = 0; i <= 5; i++) {
+            addJump();
+        }
+        navigateToJumpsList();
+
+        //Magic happening
+        int x = getRandomRecyclerPosition(R.id.list);
+
+        onView(withId(R.id.list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(x, click()));
+    }
+
 }
