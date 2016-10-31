@@ -170,7 +170,7 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
 
     public void save() {
         //Required fields
-        String exitName = this.exit_edit_name.getText().toString();
+        String exitName = this.exit_edit_name.getText().toString().trim();
         String exitLat = this.exit_edit_lat.getText().toString();
         String exitLong = this.exit_edit_long.getText().toString();
         String exitDescription = this.exit_edit_description.getText().toString();
@@ -211,11 +211,13 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
 
         boolean valid = true;
 
-        if (exit_edit_name.getText().length() == 0) {
+        String exitName = exit_edit_name.getText().toString();
+        exitName = exitName.trim();
+
+        if (exitName.length() == 0) {
             this.exit_edit_name.setError("Exit name required");
             valid = false;
         }
-
 
         return valid;
     }

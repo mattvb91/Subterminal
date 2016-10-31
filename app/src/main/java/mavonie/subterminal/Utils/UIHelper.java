@@ -152,6 +152,8 @@ public class UIHelper {
      */
     public static void initAddButton() {
 
+        Subterminal.setActiveFragment(R.id.nav_jumps);
+
         addButton = (FloatingActionButton) MainActivity.getActivity().findViewById(R.id.fab);
 
         addButton.setOnClickListener(new View.OnClickListener() {
