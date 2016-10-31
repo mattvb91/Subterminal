@@ -227,4 +227,8 @@ public class Jump extends Model {
     public void setRow_id(int row_id) {
         this.row_id = row_id;
     }
+
+    public String getFormattedDelay() {
+        return this.getDelay() + "s";
+    }
 }

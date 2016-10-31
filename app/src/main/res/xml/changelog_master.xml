@@ -4,6 +4,7 @@
         version="0.9.1-beta"
         versioncode="8">
         <change>Fullscreen support for images</change>
+        <change>Improved jump detail view</change>
     </release>
     <release
         version="0.9.0-beta"

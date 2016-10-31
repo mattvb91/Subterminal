@@ -58,7 +58,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         String date = holder.mItem.getDate();
 
         holder.slider.setText("Slider: " + holder.mItem.getFormattedSlider());
-        holder.delay.setText("Delay: " + holder.mItem.getDelay() + "s");
+        holder.delay.setText("Delay: " + holder.mItem.getFormattedDelay());
         holder.row_id.setText("#" + holder.mItem.getRow_id());
 
         if (date != null) {
