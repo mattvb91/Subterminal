@@ -5,12 +5,15 @@ import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -40,6 +43,34 @@ public class BaseTest {
         } catch (NoMatchingViewException e) {
             //View is not in hierarchy
         }
+    }
 
+    public int getRandomRecyclerPosition(int recyclerId) {
+        Random ran = new Random();
+        //Get the actual drawn RecyclerView
+        RecyclerView recyclerView = (RecyclerView) mActivityTestRule
+                .getActivity().findViewById(recyclerId);
+
+        //If the RecyclerView exists, get the item count from the adapter
+        int n = (recyclerView == null)
+                ? 1
+                : recyclerView.getAdapter().getItemCount();
+
+        //Return a random number from 0 (inclusive) to adapter.itemCount() (exclusive)
+        return ran.nextInt(n);
+    }
+
+    private Random random = new Random();
+
+    public String randomString(int length) {
+        char[] chars1 = "ABCDEF012GHIJKL345MNOPQR678STUVWXYZ9".toCharArray();
+        StringBuilder sb1 = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            char c1 = chars1[random.nextInt(chars1.length)];
+            sb1.append(c1);
+        }
+        String random_string = sb1.toString();
+
+        return random_string;
     }
 }

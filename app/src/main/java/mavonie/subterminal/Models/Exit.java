@@ -9,22 +9,22 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Created by mavon on 13/10/16.
- */
 
+/**
+ * Exit Model
+ */
 public class Exit extends Model {
 
-    public static Integer TYPE_BUILDING = 1;
-    public static Integer TYPE_ANTENNA = 2;
-    public static Integer TYPE_SPAN = 3;
-    public static Integer TYPE_EARTH = 4;
-    public static Integer TYPE_OTHER = 5;
+    public static final Integer TYPE_BUILDING = 1;
+    public static final Integer TYPE_ANTENNA = 2;
+    public static final Integer TYPE_SPAN = 3;
+    public static final Integer TYPE_EARTH = 4;
+    public static final Integer TYPE_OTHER = 5;
 
-    public static Integer DIFFICULTY_BEGINNER = 1;
-    public static Integer DIFFICULTY_INTERMEDIATE = 2;
-    public static Integer DIFFICULTY_ADVANCED = 3;
-    public static Integer DIFFICULTY_EXPERT = 4;
+    public static final Integer DIFFICULTY_BEGINNER = 1;
+    public static final Integer DIFFICULTY_INTERMEDIATE = 2;
+    public static final Integer DIFFICULTY_ADVANCED = 3;
+    public static final Integer DIFFICULTY_EXPERT = 4;
 
     private static final LinkedHashMap<String, String> object_types;
     private static final Map<Integer, String> difficulty_descriptor;

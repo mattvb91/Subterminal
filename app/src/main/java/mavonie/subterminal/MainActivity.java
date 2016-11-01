@@ -8,15 +8,14 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.login.widget.ProfilePictureView;
+import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
@@ -26,18 +25,16 @@ import com.squareup.leakcanary.RefWatcher;
 
 import java.util.List;
 
-import de.cketti.library.changelog.ChangeLog;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
-import mavonie.subterminal.Utils.API;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 
 import static mavonie.subterminal.Utils.UIHelper.openFragmentForEntity;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends PinCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         Home.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
@@ -48,8 +45,6 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     private RefWatcher refWatcher;
 
-    private ProfilePictureView profilePictureView;
-
     public Menu getOptionsMenu() {
         return optionsMenu;
     }
@@ -57,8 +52,6 @@ public class MainActivity extends AppCompatActivity
     Menu optionsMenu;
 
     protected static User user;
-
-    protected API api;
 
     /**
      * We want only one user instance for the main activity
@@ -83,6 +76,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        activity = this;
+
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -90,9 +85,8 @@ public class MainActivity extends AppCompatActivity
         }
         this.refWatcher = LeakCanary.install(this.getApplication());
 
-        Fresco.initialize(this);
+        Subterminal.init();
 
-        activity = this;
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
@@ -109,15 +103,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        ChangeLog cl = new ChangeLog(this);
-        if (cl.isFirstRun()) {
-            cl.getLogDialog().show();
-        }
-
-
-        this.api = new API(this);
-        this.api.init();
     }
 
     @Override
@@ -146,9 +131,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

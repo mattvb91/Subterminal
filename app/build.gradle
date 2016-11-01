@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
+    maven { url "http://dl.bintray.com/pixplicity/maven" }
 }
 
 android {
@@ -11,8 +12,8 @@ android {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 7
-        versionName "0.9.0-beta"
+        versionCode 9
+        versionName "0.9.2-beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -40,24 +41,34 @@ dependencies {
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.facebook.android:facebook-android-sdk:4.3.0'
-    compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.google.android.gms:play-services-maps:9.6.1'
-    compile 'com.android.support:cardview-v7:24.2.1'
-    compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile('com.facebook.fresco:fresco:0.14.1') {
         exclude group: 'com.parse.bolts', module: 'bolts-tasks';
     }
+    compile 'com.google.firebase:firebase-core:9.8.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'me.relex:photodraweeview:1.1.2'
+    compile 'com.facebook.android:facebook-android-sdk:4.3.0'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.google.android.gms:play-services-maps:9.8.0'
+    compile 'com.android.support:cardview-v7:24.2.1'
+    compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'com.kbeanie:multipicker:1.1.2@aar'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    compile('com.github.orangegangsters:lollipin:2.0.0@aar') {
+        transitive = true
+    }
+    compile 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
+    compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'org.robolectric:robolectric:3.1.2'
     testCompile 'junit:junit:4.12'
     testCompile 'org.xerial:sqlite-jdbc:3.8.11.2'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
+
+
+apply plugin: 'com.google.gms.google-services'

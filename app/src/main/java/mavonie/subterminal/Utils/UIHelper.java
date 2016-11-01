@@ -16,6 +16,7 @@ import mavonie.subterminal.Gear;
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
@@ -119,6 +120,10 @@ public class UIHelper {
                 fragmentClass = new Exit();
                 getAddButton().show();
                 break;
+            case R.id.nav_settings:
+                fragmentClass = new Preference();
+                getAddButton().hide();
+                break;
         }
 
         Subterminal.setActiveFragment(id);
@@ -151,6 +156,8 @@ public class UIHelper {
      * multiple fragments
      */
     public static void initAddButton() {
+
+        Subterminal.setActiveFragment(R.id.nav_jumps);
 
         addButton = (FloatingActionButton) MainActivity.getActivity().findViewById(R.id.fab);
 

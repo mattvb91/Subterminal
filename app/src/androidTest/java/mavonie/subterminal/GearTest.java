@@ -2,6 +2,7 @@ package mavonie.subterminal;
 
 
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -49,28 +50,28 @@ public class GearTest extends BaseTest{
 
         ViewInteraction appCompatEditText = onView(
                 withId(R.id.edit_container_manufacturer));
-        appCompatEditText.perform(scrollTo(), replaceText("test manufacturer"), closeSoftKeyboard());
+        appCompatEditText.perform(scrollTo(), replaceText(this.randomString(5)), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 withId(R.id.edit_container_type));
-        appCompatEditText2.perform(scrollTo(), replaceText("test type"), closeSoftKeyboard());
+        appCompatEditText2.perform(scrollTo(), replaceText(this.randomString(5)), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
                 withId(R.id.edit_container_serial));
-        appCompatEditText3.perform(scrollTo(), replaceText("test serial"), closeSoftKeyboard());
+        appCompatEditText3.perform(scrollTo(), replaceText(this.randomString(5)), closeSoftKeyboard());
 
 
         ViewInteraction appCompatEditText5 = onView(
                 withId(R.id.edit_canopy_manufacturer));
-        appCompatEditText5.perform(scrollTo(), replaceText("canopy manufacturer"), closeSoftKeyboard());
+        appCompatEditText5.perform(scrollTo(), replaceText(this.randomString(5)), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText6 = onView(
                 withId(R.id.edit_canopy_type));
-        appCompatEditText6.perform(scrollTo(), replaceText("canopy type"), closeSoftKeyboard());
+        appCompatEditText6.perform(scrollTo(), replaceText(this.randomString(5)), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText7= onView(
                 withId(R.id.edit_canopy_type));
-        appCompatEditText7.perform(scrollTo(), replaceText("canopy serial"), closeSoftKeyboard());
+        appCompatEditText7.perform(scrollTo(), replaceText(this.randomString(5)), closeSoftKeyboard());
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.gear_save), withText("Save")));
@@ -80,13 +81,9 @@ public class GearTest extends BaseTest{
 
     @Test
     public void deleteGearTest() {
-        addGearTest();
 
-        ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.list),
-                        withParent(withId(R.id.flContent)),
-                        isDisplayed()));
-        recyclerView.perform(actionOnItemAtPosition(0, click()));
+        addGearTest();
+        clickRandomItemTest();
 
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.action_delete), withContentDescription("Delete"), isDisplayed()));
@@ -95,5 +92,16 @@ public class GearTest extends BaseTest{
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(android.R.id.button1), withText("OK"), isDisplayed()));
         appCompatButton2.perform(click());
+    }
+
+    @Test
+    public void clickRandomItemTest() {
+
+        //Magic happening
+        int x = getRandomRecyclerPosition(R.id.list);
+
+        onView(withId(R.id.list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(x, click()));
     }
 }

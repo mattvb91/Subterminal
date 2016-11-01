@@ -31,21 +31,56 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/text_margin"
+                        android:gravity="left"
+                        android:text="Exit:"
+                        android:layout_span="1"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:textStyle="bold"/>
+
+                    <TextView
                         android:id="@+id/jump_view_exit_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/text_margin"
-                        android:layout_span="2"
-                        android:gravity="left"
+                        android:layout_span="1"
+                        android:text="Exit"
                         android:textAppearance="?attr/textAppearanceListItem"/>
 
                     <TextView
                         android:id="@+id/jump_view_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_column="1"
                         android:layout_margin="@dimen/text_margin"
                         android:gravity="right"
+                        android:text="Date"
+                        android:textAppearance="?attr/textAppearanceListItem"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_margin"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="Rig:"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/jump_view_rig"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="left"
+                        android:layout_span="2"
+                        android:text=""
                         android:textAppearance="?attr/textAppearanceListItem"/>
                 </TableRow>
 
@@ -59,16 +94,16 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
 
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/text_margin"
                         android:layout_weight="1"
-                        android:gravity="left"
-                        android:text="Rig"
+                        android:gravity="center_horizontal"
+                        android:text="Delay"
                         android:textAppearance="?attr/textAppearanceListItem"
                         android:textStyle="bold"/>
+
 
                     <TextView
                         android:layout_width="match_parent"
@@ -97,18 +132,21 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/jump_view_rig"
+                        android:id="@+id/jump_view_delay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="left"
+                        android:text="delay"
+                        android:gravity="center_horizontal"
                         android:textAppearance="?attr/textAppearanceListItem"/>
+
 
                     <TextView
                         android:id="@+id/jump_view_pc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:text="pc size"
                         android:gravity="center_horizontal"
                         android:textAppearance="?attr/textAppearanceListItem"/>
 
@@ -118,6 +156,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
+                        android:text="slider"
                         android:paddingRight="16dp"
                         android:textAppearance="?attr/textAppearanceListItem"/>
                 </TableRow>
@@ -137,6 +176,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
+                        android:text="Description"
                         android:layout_span="3"
                         android:gravity="left"
                         android:textAppearance="?attr/textAppearanceListItem"/>

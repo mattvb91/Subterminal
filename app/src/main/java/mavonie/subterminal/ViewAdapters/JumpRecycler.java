@@ -6,12 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.common.ResizeOptions;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.util.List;
 
@@ -58,7 +53,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         String date = holder.mItem.getDate();
 
         holder.slider.setText("Slider: " + holder.mItem.getFormattedSlider());
-        holder.delay.setText("Delay: " + holder.mItem.getDelay() + "s");
+        holder.delay.setText("Delay: " + holder.mItem.getFormattedDelay());
         holder.row_id.setText("#" + holder.mItem.getRow_id());
 
         if (date != null) {
@@ -68,20 +63,10 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         Image thumb = Image.loadThumbForEntity(holder.mItem);
 
         if (thumb != null) {
-            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(thumb.getUri())
-                    .setResizeOptions(new ResizeOptions(THUMB_SIZE, THUMB_SIZE))
-                    .build();
-
-            PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
-                    .setOldController(holder.mThumb.getController())
-                    .setImageRequest(request)
-                    .build();
-
-            holder.mThumb.setController(controller);
-            holder.mThumb.setVisibility(View.VISIBLE);
+            holder.mThumb.setImageURI(thumb.getUri().toString());
+        } else {
+            holder.mThumb.setHierarchy(Image.getHierarchy());
         }
-
-        holder.mThumb.setHierarchy(Image.getHierarchy());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -7,18 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.common.ResizeOptions;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.util.List;
 
-import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
@@ -57,20 +49,10 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
         Image thumb = Image.loadThumbForEntity(holder.mItem);
 
         if (thumb != null) {
-            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(thumb.getUri())
-                    .setResizeOptions(new ResizeOptions(THUMB_SIZE, THUMB_SIZE))
-                    .build();
-
-            PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder()
-                    .setOldController(holder.mThumb.getController())
-                    .setImageRequest(request)
-                    .build();
-
-            holder.mThumb.setController(controller);
-            holder.mThumb.setVisibility(View.VISIBLE);
+            holder.mThumb.setImageURI(thumb.getUri().toString());
+        } else {
+            holder.mThumb.setHierarchy(Image.getHierarchy());
         }
-
-        holder.mThumb.setHierarchy(Image.getHierarchy());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -145,7 +145,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             int exitId;
 
             if (this.exitEntry == null) {
-                String exitName = exitNameAutoComplete.getText().toString();
+                String exitName = exitNameAutoComplete.getText().toString().trim();
 
                 Exit exit = (Exit) new Exit().getItem(new Pair<String, String>("name", exitName));
 
@@ -213,7 +213,10 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
     protected boolean validateForm() {
         boolean valid = true;
 
-        if (exitNameAutoComplete.getText().length() == 0) {
+        String exitName = exitNameAutoComplete.getText().toString();
+        exitName = exitName.trim();
+
+        if (exitName.length() == 0) {
             this.exitNameAutoComplete.setError("Exit required");
             valid = false;
         }

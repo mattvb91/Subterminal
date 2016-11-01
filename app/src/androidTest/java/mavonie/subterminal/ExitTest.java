@@ -1,6 +1,7 @@
 package mavonie.subterminal;
 
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ import static org.hamcrest.Matchers.allOf;
 public class ExitTest extends BaseTest {
 
     @Test
-    public void addExitTest() {
+    public void addExitTest() throws InterruptedException {
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Open navigation drawer"),
                         withParent(withId(R.id.toolbar)),
@@ -37,7 +38,7 @@ public class ExitTest extends BaseTest {
 
         ViewInteraction appCompatEditText = onView(
                 withId(R.id.exit_edit_name));
-        appCompatEditText.perform(scrollTo(), replaceText("test"), closeSoftKeyboard());
+        appCompatEditText.perform(scrollTo(), replaceText(this.randomString(5)), closeSoftKeyboard());
 
         ViewInteraction appCompatEditRockdrop = onView(
                 withId(R.id.exit_edit_rockdrop_distance));
@@ -57,7 +58,7 @@ public class ExitTest extends BaseTest {
 
         ViewInteraction appCompatEditText2 = onView(
                 withId(R.id.exit_edit_description));
-        appCompatEditText2.perform(scrollTo(), replaceText("test"), closeSoftKeyboard());
+        appCompatEditText2.perform(scrollTo(), replaceText(this.randomString(20)), closeSoftKeyboard());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.exit_save), withText("Save")));
@@ -69,6 +70,27 @@ public class ExitTest extends BaseTest {
                         isDisplayed()));
         recyclerView.perform(actionOnItemAtPosition(1, click()));
 
+    }
+
+    @Test
+    public void clickRandomItemTest() {
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        withParent(withId(R.id.toolbar)),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction appCompatCheckedTextView = onView(
+                allOf(withId(R.id.design_menu_item_text), withText("Exits"), isDisplayed()));
+        appCompatCheckedTextView.perform(click());
+
+        //Magic happening
+        int x = getRandomRecyclerPosition(R.id.list);
+
+        onView(withId(R.id.list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(x, click()));
     }
 
 }

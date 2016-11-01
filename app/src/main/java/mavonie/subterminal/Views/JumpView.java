@@ -53,6 +53,9 @@ public class JumpView extends BaseFragment {
             jumpRig.setText(getItem().getGear().getDisplayName());
         }
 
+        TextView delay = (TextView) view.findViewById(R.id.jump_view_delay);
+        delay.setText(getItem().getFormattedDelay());
+
         TextView jumpSlider = (TextView) view.findViewById(R.id.jump_view_slider);
         jumpSlider.setText(getItem().getFormattedSlider());
 

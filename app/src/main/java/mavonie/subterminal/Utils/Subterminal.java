@@ -1,11 +1,20 @@
 package mavonie.subterminal.Utils;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.github.orangegangsters.lollipin.lib.managers.LockManager;
+import com.pixplicity.easyprefs.library.Prefs;
+
+import de.cketti.library.changelog.ChangeLog;
+import mavonie.subterminal.CustomPinActivity;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Preference;
 
 /**
  * Hold global variables and general access functions.
@@ -66,5 +75,36 @@ public class Subterminal {
         String meta = bundle.getString(string);
 
         return meta;
+    }
+
+    /**
+     * Initialize everything we need
+     */
+    public static void init() {
+
+        Fresco.initialize(MainActivity.getActivity());
+
+        new Prefs.Builder()
+                .setContext(MainActivity.getActivity())
+                .setMode(ContextWrapper.MODE_PRIVATE)
+                .setPrefsName(MainActivity.getActivity().getPackageName())
+                .setUseDefaultSharedPreference(true)
+                .build();
+
+        if (Prefs.getBoolean(Preference.PIN_ENABLED, false)) {
+            LockManager.getInstance().enableAppLock(
+                    MainActivity.getActivity().getApplicationContext(),
+                    CustomPinActivity.class
+            );
+            LockManager.getInstance().getAppLock().setShouldShowForgot(false);
+        }
+
+        ChangeLog cl = new ChangeLog(MainActivity.getActivity());
+        if (cl.isFirstRun()) {
+            cl.getLogDialog().show();
+        }
+
+        API api = new API(MainActivity.getActivity());
+        api.init();
     }
 }
