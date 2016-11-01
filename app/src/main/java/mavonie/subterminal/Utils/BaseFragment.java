@@ -112,7 +112,7 @@ public abstract class BaseFragment extends Fragment {
         for (Image current : images) {
 
             SimpleDraweeView image = new SimpleDraweeView(MainActivity.getActivity().getApplicationContext());
-            image.setImageURI("file://" + current.getFullPath());
+            image.setImageURI(current.getUri().toString());
             image.setMinimumWidth(150);
             image.setMinimumHeight(150);
 

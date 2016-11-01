@@ -49,7 +49,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
         Image thumb = Image.loadThumbForEntity(holder.mItem);
 
         if (thumb != null) {
-            holder.mThumb.setImageURI("file://" + thumb.getFullPath());
+            holder.mThumb.setImageURI(thumb.getUri().toString());
         } else {
             holder.mThumb.setHierarchy(Image.getHierarchy());
         }

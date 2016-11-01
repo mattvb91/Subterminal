@@ -63,7 +63,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         Image thumb = Image.loadThumbForEntity(holder.mItem);
 
         if (thumb != null) {
-            holder.mThumb.setImageURI("file://" + thumb.getFullPath());
+            holder.mThumb.setImageURI(thumb.getUri().toString());
         } else {
             holder.mThumb.setHierarchy(Image.getHierarchy());
         }
