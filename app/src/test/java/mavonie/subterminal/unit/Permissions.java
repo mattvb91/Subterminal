@@ -4,11 +4,12 @@ import org.junit.Test;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.Fs;
 
-import static org.junit.Assert.*;
-
 import java.util.HashSet;
 
 import mavonie.subterminal.unit.Base.BaseUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Make sure permissions are as we expect and nothing else
@@ -30,6 +31,7 @@ public final class Permissions extends BaseUnit {
             "mavonie.subterminal.permission.C2D_MESSAGE",
             "com.google.android.c2dm.permission.RECEIVE",
             "android.permission.WAKE_LOCK",
+            "android.permission.USE_FINGERPRINT",
     };
 
     private static final String MERGED_MANIFEST = "build/intermediates/manifests/full/debug/AndroidManifest.xml";

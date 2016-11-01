@@ -16,6 +16,7 @@ import mavonie.subterminal.Gear;
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
@@ -118,6 +119,10 @@ public class UIHelper {
             case R.id.nav_exits:
                 fragmentClass = new Exit();
                 getAddButton().show();
+                break;
+            case R.id.nav_settings:
+                fragmentClass = new Preference();
+                getAddButton().hide();
                 break;
         }
 

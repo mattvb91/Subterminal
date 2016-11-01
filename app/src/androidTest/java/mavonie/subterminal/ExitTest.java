@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.allOf;
 public class ExitTest extends BaseTest {
 
     @Test
-    public void addExitTest() {
+    public void addExitTest() throws InterruptedException {
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Open navigation drawer"),
                         withParent(withId(R.id.toolbar)),

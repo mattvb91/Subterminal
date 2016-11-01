@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
+    maven { url "http://dl.bintray.com/pixplicity/maven" }
 }
 
 android {
@@ -56,6 +57,11 @@ dependencies {
     compile 'com.kbeanie:multipicker:1.1.2@aar'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile('com.github.orangegangsters:lollipin:2.0.0@aar') {
+        transitive = true
+    }
+    compile 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
+    compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'org.robolectric:robolectric:3.1.2'
     testCompile 'junit:junit:4.12'
@@ -63,5 +69,6 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
+
 
 apply plugin: 'com.google.gms.google-services'

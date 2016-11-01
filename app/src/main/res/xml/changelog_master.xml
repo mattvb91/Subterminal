@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="0.9.2-beta"
+        versioncode="9">
+        <change>Added settings and PIN option</change>
+    </release>
+    <release
         version="0.9.1-beta"
         versioncode="8">
         <change>Fullscreen support for images</change>
