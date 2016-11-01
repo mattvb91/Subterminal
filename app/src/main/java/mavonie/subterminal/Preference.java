@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.github.orangegangsters.lollipin.lib.managers.AppLock;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
@@ -29,6 +30,8 @@ public class Preference extends BaseFragment {
 
         this.pinSwitch = (Switch) view.findViewById(R.id.settings_pin_switch);
         this.pinSwitch.setChecked(Prefs.getBoolean(PIN_ENABLED, false));
+        TextView version = (TextView) view.findViewById(R.id.preference_version);
+        version.setText(BuildConfig.VERSION_NAME);
 
         pinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
