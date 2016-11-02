@@ -19,14 +19,6 @@ import mavonie.subterminal.ViewAdapters.ExitRecycler;
  */
 public class Exit extends BaseFragment {
 
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public Exit() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import de.cketti.library.changelog.ChangeLog;
@@ -80,31 +81,31 @@ public class Subterminal {
     /**
      * Initialize everything we need
      */
-    public static void init() {
+    public static void init(MainActivity activity) {
 
-        Fresco.initialize(MainActivity.getActivity());
+        Fresco.initialize(activity);
 
         new Prefs.Builder()
-                .setContext(MainActivity.getActivity())
+                .setContext(activity)
                 .setMode(ContextWrapper.MODE_PRIVATE)
-                .setPrefsName(MainActivity.getActivity().getPackageName())
+                .setPrefsName(activity.getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
 
         if (Prefs.getBoolean(Preference.PIN_ENABLED, false)) {
             LockManager.getInstance().enableAppLock(
-                    MainActivity.getActivity().getApplicationContext(),
+                    activity.getApplicationContext(),
                     CustomPinActivity.class
             );
             LockManager.getInstance().getAppLock().setShouldShowForgot(false);
         }
 
-        ChangeLog cl = new ChangeLog(MainActivity.getActivity());
+        ChangeLog cl = new ChangeLog(activity);
         if (cl.isFirstRun()) {
             cl.getLogDialog().show();
         }
 
-        API api = new API(MainActivity.getActivity());
+        API api = new API(activity);
         api.init();
     }
 }
