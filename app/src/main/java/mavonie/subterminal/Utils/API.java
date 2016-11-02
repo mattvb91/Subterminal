@@ -3,8 +3,6 @@ package mavonie.subterminal.Utils;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -21,6 +19,7 @@ import jonathanfinerty.once.Once;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Api.Exits;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
 import mavonie.subterminal.Utils.Api.Intercepter;
@@ -42,7 +41,8 @@ public class API implements Callback {
         this.context = context;
     }
 
-    private final String CALLS_LIST_PUBLIC_EXITS = "LIST_PUBLIC_EXITS";
+    public static final String CALLS_LIST_PUBLIC_EXITS = "LIST_PUBLIC_EXITS";
+    public static final String CALLS_UPDATE_NOTIFICATIONS = "UPDATE_NOTIFICATIONS";
 
     /**
      * Get our retrofit client.
@@ -117,25 +117,39 @@ public class API implements Callback {
     public void init() {
         EndpointInterface endpoints = this.getEndpoints();
 
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-
         if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_PUBLIC_EXITS)) {
             Call publicExits = endpoints.listPublicExits();
             publicExits.enqueue(this);
         }
+
+        if (!Once.beenDone(TimeUnit.DAYS, 1, CALLS_UPDATE_NOTIFICATIONS)) {
+            updateNotificationSettings();
+        }
+    }
+
+    /**
+     * Send notification object
+     */
+    public void updateNotificationSettings() {
+        Call syncNotification = this.getEndpoints().syncPreferenceNotification(new Notification());
+        syncNotification.enqueue(this);
     }
 
     @Override
     public void onResponse(Call call, Response response) {
 
-        if (response.body() instanceof Exits) {
-            List<Exit> exits = ((Exits) response.body()).getExits();
+        if (response.isSuccessful()) {
+            if (response.body() instanceof Exits) {
+                List<Exit> exits = ((Exits) response.body()).getExits();
 
-            for (Exit exit : exits) {
-                Exit.createOrUpdate(exit);
+                for (Exit exit : exits) {
+                    Exit.createOrUpdate(exit);
+                }
+
+                Once.markDone(CALLS_LIST_PUBLIC_EXITS);
+            } else if (response.body() instanceof Notification) {
+                Once.markDone(CALLS_UPDATE_NOTIFICATIONS);
             }
-
-            Once.markDone(CALLS_LIST_PUBLIC_EXITS);
         }
     }
 

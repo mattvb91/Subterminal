@@ -45,6 +45,7 @@ dependencies {
         exclude group: 'com.parse.bolts', module: 'bolts-tasks';
     }
     compile 'com.google.firebase:firebase-core:9.8.0'
+    compile 'com.google.firebase:firebase-messaging:9.8.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'me.relex:photodraweeview:1.1.2'

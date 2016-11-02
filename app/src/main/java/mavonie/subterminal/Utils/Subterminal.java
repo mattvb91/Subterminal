@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import de.cketti.library.changelog.ChangeLog;
@@ -25,7 +24,15 @@ public class Subterminal {
 
     private static Model activeModel;
     private static int activeFragment;
+    private static API api;
 
+    /**
+     *
+     * @return API
+     */
+    public static API getApi() {
+        return api;
+    }
 
     /**
      * @return Model
@@ -108,7 +115,7 @@ public class Subterminal {
             cl.getLogDialog().show();
         }
 
-        API api = new API(activity);
+        api = new API(activity);
         api.init();
     }
 }

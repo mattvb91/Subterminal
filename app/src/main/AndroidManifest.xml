@@ -45,7 +45,13 @@
             android:value="@string/api_app_key"/>
 
         <service
-            android:name=".Utils.Api.FirebaseService">
+            android:name=".Utils.Api.FirebaseInstanceService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".Utils.Api.FirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
