@@ -62,6 +62,7 @@ dependencies {
     }
     compile 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
+    compile 'com.jonathanfinerty.once:once:1.2.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'org.robolectric:robolectric:3.1.2'
     testCompile 'junit:junit:4.12'

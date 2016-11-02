@@ -12,6 +12,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import de.cketti.library.changelog.ChangeLog;
+import jonathanfinerty.once.Once;
 import mavonie.subterminal.CustomPinActivity;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
@@ -82,6 +83,8 @@ public class Subterminal {
      * Initialize everything we need
      */
     public static void init(MainActivity activity) {
+
+        Once.initialise(activity);
 
         Fresco.initialize(activity);
 
