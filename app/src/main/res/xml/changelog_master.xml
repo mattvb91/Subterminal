@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="0.9.3-beta"
+        versioncode="10">
+        <change>Notifications now enabled</change>
+        <change>Added tabs in exit view</change>
+    </release>
+    <release
         version="0.9.2-beta"
         versioncode="9">
         <change>Added settings and PIN option</change>

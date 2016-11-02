@@ -14,6 +14,7 @@ import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class ExitTest extends BaseDBUnit {
@@ -90,5 +91,21 @@ public class ExitTest extends BaseDBUnit {
         exit.save();
 
         return exit;
+    }
+
+    @Test
+    public void testNullGlobalId() {
+        createExit();
+
+        HashMap<String, Object> params = new HashMap<>();
+
+        params.put(Model.FILTER_WHERE_FIELD, mavonie.subterminal.Models.Exit.COLUMN_NAME_GLOBAL_ID);
+        params.put(Model.FILTER_WHERE_VALUE, null);
+
+        List<Exit> exits = new Exit().getItems(params);
+
+        for (Exit exit : exits) {
+            assertNull(exit.getGlobal_id());
+        }
     }
 }

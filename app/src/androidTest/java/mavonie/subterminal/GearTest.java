@@ -30,15 +30,7 @@ public class GearTest extends BaseTest{
 
     @Test
     public void addGearTest() {
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Open navigation drawer"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
-
-        ViewInteraction appCompatCheckedTextView = onView(
-                allOf(withId(R.id.design_menu_item_text), withText("Gear"), isDisplayed()));
-        appCompatCheckedTextView.perform(click());
+        navigateToGear();
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.fab), isDisplayed()));
@@ -79,10 +71,21 @@ public class GearTest extends BaseTest{
 
     }
 
+    public void navigateToGear() {
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        withParent(withId(R.id.toolbar)),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction appCompatCheckedTextView = onView(
+                allOf(withId(R.id.design_menu_item_text), withText("Gear"), isDisplayed()));
+        appCompatCheckedTextView.perform(click());
+    }
+
     @Test
     public void deleteGearTest() {
 
-        addGearTest();
         clickRandomItemTest();
 
         ViewInteraction actionMenuItemView = onView(
@@ -96,6 +99,11 @@ public class GearTest extends BaseTest{
 
     @Test
     public void clickRandomItemTest() {
+
+        navigateToGear();
+
+        addGearTest();
+        addGearTest();
 
         //Magic happening
         int x = getRandomRecyclerPosition(R.id.list);

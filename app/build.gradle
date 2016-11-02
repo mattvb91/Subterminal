@@ -12,8 +12,8 @@ android {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 9
-        versionName "0.9.2-beta"
+        versionCode 10
+        versionName "0.9.3-beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -45,6 +45,7 @@ dependencies {
         exclude group: 'com.parse.bolts', module: 'bolts-tasks';
     }
     compile 'com.google.firebase:firebase-core:9.8.0'
+    compile 'com.google.firebase:firebase-messaging:9.8.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'me.relex:photodraweeview:1.1.2'
@@ -62,6 +63,7 @@ dependencies {
     }
     compile 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
+    compile 'com.jonathanfinerty.once:once:1.2.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'org.robolectric:robolectric:3.1.2'
     testCompile 'junit:junit:4.12'

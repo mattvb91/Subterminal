@@ -99,7 +99,7 @@ public class UIHelper {
      * @param id
      */
     public static void goToFragment(int id) {
-        BaseFragment fragmentClass = null;
+        Fragment fragmentClass = null;
 
         switch (id) {
 //            case R.id.nav_home:

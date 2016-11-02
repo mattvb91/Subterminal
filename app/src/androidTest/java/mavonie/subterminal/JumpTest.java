@@ -104,7 +104,7 @@ public class JumpTest extends BaseTest {
     @Test
     public void clickRandomItemTest() {
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i <= 2; i++) {
             addJump();
         }
         navigateToJumpsList();

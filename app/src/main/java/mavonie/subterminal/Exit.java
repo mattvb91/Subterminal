@@ -1,63 +1,37 @@
 package mavonie.subterminal;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.HashMap;
+public class Exit extends Fragment {
+    private FragmentTabHost mTabHost;
 
-import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.Utils.BaseFragment;
-import mavonie.subterminal.ViewAdapters.ExitRecycler;
+    public static final String TAB = "TAB";
 
-/**
- * Exit list fragment
- */
-public class Exit extends BaseFragment {
+    public static final int TAB_MY_EXITS = 0;
+    public static final int TAB_ALL_EXITS = 1;
 
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public Exit() {
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_exit_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
+        View rootView = inflater.inflate(R.layout.fragment_tabs, container, false);
 
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-            HashMap<String, Object> params = new HashMap<>();
-            params.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_ASC);
-            params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Exit.COLUMN_NAME_NAME);
+        mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
+        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
 
-            recyclerView.setAdapter(new ExitRecycler(new mavonie.subterminal.Models.Exit().getItems(params), getmListener()));
-        }
-        return view;
-    }
+        Bundle args = new Bundle();
+        args.putInt(TAB, TAB_MY_EXITS);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Set title
-        String title = getString(R.string.title_exit) + " (" + new mavonie.subterminal.Models.Exit().count() + ")";
-        MainActivity.getActivity().setTitle(title);
-    }
+        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_MY_EXITS)).setIndicator("My Exits"),
+                ExitTabs.class, args);
+        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_ALL_EXITS)).setIndicator("All"),
+                ExitTabs.class, null);
 
-    @Override
-    protected String getItemClass() {
-        return mavonie.subterminal.Models.Exit.class.getCanonicalName();
+        return rootView;
     }
 }

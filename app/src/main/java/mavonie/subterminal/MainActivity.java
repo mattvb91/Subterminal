@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.login.widget.ProfilePictureView;
 import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
@@ -85,7 +84,7 @@ public class MainActivity extends PinCompatActivity
         }
         this.refWatcher = LeakCanary.install(this.getApplication());
 
-        Subterminal.init();
+        Subterminal.init(this);
 
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 
