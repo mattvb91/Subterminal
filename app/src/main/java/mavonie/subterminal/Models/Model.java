@@ -109,8 +109,12 @@ abstract public class Model implements BaseColumns, Serializable {
                 String whereField = (String) filter.get(FILTER_WHERE_FIELD);
                 String whereValue = (String) filter.get(FILTER_WHERE_VALUE);
 
-                if (whereField != null) {
-                    query += " WHERE " + whereField + " = " + whereValue;
+                if (whereValue == null) {
+                    query += " WHERE " + whereField + " IS NULL";
+                } else {
+                    if (whereField != null) {
+                        query += " WHERE " + whereField + " = " + whereValue;
+                    }
                 }
             } else {
                 HashMap wheres = (HashMap<Integer, HashMap>) filter.get(FILTER_WHERE);

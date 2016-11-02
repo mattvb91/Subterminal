@@ -22,15 +22,11 @@ public class ExitTest extends BaseTest {
 
     @Test
     public void addExitTest() throws InterruptedException {
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Open navigation drawer"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
+        navigateToExits();
 
-        ViewInteraction appCompatCheckedTextView = onView(
-                allOf(withId(R.id.design_menu_item_text), withText("Exits"), isDisplayed()));
-        appCompatCheckedTextView.perform(click());
+        ViewInteraction appCompatTextView = onView(
+                allOf(withId(android.R.id.title), withText("All"), isDisplayed()));
+        appCompatTextView.perform(click());
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.fab), isDisplayed()));
@@ -63,18 +59,9 @@ public class ExitTest extends BaseTest {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.exit_save), withText("Save")));
         appCompatButton.perform(scrollTo(), click());
-
-        ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.list),
-                        withParent(withId(R.id.flContent)),
-                        isDisplayed()));
-        recyclerView.perform(actionOnItemAtPosition(1, click()));
-
     }
 
-    @Test
-    public void clickRandomItemTest() {
-
+    public void navigateToExits() {
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Open navigation drawer"),
                         withParent(withId(R.id.toolbar)),
@@ -84,6 +71,25 @@ public class ExitTest extends BaseTest {
         ViewInteraction appCompatCheckedTextView = onView(
                 allOf(withId(R.id.design_menu_item_text), withText("Exits"), isDisplayed()));
         appCompatCheckedTextView.perform(click());
+    }
+
+    @Test
+    public void tabTest() {
+
+        navigateToExits();
+
+        navigateTab("All");
+        navigateTab("My Exits");
+
+        navigateTab("All");
+        navigateTab("My Exits");
+    }
+
+    @Test
+    public void clickRandomItemTest() {
+        navigateToExits();
+
+        navigateTab("All");
 
         //Magic happening
         int x = getRandomRecyclerPosition(R.id.list);
@@ -91,6 +97,12 @@ public class ExitTest extends BaseTest {
         onView(withId(R.id.list))
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(x, click()));
+    }
+
+    public void navigateTab(String tab) {
+        ViewInteraction appCompatTextView = onView(
+                allOf(withId(android.R.id.title), withText(tab), isDisplayed()));
+        appCompatTextView.perform(click());
     }
 
 }
