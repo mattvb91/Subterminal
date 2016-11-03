@@ -2,6 +2,7 @@ package mavonie.subterminal.Utils;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -77,6 +78,15 @@ public abstract class BaseFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Bundle params = new Bundle();
+        params.putString("screen_name", this.getClass().getCanonicalName());
+        Subterminal.getAnalytics().logEvent("screenview", params);
     }
 
     @Override
