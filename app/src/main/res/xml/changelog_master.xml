@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.0.0"
+        versioncode="11">
+        <change>Official Release!</change>
+        <change>Changelog accessible through settings</change>
+    </release>
+    <release
         version="0.9.3-beta"
         versioncode="10">
         <change>Notifications now enabled</change>

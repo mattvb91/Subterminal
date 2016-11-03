@@ -214,8 +214,9 @@ public class MainActivity extends PinCompatActivity
                         // Display images
                         for (ChosenImage image : images) {
                             Image.createFromPath(image.getOriginalPath(), Subterminal.getActiveModel());
-                            openFragmentForEntity(Subterminal.getActiveModel());
                         }
+
+                        openFragmentForEntity(Subterminal.getActiveModel());
                     }
 
                     @Override
