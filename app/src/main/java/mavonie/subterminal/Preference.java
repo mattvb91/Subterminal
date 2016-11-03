@@ -13,6 +13,7 @@ import com.github.orangegangsters.lollipin.lib.managers.AppLock;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import de.cketti.library.changelog.ChangeLog;
 import mavonie.subterminal.Utils.BaseFragment;
 
 
@@ -32,6 +33,15 @@ public class Preference extends BaseFragment {
         this.pinSwitch.setChecked(Prefs.getBoolean(PIN_ENABLED, false));
         TextView version = (TextView) view.findViewById(R.id.preference_version);
         version.setText(BuildConfig.VERSION_NAME);
+
+        //Show the changelog
+        version.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChangeLog cl = new ChangeLog(MainActivity.getActivity());
+                cl.getFullLogDialog().show();
+            }
+        });
 
         pinSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

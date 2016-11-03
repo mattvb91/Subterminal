@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import de.cketti.library.changelog.ChangeLog;
@@ -25,9 +26,9 @@ public class Subterminal {
     private static Model activeModel;
     private static int activeFragment;
     private static API api;
+    private static FirebaseAnalytics analytics;
 
     /**
-     *
      * @return API
      */
     public static API getApi() {
@@ -91,6 +92,8 @@ public class Subterminal {
      */
     public static void init(MainActivity activity) {
 
+        analytics = FirebaseAnalytics.getInstance(activity);
+
         Once.initialise(activity);
 
         Fresco.initialize(activity);
@@ -117,5 +120,9 @@ public class Subterminal {
 
         api = new API(activity);
         api.init();
+    }
+
+    public static FirebaseAnalytics getAnalytics() {
+        return analytics;
     }
 }
