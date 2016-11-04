@@ -6,11 +6,14 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 
 /**
  * Created by mavon on 11/10/16.
@@ -24,28 +27,25 @@ public class User {
     private Profile facebookProfile;
     private AccessToken facebookToken;
 
-    public String getFirstName() {
-        return firstName;
+    public User() {
+        this.email = Prefs.getString("email", null);
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getFirstName() {
+        return this.facebookProfile.getFirstName();
     }
 
     public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+        return this.facebookProfile.getLastName();
     }
 
     public String getEmail() {
-        return email;
+        return Prefs.getString("email", null);
     }
 
     public void setEmail(String email) {
         this.email = email;
+        Prefs.putString("email", email);
     }
 
     public Profile getFacebookProfile() {
@@ -70,22 +70,15 @@ public class User {
         this.facebookToken = facebookToken;
     }
 
-    public void setFacebookData() {
+    public void requestFacebookData() {
         GraphRequest request = GraphRequest.newMeRequest(
-                MainActivity.getUser().getFacebookToken(),
+                Subterminal.getUser().getFacebookToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
 
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         try {
-
-                            User user = MainActivity.getUser();
-                            user.setEmail(response.getJSONObject().getString("email"));
-                            user.setFirstName(response.getJSONObject().getString("first_name"));
-                            user.setSurname(response.getJSONObject().getString("last_name"));
-                            user.setFacebookProfile(Profile.getCurrentProfile());
-
-//                            MainActivity.getActivity().updateDrawerProfile();
-
+                            Subterminal.getUser().setEmail(response.getJSONObject().getString("email"));
+                            Subterminal.getUser().setFacebookProfile(Profile.getCurrentProfile());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -102,11 +95,32 @@ public class User {
     }
 
     public void init() {
-        this.setFacebookData();
+        if (this.isLoggedIn()) {
+            UIHelper.userLoggedIn();
+            if (this.getEmail() == null) {
+                this.requestFacebookData();
+            }
+        }
     }
 
     //TODO implement user save locally
     public void save() {
 
+    }
+
+    public boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken == null || accessToken.isExpired()) {
+            this.logOut();
+            return false;
+        }
+
+        return accessToken != null;
+    }
+
+    public void logOut() {
+        LoginManager.getInstance().logOut();
+        Prefs.remove("email");
+        UIHelper.userLoggedOut();
     }
 }

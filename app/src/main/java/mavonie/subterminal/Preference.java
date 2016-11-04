@@ -1,5 +1,7 @@
 package mavonie.subterminal;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.orangegangsters.lollipin.lib.managers.AppLock;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
@@ -15,6 +18,8 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import de.cketti.library.changelog.ChangeLog;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 
 
 public class Preference extends BaseFragment {
@@ -33,6 +38,28 @@ public class Preference extends BaseFragment {
         this.pinSwitch.setChecked(Prefs.getBoolean(PIN_ENABLED, false));
         TextView version = (TextView) view.findViewById(R.id.preference_version);
         version.setText(BuildConfig.VERSION_NAME);
+
+        TextView account = (TextView) view.findViewById(R.id.preference_account);
+        account.setText(Subterminal.getUser().getEmail());
+
+        account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(MainActivity.getActivity())
+                        .setTitle("Confirm log out")
+                        .setMessage("Are you sure you wish to log out?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Subterminal.getUser().logOut();
+                                UIHelper.goToFragment(R.id.nav_settings);
+                                Toast.makeText(MainActivity.getActivity(), "You have logged out", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null).show();
+            }
+        });
 
         //Show the changelog
         version.setOnClickListener(new View.OnClickListener() {

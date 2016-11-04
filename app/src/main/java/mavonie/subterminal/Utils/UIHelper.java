@@ -5,8 +5,18 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+
+import java.util.Arrays;
+import java.util.List;
 
 import mavonie.subterminal.Exit;
 import mavonie.subterminal.Forms.ExitForm;
@@ -114,8 +124,6 @@ public class UIHelper {
                 fragmentClass = new Gear();
                 getAddButton().show();
                 break;
-            case R.id.nav_login:
-                return;
             case R.id.nav_exits:
                 fragmentClass = new Exit();
                 getAddButton().show();
@@ -134,6 +142,7 @@ public class UIHelper {
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
     }
+
 
     public static void deleteDialog() {
         new AlertDialog.Builder(MainActivity.getActivity())
@@ -180,5 +189,48 @@ public class UIHelper {
                 }
             }
         });
+    }
+
+    public static void facebookDialog() {
+
+        LoginManager.getInstance().logOut();
+
+        List<String> permissionNeeds = Arrays.asList("email", "user_birthday", "user_friends");
+
+        LoginManager.getInstance().logInWithReadPermissions(MainActivity.getActivity(), permissionNeeds);
+        LoginManager.getInstance().registerCallback(Subterminal.getmCallbackManager(),
+
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResults) {
+                        Subterminal.getUser().setFacebookToken(loginResults.getAccessToken());
+                        Subterminal.getUser().init();
+
+                        userLoggedIn();
+                        Toast.makeText(MainActivity.getActivity(), "You are now logged in!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.e("dd", "facebook login canceled");
+                    }
+
+                    @Override
+                    public void onError(FacebookException e) {
+                        Log.e("dd", "facebook login failed error");
+                    }
+                });
+    }
+
+    public static void userLoggedIn() {
+        //User is logged in remove login button from menu
+        MenuItem item = (MenuItem) MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
+        item.setVisible(false);
+    }
+
+    public static void userLoggedOut() {
+        //User is logged in remove login button from menu
+        MenuItem item = (MenuItem) MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
+        item.setVisible(true);
     }
 }

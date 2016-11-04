@@ -6,6 +6,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -16,6 +18,7 @@ import jonathanfinerty.once.Once;
 import mavonie.subterminal.CustomPinActivity;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.User;
 import mavonie.subterminal.Preference;
 
 /**
@@ -27,6 +30,23 @@ public class Subterminal {
     private static int activeFragment;
     private static API api;
     private static FirebaseAnalytics analytics;
+
+    private static CallbackManager mCallbackManager;
+
+    protected static User user;
+
+    /**
+     * We want only one user instance for the main activity
+     *
+     * @return User
+     */
+    public static User getUser() {
+        if (user == null) {
+            user = new User();
+        }
+
+        return user;
+    }
 
     /**
      * @return API
@@ -92,18 +112,24 @@ public class Subterminal {
      */
     public static void init(MainActivity activity) {
 
-        analytics = FirebaseAnalytics.getInstance(activity);
-
-        Once.initialise(activity);
-
-        Fresco.initialize(activity);
-
         new Prefs.Builder()
                 .setContext(activity)
                 .setMode(ContextWrapper.MODE_PRIVATE)
                 .setPrefsName(activity.getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
+
+        mCallbackManager = CallbackManager.Factory.create();
+
+        analytics = FirebaseAnalytics.getInstance(activity);
+
+        FacebookSdk.sdkInitialize(activity);
+
+        Once.initialise(activity);
+
+        Fresco.initialize(activity);
+
+        getUser().init();
 
         if (Prefs.getBoolean(Preference.PIN_ENABLED, false)) {
             LockManager.getInstance().enableAppLock(
@@ -124,5 +150,9 @@ public class Subterminal {
 
     public static FirebaseAnalytics getAnalytics() {
         return analytics;
+    }
+
+    public static CallbackManager getmCallbackManager() {
+        return mCallbackManager;
     }
 }

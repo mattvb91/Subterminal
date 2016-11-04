@@ -27,7 +27,6 @@ import java.util.List;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.Models.User;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 
@@ -36,7 +35,6 @@ import static mavonie.subterminal.Utils.UIHelper.openFragmentForEntity;
 public class MainActivity extends PinCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         Home.OnFragmentInteractionListener,
-        Login.OnFragmentInteractionListener,
         GearForm.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
@@ -50,20 +48,11 @@ public class MainActivity extends PinCompatActivity
 
     Menu optionsMenu;
 
-    protected static User user;
-
-    /**
-     * We want only one user instance for the main activity
-     *
-     * @return User
-     */
-    public static User getUser() {
-        if (user == null) {
-            user = new User();
-        }
-
-        return user;
+    public NavigationView getNavigationView() {
+        return navigationView;
     }
+
+    private NavigationView navigationView;
 
     protected static MainActivity activity;
 
@@ -84,13 +73,14 @@ public class MainActivity extends PinCompatActivity
         }
         this.refWatcher = LeakCanary.install(this.getApplication());
 
-        Subterminal.init(this);
-
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        Subterminal.init(this);
 
         UIHelper.replaceFragment(new Jump());
         UIHelper.initAddButton();
@@ -99,9 +89,6 @@ public class MainActivity extends PinCompatActivity
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -140,6 +127,12 @@ public class MainActivity extends PinCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(final MenuItem item) {
+
+        //Once off for login check
+        if (item.getItemId() == R.id.nav_login) {
+            UIHelper.facebookDialog();
+            return true;
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(Gravity.LEFT);
@@ -238,6 +231,9 @@ public class MainActivity extends PinCompatActivity
                     imagePicker = new ImagePicker(this);
                 }
                 imagePicker.submit(data);
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+                Subterminal.getmCallbackManager().onActivityResult(requestCode, resultCode, data);
             }
         }
     }
