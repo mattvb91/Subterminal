@@ -135,6 +135,14 @@ public class API implements Callback {
         syncNotification.enqueue(this);
     }
 
+    /**
+     * Sync the current user to the server
+     */
+    public void createOrUpdateUser() {
+        Call userCreateUpdate = this.getEndpoints().createOrUpdateUser(Subterminal.getUser().getFacebookToken());
+        userCreateUpdate.enqueue(this);
+    }
+
     @Override
     public void onResponse(Call call, Response response) {
 

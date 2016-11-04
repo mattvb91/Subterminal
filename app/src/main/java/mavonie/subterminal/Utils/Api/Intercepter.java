@@ -19,7 +19,6 @@ public class Intercepter implements Interceptor {
 
     public Intercepter(Context context) throws PackageManager.NameNotFoundException {
         this.appApiKey = Subterminal.getMetaData(context, "mavonie.subterminal.API_APP_KEY");
-
     }
 
     @Override

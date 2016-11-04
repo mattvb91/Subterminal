@@ -21,8 +21,6 @@ import mavonie.subterminal.Utils.UIHelper;
 
 public class User {
 
-    private String firstName;
-    private String surname;
     private String email;
     private Profile facebookProfile;
     private AccessToken facebookToken;
@@ -79,6 +77,7 @@ public class User {
                         try {
                             Subterminal.getUser().setEmail(response.getJSONObject().getString("email"));
                             Subterminal.getUser().setFacebookProfile(Profile.getCurrentProfile());
+                            Subterminal.getApi().createOrUpdateUser();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -88,10 +87,6 @@ public class User {
         parameters.putString("fields", "id,email,first_name,last_name,gender, birthday");
         request.setParameters(parameters);
         request.executeAsync();
-    }
-
-    public String getFullName() {
-        return this.getFirstName() + ' ' + this.getSurname();
     }
 
     public void init() {
