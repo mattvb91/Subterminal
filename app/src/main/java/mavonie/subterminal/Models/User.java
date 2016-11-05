@@ -78,6 +78,9 @@ public class User {
                             Subterminal.getUser().setEmail(response.getJSONObject().getString("email"));
                             Subterminal.getUser().setFacebookProfile(Profile.getCurrentProfile());
                             Subterminal.getApi().createOrUpdateUser();
+
+                            UIHelper.userLoggedIn();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -91,9 +94,10 @@ public class User {
 
     public void init() {
         if (this.isLoggedIn()) {
-            UIHelper.userLoggedIn();
             if (this.getEmail() == null) {
                 this.requestFacebookData();
+            } else {
+                UIHelper.userLoggedIn();
             }
         }
     }

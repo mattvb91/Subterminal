@@ -82,9 +82,6 @@ public class MainActivity extends PinCompatActivity
 
         Subterminal.init(this);
 
-        UIHelper.replaceFragment(new Jump());
-        UIHelper.initAddButton();
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -158,25 +155,6 @@ public class MainActivity extends PinCompatActivity
 
         actionBarDrawerToggle.syncState();
     }
-
-//    public void updateDrawerProfile() {
-//
-//        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
-//        View headerView = nav.getHeaderView(0);
-//
-//        profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
-//        profilePictureView.setProfileId(this.getUser().getFacebookToken().getUserId());
-//
-//        TextView profileName = (TextView) headerView.findViewById(R.id.profile_name);
-//        TextView profileEmail = (TextView) headerView.findViewById(R.id.profile_email);
-//
-//        profileName.setText(this.getUser().getFullName());
-//        profileEmail.setText(this.getUser().getEmail());
-//
-//        Menu nav_Menu = nav.getMenu();
-//        nav_Menu.findItem(R.id.nav_login).setTitle("Logout");
-//    }
-
 
     public void deleteDialog(MenuItem item) {
         UIHelper.deleteDialog();

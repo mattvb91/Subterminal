@@ -102,9 +102,6 @@ public class GearTest extends BaseTest{
 
         navigateToGear();
 
-        addGearTest();
-        addGearTest();
-
         //Magic happening
         int x = getRandomRecyclerPosition(R.id.list);
 

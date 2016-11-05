@@ -16,6 +16,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import de.cketti.library.changelog.ChangeLog;
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.CustomPinActivity;
+import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
@@ -146,6 +147,8 @@ public class Subterminal {
 
         api = new API(activity);
         api.init();
+
+        UIHelper.init();
     }
 
     public static FirebaseAnalytics getAnalytics() {

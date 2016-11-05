@@ -4,16 +4,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.facebook.login.widget.ProfilePictureView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -222,15 +227,65 @@ public class UIHelper {
                 });
     }
 
+    /**
+     * Update layout for logged in user
+     */
     public static void userLoggedIn() {
-        //User is logged in remove login button from menu
         MenuItem item = (MenuItem) MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
         item.setVisible(false);
+
+        NavigationView nav = MainActivity.getActivity().getNavigationView();
+        View headerView = nav.getHeaderView(0);
+
+        ImageView logo = (ImageView) headerView.findViewById(R.id.nav_header_icon);
+        logo.setVisibility(View.GONE);
+
+        ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
+        profilePictureView.setProfileId(Subterminal.getUser().getFacebookToken().getUserId());
+        profilePictureView.setVisibility(View.VISIBLE);
+        profilePictureView.setPresetSize(ProfilePictureView.SMALL);
+        profilePictureView.getLayoutParams().width = 100;
+        profilePictureView.getLayoutParams().height = 100;
+
+        TextView profileName = (TextView) headerView.findViewById(R.id.profile_name);
+        profileName.setText(Subterminal.getUser().getEmail());
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) profileName.getLayoutParams();
+        params.addRule(RelativeLayout.END_OF, R.id.profile_pic);
+        profileName.setLayoutParams(params);
     }
 
+    /**
+     * Update layout for logged out user
+     */
     public static void userLoggedOut() {
-        //User is logged in remove login button from menu
-        MenuItem item = (MenuItem) MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
+
+        MenuItem item = MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
         item.setVisible(true);
+
+        NavigationView nav = MainActivity.getActivity().getNavigationView();
+        View headerView = nav.getHeaderView(0);
+
+        ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
+        profilePictureView.setVisibility(View.GONE);
+
+        TextView appDescriptor = (TextView) headerView.findViewById(R.id.profile_name);
+        appDescriptor.setText(R.string.app_descriptor);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) appDescriptor.getLayoutParams();
+        params.addRule(RelativeLayout.END_OF, R.id.nav_header_icon);
+        appDescriptor.setLayoutParams(params);
+
+        ImageView logo = (ImageView) headerView.findViewById(R.id.nav_header_icon);
+        logo.setVisibility(View.VISIBLE);
+    }
+
+    public static void init() {
+
+        UIHelper.replaceFragment(new Jump());
+
+        UIHelper.initAddButton();
+
+        if (!Subterminal.getUser().isLoggedIn()) {
+            userLoggedOut();
+        }
     }
 }
