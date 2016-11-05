@@ -33,6 +33,8 @@
     <string name="activity_dialog_content">Tap \'OK\' to log out, when you log back in you\'ll be able to create a new Pincode.\n\nIf you remember your Pincode, tap \'Cancel\' to go back.</string>
     <string name="activity_appcompat_message">I am a PinCompatActivity!</string>
     <string name="app_descriptor">Subterminal - B.A.S.E. Logbook</string>
-
+    <string name="get_premium">GET PREMIUM!</string>
+    <string name="login_success">You are now logged in!</string>
+    <string name="delete_confirmation">Item has been deleted</string>
 
 </resources>

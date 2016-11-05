@@ -35,6 +35,7 @@ import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
+import mavonie.subterminal.Views.Premium.PremiumView;
 
 /**
  * Class to deal with UI/Fragment navigation components
@@ -107,7 +108,7 @@ public class UIHelper {
         MainActivity.getActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.flContent, fragment, fragment.getClass().getCanonicalName())
-                .addToBackStack(null).commit();
+                .addToBackStack(null).commitAllowingStateLoss();
     }
 
     /**
@@ -137,6 +138,9 @@ public class UIHelper {
                 fragmentClass = new Preference();
                 getAddButton().hide();
                 break;
+            case R.id.nav_premium:
+                fragmentClass = new PremiumView();
+                break;
         }
 
         Subterminal.setActiveFragment(id);
@@ -159,7 +163,7 @@ public class UIHelper {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         Subterminal.getActiveModel().delete();
                         UIHelper.goToFragment(R.id.nav_jumps); //TODO proper navigation
-                        Toast.makeText(MainActivity.getActivity(), "Item has been deleted", Toast.LENGTH_SHORT).show();
+                        toast(MainActivity.getActivity().getString(R.string.delete_confirmation));
                     }
                 })
                 .setNegativeButton(android.R.string.no, null).show();
@@ -212,7 +216,7 @@ public class UIHelper {
                         Subterminal.getUser().init();
 
                         userLoggedIn();
-                        Toast.makeText(MainActivity.getActivity(), "You are now logged in!", Toast.LENGTH_SHORT).show();
+                        toast(MainActivity.getActivity().getString(R.string.login_success));
                     }
 
                     @Override
@@ -287,5 +291,10 @@ public class UIHelper {
         if (!Subterminal.getUser().isLoggedIn()) {
             userLoggedOut();
         }
+    }
+
+    //Quick toast method
+    public static void toast(String message) {
+        Toast.makeText(MainActivity.getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }

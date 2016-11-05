@@ -24,11 +24,15 @@ import com.squareup.leakcanary.RefWatcher;
 
 import java.util.List;
 
+import io.card.payment.CardIOActivity;
+import io.card.payment.CreditCard;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Payment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
+import mavonie.subterminal.Views.Premium.PremiumPay;
 
 import static mavonie.subterminal.Utils.UIHelper.openFragmentForEntity;
 
@@ -200,6 +204,8 @@ public class MainActivity extends PinCompatActivity
         imagePicker.pickImage();
     }
 
+    private final int MY_SCAN_REQUEST_CODE = 2345;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -214,9 +220,41 @@ public class MainActivity extends PinCompatActivity
                 Subterminal.getmCallbackManager().onActivityResult(requestCode, resultCode, data);
             }
         }
+
+        if (requestCode == MY_SCAN_REQUEST_CODE) {
+            String resultDisplayStr;
+            if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
+                Payment payment = new Payment((CreditCard) data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT));
+
+                Subterminal.setActiveModel(payment);
+                UIHelper.replaceFragment(new PremiumPay());
+
+            } else {
+                UIHelper.toast("Scan was canceled");
+            }
+        }
     }
 
     public RefWatcher getRefWatcher() {
         return refWatcher;
+    }
+
+    public void onScanPress(View v) {
+
+        if (!Subterminal.getUser().isLoggedIn()) {
+            UIHelper.toast("Please sign in before proceeding");
+            return;
+        }
+
+        Intent scanIntent = new Intent(this, CardIOActivity.class);
+
+        // customize these values to suit your needs.
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true); // default: false
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, true); // default: false
+        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_POSTAL_CODE, false); // default: false
+        scanIntent.putExtra(CardIOActivity.EXTRA_HIDE_CARDIO_LOGO, true); // default: false
+
+        // MY_SCAN_REQUEST_CODE is arbitrary and is only used within this activity.
+        this.startActivityForResult(scanIntent, MY_SCAN_REQUEST_CODE);
     }
 }

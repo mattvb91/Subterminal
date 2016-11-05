@@ -66,6 +66,7 @@ dependencies {
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
     compile 'com.jonathanfinerty.once:once:1.2.1'
     compile 'com.stripe:stripe-android:+'
+    compile 'io.card:android-sdk:5.4.2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'org.robolectric:robolectric:3.1.2'
     testCompile 'junit:junit:4.12'

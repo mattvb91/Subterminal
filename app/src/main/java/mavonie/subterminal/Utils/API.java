@@ -3,6 +3,8 @@ package mavonie.subterminal.Utils;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.stripe.android.model.Token;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -19,6 +21,7 @@ import jonathanfinerty.once.Once;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Api.Exits;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Payment;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
@@ -143,6 +146,11 @@ public class API implements Callback {
         userCreateUpdate.enqueue(this);
     }
 
+    public void sendPaymentToken(Token token) {
+        Call paymentToken = this.getEndpoints().sendPaymentToken(token);
+        paymentToken.enqueue(this);
+    }
+
     @Override
     public void onResponse(Call call, Response response) {
 
@@ -157,6 +165,14 @@ public class API implements Callback {
                 Once.markDone(CALLS_LIST_PUBLIC_EXITS);
             } else if (response.body() instanceof Notification) {
                 Once.markDone(CALLS_UPDATE_NOTIFICATIONS);
+            } else if (response.body() instanceof Payment) {
+
+                if (true) {
+                    //User set premium to true
+                    //Update layout
+                } else {
+                    //Show error message
+                }
             }
         }
     }

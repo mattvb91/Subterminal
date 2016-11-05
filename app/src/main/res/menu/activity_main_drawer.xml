@@ -26,7 +26,7 @@
             <item
                 android:id="@+id/nav_premium"
                 android:icon="@android:drawable/star_off"
-                android:title="GET PREMIUM!"/>
+                android:title="@string/get_premium"/>
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@android:drawable/ic_menu_zoom"

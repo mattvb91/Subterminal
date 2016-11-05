@@ -1,10 +1,10 @@
 package mavonie.subterminal.Utils.Api;
 
 import com.facebook.AccessToken;
+import com.stripe.android.model.Token;
 
 import mavonie.subterminal.Models.Api.Exits;
 import mavonie.subterminal.Models.Preferences.Notification;
-import mavonie.subterminal.Models.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -26,4 +26,7 @@ public interface EndpointInterface {
 
     @POST("user/settings/notification")
     Call<Notification> syncPreferenceNotification(@Body Notification notification);
+
+    @POST("payment")
+    Call<Token> sendPaymentToken(@Body Token token);
 }
