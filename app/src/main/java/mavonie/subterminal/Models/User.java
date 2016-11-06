@@ -12,6 +12,8 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 
@@ -20,6 +22,8 @@ import mavonie.subterminal.Utils.UIHelper;
  */
 
 public class User {
+
+    public static String PREFS_PREMIUM = "is_premium";
 
     private String email;
     private Profile facebookProfile;
@@ -99,6 +103,10 @@ public class User {
             } else {
                 UIHelper.userLoggedIn();
             }
+
+            if (this.isPremium()) {
+                UIHelper.userPremium();
+            }
         }
     }
 
@@ -110,7 +118,6 @@ public class User {
     public boolean isLoggedIn() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null || accessToken.isExpired()) {
-            this.logOut();
             return false;
         }
 
@@ -121,5 +128,20 @@ public class User {
         LoginManager.getInstance().logOut();
         Prefs.remove("email");
         UIHelper.userLoggedOut();
+    }
+
+    /**
+     * Check if a user has premium
+     *
+     * @return boolean
+     */
+    public boolean isPremium() {
+        return Prefs.getBoolean(PREFS_PREMIUM, false);
+    }
+
+    public static void activatePremium() {
+        Prefs.putBoolean(PREFS_PREMIUM, true);
+        UIHelper.toast(MainActivity.getActivity().getString(R.string.premium_member_welcome));
+        UIHelper.goToFragment(R.id.nav_jumps);
     }
 }

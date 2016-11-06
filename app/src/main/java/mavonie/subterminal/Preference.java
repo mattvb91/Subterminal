@@ -42,6 +42,9 @@ public class Preference extends BaseFragment {
         TextView account = (TextView) view.findViewById(R.id.preference_account);
         account.setText(Subterminal.getUser().getEmail());
 
+        TextView premium = (TextView) view.findViewById(R.id.preference_account_premium_value);
+        premium.setText(Boolean.toString(Subterminal.getUser().isPremium()));
+
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

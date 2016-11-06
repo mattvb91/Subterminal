@@ -2,6 +2,7 @@ package mavonie.subterminal.Utils.Api;
 
 import com.facebook.AccessToken;
 import com.stripe.android.model.Token;
+import com.stripe.model.Charge;
 
 import mavonie.subterminal.Models.Api.Exits;
 import mavonie.subterminal.Models.Preferences.Notification;
@@ -28,5 +29,5 @@ public interface EndpointInterface {
     Call<Notification> syncPreferenceNotification(@Body Notification notification);
 
     @POST("payment")
-    Call<Token> sendPaymentToken(@Body Token token);
+    Call<Charge> sendPaymentToken(@Body Token token);
 }

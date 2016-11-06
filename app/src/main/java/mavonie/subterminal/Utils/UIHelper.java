@@ -1,6 +1,7 @@
 package mavonie.subterminal.Utils;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -296,5 +297,28 @@ public class UIHelper {
     //Quick toast method
     public static void toast(String message) {
         Toast.makeText(MainActivity.getActivity(), message, Toast.LENGTH_LONG).show();
+    }
+
+    static ProgressDialog progress;
+
+    public static void loadSpinner() {
+        progress = new ProgressDialog(MainActivity.getActivity());
+        progress.setTitle("Loading");
+        progress.setMessage("Wait while loading...");
+        progress.setCancelable(false);
+        progress.show();
+    }
+
+    public static void removeLoadSpinner() {
+        if (progress != null) {
+            progress.hide();
+        }
+
+        progress = null;
+    }
+
+    public static void userPremium() {
+        MenuItem item = (MenuItem) MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_premium);
+        item.setVisible(false);
     }
 }

@@ -72,6 +72,9 @@ public class Payment extends Model {
         } catch (AuthenticationException e) {
             e.printStackTrace();
         }
+
+        UIHelper.loadSpinner();
+
         stripe.createToken(
                 card,
                 new TokenCallback() {

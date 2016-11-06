@@ -25,7 +25,7 @@ public class APITest extends BaseDBUnit {
     private API api;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         this.api = new API(RuntimeEnvironment.application);
     }

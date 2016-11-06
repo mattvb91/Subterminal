@@ -25,10 +25,16 @@ public class Intercepter implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
 
-        Request request = original.newBuilder()
-                .header("apiappkey", this.appApiKey)
-                .method(original.method(), original.body())
-                .build();
+        Request.Builder builder = original.newBuilder();
+
+        builder.header("apiappkey", this.appApiKey);
+
+        if (Subterminal.getUser().isLoggedIn()) {
+            builder.header("sessiontoken", Subterminal.getUser().getFacebookToken().getToken());
+        }
+
+        builder.method(original.method(), original.body());
+        Request request = builder.build();
 
         return chain.proceed(request);
     }

@@ -1,5 +1,7 @@
 package mavonie.subterminal.unit.Base;
 
+import android.content.pm.PackageManager;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
@@ -20,10 +22,16 @@ public class BaseDBUnit extends BaseUnit {
     public DatabaseHandler _db = null;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         if(_db == null) {
-            this._db = new DatabaseHandler(RuntimeEnvironment.application, "test_database", null, VersionUtils.getVersionCode(RuntimeEnvironment.application));
+            try {
+                this._db = new DatabaseHandler(RuntimeEnvironment.application, "test_database", null, VersionUtils.getVersionCode(RuntimeEnvironment.application));
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
             Model.setDB(this._db);
         }
+
+        super.setUp();
     }
 }

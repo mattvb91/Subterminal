@@ -1,9 +1,12 @@
 package mavonie.subterminal.Utils;
 
 import android.content.Context;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.stripe.android.model.Token;
+import com.stripe.model.Charge;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,11 +21,10 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import jonathanfinerty.once.Once;
-import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Api.Exits;
 import mavonie.subterminal.Models.Exit;
-import mavonie.subterminal.Models.Payment;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.User;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
 import mavonie.subterminal.Utils.Api.Intercepter;
@@ -38,6 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class API implements Callback {
 
     private retrofit2.Retrofit retrofit;
+    private Gson gson;
     private Context context;
 
     public API(Context context) {
@@ -89,7 +92,7 @@ public class API implements Callback {
 
             // creating a RestAdapter using the custom client
             this.retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl(apiUrl).addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(apiUrl).addConverterFactory(GsonConverterFactory.create(this.getGson()))
                     .client(okHttpClient)
                     .build();
         }
@@ -165,20 +168,32 @@ public class API implements Callback {
                 Once.markDone(CALLS_LIST_PUBLIC_EXITS);
             } else if (response.body() instanceof Notification) {
                 Once.markDone(CALLS_UPDATE_NOTIFICATIONS);
-            } else if (response.body() instanceof Payment) {
-
-                if (true) {
-                    //User set premium to true
-                    //Update layout
-                } else {
-                    //Show error message
-                }
+            } else if (response.body() instanceof Charge) {
+                //User set to premium
+                User.activatePremium();
             }
+        } else {
+            UIHelper.toast("There was an issue contacting the server");
         }
+
+        UIHelper.removeLoadSpinner();
     }
 
     @Override
     public void onFailure(Call call, Throwable t) {
-        Toast.makeText(MainActivity.getActivity(), "Could not update from server", Toast.LENGTH_SHORT).show();
+        UIHelper.toast("Could not update from server");
+        UIHelper.removeLoadSpinner();
+    }
+
+    /**
+     * @return Gson
+     */
+    public Gson getGson() {
+        if (gson == null) {
+            gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+        }
+        return gson;
     }
 }
