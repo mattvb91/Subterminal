@@ -26,6 +26,7 @@ public class User {
     public static String PREFS_PREMIUM = "is_premium";
 
     private String email;
+    private boolean is_premium;
     private Profile facebookProfile;
     private AccessToken facebookToken;
 
@@ -33,16 +34,8 @@ public class User {
         this.email = Prefs.getString("email", null);
     }
 
-    public String getFirstName() {
-        return this.facebookProfile.getFirstName();
-    }
-
-    public String getSurname() {
-        return this.facebookProfile.getLastName();
-    }
-
     public String getEmail() {
-        return Prefs.getString("email", null);
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -81,7 +74,7 @@ public class User {
                         try {
                             Subterminal.getUser().setEmail(response.getJSONObject().getString("email"));
                             Subterminal.getUser().setFacebookProfile(Profile.getCurrentProfile());
-                            Subterminal.getApi().createOrUpdateUser();
+                            Subterminal.getApi().createOrUpdateRemoteUser();
 
                             UIHelper.userLoggedIn();
 
@@ -126,7 +119,7 @@ public class User {
 
     public void logOut() {
         LoginManager.getInstance().logOut();
-        Prefs.remove("email");
+        this.setEmail(null);
         UIHelper.userLoggedOut();
     }
 
@@ -140,8 +133,29 @@ public class User {
     }
 
     public static void activatePremium() {
-        Prefs.putBoolean(PREFS_PREMIUM, true);
+        Subterminal.getUser().setIsPremium(true);
+
         UIHelper.toast(MainActivity.getActivity().getString(R.string.premium_member_welcome));
         UIHelper.goToFragment(R.id.nav_jumps);
+    }
+
+
+    //Used for the updated call
+    public boolean getIsPremium() {
+        return this.is_premium;
+    }
+
+    public void setIsPremium(boolean is_premium) {
+        this.is_premium = is_premium;
+        Prefs.putBoolean(PREFS_PREMIUM, is_premium);
+    }
+
+    /**
+     * Update our User object with what we received from the API
+     *
+     * @param responseBody
+     */
+    public void update(User responseBody) {
+        this.setIsPremium(responseBody.getIsPremium());
     }
 }

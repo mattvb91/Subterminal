@@ -6,6 +6,7 @@ import com.stripe.model.Charge;
 
 import mavonie.subterminal.Models.Api.Exits;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -24,6 +25,9 @@ public interface EndpointInterface {
 
     @POST("user")
     Call<AccessToken> createOrUpdateUser(@Body AccessToken token);
+
+    @GET("user")
+    Call<User> getUser();
 
     @POST("user/settings/notification")
     Call<Notification> syncPreferenceNotification(@Body Notification notification);

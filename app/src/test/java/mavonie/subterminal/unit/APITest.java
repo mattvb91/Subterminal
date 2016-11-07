@@ -43,6 +43,15 @@ public class APITest extends BaseDBUnit {
         assertTrue(exits.getExits().get(0) instanceof Exit);
     }
 
+    //TODO test authorized method
+    @Test
+    public void testUnauthorizedUserGetCall() throws IOException {
+        Call userGet = this.api.getEndpoints().getUser();
+        Response response = userGet.execute();
+
+        assertTrue(response.code() == 401);
+    }
+
     /**
      * Make sure exit details get saved on first init
      * https://github.com/mattvb91/Subterminal/issues/6

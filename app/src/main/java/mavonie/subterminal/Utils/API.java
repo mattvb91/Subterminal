@@ -2,9 +2,9 @@ package mavonie.subterminal.Utils;
 
 import android.content.Context;
 
+import com.facebook.AccessToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.stripe.android.model.Token;
 import com.stripe.model.Charge;
 
@@ -37,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Handle all our API interactions
  */
-public class API implements Callback {
+public class API {
 
     private retrofit2.Retrofit retrofit;
     private Gson gson;
@@ -49,6 +49,7 @@ public class API implements Callback {
 
     public static final String CALLS_LIST_PUBLIC_EXITS = "LIST_PUBLIC_EXITS";
     public static final String CALLS_UPDATE_NOTIFICATIONS = "UPDATE_NOTIFICATIONS";
+    public static final String CALLS_UPDATE_USER = "UPDATE_USER";
 
     /**
      * Get our retrofit client.
@@ -120,45 +121,33 @@ public class API implements Callback {
         return this.getClient().create(EndpointInterface.class);
     }
 
+    /**
+     * Calls for startup
+     */
     public void init() {
-        EndpointInterface endpoints = this.getEndpoints();
-
         if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_PUBLIC_EXITS)) {
-            Call publicExits = endpoints.listPublicExits();
-            publicExits.enqueue(this);
+            updatePublicExits();
         }
 
         if (!Once.beenDone(TimeUnit.DAYS, 1, CALLS_UPDATE_NOTIFICATIONS)) {
             updateNotificationSettings();
         }
+
+        if (Subterminal.getUser().isLoggedIn()) {
+            if (!Once.beenDone(TimeUnit.DAYS, 1, CALLS_UPDATE_USER)) {
+                updateLocalUser();
+            }
+        }
     }
 
     /**
-     * Send notification object
+     * Update the global exits list
      */
-    public void updateNotificationSettings() {
-        Call syncNotification = this.getEndpoints().syncPreferenceNotification(new Notification());
-        syncNotification.enqueue(this);
-    }
-
-    /**
-     * Sync the current user to the server
-     */
-    public void createOrUpdateUser() {
-        Call userCreateUpdate = this.getEndpoints().createOrUpdateUser(Subterminal.getUser().getFacebookToken());
-        userCreateUpdate.enqueue(this);
-    }
-
-    public void sendPaymentToken(Token token) {
-        Call paymentToken = this.getEndpoints().sendPaymentToken(token);
-        paymentToken.enqueue(this);
-    }
-
-    @Override
-    public void onResponse(Call call, Response response) {
-
-        if (response.isSuccessful()) {
-            if (response.body() instanceof Exits) {
+    private void updatePublicExits() {
+        Call publicExits = this.getEndpoints().listPublicExits();
+        publicExits.enqueue(new Callback<List<Exit>>() {
+            @Override
+            public void onResponse(Call call, Response response) {
                 List<Exit> exits = ((Exits) response.body()).getExits();
 
                 for (Exit exit : exits) {
@@ -166,22 +155,100 @@ public class API implements Callback {
                 }
 
                 Once.markDone(CALLS_LIST_PUBLIC_EXITS);
-            } else if (response.body() instanceof Notification) {
-                Once.markDone(CALLS_UPDATE_NOTIFICATIONS);
-            } else if (response.body() instanceof Charge) {
-                //User set to premium
-                User.activatePremium();
             }
-        } else {
-            UIHelper.toast("There was an issue contacting the server");
-        }
 
-        UIHelper.removeLoadSpinner();
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                API.issueContactingServer();
+            }
+        });
     }
 
-    @Override
-    public void onFailure(Call call, Throwable t) {
-        UIHelper.toast("Could not update from server");
+    /**
+     * Send notification object
+     */
+    public void updateNotificationSettings() {
+        Call syncNotification = this.getEndpoints().syncPreferenceNotification(new Notification());
+        syncNotification.enqueue(new Callback<Notification>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Once.markDone(CALLS_UPDATE_NOTIFICATIONS);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                API.issueContactingServer();
+            }
+        });
+    }
+
+    /**
+     * Sync the current user to the server
+     */
+    public void createOrUpdateRemoteUser() {
+        Call userCreateUpdate = this.getEndpoints().createOrUpdateUser(Subterminal.getUser().getFacebookToken());
+        userCreateUpdate.enqueue(new Callback<AccessToken>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Subterminal.getApi().updateLocalUser();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                API.issueContactingServer();
+            }
+        });
+    }
+
+    /**
+     * Payment confirmed, send token and await confirmation
+     *
+     * @param token
+     */
+    public void sendPaymentToken(Token token) {
+        Call paymentToken = this.getEndpoints().sendPaymentToken(token);
+        paymentToken.enqueue(new Callback<Charge>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+
+                    //User set to premium
+                    User.activatePremium();
+                } else {
+                    //Show message
+                }
+
+                UIHelper.removeLoadSpinner();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                API.issueContactingServer();
+            }
+        });
+    }
+
+    /**
+     * Update the user object
+     */
+    public void updateLocalUser() {
+        Call updateUser = this.getEndpoints().getUser();
+        updateUser.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Subterminal.getUser().update((User) response.body());
+                Once.markDone(CALLS_UPDATE_USER);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                API.issueContactingServer();
+            }
+        });
+    }
+
+    private static void issueContactingServer() {
+        UIHelper.toast("There was an issue contacting the server");
         UIHelper.removeLoadSpinner();
     }
 
