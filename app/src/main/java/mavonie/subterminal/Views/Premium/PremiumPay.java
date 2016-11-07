@@ -1,18 +1,11 @@
 package mavonie.subterminal.Views.Premium;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.stripe.android.Stripe;
-import com.stripe.android.TokenCallback;
-import com.stripe.android.model.Card;
-import com.stripe.android.model.Token;
-import com.stripe.exception.AuthenticationException;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Payment;

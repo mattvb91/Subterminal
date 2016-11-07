@@ -9,7 +9,6 @@ import android.webkit.WebView;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
-import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 
 

@@ -7,13 +7,15 @@ import org.robolectric.RuntimeEnvironment;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 
 public class GearTest extends BaseDBUnit {
 
