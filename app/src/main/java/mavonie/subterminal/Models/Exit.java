@@ -7,13 +7,18 @@ import android.util.Pair;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import mavonie.subterminal.Jobs.PostExit;
+import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Utils.Subterminal;
 
 
 /**
  * Exit Model
  */
-public class Exit extends Model {
+public class Exit extends Synchronizable {
 
     public static final Integer TYPE_BUILDING = 1;
     public static final Integer TYPE_ANTENNA = 2;
@@ -167,6 +172,8 @@ public class Exit extends Model {
             exit.setLongtitude(Double.parseDouble(cursor.getString(longtitude)));
             exit.setObject_type(cursor.getInt(object_type));
 
+            exit.populateSynchronizationFromCursor(cursor);
+
             return exit;
 
         } catch (Exception e) {
@@ -186,6 +193,8 @@ public class Exit extends Model {
         contentValues.put(COLUMN_NAME_ALTITUDE_TO_LANDING, this.getAltitude_to_landing());
         contentValues.put(COLUMN_NAME_OBJECT_TYPE, this.getObject_type());
         contentValues.put(COLUMN_NAME_GLOBAL_ID, this.getGlobal_id());
+
+        this.populateSynchronizationContentValues(contentValues);
     }
 
     @Override
@@ -337,6 +346,40 @@ public class Exit extends Model {
             this.getDetails().setExit_id(this.getId());
             this.getDetails().save();
         }
+
+        //Upload if user is premium
+        if (Subterminal.getUser().isPremium() && !Subterminal.isTesting()) {
+            Subterminal.getJobManager(MainActivity.getActivity()).addJobInBackground(
+                    new PostExit(this)
+            );
+        }
+
         return res;
+    }
+
+    public String getJobTag() {
+        return "exit_" + this.getId();
+    }
+
+
+    public static List<Exit> getExitsForSync() {
+
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereGlobalIdNull = new HashMap<>();
+        whereGlobalIdNull.put(Model.FILTER_WHERE_FIELD, COLUMN_NAME_GLOBAL_ID);
+        whereGlobalIdNull.put(Model.FILTER_WHERE_VALUE, null);
+
+        HashMap<String, Object> whereSyncRequired = new HashMap<>();
+        whereSyncRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_SYNCED);
+        whereSyncRequired.put(Model.FILTER_WHERE_VALUE, SYNC_REQUIRED);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereGlobalIdNull);
+        wheres.put(wheres.size(), whereSyncRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Exit().getItems(params);
     }
 }

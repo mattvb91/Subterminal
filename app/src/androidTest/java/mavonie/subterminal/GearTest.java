@@ -80,6 +80,8 @@ public class GearTest extends BaseTest{
     @Test
     public void deleteGearTest() {
 
+        addGearTest();
+        addGearTest();
         clickRandomItemTest();
 
         ViewInteraction actionMenuItemView = onView(

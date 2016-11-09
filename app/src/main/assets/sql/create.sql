@@ -18,7 +18,9 @@ CREATE TABLE exit (
     description TEXT,
     lat TEXT,
     long TEXT,
-    object_type INTEGER);
+    object_type INTEGER,
+    synced INTEGER DEFAULT 0,
+    deleted INTEGER DEFAULT 0);
 
 CREATE TABLE exit_details (
     _id INTEGER PRIMARY KEY,

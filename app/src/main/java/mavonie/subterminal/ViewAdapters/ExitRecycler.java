@@ -1,5 +1,6 @@
 package mavonie.subterminal.ViewAdapters;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.Subterminal;
 
 
 /**
@@ -54,6 +57,11 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
             holder.mThumb.setHierarchy(Image.getHierarchy());
         }
 
+        if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced()) || holder.mItem.isGlobal()) {
+            int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
+            holder.mListSynchronized.setColorFilter(color);
+        }
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +87,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
         public final TextView mName;
         public final TextView mObjectType;
         public final SimpleDraweeView mThumb;
+        public final ImageView mListSynchronized;
         public mavonie.subterminal.Models.Exit mItem;
 
         public ViewHolder(View view) {
@@ -87,6 +96,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
             mHeight = (TextView) view.findViewById(R.id.exit_list_height);
             mName = (TextView) view.findViewById(R.id.exit_list_name);
             mObjectType = (TextView) view.findViewById(R.id.exit_list_object_type);
+            mListSynchronized = (ImageView) view.findViewById(R.id.exit_list_synchronized);
 
             mThumb = (SimpleDraweeView) view.findViewById(R.id.exit_list_thumb);
             mThumb.getLayoutParams().width = THUMB_SIZE;

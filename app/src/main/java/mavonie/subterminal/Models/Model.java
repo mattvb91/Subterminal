@@ -126,7 +126,11 @@ abstract public class Model implements BaseColumns, Serializable {
                     Object whereValue = where.get(FILTER_WHERE_VALUE);
 
                     if (i == 0) {
-                        query += " WHERE " + whereField + " = " + whereValue.toString();
+                        if (whereValue == null) {
+                            query += " WHERE " + whereField + " IS NULL";
+                        } else {
+                            query += " WHERE " + whereField + " = " + whereValue.toString();
+                        }
                     } else {
                         query += " AND " + whereField + " = " + whereValue.toString();
                     }

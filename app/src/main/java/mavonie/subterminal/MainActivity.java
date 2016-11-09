@@ -43,6 +43,11 @@ public class MainActivity extends PinCompatActivity
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
     Toolbar toolbar;
     private RefWatcher refWatcher;
 

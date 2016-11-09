@@ -1,10 +1,12 @@
 package mavonie.subterminal.Utils;
 
 import android.content.Context;
+import android.view.View;
 
 import com.facebook.AccessToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.stripe.android.model.Token;
 import com.stripe.model.Charge;
 
@@ -28,6 +30,7 @@ import mavonie.subterminal.Models.User;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
 import mavonie.subterminal.Utils.Api.Intercepter;
+import mavonie.subterminal.Utils.Date.DateFormat;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -138,12 +141,41 @@ public class API {
                 updateLocalUser();
             }
         }
+
+        downloadExits();
+    }
+
+    private void downloadExits() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+        Call myExits = this.getEndpoints().downloadExits(Synchronized.getLastSyncExits());
+
+        myExits.enqueue(new Callback<List<Exit>>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    Exits exits = (Exits) response.body();
+                    for (Exit exit : exits.getExits()) {
+                        exit.markSynced();
+                    }
+
+                    Prefs.putString(Synchronized.PREF_LAST_SYNC_EXITS, DateFormat.dateTimeNow());
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
     }
 
     /**
      * Update the global exits list
      */
     private void updatePublicExits() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
         Call publicExits = this.getEndpoints().listPublicExits();
         publicExits.enqueue(new Callback<List<Exit>>() {
             @Override
@@ -155,11 +187,13 @@ public class API {
                 }
 
                 Once.markDone(CALLS_LIST_PUBLIC_EXITS);
+                UIHelper.setProgressBarVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
                 API.issueContactingServer();
+                UIHelper.setProgressBarVisibility(View.GONE);
             }
         });
     }
@@ -168,16 +202,20 @@ public class API {
      * Send notification object
      */
     public void updateNotificationSettings() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
         Call syncNotification = this.getEndpoints().syncPreferenceNotification(new Notification());
         syncNotification.enqueue(new Callback<Notification>() {
             @Override
             public void onResponse(Call call, Response response) {
                 Once.markDone(CALLS_UPDATE_NOTIFICATIONS);
+                UIHelper.setProgressBarVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
                 API.issueContactingServer();
+                UIHelper.setProgressBarVisibility(View.GONE);
             }
         });
     }
@@ -186,16 +224,20 @@ public class API {
      * Sync the current user to the server
      */
     public void createOrUpdateRemoteUser() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
         Call userCreateUpdate = this.getEndpoints().createOrUpdateUser(Subterminal.getUser().getFacebookToken());
         userCreateUpdate.enqueue(new Callback<AccessToken>() {
             @Override
             public void onResponse(Call call, Response response) {
                 Subterminal.getApi().updateLocalUser();
+                UIHelper.setProgressBarVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
                 API.issueContactingServer();
+                UIHelper.setProgressBarVisibility(View.GONE);
             }
         });
     }
@@ -262,5 +304,29 @@ public class API {
                     .create();
         }
         return gson;
+    }
+
+    public void syncExit(final Exit exit) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call syncExit = this.getEndpoints().syncExit(exit);
+        syncExit.enqueue(new Callback<Exit>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    exit.markSynced();
+                }
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void setLastSyncExits() {
+        Prefs.putString(Synchronized.PREF_LAST_SYNC_EXITS, DateFormat.dateTimeNow());
     }
 }

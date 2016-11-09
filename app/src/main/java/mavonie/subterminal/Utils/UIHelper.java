@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -320,5 +321,10 @@ public class UIHelper {
     public static void userPremium() {
         MenuItem item = (MenuItem) MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_premium);
         item.setVisible(false);
+    }
+
+    public static void setProgressBarVisibility(int visibility) {
+        ProgressBar progress = (ProgressBar) MainActivity.getActivity().getToolbar().findViewById(R.id.toolbar_progress_bar);
+        progress.setVisibility(visibility);
     }
 }

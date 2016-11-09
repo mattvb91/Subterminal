@@ -5,7 +5,11 @@ import android.content.ContextWrapper;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.birbit.android.jobqueue.JobManager;
+import com.birbit.android.jobqueue.config.Configuration;
+import com.birbit.android.jobqueue.log.CustomLogger;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -16,7 +20,9 @@ import com.pixplicity.easyprefs.library.Prefs;
 import de.cketti.library.changelog.ChangeLog;
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.CustomPinActivity;
+import mavonie.subterminal.Jobs.PostExit;
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
 import mavonie.subterminal.Preference;
@@ -34,6 +40,8 @@ public class Subterminal {
     private static CallbackManager mCallbackManager;
 
     protected static User user;
+
+    private static JobManager jobManager;
 
     /**
      * We want only one user instance for the main activity
@@ -148,6 +156,10 @@ public class Subterminal {
         api.init();
 
         UIHelper.init();
+
+        if (getUser().isPremium()) {
+            syncData();
+        }
     }
 
     public static FirebaseAnalytics getAnalytics() {
@@ -156,5 +168,76 @@ public class Subterminal {
 
     public static CallbackManager getmCallbackManager() {
         return mCallbackManager;
+    }
+
+    private static void configureJobManager(Context context) {
+
+        Configuration.Builder builder = new Configuration.Builder(context)
+                .customLogger(new CustomLogger() {
+                    private static final String TAG = "JOBS";
+
+                    @Override
+                    public boolean isDebugEnabled() {
+                        return true;
+                    }
+
+                    @Override
+                    public void d(String text, Object... args) {
+                        Log.d(TAG, String.format(text, args));
+                    }
+
+                    @Override
+                    public void e(Throwable t, String text, Object... args) {
+                        Log.e(TAG, String.format(text, args), t);
+                    }
+
+                    @Override
+                    public void e(String text, Object... args) {
+                        Log.e(TAG, String.format(text, args));
+                    }
+
+                    @Override
+                    public void v(String text, Object... args) {
+
+                    }
+                })
+                .minConsumerCount(1)//always keep at least one consumer alive
+                .maxConsumerCount(3)//up to 3 consumers at a time
+                .loadFactor(3)//3 jobs per consumer
+                .consumerKeepAlive(120);//wait 2 minute
+        jobManager = new JobManager(builder.build());
+    }
+
+    public static synchronized JobManager getJobManager(Context context) {
+        if (jobManager == null) {
+            configureJobManager(context);
+        }
+        return jobManager;
+    }
+
+    /**
+     * Use this for situations where we dont want certain actions
+     * happening during a test
+     *
+     * @return boolean
+     */
+    public static boolean isTesting() {
+        try {
+            Class.forName("mavonie.subterminal.unit.Base.BaseUnit");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Sync at startup. Make sure the sync order is
+     * Exits -> Gear -> Jump
+     */
+    public static void syncData() {
+        for (Exit exit : Exit.getExitsForSync()) {
+            Subterminal.getJobManager(MainActivity.getActivity())
+                    .addJobInBackground(new PostExit(exit));
+        }
     }
 }
