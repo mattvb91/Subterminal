@@ -72,10 +72,14 @@ public abstract class Synchronizable extends Model {
      * to get queued again for API update.
      */
     public void markSynced() {
-        this.transformToLocal();
-
         this.setSynced(SYNC_COMPLETED);
         super.save();
+
+        //Check if this was a remote call and associate it with its original id
+        if (this.remote_id != null && this.remote_id != this.getId()) {
+            this.transformToLocal();
+            super.save();
+        }
     }
 
     /**

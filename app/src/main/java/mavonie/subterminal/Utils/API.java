@@ -22,7 +22,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
 import jonathanfinerty.once.Once;
-import mavonie.subterminal.Models.Api.Exits;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.User;
@@ -138,9 +137,9 @@ public class API {
             if (!Once.beenDone(TimeUnit.DAYS, 1, CALLS_UPDATE_USER)) {
                 updateLocalUser();
             }
-        }
 
-        downloadExits();
+            downloadExits();
+        }
     }
 
     private void downloadExits() {
@@ -152,8 +151,8 @@ public class API {
             public void onResponse(Call call, Response response) {
                 UIHelper.setProgressBarVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    Exits exits = (Exits) response.body();
-                    for (Exit exit : exits.getExits()) {
+                    List<Exit> exits = (List) response.body();
+                    for (Exit exit : exits) {
                         exit.markSynced();
                     }
 
@@ -178,7 +177,7 @@ public class API {
         publicExits.enqueue(new Callback<List<Exit>>() {
             @Override
             public void onResponse(Call call, Response response) {
-                List<Exit> exits = ((Exits) response.body()).getExits();
+                List<Exit> exits = (List<Exit>) response.body();
 
                 for (Exit exit : exits) {
                     Exit.createOrUpdate(exit);

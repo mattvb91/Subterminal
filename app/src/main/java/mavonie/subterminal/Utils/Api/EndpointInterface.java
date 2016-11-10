@@ -4,7 +4,8 @@ import com.facebook.AccessToken;
 import com.stripe.android.model.Token;
 import com.stripe.model.Charge;
 
-import mavonie.subterminal.Models.Api.Exits;
+import java.util.List;
+
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.User;
@@ -25,7 +26,7 @@ public interface EndpointInterface {
     // Request method and URL specified in the annotation
     // Callback for the parsed response is the last parameter
     @GET("exit")
-    Call<Exits> listPublicExits();
+    Call<List<Exit>> listPublicExits();
 
     @POST("user")
     Call<AccessToken> createOrUpdateUser(@Body AccessToken token);
@@ -48,6 +49,6 @@ public interface EndpointInterface {
     Call<Void> delete(@Path("id") Integer id);
 
     @GET("user/exit")
-    Call<Exits> downloadExits(
+    Call<List<Exit>> downloadExits(
             @Query("last_sync") String lastSync);
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import java.util.HashMap;
 
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.ViewAdapters.ExitRecycler;
 
@@ -32,12 +33,26 @@ public class ExitTabs extends BaseFragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             HashMap<String, Object> params = new HashMap<>();
+
             params.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_ASC);
             params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Exit.COLUMN_NAME_NAME);
 
+            HashMap<String, Object> whereNotDeleted = new HashMap<>();
+            whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
+            whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
+
+            HashMap<Integer, HashMap> wheres = new HashMap<>();
+            wheres.put(wheres.size(), whereNotDeleted);
+
+            params.put(Model.FILTER_WHERE, wheres);
+
             if (getArguments() != null && getArguments().getInt(Exit.TAB) == Exit.TAB_MY_EXITS) {
-                params.put(Model.FILTER_WHERE_FIELD, mavonie.subterminal.Models.Exit.COLUMN_NAME_GLOBAL_ID);
-                params.put(Model.FILTER_WHERE_VALUE, null);
+
+                HashMap<String, Object> whereGlobalIdNull = new HashMap<>();
+                whereGlobalIdNull.put(Model.FILTER_WHERE_FIELD, mavonie.subterminal.Models.Exit.COLUMN_NAME_GLOBAL_ID);
+                whereGlobalIdNull.put(Model.FILTER_WHERE_VALUE, null);
+
+                wheres.put(wheres.size(), whereGlobalIdNull);
             }
 
             recyclerView.setAdapter(new ExitRecycler(new mavonie.subterminal.Models.Exit().getItems(params), getmListener()));
@@ -48,8 +63,13 @@ public class ExitTabs extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        HashMap<String, Object> whereNotDeleted = new HashMap<>();
+        whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
+        whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
+
         // Set title
-        String title = getString(R.string.title_exit) + " (" + new mavonie.subterminal.Models.Exit().count() + ")";
+        String title = getString(R.string.title_exit) + " (" + new mavonie.subterminal.Models.Exit().count(whereNotDeleted) + ")";
         MainActivity.getActivity().setTitle(title);
     }
 
