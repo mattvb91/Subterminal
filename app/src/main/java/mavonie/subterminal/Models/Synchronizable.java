@@ -15,8 +15,8 @@ public abstract class Synchronizable extends Model {
     public static final Integer DELETED_TRUE = 1;
     public static final Integer DELETED_FALSE = 0;
 
-    private Integer synced;
-    private Integer deleted;
+    private Integer synced = SYNC_COMPLETED;
+    private Integer deleted = DELETED_FALSE;
 
     private Integer remote_id;
 
@@ -27,8 +27,11 @@ public abstract class Synchronizable extends Model {
      * Transform the remote fields to the local fields
      */
     private void transformToLocal() {
-        this.setId(this.remote_id);
-        this.remote_id = null;
+
+        if (this.remote_id != null) {
+            this.setId(this.remote_id);
+            this.remote_id = null;
+        }
     }
 
     public void populateSynchronizationFromCursor(Cursor cursor) {
@@ -48,7 +51,7 @@ public abstract class Synchronizable extends Model {
     }
 
     public Integer getDeleted() {
-        return deleted;
+        return this.deleted;
     }
 
     public void setDeleted(Integer deleted) {
@@ -91,9 +94,24 @@ public abstract class Synchronizable extends Model {
         //Mark it as deleted first so we have a chance to sync to the server
         if (this.getDeleted() == DELETED_FALSE) {
             this.setDeleted(DELETED_TRUE);
-            return super.save();
+            boolean res = super.save();
+
+            this.addSyncJob();
+
+            return res;
         } else {
             return super.delete();
         }
+    }
+
+    protected abstract void addSyncJob();
+
+    /**
+     * Used to identify in a job queue
+     *
+     * @return String
+     */
+    public String getJobTag() {
+        return this.getClass().getCanonicalName() + this.getId();
     }
 }

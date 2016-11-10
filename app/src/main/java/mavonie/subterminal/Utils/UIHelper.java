@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -323,8 +324,23 @@ public class UIHelper {
         item.setVisible(false);
     }
 
-    public static void setProgressBarVisibility(int visibility) {
-        ProgressBar progress = (ProgressBar) MainActivity.getActivity().getToolbar().findViewById(R.id.toolbar_progress_bar);
-        progress.setVisibility(visibility);
+    /**
+     * Make sure we run our UI changes on the main thread
+     *
+     * @param visibility
+     */
+    public static void setProgressBarVisibility(final int visibility) {
+
+        Handler mainHandler = new Handler(MainActivity.getActivity().getMainLooper());
+
+        Runnable uiRunnable = new Runnable() {
+            @Override
+            public void run() {
+                ProgressBar progress = (ProgressBar) MainActivity.getActivity().getToolbar().findViewById(R.id.toolbar_progress_bar);
+                progress.setVisibility(visibility);
+            }
+        };
+        mainHandler.post(uiRunnable);
+
     }
 }

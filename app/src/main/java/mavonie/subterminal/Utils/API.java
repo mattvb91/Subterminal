@@ -6,7 +6,6 @@ import android.view.View;
 import com.facebook.AccessToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.stripe.android.model.Token;
 import com.stripe.model.Charge;
 
@@ -30,7 +29,6 @@ import mavonie.subterminal.Models.User;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
 import mavonie.subterminal.Utils.Api.Intercepter;
-import mavonie.subterminal.Utils.Date.DateFormat;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -159,7 +157,7 @@ public class API {
                         exit.markSynced();
                     }
 
-                    Prefs.putString(Synchronized.PREF_LAST_SYNC_EXITS, DateFormat.dateTimeNow());
+                    Synchronized.setLastSyncExits();
                 }
             }
 
@@ -326,7 +324,23 @@ public class API {
         });
     }
 
-    public void setLastSyncExits() {
-        Prefs.putString(Synchronized.PREF_LAST_SYNC_EXITS, DateFormat.dateTimeNow());
+    public void deleteExit(final Exit exit) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call deleteExit = this.getEndpoints().delete(exit.getId());
+        deleteExit.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    exit.delete();
+                }
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
     }
 }

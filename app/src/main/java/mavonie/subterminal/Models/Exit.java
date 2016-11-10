@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Jobs.PostExit;
+import mavonie.subterminal.Jobs.SyncExit;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
 
@@ -349,18 +349,17 @@ public class Exit extends Synchronizable {
 
         //Upload if user is premium
         if (Subterminal.getUser().isPremium() && !Subterminal.isTesting()) {
-            Subterminal.getJobManager(MainActivity.getActivity()).addJobInBackground(
-                    new PostExit(this)
-            );
+            this.addSyncJob();
         }
 
         return res;
     }
 
-    public String getJobTag() {
-        return "exit_" + this.getId();
+    @Override
+    protected void addSyncJob() {
+        Subterminal.getJobManager(MainActivity.getActivity())
+                .addJobInBackground(new SyncExit(this));
     }
-
 
     public static List<Exit> getExitsForSync() {
 

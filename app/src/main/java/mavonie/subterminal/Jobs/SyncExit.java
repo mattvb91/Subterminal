@@ -10,16 +10,17 @@ import com.birbit.android.jobqueue.TagConstraint;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Post exits job
  */
-public class PostExit extends Job {
+public class SyncExit extends Job {
 
     private Exit exit;
 
-    public PostExit(Exit exit) {
+    public SyncExit(Exit exit) {
         super(new Params(1).requireNetwork().persist().addTags(exit.getJobTag()));
         this.exit = exit;
 
@@ -35,7 +36,11 @@ public class PostExit extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        Subterminal.getApi().syncExit(this.exit);
+        if (this.exit.getDeleted().equals(Synchronizable.DELETED_TRUE)) {
+            Subterminal.getApi().deleteExit(this.exit);
+        } else if (this.exit.getSynced().equals(Synchronizable.SYNC_REQUIRED)) {
+            Subterminal.getApi().syncExit(this.exit);
+        }
     }
 
     @Override
