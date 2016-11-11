@@ -4,6 +4,8 @@ package mavonie.subterminal.Models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import mavonie.subterminal.Utils.Subterminal;
+
 /**
  * Synchronizable Model
  */
@@ -104,7 +106,9 @@ public abstract class Synchronizable extends Model {
             this.setDeleted(DELETED_TRUE);
             boolean res = super.save();
 
-            this.addSyncJob();
+            if (Subterminal.getUser().isPremium() && !Subterminal.isTesting()) {
+                this.addSyncJob();
+            }
 
             return res;
         } else {

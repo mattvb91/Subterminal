@@ -381,4 +381,25 @@ public class Exit extends Synchronizable {
 
         return new Exit().getItems(params);
     }
+
+    //TODO these 2 methods should be merged
+    public static List<Exit> getExitsForDelete() {
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereGlobalIdNull = new HashMap<>();
+        whereGlobalIdNull.put(Model.FILTER_WHERE_FIELD, COLUMN_NAME_GLOBAL_ID);
+        whereGlobalIdNull.put(Model.FILTER_WHERE_VALUE, null);
+
+        HashMap<String, Object> whereDeleteRequired = new HashMap<>();
+        whereDeleteRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
+        whereDeleteRequired.put(Model.FILTER_WHERE_VALUE, DELETED_TRUE);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereGlobalIdNull);
+        wheres.put(wheres.size(), whereDeleteRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Exit().getItems(params);
+    }
 }

@@ -239,5 +239,10 @@ public class Subterminal {
             Subterminal.getJobManager(MainActivity.getActivity())
                     .addJobInBackground(new SyncExit(exit));
         }
+
+        for (Exit exit : Exit.getExitsForDelete()) {
+            Subterminal.getJobManager(MainActivity.getActivity())
+                    .addJobInBackground(new SyncExit(exit));
+        }
     }
 }
