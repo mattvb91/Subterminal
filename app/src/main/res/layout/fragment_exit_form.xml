@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:gravity="top|left"
             android:hint="Rockdrop distance (Meters)"
-            android:inputType="textPersonName"/>
+            android:inputType="numberSigned"/>
 
         <EditText
             android:id="@+id/exit_edit_distance_to_landing"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:gravity="top|left"
             android:hint="Altitude to landing (Meters)"
-            android:inputType="textPersonName"/>
+            android:inputType="numberSigned"/>
 
         <EditText
             android:id="@+id/exit_edit_description"
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Latitude"
-            android:inputType="textPersonName"
+            android:inputType="numberDecimal"
             android:paddingTop="20dp"></EditText>
 
         <EditText
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Longtitude"
-            android:inputType="textPersonName"></EditText>
+            android:inputType="numberDecimal"></EditText>
 
         <Button
             android:id="@+id/exit_save"

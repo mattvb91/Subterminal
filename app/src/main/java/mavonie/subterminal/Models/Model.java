@@ -35,8 +35,21 @@ abstract public class Model implements BaseColumns, Serializable {
         this._id = _id;
     }
 
+    /**
+     * Check if a record exists in the database
+     *
+     * @return
+     */
     public boolean exists() {
-        return this.getId() > 0;
+
+        String query = "SELECT " + _ID + " FROM " + getTableName() + " WHERE " + _ID + " = " + this.getId();
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            return true;
+        }
+
+        return false;
     }
 
     protected static DatabaseHandler _db;
@@ -261,13 +274,26 @@ abstract public class Model implements BaseColumns, Serializable {
         return count;
     }
 
+    /**
+     * Get items for a select spinner.
+     *
+     * @param fieldName to select
+     * @return LinkedHashMap<String, String>
+     */
     public LinkedHashMap<String, String> getItemsForSelect(String fieldName) {
 
         if (this.itemsForSelect == null) {
             this.itemsForSelect = new LinkedHashMap<String, String>();
         }
 
-        Cursor cursor = _db.getReadableDatabase().rawQuery("select " + _ID + ", " + fieldName + " from " + getTableName(), null);
+        String query = "SELECT " + _ID + ", " + fieldName + " FROM " + getTableName();
+
+        if (this.isSynchronizable()) {
+            //Make sure we only get active instances
+            query += " WHERE " + Synchronizable.COLUMN_DELETED + " = " + Synchronizable.DELETED_FALSE;
+        }
+
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             while (cursor.isAfterLast() == false) {
@@ -306,5 +332,14 @@ abstract public class Model implements BaseColumns, Serializable {
      */
     public boolean canEdit() {
         return true;
+    }
+
+    /**
+     * Check if current model is synchronizable
+     *
+     * @return
+     */
+    public boolean isSynchronizable() {
+        return this instanceof Synchronizable;
     }
 }

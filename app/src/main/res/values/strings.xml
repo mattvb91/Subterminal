@@ -38,5 +38,6 @@
     <string name="delete_confirmation">Item has been deleted</string>
     <string name="premium_member_welcome">You are now a premium member. Thank you for the support! We have emailed you a purchase confirmation</string>
     <string name="Synchronized">#FF95FFA3</string>
+    <string name="no_exit_info">No exit info</string>
 
 </resources>

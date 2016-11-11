@@ -313,7 +313,9 @@ public class API {
                 if (response.isSuccessful()) {
                     exit.markSynced();
                 }
+
                 UIHelper.setProgressBarVisibility(View.GONE);
+                Synchronized.setLastSyncExits();
             }
 
             @Override

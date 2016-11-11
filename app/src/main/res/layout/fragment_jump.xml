@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/jump_list_thumb_layout"
             android:layout_toRightOf="@+id/jump_list_thumb_layout"
-            android:text="Exit Name"
+            android:text="@string/no_exit_info"
             android:textColor="#040404"
             android:textSize="15dip"
             android:textStyle="bold"

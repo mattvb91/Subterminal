@@ -46,7 +46,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         if (exit != null) {
             holder.exitName.setText(exit.getName());
         } else {
-            holder.exitName.setText("No exit info");
+            holder.exitName.setText(MainActivity.getActivity().getString(R.string.no_exit_info));
             holder.exitName.setTextColor(MainActivity.getActivity().getResources().getColor(R.color.grey));
         }
 

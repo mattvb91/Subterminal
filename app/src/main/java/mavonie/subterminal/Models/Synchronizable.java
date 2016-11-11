@@ -61,6 +61,10 @@ public abstract class Synchronizable extends Model {
     public void populateSynchronizationContentValues(ContentValues contentValues) {
         contentValues.put(COLUMN_DELETED, this.getDeleted());
         contentValues.put(COLUMN_SYNCED, this.getSynced());
+
+        if (this.remote_id != null) {
+            contentValues.put(_ID, this.remote_id);
+        }
     }
 
     public boolean isSynced() {
