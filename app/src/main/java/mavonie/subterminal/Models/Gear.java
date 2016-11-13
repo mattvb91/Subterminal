@@ -3,20 +3,42 @@ package mavonie.subterminal.Models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.HashMap;
+import java.util.List;
+
+import mavonie.subterminal.Jobs.SyncGear;
+import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Utils.Subterminal;
+
 /**
- * Created by mavon on 11/10/16.
+ * Gear model
  */
+public class Gear extends Synchronizable {
 
-public class Gear extends Model {
-
+    @SerializedName("container_manufacturer")
     private String containerManufacturer;
+
+    @SerializedName("container_type")
     private String containerType;
+
+    @SerializedName("container_name")
     private String containerSerial;
+
+    @SerializedName("container_date_in_use")
     private String containerDateInUse;
 
+    @SerializedName("canopy_manufacturer")
     private String canopyManufacturer;
+
+    @SerializedName("canopy_type")
     private String canopyType;
+
+    @SerializedName("canopy_serial")
     private String canopySerial;
+
+    @SerializedName("canopy_date_in_use")
     private String canopyDateInUse;
 
     /* DB DEFINITIONS */
@@ -132,6 +154,8 @@ public class Gear extends Model {
             gear.setCanopySerial(cursor.getString(canopySerialIndex));
             gear.setCanopyDateInUse(cursor.getString(canopyDateIndex));
 
+            this.populateSynchronizationFromCursor(cursor);
+
             return gear;
 
         } catch (Exception e) {
@@ -155,6 +179,7 @@ public class Gear extends Model {
         contentValues.put(COLUMN_NAME_CANOPY_SERIAL, this.getCanopySerial());
         contentValues.put(COLUMN_NAME_CANOPY_DATE_IN_USE, this.getCanopyDateInUse());
 
+        this.populateSynchronizationContentValues(contentValues);
     }
 
     //TODO add canopy type
@@ -188,4 +213,43 @@ public class Gear extends Model {
         return canopyDateInUse != null ? canopyDateInUse.equals(gear.canopyDateInUse) : gear.canopyDateInUse == null;
 
     }
+
+    @Override
+    public void addSyncJob() {
+        Subterminal.getJobManager(MainActivity.getActivity())
+                .addJobInBackground(new SyncGear(this));
+    }
+
+    public static List<Gear> getGearForSync() {
+
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereSyncRequired = new HashMap<>();
+        whereSyncRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_SYNCED);
+        whereSyncRequired.put(Model.FILTER_WHERE_VALUE, SYNC_REQUIRED);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereSyncRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Gear().getItems(params);
+    }
+
+    //TODO these 2 methods should be merged
+    public static List<Gear> getGearForDelete() {
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereDeleteRequired = new HashMap<>();
+        whereDeleteRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
+        whereDeleteRequired.put(Model.FILTER_WHERE_VALUE, DELETED_TRUE);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereDeleteRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Gear().getItems(params);
+    }
+
 }

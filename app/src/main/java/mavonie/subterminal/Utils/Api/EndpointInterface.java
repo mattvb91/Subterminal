@@ -7,6 +7,7 @@ import com.stripe.model.Charge;
 import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.User;
 import retrofit2.Call;
@@ -41,7 +42,7 @@ public interface EndpointInterface {
     Call<Charge> sendPaymentToken(@Body Token token);
 
 
-    //Authenticated requests
+    //Exit requests
     @POST("exit")
     Call<Exit> syncExit(@Body Exit exit);
 
@@ -50,5 +51,16 @@ public interface EndpointInterface {
 
     @GET("user/exit")
     Call<List<Exit>> downloadExits(
+            @Query("last_sync") String lastSync);
+
+    //Gear requests
+    @POST("gear")
+    Call<Gear> syncGear(@Body Gear exit);
+
+    @DELETE("user/gear/{id}")
+    Call<Void> deleteGear(@Path("id") Integer id);
+
+    @GET("user/gear")
+    Call<List<Gear>> downloadGear(
             @Query("last_sync") String lastSync);
 }

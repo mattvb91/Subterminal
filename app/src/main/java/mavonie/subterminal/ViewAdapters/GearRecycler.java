@@ -1,15 +1,19 @@
 package mavonie.subterminal.ViewAdapters;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Gear recycler
@@ -39,6 +43,12 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
         holder.listCanopyType.setText(holder.mItem.getCanopyType());
         holder.listCanopyManufacturer.setText(holder.mItem.getCanopyManufacturer());
 
+        if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced())) {
+            int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
+            holder.mListSynchronized.setColorFilter(color);
+        }
+
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,6 +72,7 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
         public final TextView listContainerType;
         public final TextView listCanopyType;
         public final TextView listCanopyManufacturer;
+        public final ImageView mListSynchronized;
         public mavonie.subterminal.Models.Gear mItem;
 
         public ViewHolder(View view) {
@@ -71,6 +82,7 @@ public class GearRecycler extends RecyclerView.Adapter<GearRecycler.ViewHolder> 
             listContainerType = (TextView) view.findViewById(R.id.gear_container_type);
             listCanopyType = (TextView) view.findViewById(R.id.gear_canopy_type);
             listCanopyManufacturer = (TextView) view.findViewById(R.id.gear_canopy_manufacturer);
+            mListSynchronized = (ImageView) view.findViewById(R.id.gear_list_synchronized);
         }
     }
 }

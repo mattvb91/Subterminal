@@ -20,9 +20,9 @@ import com.pixplicity.easyprefs.library.Prefs;
 import de.cketti.library.changelog.ChangeLog;
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.CustomPinActivity;
-import mavonie.subterminal.Jobs.SyncExit;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
 import mavonie.subterminal.Preference;
@@ -236,13 +236,19 @@ public class Subterminal {
      */
     public static void syncData() {
         for (Exit exit : Exit.getExitsForSync()) {
-            Subterminal.getJobManager(MainActivity.getActivity())
-                    .addJobInBackground(new SyncExit(exit));
+            exit.addSyncJob();
         }
 
         for (Exit exit : Exit.getExitsForDelete()) {
-            Subterminal.getJobManager(MainActivity.getActivity())
-                    .addJobInBackground(new SyncExit(exit));
+            exit.addSyncJob();
+        }
+
+        for (Gear gear : Gear.getGearForSync()) {
+            gear.addSyncJob();
+        }
+
+        for (Gear gear : Gear.getGearForDelete()) {
+            gear.addSyncJob();
         }
     }
 }

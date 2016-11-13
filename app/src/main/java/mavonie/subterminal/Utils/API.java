@@ -23,6 +23,7 @@ import javax.net.ssl.TrustManagerFactory;
 
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.User;
 import mavonie.subterminal.R;
@@ -312,10 +313,11 @@ public class API {
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
                     exit.markSynced();
+
+                    Synchronized.setLastSyncExits();
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
-                Synchronized.setLastSyncExits();
             }
 
             @Override
@@ -343,5 +345,50 @@ public class API {
                 UIHelper.setProgressBarVisibility(View.GONE);
             }
         });
+    }
+
+    public void deleteGear(final Gear gear) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call deleteExit = this.getEndpoints().deleteGear(gear.getId());
+        deleteExit.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    gear.delete();
+                }
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+
+    }
+
+    public void syncGear(final Gear gear) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call syncExit = this.getEndpoints().syncGear(gear);
+        syncExit.enqueue(new Callback<Exit>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    gear.markSynced();
+
+                    Synchronized.setLastSyncGear();
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+
     }
 }

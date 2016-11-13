@@ -7,7 +7,9 @@ CREATE TABLE gear (
     canopy_manufacturer TEXT,
     canopy_type TEXT,
     canopy_serial TEXT,
-    canopy_date_in_use DATE );
+    canopy_date_in_use DATE,
+    synced INTEGER DEFAULT 0,
+    deleted INTEGER DEFAULT 0);
 
 CREATE TABLE exit (
     _id INTEGER PRIMARY KEY,

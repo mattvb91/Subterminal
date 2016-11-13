@@ -347,16 +347,11 @@ public class Exit extends Synchronizable {
             this.getDetails().save();
         }
 
-        //Upload if user is premium
-        if (Subterminal.getUser().isPremium() && !Subterminal.isTesting()) {
-            this.addSyncJob();
-        }
-
         return res;
     }
 
     @Override
-    protected void addSyncJob() {
+    public void addSyncJob() {
         Subterminal.getJobManager(MainActivity.getActivity())
                 .addJobInBackground(new SyncExit(this));
     }

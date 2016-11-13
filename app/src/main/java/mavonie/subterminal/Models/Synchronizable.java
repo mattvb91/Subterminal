@@ -17,7 +17,7 @@ public abstract class Synchronizable extends Model {
     public static final Integer DELETED_TRUE = 1;
     public static final Integer DELETED_FALSE = 0;
 
-    private Integer synced = SYNC_COMPLETED;
+    private Integer synced = SYNC_REQUIRED;
     private Integer deleted = DELETED_FALSE;
 
     private Integer remote_id;
@@ -70,7 +70,7 @@ public abstract class Synchronizable extends Model {
     }
 
     public boolean isSynced() {
-        return this.getSynced() == SYNC_COMPLETED;
+        return this.getSynced().equals(SYNC_COMPLETED);
     }
 
     /**
@@ -95,7 +95,14 @@ public abstract class Synchronizable extends Model {
      */
     public boolean save() {
         this.setSynced(SYNC_REQUIRED);
-        return super.save();
+        boolean res = super.save();
+
+        //Sync if user is premium
+        if (Subterminal.getUser().isPremium() && !Subterminal.isTesting()) {
+            this.addSyncJob();
+        }
+
+        return res;
     }
 
     @Override
@@ -116,7 +123,7 @@ public abstract class Synchronizable extends Model {
         }
     }
 
-    protected abstract void addSyncJob();
+    public abstract void addSyncJob();
 
     /**
      * Used to identify in a job queue
