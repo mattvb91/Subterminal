@@ -45,7 +45,9 @@ CREATE TABLE jump (
         pc_size INTEGER,
         slider INTEGER,
         delay INTEGER,
-        description TEXT);
+        description TEXT,
+        synced INTEGER DEFAULT 0,
+        deleted INTEGER DEFAULT 0);
 
 CREATE TABLE image (
         _id INTEGER PRIMARY KEY,

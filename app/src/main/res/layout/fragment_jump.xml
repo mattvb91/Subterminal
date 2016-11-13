@@ -15,17 +15,17 @@
                     android:padding="5dip">
 
         <LinearLayout
-            android:layout_width="wrap_content"
             android:id="@+id/row_id"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/jump_list_row_id"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="30dp"
                 android:padding="10dp"
-                android:text="#1"/>
+                android:text="#1"
+                android:textSize="30dp"/>
 
         </LinearLayout>
         <!--  ListRow Left sied Thumbnail image -->
@@ -33,8 +33,8 @@
             android:id="@+id/jump_list_thumb_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/row_id"
             android:layout_marginRight="5dip"
+            android:layout_toRightOf="@id/row_id"
             android:background="@drawable/image_bg"
             android:padding="3dip">
 
@@ -96,11 +96,22 @@
 
         <!-- Rightend Arrow -->
         <ImageView
+            android:id="@+id/jump_list_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@android:drawable/arrow_down_float"/>
+
+        <ImageView
+            android:id="@+id/jump_list_synchronized"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/jump_list_arrow"
+            android:src="@drawable/synchronized_circle"/>
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

@@ -6,14 +6,17 @@ import android.database.Cursor;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.HashMap;
+import java.util.List;
 
+import mavonie.subterminal.Jobs.SyncJump;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Preference;
+import mavonie.subterminal.Utils.Subterminal;
 
 /**
- * Created by mavon on 15/10/16.
+ * Jump Model
  */
-
-public class Jump extends Model {
+public class Jump extends Synchronizable {
 
     private String description;
     private String date;
@@ -145,7 +148,6 @@ public class Jump extends Model {
         this.delay = delay;
     }
 
-    //TODO fill in properly
     @Override
     public Jump populateFromCursor(Cursor cursor) {
         try {
@@ -171,6 +173,8 @@ public class Jump extends Model {
 
             jump.setRow_id(cursor.getCount() - cursor.getPosition());
 
+            jump.populateSynchronizationFromCursor(cursor);
+
             return jump;
 
         } catch (Exception e) {
@@ -189,6 +193,8 @@ public class Jump extends Model {
         contentValues.put(COLUMN_NAME_PC_SIZE, this.getPc_size());
         contentValues.put(COLUMN_NAME_GEAR_ID, this.getGear_id());
         contentValues.put(COLUMN_NAME_SLIDER, this.getSlider());
+
+        this.populateSynchronizationContentValues(contentValues);
     }
 
     @Override
@@ -242,4 +248,43 @@ public class Jump extends Model {
     public String getFormattedDelay() {
         return this.getDelay() + "s";
     }
+
+    @Override
+    public void addSyncJob() {
+        Subterminal.getJobManager(MainActivity.getActivity())
+                .addJobInBackground(new SyncJump(this));
+    }
+
+    public static List<Jump> getJumpsForSync() {
+
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereSyncRequired = new HashMap<>();
+        whereSyncRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_SYNCED);
+        whereSyncRequired.put(Model.FILTER_WHERE_VALUE, SYNC_REQUIRED);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereSyncRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Jump().getItems(params);
+    }
+
+    //TODO these 2 methods should be merged
+    public static List<Jump> getJumpsForDelete() {
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereDeleteRequired = new HashMap<>();
+        whereDeleteRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
+        whereDeleteRequired.put(Model.FILTER_WHERE_VALUE, DELETED_TRUE);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereDeleteRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Jump().getItems(params);
+    }
+
 }

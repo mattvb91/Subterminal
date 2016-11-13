@@ -8,6 +8,7 @@ import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.User;
 import retrofit2.Call;
@@ -62,5 +63,16 @@ public interface EndpointInterface {
 
     @GET("user/gear")
     Call<List<Gear>> downloadGear(
+            @Query("last_sync") String lastSync);
+
+    //Jump requests
+    @POST("jump")
+    Call<Jump> syncJump(@Body Jump exit);
+
+    @DELETE("user/jump/{id}")
+    Call<Void> deleteJump(@Path("id") Integer id);
+
+    @GET("user/jump")
+    Call<List<Gear>> downloadJumps(
             @Query("last_sync") String lastSync);
 }

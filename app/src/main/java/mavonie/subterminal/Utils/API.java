@@ -24,6 +24,7 @@ import javax.net.ssl.TrustManagerFactory;
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.User;
 import mavonie.subterminal.R;
@@ -350,8 +351,8 @@ public class API {
     public void deleteGear(final Gear gear) {
         UIHelper.setProgressBarVisibility(View.VISIBLE);
 
-        Call deleteExit = this.getEndpoints().deleteGear(gear.getId());
-        deleteExit.enqueue(new Callback<Boolean>() {
+        Call deleteGear = this.getEndpoints().deleteGear(gear.getId());
+        deleteGear.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
@@ -371,8 +372,8 @@ public class API {
     public void syncGear(final Gear gear) {
         UIHelper.setProgressBarVisibility(View.VISIBLE);
 
-        Call syncExit = this.getEndpoints().syncGear(gear);
-        syncExit.enqueue(new Callback<Exit>() {
+        Call syncGear = this.getEndpoints().syncGear(gear);
+        syncGear.enqueue(new Callback<Gear>() {
             @Override
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
@@ -390,5 +391,48 @@ public class API {
             }
         });
 
+    }
+
+    public void deleteJump(final Jump jump) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call deleteJump = this.getEndpoints().deleteJump(jump.getId());
+        deleteJump.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    jump.delete();
+                }
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void syncJump(final Jump jump) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call syncJump = this.getEndpoints().syncJump(jump);
+        syncJump.enqueue(new Callback<Jump>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    jump.markSynced();
+
+                    Synchronized.setLastSyncJump();
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
     }
 }

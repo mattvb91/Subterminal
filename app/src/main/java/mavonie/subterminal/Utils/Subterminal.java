@@ -23,6 +23,7 @@ import mavonie.subterminal.CustomPinActivity;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.User;
 import mavonie.subterminal.Preference;
@@ -249,6 +250,14 @@ public class Subterminal {
 
         for (Gear gear : Gear.getGearForDelete()) {
             gear.addSyncJob();
+        }
+
+        for (Jump jump : Jump.getJumpsForSync()) {
+            jump.addSyncJob();
+        }
+
+        for (Jump jump : Jump.getJumpsForDelete()) {
+            jump.addSyncJob();
         }
     }
 }
