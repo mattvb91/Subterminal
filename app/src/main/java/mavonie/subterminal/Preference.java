@@ -1,13 +1,18 @@
 package mavonie.subterminal;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +32,13 @@ public class Preference extends BaseFragment {
     Switch pinSwitch;
 
     public static final String PIN_ENABLED = "PIN_ENABLED";
+    public static final String PREFS_JUMP_START_COUNT = "PREFS_JUMP_START_COUNT";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_preference, container, false);
+        final View view = inflater.inflate(R.layout.fragment_preference, container, false);
 
         this.pinSwitch = (Switch) view.findViewById(R.id.settings_pin_switch);
         this.pinSwitch.setChecked(Prefs.getBoolean(PIN_ENABLED, false));
@@ -94,6 +100,25 @@ public class Preference extends BaseFragment {
             }
         });
 
+        final EditText startCount = (EditText) view.findViewById(R.id.preference_start_count);
+        startCount.setText(Integer.toString(Prefs.getInt(PREFS_JUMP_START_COUNT, 0)));
+
+        startCount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    Prefs.putInt(PREFS_JUMP_START_COUNT, Integer.parseInt(String.valueOf(startCount.getText())));
+                    UIHelper.toast(getString(R.string.settings_updated));
+
+                    InputMethodManager imm = (InputMethodManager)MainActivity.getActivity()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
         return view;
     }
 

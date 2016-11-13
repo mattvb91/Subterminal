@@ -154,7 +154,7 @@ public class Gear extends Synchronizable {
             gear.setCanopySerial(cursor.getString(canopySerialIndex));
             gear.setCanopyDateInUse(cursor.getString(canopyDateIndex));
 
-            this.populateSynchronizationFromCursor(cursor);
+            gear.populateSynchronizationFromCursor(cursor);
 
             return gear;
 

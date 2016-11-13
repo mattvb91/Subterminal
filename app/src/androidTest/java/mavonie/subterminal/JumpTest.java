@@ -74,7 +74,7 @@ public class JumpTest extends BaseTest {
 
     }
 
-    protected void navigateToJumpsList() {
+    public static void navigateToJumpsList() {
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Open navigation drawer"),
                         withParent(withId(R.id.toolbar)),

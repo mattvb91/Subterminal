@@ -3,7 +3,11 @@ package mavonie.subterminal.Models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import java.util.HashMap;
+
+import mavonie.subterminal.Preference;
 
 /**
  * Created by mavon on 15/10/16.
@@ -221,6 +225,13 @@ public class Jump extends Model {
     }
 
     public int getRow_id() {
+
+        int startJump = Prefs.getInt(Preference.PREFS_JUMP_START_COUNT, 0);
+
+        if (startJump > 0) {
+            row_id += (startJump - 1);
+        }
+
         return row_id;
     }
 

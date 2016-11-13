@@ -4,6 +4,7 @@
         version="1.0.1"
         versioncode="12">
         <change>Sign in with Facebook</change>
+        <change>Change starting jump # through settings</change>
     </release>
     <release
         version="1.0.0"

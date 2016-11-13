@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
@@ -41,7 +42,12 @@ public class GearTest extends BaseDBUnit {
         Gear gear = createGear();
 
         assertTrue(gear.delete());
-        assertNull(gear.getOneById(gear.getId()));
+        Gear gear2 = (Gear) gear.getOneById(gear.getId());
+
+        assertEquals(gear2.getDeleted(), Synchronizable.DELETED_TRUE);
+
+        gear2.delete();
+        assertNull(gear.getOneById(gear2.getId()));
     }
 
     /**
