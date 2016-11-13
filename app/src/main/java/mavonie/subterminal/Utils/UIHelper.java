@@ -294,6 +294,10 @@ public class UIHelper {
         if (!Subterminal.getUser().isLoggedIn()) {
             userLoggedOut();
         }
+
+        if(Subterminal.getUser().isPremium()) {
+            userPremium();
+        }
     }
 
     //Quick toast method

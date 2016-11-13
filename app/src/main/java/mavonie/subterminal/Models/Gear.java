@@ -23,7 +23,7 @@ public class Gear extends Synchronizable {
     @SerializedName("container_type")
     private String containerType;
 
-    @SerializedName("container_name")
+    @SerializedName("container_serial")
     private String containerSerial;
 
     @SerializedName("container_date_in_use")
