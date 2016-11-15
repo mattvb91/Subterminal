@@ -50,7 +50,7 @@ public interface EndpointInterface {
     @DELETE("user/exit/{id}")
     Call<Void> delete(@Path("id") Integer id);
 
-    @GET("user/exit")
+    @GET("user/exits")
     Call<List<Exit>> downloadExits(
             @Query("last_sync") String lastSync);
 
@@ -72,7 +72,7 @@ public interface EndpointInterface {
     @DELETE("user/jump/{id}")
     Call<Void> deleteJump(@Path("id") Integer id);
 
-    @GET("user/jump")
-    Call<List<Gear>> downloadJumps(
+    @GET("user/jumps")
+    Call<List<Jump>> downloadJumps(
             @Query("last_sync") String lastSync);
 }

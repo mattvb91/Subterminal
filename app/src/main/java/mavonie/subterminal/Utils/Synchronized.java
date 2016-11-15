@@ -33,7 +33,7 @@ public abstract class Synchronized {
         Prefs.putString(Synchronized.PREF_LAST_SYNC_JUMP, DateFormat.dateTimeNow());
     }
 
-    public static void getLastSyncJump() {
-        Prefs.getString(Synchronized.PREF_LAST_SYNC_JUMP, "2000-01-01 00:00:00");
+    public static String getLastSyncJump() {
+        return Prefs.getString(Synchronized.PREF_LAST_SYNC_JUMP, "2000-01-01 00:00:00");
     }
 }

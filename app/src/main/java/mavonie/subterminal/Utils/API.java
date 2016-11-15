@@ -149,6 +149,28 @@ public class API {
     }
 
     private void downloadJumps() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+        Call myJumps = this.getEndpoints().downloadJumps(Synchronized.getLastSyncJump());
+
+        myJumps.enqueue(new Callback<List<Jump>>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    List<Jump> jumps = (List) response.body();
+                    for (Jump jump : jumps) {
+                        jump.markSynced();
+                    }
+
+                    Synchronized.setLastSyncJump();
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
     }
 
     private void downloadExits() {
