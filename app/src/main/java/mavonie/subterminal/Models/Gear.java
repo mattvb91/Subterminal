@@ -173,7 +173,7 @@ public class Gear extends Synchronizable {
         contentValues.put(COLUMN_NAME_CONTAINER_MANUFACTURER, this.getContainerManufacturer());
         contentValues.put(COLUMN_NAME_CONTAINER_TYPE, this.getContainerType());
         contentValues.put(COLUMN_NAME_CONTAINER_SERIAL, this.getContainerSerial());
-        contentValues.put(COLUMN_NAME_CONTAINER_DATE_IN_USE, this.getContainerDateInUse().toString());
+        contentValues.put(COLUMN_NAME_CONTAINER_DATE_IN_USE, this.getContainerDateInUse());
         contentValues.put(COLUMN_NAME_CANOPY_MANUFACTURER, this.getCanopyManufacturer());
         contentValues.put(COLUMN_NAME_CANOPY_TYPE, this.getCanopyType());
         contentValues.put(COLUMN_NAME_CANOPY_SERIAL, this.getCanopySerial());

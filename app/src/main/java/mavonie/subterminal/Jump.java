@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import java.util.HashMap;
 
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.ViewAdapters.JumpRecycler;
 
@@ -38,8 +39,18 @@ public class Jump extends BaseFragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             HashMap<String, Object> params = new HashMap<>();
-            params.put(Model.FILTER_ORDER_DIR, "DESC");
+
+            params.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_DESC);
             params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Jump.COLUMN_NAME_DATE);
+
+            HashMap<String, Object> whereNotDeleted = new HashMap<>();
+            whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
+            whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
+
+            HashMap<Integer, HashMap> wheres = new HashMap<>();
+            wheres.put(wheres.size(), whereNotDeleted);
+
+            params.put(Model.FILTER_WHERE, wheres);
 
             recyclerView.setAdapter(new JumpRecycler(new mavonie.subterminal.Models.Jump().getItems(params), this.getmListener()));
         }

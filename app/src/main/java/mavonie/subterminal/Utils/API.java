@@ -140,8 +140,15 @@ public class API {
                 updateLocalUser();
             }
 
-            downloadExits();
+            if (Subterminal.getUser().isPremium()) {
+                downloadExits();
+                downloadGear();
+                downloadJumps();
+            }
         }
+    }
+
+    private void downloadJumps() {
     }
 
     private void downloadExits() {
@@ -169,6 +176,32 @@ public class API {
         });
     }
 
+    private void downloadGear() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+        Call myGear = this.getEndpoints().downloadGear(Synchronized.getLastSyncGear());
+
+        myGear.enqueue(new Callback<List<Gear>>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+
+                if (response.isSuccessful()) {
+                    List<Gear> gears = (List) response.body();
+
+                    for (Gear gear : gears) {
+                        gear.markSynced();
+                    }
+                    Synchronized.setLastSyncGear();
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
     /**
      * Update the global exits list
      */
@@ -179,13 +212,16 @@ public class API {
         publicExits.enqueue(new Callback<List<Exit>>() {
             @Override
             public void onResponse(Call call, Response response) {
-                List<Exit> exits = (List<Exit>) response.body();
+                if (response.isSuccessful()) {
+                    List<Exit> exits = (List<Exit>) response.body();
 
-                for (Exit exit : exits) {
-                    Exit.createOrUpdate(exit);
+                    for (Exit exit : exits) {
+                        Exit.createOrUpdate(exit);
+                    }
+
+                    Once.markDone(CALLS_LIST_PUBLIC_EXITS);
                 }
 
-                Once.markDone(CALLS_LIST_PUBLIC_EXITS);
                 UIHelper.setProgressBarVisibility(View.GONE);
             }
 
@@ -207,7 +243,10 @@ public class API {
         syncNotification.enqueue(new Callback<Notification>() {
             @Override
             public void onResponse(Call call, Response response) {
-                Once.markDone(CALLS_UPDATE_NOTIFICATIONS);
+                if (response.isSuccessful()) {
+                    Once.markDone(CALLS_UPDATE_NOTIFICATIONS);
+                }
+
                 UIHelper.setProgressBarVisibility(View.GONE);
             }
 
@@ -257,6 +296,7 @@ public class API {
                     User.activatePremium();
                 } else {
                     //Show message
+                    issueContactingServer();
                 }
 
                 UIHelper.removeLoadSpinner();

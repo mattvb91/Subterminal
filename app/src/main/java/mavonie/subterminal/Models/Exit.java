@@ -13,6 +13,7 @@ import java.util.Map;
 import mavonie.subterminal.Jobs.SyncExit;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 
 
 /**
@@ -133,7 +134,7 @@ public class Exit extends Synchronizable {
         this.description = description;
     }
 
-    public int getObject_type() {
+    public Integer getObject_type() {
         return object_type;
     }
 
@@ -191,9 +192,12 @@ public class Exit extends Synchronizable {
         contentValues.put(COLUMN_NAME_LONGTITUDE, this.getLongtitude());
         contentValues.put(COLUMN_NAME_ROCKDROP_DISTANCE, this.getRockdrop_distance());
         contentValues.put(COLUMN_NAME_ALTITUDE_TO_LANDING, this.getAltitude_to_landing());
-        contentValues.put(COLUMN_NAME_OBJECT_TYPE, this.getObject_type());
-        contentValues.put(COLUMN_NAME_GLOBAL_ID, this.getGlobal_id());
 
+        if (this.getObject_type() != null) {
+            contentValues.put(COLUMN_NAME_OBJECT_TYPE, this.getObject_type());
+        }
+
+        contentValues.put(COLUMN_NAME_GLOBAL_ID, this.getGlobal_id());
         this.populateSynchronizationContentValues(contentValues);
     }
 
@@ -356,6 +360,20 @@ public class Exit extends Synchronizable {
                 .addJobInBackground(new SyncExit(this));
     }
 
+    /**
+     * Get all the jumps associated with this exit
+     *
+     * @return List
+     */
+    public List<Jump> getJumps() {
+
+        HashMap<String, Object> whereExitID = new HashMap<>();
+        whereExitID.put(Model.FILTER_WHERE_FIELD, Jump.COLUMN_NAME_EXIT_ID);
+        whereExitID.put(Model.FILTER_WHERE_VALUE, Integer.toString(this.getId()));
+
+        return new Jump().getItems(whereExitID);
+    }
+
     public static List<Exit> getExitsForSync() {
 
         HashMap<String, Object> params = new HashMap<>();
@@ -396,5 +414,17 @@ public class Exit extends Synchronizable {
         params.put(Model.FILTER_WHERE, wheres);
 
         return new Exit().getItems(params);
+    }
+
+    @Override
+    public boolean delete() {
+
+        //We need to update exits before deleting
+        for (Jump jump : this.getJumps()) {
+            jump.setExit_id(null);
+            jump.save();
+        }
+
+        return super.delete();
     }
 }

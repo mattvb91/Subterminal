@@ -22,8 +22,10 @@ import com.github.orangegangsters.lollipin.lib.managers.LockManager;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import de.cketti.library.changelog.ChangeLog;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.Synchronized;
 import mavonie.subterminal.Utils.UIHelper;
 
 
@@ -70,6 +72,19 @@ public class Preference extends BaseFragment {
             }
         });
 
+        TextView dataSync = (TextView) view.findViewById(R.id.preference_account_sync_value);
+
+        if (Subterminal.getUser().isPremium()) {
+
+            dataSync.setText(R.string.force_sync);
+            dataSync.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Synchronizable.forceSyncAll();
+                }
+            });
+        }
+
         //Show the changelog
         version.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +125,7 @@ public class Preference extends BaseFragment {
                     Prefs.putInt(PREFS_JUMP_START_COUNT, Integer.parseInt(String.valueOf(startCount.getText())));
                     UIHelper.toast(getString(R.string.settings_updated));
 
-                    InputMethodManager imm = (InputMethodManager)MainActivity.getActivity()
+                    InputMethodManager imm = (InputMethodManager) MainActivity.getActivity()
                             .getSystemService(Context.INPUT_METHOD_SERVICE);
 
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);

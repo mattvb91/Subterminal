@@ -77,6 +77,7 @@ public class User {
                             Subterminal.getApi().createOrUpdateRemoteUser();
 
                             UIHelper.userLoggedIn();
+                            Subterminal.getApi().init();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -137,6 +138,8 @@ public class User {
 
         UIHelper.toast(MainActivity.getActivity().getString(R.string.premium_member_welcome));
         UIHelper.goToFragment(R.id.nav_jumps);
+
+        Subterminal.syncData();
     }
 
 

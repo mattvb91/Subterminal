@@ -4,6 +4,10 @@ package mavonie.subterminal.Models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.util.HashMap;
+import java.util.List;
+
+import mavonie.subterminal.*;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**
@@ -97,8 +101,8 @@ public abstract class Synchronizable extends Model {
         this.setSynced(SYNC_REQUIRED);
         boolean res = super.save();
 
-        //Sync if user is premium
-        if (Subterminal.getUser().isPremium() && !Subterminal.isTesting()) {
+        //Sync if user is logged in and premium
+        if (Subterminal.getUser().isLoggedIn() && Subterminal.getUser().isPremium() && !Subterminal.isTesting()) {
             this.addSyncJob();
         }
 
@@ -132,5 +136,33 @@ public abstract class Synchronizable extends Model {
      */
     public String getJobTag() {
         return this.getClass().getCanonicalName() + this.getId();
+    }
+
+    /**
+     * Force sync all items up to the server.
+     */
+    public static void forceSyncAll() {
+
+        HashMap<String, Object> whereGlobalIdNull = new HashMap<>();
+        whereGlobalIdNull.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
+        whereGlobalIdNull.put(Model.FILTER_WHERE_VALUE, null);
+
+
+        List<Exit> exits = new Exit().getItems(whereGlobalIdNull);
+        for (Exit exit : exits) {
+            exit.save();
+        }
+
+        List<Gear> gears = new Gear().getItems(null);
+        for (Gear gear : gears) {
+            gear.save();
+        }
+
+        List<Jump> jumps = new Jump().getItems(null);
+        for (Jump jump : jumps) {
+            jump.save();
+        }
+
+        Subterminal.syncData();
     }
 }

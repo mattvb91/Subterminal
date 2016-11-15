@@ -40,5 +40,6 @@
     <string name="Synchronized">#FF95FFA3</string>
     <string name="no_exit_info">No exit info</string>
     <string name="settings_updated">Settings updated</string>
+    <string name="force_sync">Force Sync</string>
 
 </resources>

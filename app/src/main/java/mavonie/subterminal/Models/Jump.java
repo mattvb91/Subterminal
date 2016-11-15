@@ -21,8 +21,8 @@ public class Jump extends Synchronizable {
     private String description;
     private String date;
 
-    private int gear_id;
-    private int exit_id;
+    private Integer gear_id;
+    private Integer exit_id;
     private int pc_size;
     private int slider;
     private int delay;
@@ -91,36 +91,36 @@ public class Jump extends Synchronizable {
     private Gear _gear;
 
     public Gear getGear() {
-        if (this._gear == null) {
+        if (this._gear == null && this.getGear_id() != null) {
             this._gear = (Gear) new Gear().getOneById(this.getGear_id());
         }
 
         return this._gear;
     }
 
-    public int getGear_id() {
+    public Integer getGear_id() {
         return gear_id;
     }
 
-    public void setGear_id(int gear_id) {
+    public void setGear_id(Integer gear_id) {
         this.gear_id = gear_id;
     }
 
     private Exit _exit;
 
     public Exit getExit() {
-        if (this._exit == null) {
+        if (this._exit == null && this.getExit_id() != null) {
             this._exit = (Exit) new Exit().getOneById(this.getExit_id());
         }
 
         return this._exit;
     }
 
-    public int getExit_id() {
+    public Integer getExit_id() {
         return exit_id;
     }
 
-    public void setExit_id(int exit_id) {
+    public void setExit_id(Integer exit_id) {
         this.exit_id = exit_id;
     }
 
@@ -168,7 +168,11 @@ public class Jump extends Synchronizable {
             jump.setPc_size(cursor.getInt(idPcSize));
             jump.setDescription(cursor.getString(idDescription));
             jump.setDelay(cursor.getInt(idDelay));
-            jump.setGear_id(cursor.getInt(idGear));
+
+            if (!cursor.isNull(idGear) & !(cursor.getInt(idGear) == 0)) {
+                jump.setGear_id(cursor.getInt(idGear));
+            }
+
             jump.setSlider(cursor.getInt(idSlider));
 
             jump.setRow_id(cursor.getCount() - cursor.getPosition());
@@ -191,7 +195,10 @@ public class Jump extends Synchronizable {
         contentValues.put(COLUMN_NAME_DESCRIPTION, this.getDescription());
         contentValues.put(COLUMN_NAME_DELAY, this.getDelay());
         contentValues.put(COLUMN_NAME_PC_SIZE, this.getPc_size());
-        contentValues.put(COLUMN_NAME_GEAR_ID, this.getGear_id());
+
+        if (this.getGear_id() != null) {
+            contentValues.put(COLUMN_NAME_GEAR_ID, this.getGear_id());
+        }
         contentValues.put(COLUMN_NAME_SLIDER, this.getSlider());
 
         this.populateSynchronizationContentValues(contentValues);
