@@ -41,5 +41,6 @@
     <string name="no_exit_info">No exit info</string>
     <string name="settings_updated">Settings updated</string>
     <string name="force_sync">Force Sync</string>
+    <string name="must_be_logged_in_action">You must be logged in to perform this action</string>
 
 </resources>

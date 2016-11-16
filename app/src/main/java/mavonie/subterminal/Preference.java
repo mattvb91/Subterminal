@@ -21,7 +21,10 @@ import com.github.orangegangsters.lollipin.lib.managers.AppLock;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.util.concurrent.TimeUnit;
+
 import de.cketti.library.changelog.ChangeLog;
+import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
@@ -35,6 +38,7 @@ public class Preference extends BaseFragment {
 
     public static final String PIN_ENABLED = "PIN_ENABLED";
     public static final String PREFS_JUMP_START_COUNT = "PREFS_JUMP_START_COUNT";
+    public static final String FORCE_SYNC_ENTITIES = "FORCE_SYNC_ENTITIES";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,7 +84,14 @@ public class Preference extends BaseFragment {
             dataSync.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Synchronizable.forceSyncAll();
+                    if (Subterminal.getUser().isLoggedIn()) {
+                        if (!Once.beenDone(TimeUnit.MINUTES, 1, FORCE_SYNC_ENTITIES)) {
+                            Synchronizable.forceSyncAll();
+                            Once.markDone(FORCE_SYNC_ENTITIES);
+                        }
+                    } else {
+                        UIHelper.toast(getString(R.string.must_be_logged_in_action));
+                    }
                 }
             });
         }

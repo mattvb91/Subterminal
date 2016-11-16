@@ -163,6 +163,36 @@ public abstract class Synchronizable extends Model {
             jump.save();
         }
 
-        Subterminal.syncData();
+        syncEntities();
+    }
+
+    /**
+     * Sync at startup. Make sure the sync order is
+     * Exits -> Gear -> Jump
+     */
+    public static void syncEntities() {
+        for (Exit exit : Exit.getExitsForSync()) {
+            exit.addSyncJob();
+        }
+
+        for (Exit exit : Exit.getExitsForDelete()) {
+            exit.addSyncJob();
+        }
+
+        for (Gear gear : Gear.getGearForSync()) {
+            gear.addSyncJob();
+        }
+
+        for (Gear gear : Gear.getGearForDelete()) {
+            gear.addSyncJob();
+        }
+
+        for (Jump jump : Jump.getJumpsForSync()) {
+            jump.addSyncJob();
+        }
+
+        for (Jump jump : Jump.getJumpsForDelete()) {
+            jump.addSyncJob();
+        }
     }
 }

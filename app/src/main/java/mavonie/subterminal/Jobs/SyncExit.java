@@ -36,10 +36,15 @@ public class SyncExit extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        if (this.exit.getDeleted().equals(Synchronizable.DELETED_TRUE)) {
-            Subterminal.getApi().deleteExit(this.exit);
-        } else if (this.exit.getSynced().equals(Synchronizable.SYNC_REQUIRED)) {
-            Subterminal.getApi().syncExit(this.exit);
+
+        if (Subterminal.getUser().isLoggedIn()) {
+
+            if (this.exit.getDeleted().equals(Synchronizable.DELETED_TRUE)) {
+                Subterminal.getApi().deleteExit(this.exit);
+            } else if (this.exit.getSynced().equals(Synchronizable.SYNC_REQUIRED)) {
+                Subterminal.getApi().syncExit(this.exit);
+            }
+
         }
     }
 

@@ -112,6 +112,12 @@ public class User {
     public boolean isLoggedIn() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null || accessToken.isExpired()) {
+
+            //TODO this is a bit hacky
+            if (this.getEmail() != null) {
+                this.logOut();
+            }
+
             return false;
         }
 
@@ -139,7 +145,7 @@ public class User {
         UIHelper.toast(MainActivity.getActivity().getString(R.string.premium_member_welcome));
         UIHelper.goToFragment(R.id.nav_jumps);
 
-        Subterminal.syncData();
+        Synchronizable.syncEntities();
     }
 
 

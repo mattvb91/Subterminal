@@ -26,6 +26,7 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Models.User;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
@@ -144,6 +145,9 @@ public class API {
                 downloadExits();
                 downloadGear();
                 downloadJumps();
+
+                Synchronizable.syncEntities();
+
             }
         }
     }
@@ -397,7 +401,7 @@ public class API {
         deleteExit.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() || response.code() == 403) {
                     exit.delete();
                 }
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -417,7 +421,7 @@ public class API {
         deleteGear.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() || response.code() == 403) {
                     gear.delete();
                 }
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -462,7 +466,7 @@ public class API {
         deleteJump.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() || response.code() == 403) {
                     jump.delete();
                 }
                 UIHelper.setProgressBarVisibility(View.GONE);

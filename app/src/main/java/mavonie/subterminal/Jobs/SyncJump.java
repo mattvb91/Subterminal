@@ -36,10 +36,13 @@ public class SyncJump extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        if (this.jump.getDeleted().equals(Synchronizable.DELETED_TRUE)) {
-            Subterminal.getApi().deleteJump(this.jump);
-        } else if (this.jump.getSynced().equals(Synchronizable.SYNC_REQUIRED)) {
-            Subterminal.getApi().syncJump(this.jump);
+        if (Subterminal.getUser().isLoggedIn()) {
+
+            if (this.jump.getDeleted().equals(Synchronizable.DELETED_TRUE)) {
+                Subterminal.getApi().deleteJump(this.jump);
+            } else if (this.jump.getSynced().equals(Synchronizable.SYNC_REQUIRED)) {
+                Subterminal.getApi().syncJump(this.jump);
+            }
         }
     }
 

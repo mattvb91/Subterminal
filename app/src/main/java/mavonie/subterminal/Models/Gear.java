@@ -11,6 +11,7 @@ import java.util.List;
 import mavonie.subterminal.Jobs.SyncGear;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 
 /**
  * Gear model
@@ -250,6 +251,31 @@ public class Gear extends Synchronizable {
         params.put(Model.FILTER_WHERE, wheres);
 
         return new Gear().getItems(params);
+    }
+
+    @Override
+    public boolean delete() {
+        for (Jump jump : this.getJumps()) {
+            jump.setGear_id(null);
+            jump.save();
+        }
+
+        return super.delete();
+
+    }
+
+
+    /**
+     * Get all jumps associated with this piece of gear
+     *
+     * @return List
+     */
+    public List<Jump> getJumps() {
+        HashMap<String, Object> whereGearID = new HashMap<>();
+        whereGearID.put(Model.FILTER_WHERE_FIELD, Jump.COLUMN_NAME_GEAR_ID);
+        whereGearID.put(Model.FILTER_WHERE_VALUE, Integer.toString(this.getId()));
+
+        return new Jump().getItems(whereGearID);
     }
 
 }

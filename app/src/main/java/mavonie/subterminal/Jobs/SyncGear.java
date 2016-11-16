@@ -36,10 +36,14 @@ public class SyncGear extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        if (this.gear.getDeleted().equals(Synchronizable.DELETED_TRUE)) {
-            Subterminal.getApi().deleteGear(this.gear);
-        } else if (this.gear.getSynced().equals(Synchronizable.SYNC_REQUIRED)) {
-            Subterminal.getApi().syncGear(this.gear);
+
+        if (Subterminal.getUser().isLoggedIn()) {
+
+            if (this.gear.getDeleted().equals(Synchronizable.DELETED_TRUE)) {
+                Subterminal.getApi().deleteGear(this.gear);
+            } else if (this.gear.getSynced().equals(Synchronizable.SYNC_REQUIRED)) {
+                Subterminal.getApi().syncGear(this.gear);
+            }
         }
     }
 

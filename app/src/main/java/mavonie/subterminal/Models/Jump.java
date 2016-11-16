@@ -195,10 +195,7 @@ public class Jump extends Synchronizable {
         contentValues.put(COLUMN_NAME_DESCRIPTION, this.getDescription());
         contentValues.put(COLUMN_NAME_DELAY, this.getDelay());
         contentValues.put(COLUMN_NAME_PC_SIZE, this.getPc_size());
-
-        if (this.getGear_id() != null) {
-            contentValues.put(COLUMN_NAME_GEAR_ID, this.getGear_id());
-        }
+        contentValues.put(COLUMN_NAME_GEAR_ID, this.getGear_id());
         contentValues.put(COLUMN_NAME_SLIDER, this.getSlider());
 
         this.populateSynchronizationContentValues(contentValues);
