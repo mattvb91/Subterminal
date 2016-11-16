@@ -77,7 +77,6 @@ public class User {
                             Subterminal.getApi().createOrUpdateRemoteUser();
 
                             UIHelper.userLoggedIn();
-                            Subterminal.getApi().init();
 
                         } catch (JSONException e) {
                             e.printStackTrace();

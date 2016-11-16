@@ -147,7 +147,6 @@ public class API {
                 downloadJumps();
 
                 Synchronizable.syncEntities();
-
             }
         }
     }
@@ -294,7 +293,13 @@ public class API {
         userCreateUpdate.enqueue(new Callback<AccessToken>() {
             @Override
             public void onResponse(Call call, Response response) {
-                Subterminal.getApi().updateLocalUser();
+                if (response.isSuccessful()) {
+                    Subterminal.getApi().updateLocalUser();
+
+                    //Init again as we are now logged in
+                    Subterminal.getApi().init();
+                }
+
                 UIHelper.setProgressBarVisibility(View.GONE);
             }
 
