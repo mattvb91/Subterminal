@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 
 import java.io.IOException;
 
+import mavonie.subterminal.BuildConfig;
 import mavonie.subterminal.Utils.Subterminal;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -35,14 +36,15 @@ public class Intercepter implements Interceptor {
         }
 
         //Add xdebug cookie so we can debug api side
-        if(Subterminal.isTesting()) {
-            HttpUrl originalHttpUrl = original.url();
-            HttpUrl url = originalHttpUrl.newBuilder()
-                    .addQueryParameter("XDEBUG_SESSION_START", "XDEBUG_ECLIPSE")
-                    .build();
+//        if (true) {
+//            HttpUrl originalHttpUrl = original.url();
+//            HttpUrl url = originalHttpUrl.newBuilder()
+//                    .addQueryParameter("XDEBUG_SESSION_START", "XDEBUG_ECLIPSE")
+//                    .build();
+//
+//            builder.url(url);
+//        }
 
-            builder.url(url);
-        }
 
         builder.method(original.method(), original.body());
         Request request = builder.build();

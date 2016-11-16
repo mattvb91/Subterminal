@@ -163,13 +163,18 @@ public class Jump extends Synchronizable {
             int idSlider = cursor.getColumnIndexOrThrow(COLUMN_NAME_SLIDER);
 
             jump.setId(cursor.getInt(idIndex));
-            jump.setExit_id(cursor.getInt(idExitId));
+
+            Integer exitId = cursor.getInt(idExitId);
+            if (exitId != null && exitId != 0) {
+                jump.setExit_id(cursor.getInt(idExitId));
+            }
+
             jump.setDate(cursor.getString(idDateId));
             jump.setPc_size(cursor.getInt(idPcSize));
             jump.setDescription(cursor.getString(idDescription));
             jump.setDelay(cursor.getInt(idDelay));
 
-            if (!cursor.isNull(idGear) & !(cursor.getInt(idGear) == 0)) {
+            if (!cursor.isNull(idGear) & !cursor.isNull(cursor.getInt(idGear))) {
                 jump.setGear_id(cursor.getInt(idGear));
             }
 
@@ -199,6 +204,18 @@ public class Jump extends Synchronizable {
         contentValues.put(COLUMN_NAME_SLIDER, this.getSlider());
 
         this.populateSynchronizationContentValues(contentValues);
+    }
+
+    @Override
+    public boolean save() {
+        if (this.getExit() != null && this.getExit().getGlobal_id() != null) {
+
+            //This was a public exit, make it a users exit
+            this.getExit().setGlobal_id(null);
+            this.getExit().save();
+        }
+
+        return super.save();
     }
 
     @Override

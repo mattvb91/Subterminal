@@ -85,8 +85,12 @@ public class Preference extends BaseFragment {
                 public void onClick(View view) {
                     if (Subterminal.getUser().isLoggedIn()) {
                         if (!Once.beenDone(TimeUnit.MINUTES, 1, FORCE_SYNC_ENTITIES)) {
+
+                            UIHelper.loadSpinner();
                             Synchronizable.forceSyncAll();
                             Once.markDone(FORCE_SYNC_ENTITIES);
+                            UIHelper.removeLoadSpinner();
+
                         }
                     } else {
                         UIHelper.toast(getString(R.string.must_be_logged_in_action));

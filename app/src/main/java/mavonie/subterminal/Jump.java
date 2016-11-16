@@ -40,7 +40,7 @@ public class Jump extends BaseFragment {
 
             HashMap<String, Object> params = new HashMap<>();
 
-            params.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_DESC);
+            params.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_ASC);
             params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Jump.COLUMN_NAME_DATE);
 
             HashMap<String, Object> whereNotDeleted = new HashMap<>();
