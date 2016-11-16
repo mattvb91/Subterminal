@@ -7,7 +7,6 @@ import android.database.Cursor;
 import java.util.HashMap;
 import java.util.List;
 
-import mavonie.subterminal.*;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**

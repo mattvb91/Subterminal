@@ -11,7 +11,6 @@ import java.util.List;
 import mavonie.subterminal.Jobs.SyncGear;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
-import mavonie.subterminal.Utils.UIHelper;
 
 /**
  * Gear model

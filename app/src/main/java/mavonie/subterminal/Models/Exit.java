@@ -13,7 +13,6 @@ import java.util.Map;
 import mavonie.subterminal.Jobs.SyncExit;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
-import mavonie.subterminal.Utils.UIHelper;
 
 
 /**

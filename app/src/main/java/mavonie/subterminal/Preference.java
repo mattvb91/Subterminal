@@ -28,7 +28,6 @@ import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
-import mavonie.subterminal.Utils.Synchronized;
 import mavonie.subterminal.Utils.UIHelper;
 
 
