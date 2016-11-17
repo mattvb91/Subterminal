@@ -35,8 +35,21 @@ abstract public class Model implements BaseColumns, Serializable {
         this._id = _id;
     }
 
+    /**
+     * Check if a record exists in the database
+     *
+     * @return
+     */
     public boolean exists() {
-        return this.getId() > 0;
+
+        String query = "SELECT " + _ID + " FROM " + getTableName() + " WHERE " + _ID + " = " + this.getId();
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            return true;
+        }
+
+        return false;
     }
 
     protected static DatabaseHandler _db;
@@ -103,35 +116,8 @@ abstract public class Model implements BaseColumns, Serializable {
             String orderDir = (String) filter.get(FILTER_ORDER_DIR);
             String orderField = (String) filter.get(FILTER_ORDER_FIELD);
 
-            boolean multipleWhere = filter.containsKey(FILTER_WHERE);
+            query += this.buildWhere(filter);
 
-            if (!multipleWhere) {
-                String whereField = (String) filter.get(FILTER_WHERE_FIELD);
-                String whereValue = (String) filter.get(FILTER_WHERE_VALUE);
-
-                if (whereValue == null) {
-                    query += " WHERE " + whereField + " IS NULL";
-                } else {
-                    if (whereField != null) {
-                        query += " WHERE " + whereField + " = " + whereValue;
-                    }
-                }
-            } else {
-                HashMap wheres = (HashMap<Integer, HashMap>) filter.get(FILTER_WHERE);
-
-                for (int i = 0; i < wheres.size(); i++) {
-                    HashMap where = (HashMap) wheres.get(i);
-
-                    String whereField = (String) where.get(FILTER_WHERE_FIELD);
-                    Object whereValue = where.get(FILTER_WHERE_VALUE);
-
-                    if (i == 0) {
-                        query += " WHERE " + whereField + " = " + whereValue.toString();
-                    } else {
-                        query += " AND " + whereField + " = " + whereValue.toString();
-                    }
-                }
-            }
 
             if (orderField != null) {
                 query += " ORDER BY LOWER(" + orderField + ") " + orderDir + "," + _ID + " DESC";
@@ -160,6 +146,48 @@ abstract public class Model implements BaseColumns, Serializable {
         cursor.close();
 
         return list;
+    }
+
+    public String buildWhere(HashMap<String, Object> filter) {
+
+        String query = "";
+
+        boolean multipleWhere = filter.containsKey(FILTER_WHERE);
+
+        if (!multipleWhere) {
+            String whereField = (String) filter.get(FILTER_WHERE_FIELD);
+            String whereValue = (String) filter.get(FILTER_WHERE_VALUE);
+
+            if (whereValue == null) {
+                query += " WHERE " + whereField + " IS NULL";
+            } else {
+                if (whereField != null) {
+                    query += " WHERE " + whereField + " = " + whereValue;
+                }
+            }
+        } else {
+            HashMap wheres = (HashMap<Integer, HashMap>) filter.get(FILTER_WHERE);
+
+            for (int i = 0; i < wheres.size(); i++) {
+                HashMap where = (HashMap) wheres.get(i);
+
+                String whereField = (String) where.get(FILTER_WHERE_FIELD);
+                Object whereValue = where.get(FILTER_WHERE_VALUE);
+
+                if (i == 0) {
+                    query += " WHERE ";
+                } else {
+                    query += " AND ";
+                }
+
+                if (whereValue == null) {
+                    query += whereField + " IS NULL";
+                } else {
+                    query += whereField + " = " + whereValue.toString();
+                }
+            }
+        }
+        return query;
     }
 
     abstract Model populateFromCursor(Cursor cursor);
@@ -227,13 +255,45 @@ abstract public class Model implements BaseColumns, Serializable {
         return count;
     }
 
+    /**
+     * Count with filter
+     *
+     * @param filter
+     * @return
+     */
+    public int count(HashMap<String, Object> filter) {
+        String query = "SELECT count(" + _ID + ") FROM " + getTableName();
+        query += this.buildWhere(filter);
+
+        Cursor mCount = _db.getReadableDatabase().rawQuery(query, null);
+
+        mCount.moveToFirst();
+        int count = mCount.getInt(0);
+        mCount.close();
+
+        return count;
+    }
+
+    /**
+     * Get items for a select spinner.
+     *
+     * @param fieldName to select
+     * @return LinkedHashMap<String, String>
+     */
     public LinkedHashMap<String, String> getItemsForSelect(String fieldName) {
 
         if (this.itemsForSelect == null) {
             this.itemsForSelect = new LinkedHashMap<String, String>();
         }
 
-        Cursor cursor = _db.getReadableDatabase().rawQuery("select " + _ID + ", " + fieldName + " from " + getTableName(), null);
+        String query = "SELECT " + _ID + ", " + fieldName + " FROM " + getTableName();
+
+        if (this.isSynchronizable()) {
+            //Make sure we only get active instances
+            query += " WHERE " + Synchronizable.COLUMN_DELETED + " = " + Synchronizable.DELETED_FALSE;
+        }
+
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             while (cursor.isAfterLast() == false) {
@@ -272,5 +332,14 @@ abstract public class Model implements BaseColumns, Serializable {
      */
     public boolean canEdit() {
         return true;
+    }
+
+    /**
+     * Check if current model is synchronizable
+     *
+     * @return
+     */
+    public boolean isSynchronizable() {
+        return this instanceof Synchronizable;
     }
 }

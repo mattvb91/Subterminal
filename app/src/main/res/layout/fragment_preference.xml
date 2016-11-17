@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
+              android:descendantFocusability="beforeDescendants"
+              android:focusableInTouchMode="true"
               android:gravity="center_vertical"
               android:minHeight="?android:attr/listPreferredItemHeight"
               android:paddingRight="?android:attr/scrollbarSize">
@@ -35,6 +37,110 @@
                 android:layout_width="match_parent"
                 android:layout_column="1"
                 android:layout_gravity="right"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/preference_start_count_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:ellipsize="marquee"
+                android:text="Start jump #"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <EditText
+                android:id="@+id/preference_start_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="4"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxEms="4"
+                android:nextFocusLeft="@id/preference_start_count"
+                android:nextFocusUp="@id/preference_start_count"
+                android:text="0"
+                android:textAlignment="textEnd"
+                android:textColorHint="#00FFFFFF"/>
+
+        </TableRow>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/lighter_gray"/>
+
+        <TableRow
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/preference_account_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:text="Account:"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <TextView
+                android:id="@+id/preference_account"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center_vertical"
+                android:text="TextView"/>
+        </TableRow>
+
+        <TableRow
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/preference_account_premium_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:text="Premium:"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <TextView
+                android:id="@+id/preference_account_premium_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center_vertical"
+                android:text="TextView"/>
+        </TableRow>
+
+
+        <TableRow
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/preference_account_sync_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:text="Data Sync:"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+            <TextView
+                android:id="@+id/preference_account_sync_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center_vertical"
+                android:text="Premium Required"/>
         </TableRow>
 
         <View

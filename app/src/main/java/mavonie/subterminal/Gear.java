@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
+
+import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.ViewAdapters.GearRecycler;
 
@@ -36,7 +40,11 @@ public class Gear extends BaseFragment {
 
             mavonie.subterminal.Models.Gear gear = new mavonie.subterminal.Models.Gear();
 
-            recyclerView.setAdapter(new GearRecycler(gear.getItems(null), getmListener()));
+            HashMap<String, Object> whereNotDeleted = new HashMap<>();
+            whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
+            whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
+
+            recyclerView.setAdapter(new GearRecycler(gear.getItems(whereNotDeleted), getmListener()));
         }
         return view;
     }

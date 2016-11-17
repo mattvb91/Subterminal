@@ -195,16 +195,22 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
         if (getItem().exists()) {
             Subterminal.setActiveModel(getItem());
 
-            this.exitNameAutoComplete.setText(getItem().getExit().getName());
+            if (getItem().getExit() != null) {
+                this.exitNameAutoComplete.setText(getItem().getExit().getName());
+            }
+
             this.date.setText(getItem().getDate());
             this.pilotChute.setSelection(Arrays.asList(this.pcSizes).indexOf(getItem().getPc_size()));
             this.delay.setText(Integer.toString(getItem().getDelay()));
             this.description.setText(getItem().getDescription());
 
-            Integer position = this.gearAdapter.findPositionFromKey(getItem().getGear_id());
-            if (position != null) {
-                this.rig.setSelection(position);
+            if (getItem().getGear_id() != null) {
+                Integer position = this.gearAdapter.findPositionFromKey(getItem().getGear_id());
+                if (position != null) {
+                    this.rig.setSelection(position);
+                }
             }
+
             this.sliderConfig.setSelection(getItem().getSlider());
         }
     }

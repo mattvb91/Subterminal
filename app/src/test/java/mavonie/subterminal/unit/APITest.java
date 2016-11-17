@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.robolectric.RuntimeEnvironment;
 
 import java.io.IOException;
+import java.util.List;
 
-import mavonie.subterminal.Models.Api.Exits;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Utils.API;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
@@ -25,7 +25,7 @@ public class APITest extends BaseDBUnit {
     private API api;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         this.api = new API(RuntimeEnvironment.application);
     }
@@ -37,10 +37,19 @@ public class APITest extends BaseDBUnit {
         Response response = exitsCall.execute();
 
         assertTrue(response.isSuccessful());
-        assertTrue(response.body() instanceof Exits);
+        assertTrue(response.body() instanceof List);
 
-        Exits exits = (Exits) response.body();
-        assertTrue(exits.getExits().get(0) instanceof Exit);
+        List<Exit> exits = (List) response.body();
+        assertTrue(exits.get(0) instanceof Exit);
+    }
+
+    //TODO test authorized method
+    @Test
+    public void testUnauthorizedUserGetCall() throws IOException {
+        Call userGet = this.api.getEndpoints().getUser();
+        Response response = userGet.execute();
+
+        assertTrue(response.code() == 401);
     }
 
     /**
@@ -55,9 +64,9 @@ public class APITest extends BaseDBUnit {
         Call exitsCall = this.api.getEndpoints().listPublicExits();
 
         Response response = exitsCall.execute();
-        Exits exits = (Exits) response.body();
+        List<Exit> exits = (List) response.body();
 
-        for (Exit exit : exits.getExits()) {
+        for (Exit exit : exits) {
             assertTrue(exit.save());
             assertNotNull(exit.getDetails().getExit_id());
             assertTrue(exit.getDetails().exists());

@@ -12,8 +12,8 @@ android {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 11
-        versionName "1.0.0"
+        versionCode 12
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -65,6 +65,9 @@ dependencies {
     compile 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
     compile 'com.jonathanfinerty.once:once:1.2.1'
+    compile 'com.stripe:stripe-android:+'
+    compile 'io.card:android-sdk:5.4.2'
+    compile 'com.birbit:android-priority-jobqueue:2.0.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'org.robolectric:robolectric:3.1.2'
     testCompile 'junit:junit:4.12'

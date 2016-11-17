@@ -7,13 +7,18 @@ import android.util.Pair;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import mavonie.subterminal.Jobs.SyncExit;
+import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Utils.Subterminal;
 
 
 /**
  * Exit Model
  */
-public class Exit extends Model {
+public class Exit extends Synchronizable {
 
     public static final Integer TYPE_BUILDING = 1;
     public static final Integer TYPE_ANTENNA = 2;
@@ -128,7 +133,7 @@ public class Exit extends Model {
         this.description = description;
     }
 
-    public int getObject_type() {
+    public Integer getObject_type() {
         return object_type;
     }
 
@@ -167,6 +172,8 @@ public class Exit extends Model {
             exit.setLongtitude(Double.parseDouble(cursor.getString(longtitude)));
             exit.setObject_type(cursor.getInt(object_type));
 
+            exit.populateSynchronizationFromCursor(cursor);
+
             return exit;
 
         } catch (Exception e) {
@@ -184,8 +191,13 @@ public class Exit extends Model {
         contentValues.put(COLUMN_NAME_LONGTITUDE, this.getLongtitude());
         contentValues.put(COLUMN_NAME_ROCKDROP_DISTANCE, this.getRockdrop_distance());
         contentValues.put(COLUMN_NAME_ALTITUDE_TO_LANDING, this.getAltitude_to_landing());
-        contentValues.put(COLUMN_NAME_OBJECT_TYPE, this.getObject_type());
+
+        if (this.getObject_type() != null) {
+            contentValues.put(COLUMN_NAME_OBJECT_TYPE, this.getObject_type());
+        }
+
         contentValues.put(COLUMN_NAME_GLOBAL_ID, this.getGlobal_id());
+        this.populateSynchronizationContentValues(contentValues);
     }
 
     @Override
@@ -337,6 +349,81 @@ public class Exit extends Model {
             this.getDetails().setExit_id(this.getId());
             this.getDetails().save();
         }
+
         return res;
+    }
+
+    @Override
+    public void addSyncJob() {
+        Subterminal.getJobManager(MainActivity.getActivity())
+                .addJobInBackground(new SyncExit(this));
+    }
+
+    /**
+     * Get all the jumps associated with this exit
+     *
+     * @return List
+     */
+    public List<Jump> getJumps() {
+
+        HashMap<String, Object> whereExitID = new HashMap<>();
+        whereExitID.put(Model.FILTER_WHERE_FIELD, Jump.COLUMN_NAME_EXIT_ID);
+        whereExitID.put(Model.FILTER_WHERE_VALUE, Integer.toString(this.getId()));
+
+        return new Jump().getItems(whereExitID);
+    }
+
+    public static List<Exit> getExitsForSync() {
+
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereGlobalIdNull = new HashMap<>();
+        whereGlobalIdNull.put(Model.FILTER_WHERE_FIELD, COLUMN_NAME_GLOBAL_ID);
+        whereGlobalIdNull.put(Model.FILTER_WHERE_VALUE, null);
+
+        HashMap<String, Object> whereSyncRequired = new HashMap<>();
+        whereSyncRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_SYNCED);
+        whereSyncRequired.put(Model.FILTER_WHERE_VALUE, SYNC_REQUIRED);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereGlobalIdNull);
+        wheres.put(wheres.size(), whereSyncRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Exit().getItems(params);
+    }
+
+    //TODO these 2 methods should be merged
+    public static List<Exit> getExitsForDelete() {
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereGlobalIdNull = new HashMap<>();
+        whereGlobalIdNull.put(Model.FILTER_WHERE_FIELD, COLUMN_NAME_GLOBAL_ID);
+        whereGlobalIdNull.put(Model.FILTER_WHERE_VALUE, null);
+
+        HashMap<String, Object> whereDeleteRequired = new HashMap<>();
+        whereDeleteRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
+        whereDeleteRequired.put(Model.FILTER_WHERE_VALUE, DELETED_TRUE);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereGlobalIdNull);
+        wheres.put(wheres.size(), whereDeleteRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Exit().getItems(params);
+    }
+
+    @Override
+    public boolean delete() {
+
+        //We need to update exits before deleting
+        for (Jump jump : this.getJumps()) {
+            jump.setExit_id(null);
+            jump.save();
+        }
+
+        return super.delete();
     }
 }

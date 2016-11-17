@@ -24,13 +24,17 @@
     <item android:title="Account">
         <menu>
             <item
+                android:id="@+id/nav_premium"
+                android:icon="@android:drawable/star_off"
+                android:title="@string/get_premium"/>
+            <item
                 android:id="@+id/nav_settings"
-                android:title="Settings"
-                android:icon="@android:drawable/ic_menu_zoom"/>
+                android:icon="@android:drawable/ic_menu_zoom"
+                android:title="Settings"/>
             <item
                 android:id="@+id/nav_login"
-                android:title="Sign in (Coming soon)"
-                android:icon="@drawable/ic_menu_share"/>
+                android:icon="@drawable/ic_menu_share"
+                android:title="Sign in"/>
         </menu>
     </item>
 

@@ -7,7 +7,9 @@ CREATE TABLE gear (
     canopy_manufacturer TEXT,
     canopy_type TEXT,
     canopy_serial TEXT,
-    canopy_date_in_use DATE );
+    canopy_date_in_use DATE,
+    synced INTEGER DEFAULT 0,
+    deleted INTEGER DEFAULT 0);
 
 CREATE TABLE exit (
     _id INTEGER PRIMARY KEY,
@@ -18,7 +20,9 @@ CREATE TABLE exit (
     description TEXT,
     lat TEXT,
     long TEXT,
-    object_type INTEGER);
+    object_type INTEGER,
+    synced INTEGER DEFAULT 0,
+    deleted INTEGER DEFAULT 0);
 
 CREATE TABLE exit_details (
     _id INTEGER PRIMARY KEY,
@@ -41,7 +45,9 @@ CREATE TABLE jump (
         pc_size INTEGER,
         slider INTEGER,
         delay INTEGER,
-        description TEXT);
+        description TEXT,
+        synced INTEGER DEFAULT 0,
+        deleted INTEGER DEFAULT 0);
 
 CREATE TABLE image (
         _id INTEGER PRIMARY KEY,

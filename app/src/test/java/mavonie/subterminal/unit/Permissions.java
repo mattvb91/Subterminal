@@ -32,6 +32,7 @@ public final class Permissions extends BaseUnit {
             "com.google.android.c2dm.permission.RECEIVE",
             "android.permission.WAKE_LOCK",
             "android.permission.USE_FINGERPRINT",
+            "android.permission.VIBRATE",
     };
 
     private static final String MERGED_MANIFEST = "build/intermediates/manifests/full/debug/AndroidManifest.xml";

@@ -24,23 +24,30 @@ import com.squareup.leakcanary.RefWatcher;
 
 import java.util.List;
 
+import io.card.payment.CardIOActivity;
+import io.card.payment.CreditCard;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.Models.User;
+import mavonie.subterminal.Models.Payment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
+import mavonie.subterminal.Views.Premium.PremiumPay;
 
 import static mavonie.subterminal.Utils.UIHelper.openFragmentForEntity;
 
 public class MainActivity extends PinCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         Home.OnFragmentInteractionListener,
-        Login.OnFragmentInteractionListener,
         GearForm.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
     Toolbar toolbar;
     private RefWatcher refWatcher;
 
@@ -50,20 +57,11 @@ public class MainActivity extends PinCompatActivity
 
     Menu optionsMenu;
 
-    protected static User user;
-
-    /**
-     * We want only one user instance for the main activity
-     *
-     * @return User
-     */
-    public static User getUser() {
-        if (user == null) {
-            user = new User();
-        }
-
-        return user;
+    public NavigationView getNavigationView() {
+        return navigationView;
     }
+
+    private NavigationView navigationView;
 
     protected static MainActivity activity;
 
@@ -84,24 +82,19 @@ public class MainActivity extends PinCompatActivity
         }
         this.refWatcher = LeakCanary.install(this.getApplication());
 
-        Subterminal.init(this);
-
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        UIHelper.replaceFragment(new Jump());
-        UIHelper.initAddButton();
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        Subterminal.init(this);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -141,6 +134,12 @@ public class MainActivity extends PinCompatActivity
     @Override
     public boolean onNavigationItemSelected(final MenuItem item) {
 
+        //Once off for login check
+        if (item.getItemId() == R.id.nav_login) {
+            UIHelper.facebookDialog();
+            return true;
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(Gravity.LEFT);
 
@@ -165,25 +164,6 @@ public class MainActivity extends PinCompatActivity
 
         actionBarDrawerToggle.syncState();
     }
-
-//    public void updateDrawerProfile() {
-//
-//        NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
-//        View headerView = nav.getHeaderView(0);
-//
-//        profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
-//        profilePictureView.setProfileId(this.getUser().getFacebookToken().getUserId());
-//
-//        TextView profileName = (TextView) headerView.findViewById(R.id.profile_name);
-//        TextView profileEmail = (TextView) headerView.findViewById(R.id.profile_email);
-//
-//        profileName.setText(this.getUser().getFullName());
-//        profileEmail.setText(this.getUser().getEmail());
-//
-//        Menu nav_Menu = nav.getMenu();
-//        nav_Menu.findItem(R.id.nav_login).setTitle("Logout");
-//    }
-
 
     public void deleteDialog(MenuItem item) {
         UIHelper.deleteDialog();
@@ -229,6 +209,8 @@ public class MainActivity extends PinCompatActivity
         imagePicker.pickImage();
     }
 
+    public static final int MY_SCAN_REQUEST_CODE = 2345;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -238,6 +220,22 @@ public class MainActivity extends PinCompatActivity
                     imagePicker = new ImagePicker(this);
                 }
                 imagePicker.submit(data);
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+                Subterminal.getmCallbackManager().onActivityResult(requestCode, resultCode, data);
+            }
+        }
+
+        if (requestCode == MY_SCAN_REQUEST_CODE) {
+
+            if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
+                Payment payment = new Payment((CreditCard) data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT));
+
+                Subterminal.setActiveModel(payment);
+                UIHelper.replaceFragment(new PremiumPay());
+
+            } else {
+                UIHelper.toast("Scan was canceled");
             }
         }
     }

@@ -13,6 +13,9 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
+import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -107,5 +110,34 @@ public class SettingsTest extends BaseTest {
         ViewInteraction appCompatCheckedTextView = onView(
                 allOf(withId(R.id.design_menu_item_text), withText("Settings"), isDisplayed()));
         appCompatCheckedTextView.perform(click());
+    }
+
+    @Test
+    public void startingJumpNumberTest() {
+
+        goToSettings();
+
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.preference_start_count), isDisplayed()));
+        appCompatEditText.perform(replaceText("10"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.preference_start_count), isDisplayed()));
+        appCompatEditText2.perform(pressImeActionButton());
+
+        JumpTest.navigateToJumpsList();
+
+        goToSettings();
+
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.preference_start_count), isDisplayed()));
+        appCompatEditText3.perform(replaceText("0"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.preference_start_count), isDisplayed()));
+        appCompatEditText4.perform(pressImeActionButton());
+
+        JumpTest.navigateToJumpsList();
+
     }
 }

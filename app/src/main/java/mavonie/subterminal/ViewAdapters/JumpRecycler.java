@@ -1,9 +1,11 @@
 package mavonie.subterminal.ViewAdapters;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -16,6 +18,7 @@ import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Date.TimeAgo;
+import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Jump recycler
@@ -46,7 +49,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         if (exit != null) {
             holder.exitName.setText(exit.getName());
         } else {
-            holder.exitName.setText("No exit info");
+            holder.exitName.setText(MainActivity.getActivity().getString(R.string.no_exit_info));
             holder.exitName.setTextColor(MainActivity.getActivity().getResources().getColor(R.color.grey));
         }
 
@@ -66,6 +69,11 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
             holder.mThumb.setImageURI(thumb.getUri().toString());
         } else {
             holder.mThumb.setHierarchy(Image.getHierarchy());
+        }
+
+        if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced())) {
+            int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
+            holder.mListSynchronized.setColorFilter(color);
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +100,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
         public final TextView delay;
         public final TextView slider;
         public final TextView row_id;
+        public final ImageView mListSynchronized;
         public final SimpleDraweeView mThumb;
 
         public mavonie.subterminal.Models.Jump mItem;
@@ -105,6 +114,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
             row_id = (TextView) view.findViewById(R.id.jump_list_row_id);
             slider = (TextView) view.findViewById(R.id.jump_list_slider);
             mThumb = (SimpleDraweeView) view.findViewById(R.id.jump_list_thumb);
+            mListSynchronized = (ImageView) view.findViewById(R.id.jump_list_synchronized);
         }
     }
 }

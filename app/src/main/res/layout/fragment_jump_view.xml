@@ -46,7 +46,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/text_margin"
                         android:layout_span="1"
-                        android:text="Exit"
+                        android:text="@string/no_exit_info"
                         android:textAppearance="?attr/textAppearanceListItem"/>
 
                     <TextView

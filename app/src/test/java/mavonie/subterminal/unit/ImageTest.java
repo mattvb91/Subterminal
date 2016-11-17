@@ -1,23 +1,23 @@
 package mavonie.subterminal.unit;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.robolectric.RuntimeEnvironment;
 
 import java.io.File;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 
 /**

@@ -108,4 +108,20 @@ public class ExitTest extends BaseDBUnit {
             assertNull(exit.getGlobal_id());
         }
     }
+
+    @Test
+    public void testGetExitsForSync() {
+        this.setUp();
+
+        Exit exit1 = this.createExit();
+        Exit exit2 = this.createExit();
+
+        List<Exit> list = Exit.getExitsForSync();
+        assertEquals(2, list.size());
+
+        exit1.markSynced();
+
+        List<Exit> listSynced = Exit.getExitsForSync();
+        assertEquals(1, listSynced.size());
+    }
 }

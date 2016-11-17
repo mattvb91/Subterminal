@@ -46,7 +46,12 @@ public class JumpView extends BaseFragment {
         jumpDate.setText(TimeAgo.sinceToday(getItem().getDate()));
 
         TextView jumpExit = (TextView) view.findViewById(R.id.jump_view_exit_name);
-        jumpExit.setText(getItem().getExit().getName());
+
+        if (getItem().getExit() != null) {
+            jumpExit.setText(getItem().getExit().getName());
+        } else {
+            jumpExit.setTextColor(MainActivity.getActivity().getResources().getColor(R.color.grey));
+        }
 
         if (getItem().getGear() != null) {
             TextView jumpRig = (TextView) view.findViewById(R.id.jump_view_rig);

@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import junit.framework.Assert;
 
-import org.codehaus.plexus.util.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.RuntimeEnvironment;
