@@ -19,9 +19,12 @@ import okhttp3.Response;
 public class Intercepter implements Interceptor {
 
     private String appApiKey;
+    private Context context;
 
+    //TODO refactor storing context in this class
     public Intercepter(Context context) {
         this.appApiKey = Subterminal.getMetaData(context, "mavonie.subterminal.API_APP_KEY");
+        this.context = context;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class Intercepter implements Interceptor {
             builder.header("sessiontoken", Subterminal.getUser().getFacebookToken().getToken());
         }
 
-        builder.header("accept", Subterminal.getMetaData(MainActivity.getActivity(), "mavonie.subterminal.API_ACCEPT_HEADER"));
+        builder.header("accept", Subterminal.getMetaData(this.context, "mavonie.subterminal.API_ACCEPT_HEADER"));
 
         //Add xdebug cookie so we can debug api side
 //        if (true) {
