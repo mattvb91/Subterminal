@@ -209,7 +209,7 @@ public class MainActivity extends PinCompatActivity
         imagePicker.pickImage();
     }
 
-    private final int MY_SCAN_REQUEST_CODE = 2345;
+    public static final int MY_SCAN_REQUEST_CODE = 2345;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -227,7 +227,7 @@ public class MainActivity extends PinCompatActivity
         }
 
         if (requestCode == MY_SCAN_REQUEST_CODE) {
-            String resultDisplayStr;
+
             if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
                 Payment payment = new Payment((CreditCard) data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT));
 
@@ -242,24 +242,5 @@ public class MainActivity extends PinCompatActivity
 
     public RefWatcher getRefWatcher() {
         return refWatcher;
-    }
-
-    public void onScanPress(View v) {
-
-        if (!Subterminal.getUser().isLoggedIn()) {
-            UIHelper.toast("Please sign in before proceeding");
-            return;
-        }
-
-        Intent scanIntent = new Intent(this, CardIOActivity.class);
-
-        // customize these values to suit your needs.
-        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true); // default: false
-        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, true); // default: false
-        scanIntent.putExtra(CardIOActivity.EXTRA_REQUIRE_POSTAL_CODE, false); // default: false
-        scanIntent.putExtra(CardIOActivity.EXTRA_HIDE_CARDIO_LOGO, true); // default: false
-
-        // MY_SCAN_REQUEST_CODE is arbitrary and is only used within this activity.
-        this.startActivityForResult(scanIntent, MY_SCAN_REQUEST_CODE);
     }
 }

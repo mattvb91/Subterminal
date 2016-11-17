@@ -103,10 +103,17 @@ public class Subterminal {
      * @return
      * @throws PackageManager.NameNotFoundException
      */
-    public static String getMetaData(Context context, String string) throws PackageManager.NameNotFoundException {
+    public static String getMetaData(Context context, String string) {
 
-        ApplicationInfo ai = context.getPackageManager()
-                .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+        ApplicationInfo ai = null;
+
+        try {
+            ai = context.getPackageManager()
+                    .getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         Bundle bundle = ai.metaData;
         String meta = bundle.getString(string);
 

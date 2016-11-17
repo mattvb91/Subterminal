@@ -2,7 +2,6 @@ package mavonie.subterminal.Models;
 
 
 import android.content.ContentValues;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 
 import com.stripe.android.Stripe;
@@ -61,11 +60,7 @@ public class Payment extends Model {
         Stripe stripe = null;
         String publishKey = null;
 
-        try {
-            publishKey = Subterminal.getMetaData(MainActivity.getActivity().getApplicationContext(), "mavonie.subterminal.STRIPE_PUBLISHABLE_KEY");
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        publishKey = Subterminal.getMetaData(MainActivity.getActivity().getApplicationContext(), "mavonie.subterminal.STRIPE_PUBLISHABLE_KEY");
 
         try {
             stripe = new Stripe(publishKey);

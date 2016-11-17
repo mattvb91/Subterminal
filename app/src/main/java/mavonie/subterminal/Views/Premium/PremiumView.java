@@ -9,7 +9,9 @@ import android.webkit.WebView;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
+import mavonie.subterminal.Utils.WebClient;
 
 
 /**
@@ -24,10 +26,10 @@ public class PremiumView extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_premium_view, container, false);
 
         WebView web = (WebView) view.findViewById(R.id.premium_view_web);
-        web.loadUrl("https://subterminal.eu");
+        web.loadUrl(Subterminal.getMetaData(MainActivity.getActivity(), "mavonie.subterminal.PREMIUM_URL"));
+        web.setWebViewClient(new WebClient());
 
         UIHelper.getAddButton().hide();
-
 
         return view;
     }

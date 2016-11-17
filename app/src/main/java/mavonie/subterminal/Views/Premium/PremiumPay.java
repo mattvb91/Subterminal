@@ -34,6 +34,9 @@ public class PremiumPay extends BaseFragment {
         TextView validThrough = (TextView) view.findViewById(R.id.pay_confirm_valid);
         validThrough.setText(payment.getCreditCard().expiryMonth + "/" + payment.getCreditCard().expiryYear);
 
+        TextView cvv = (TextView) view.findViewById(R.id.pay_confirm_cvv);
+        cvv.setText(payment.getCreditCard().cvv);
+
         UIHelper.getAddButton().hide();
 
         Button confirmButton = (Button) view.findViewById(R.id.pay_confirm_button);
