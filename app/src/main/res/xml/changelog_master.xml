@@ -5,6 +5,7 @@
         versioncode="12">
         <change>Sign in with Facebook</change>
         <change>Change starting jump # through settings</change>
+        <change>Premium now available. Store your jump data in the cloud!</change>
     </release>
     <release
         version="1.0.0"
