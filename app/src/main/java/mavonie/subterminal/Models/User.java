@@ -144,7 +144,8 @@ public class User {
         UIHelper.toast(MainActivity.getActivity().getString(R.string.premium_member_welcome));
         UIHelper.goToFragment(R.id.nav_jumps);
 
-        Synchronizable.syncEntities();
+        UIHelper.userPremium();
+        Subterminal.getApi().init();
     }
 
 
