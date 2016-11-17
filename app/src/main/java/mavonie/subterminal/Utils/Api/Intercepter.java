@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import java.io.IOException;
 
 import mavonie.subterminal.BuildConfig;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -19,7 +20,7 @@ public class Intercepter implements Interceptor {
 
     private String appApiKey;
 
-    public Intercepter(Context context) throws PackageManager.NameNotFoundException {
+    public Intercepter(Context context) {
         this.appApiKey = Subterminal.getMetaData(context, "mavonie.subterminal.API_APP_KEY");
     }
 
@@ -34,6 +35,8 @@ public class Intercepter implements Interceptor {
         if (Subterminal.getUser().isLoggedIn()) {
             builder.header("sessiontoken", Subterminal.getUser().getFacebookToken().getToken());
         }
+
+        builder.header("accept", Subterminal.getMetaData(MainActivity.getActivity(), "mavonie.subterminal.API_ACCEPT_HEADER"));
 
         //Add xdebug cookie so we can debug api side
 //        if (true) {

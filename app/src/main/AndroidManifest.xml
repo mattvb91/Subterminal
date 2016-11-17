@@ -45,6 +45,10 @@
             android:value="@string/api_url"/>
 
         <meta-data
+            android:name="mavonie.subterminal.API_ACCEPT_HEADER"
+            android:value="@string/api_accept_header"/>
+
+        <meta-data
             android:name="mavonie.subterminal.PREMIUM_URL"
             android:value="@string/premium_url"/>
 
