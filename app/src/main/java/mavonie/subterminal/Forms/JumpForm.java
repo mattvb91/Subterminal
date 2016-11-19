@@ -39,6 +39,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
     private Spinner rig;
     private Spinner pilotChute;
     private Spinner sliderConfig;
+    private Spinner jumpTypeSpinner;
     private TextView delay;
     private TextView description;
     private TextView date;
@@ -48,8 +49,6 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
     private LinkedHashMap<String, String> gear;
     LinkedHashMapAdapter<String, String> gearAdapter;
-
-    Integer[] pcSizes;
 
     @Override
     protected String getItemClass() {
@@ -86,8 +85,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
         gearSpinner.setOnItemSelectedListener(this);
 
         Spinner pcSizeSpinner = (Spinner) view.findViewById(R.id.jump_edit_pc_size);
-        this.pcSizes = new Jump().getPcSizeArray();
-        ArrayAdapter<Integer> pcSizeAdapter = new ArrayAdapter<Integer>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.pcSizes);
+        ArrayAdapter<Integer> pcSizeAdapter = new ArrayAdapter<Integer>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Jump.getPcSizeArray());
         pcSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pcSizeSpinner.setAdapter(pcSizeAdapter);
         pcSizeSpinner.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(Prefs.getInt(Preference.PREFS_DEFAULT_PC, 32)), false);
@@ -96,12 +94,22 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
         Spinner sliderConfigSpinner = (Spinner) view.findViewById(R.id.jump_edit_slider);
         ArrayAdapter<String> sliderAdapter =
                 new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
-                        new Jump().getSliderConfigArray()
+                        Jump.getSliderConfigArray()
                 );
 
         sliderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sliderConfigSpinner.setAdapter(sliderAdapter);
         sliderConfigSpinner.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_SLIDER, Jump.SLIDER_DOWN), false);
+
+        jumpTypeSpinner = (Spinner) view.findViewById(R.id.jump_edit_type);
+        ArrayAdapter<String> typeAdapter =
+                new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                        Jump.getTypeArray()
+                );
+
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jumpTypeSpinner.setAdapter(typeAdapter);
+        jumpTypeSpinner.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_JUMP_TYPE, Jump.TYPE_SLICK), false);
 
         this.date = (EditText) view.findViewById(R.id.jump_edit_date);
         DateFormat df = new DateFormat();
@@ -186,6 +194,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             }
 
             getItem().setDescription(descriptionString);
+            getItem().setType(Integer.parseInt(Long.toString(jumpTypeSpinner.getSelectedItemId())));
 
             super.save();
         }
@@ -206,7 +215,8 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             }
 
             this.date.setText(getItem().getDate());
-            this.pilotChute.setSelection(Arrays.asList(this.pcSizes).indexOf(getItem().getPc_size()));
+            this.pilotChute.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(getItem().getPc_size()));
+            this.jumpTypeSpinner.setSelection(getItem().getType());
             this.delay.setText(Integer.toString(getItem().getDelay()));
             this.description.setText(getItem().getDescription());
 

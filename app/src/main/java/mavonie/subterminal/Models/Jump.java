@@ -23,6 +23,7 @@ public class Jump extends Synchronizable {
 
     private Integer gear_id;
     private Integer exit_id;
+    private Integer type;
     private int pc_size;
     private int slider;
     private int delay;
@@ -38,12 +39,23 @@ public class Jump extends Synchronizable {
 
     private static final HashMap<Integer, String> slider_config;
 
+    public static final int TYPE_SLICK = 0;
+    public static final int TYPE_TRACKING = 1;
+    public static final int TYPE_WINGSUIT = 2;
+
+    private static final HashMap<Integer, String> jump_type;
 
     static {
         slider_config = new HashMap<Integer, String>();
         slider_config.put(SLIDER_OFF, "Off");
         slider_config.put(SLIDER_DOWN, "Down");
         slider_config.put(SLIDER_UP, "Up");
+
+        jump_type = new HashMap<Integer, String>();
+        jump_type.put(TYPE_SLICK, "Slick");
+        jump_type.put(TYPE_TRACKING, "Tracking");
+        jump_type.put(TYPE_WINGSUIT, "Wingsuit");
+
     }
 
     public static String[] getSliderConfigArray() {
@@ -71,6 +83,18 @@ public class Jump extends Synchronizable {
     public static final String COLUMN_NAME_PC_SIZE = "pc_size";
     public static final String COLUMN_NAME_SLIDER = "slider";
     public static final String COLUMN_NAME_DELAY = "delay";
+    public static final String COLUMN_NAME_TYPE = "type";
+
+    public static String[] getTypeArray() {
+        String[] typeArray = new String[jump_type.size()];
+
+        for (int i = 0; i < jump_type.size(); i++) {
+            typeArray[i] = jump_type.get(i);
+        }
+
+        return typeArray;
+    }
+
 
     /* END DB DEFINITIONS */
 
@@ -150,6 +174,14 @@ public class Jump extends Synchronizable {
         this.delay = delay;
     }
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     @Override
     public Jump populateFromCursor(Cursor cursor) {
         try {
@@ -163,6 +195,7 @@ public class Jump extends Synchronizable {
             int idDelay = cursor.getColumnIndexOrThrow(COLUMN_NAME_DELAY);
             int idGear = cursor.getColumnIndexOrThrow(COLUMN_NAME_GEAR_ID);
             int idSlider = cursor.getColumnIndexOrThrow(COLUMN_NAME_SLIDER);
+            int idType = cursor.getColumnIndexOrThrow(COLUMN_NAME_TYPE);
 
             jump.setId(cursor.getInt(idIndex));
 
@@ -181,7 +214,7 @@ public class Jump extends Synchronizable {
             }
 
             jump.setSlider(cursor.getInt(idSlider));
-
+            jump.setType(cursor.getInt(idType));
             jump.setRow_id(cursor.getCount() - cursor.getPosition());
 
             jump.populateSynchronizationFromCursor(cursor);
@@ -204,6 +237,7 @@ public class Jump extends Synchronizable {
         contentValues.put(COLUMN_NAME_PC_SIZE, this.getPc_size());
         contentValues.put(COLUMN_NAME_GEAR_ID, this.getGear_id());
         contentValues.put(COLUMN_NAME_SLIDER, this.getSlider());
+        contentValues.put(COLUMN_NAME_TYPE, this.getType());
 
         this.populateSynchronizationContentValues(contentValues);
     }
@@ -249,6 +283,7 @@ public class Jump extends Synchronizable {
             return false;
         if (!date.equals(jump.date)) return false;
         if (_gear != null ? !_gear.equals(jump._gear) : jump._gear != null) return false;
+        if (type != jump.type) return false;
 
         return true;
     }
@@ -270,6 +305,10 @@ public class Jump extends Synchronizable {
 
     public String getFormattedDelay() {
         return this.getDelay() + "s";
+    }
+
+    public String getFormattedType() {
+        return getTypeArray()[this.getType()];
     }
 
     @Override

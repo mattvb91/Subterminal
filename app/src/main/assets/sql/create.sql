@@ -46,6 +46,7 @@ CREATE TABLE jump (
         slider INTEGER,
         delay INTEGER,
         description TEXT,
+        type INTEGER,
         synced INTEGER DEFAULT 0,
         deleted INTEGER DEFAULT 0);
 

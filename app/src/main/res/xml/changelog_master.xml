@@ -4,6 +4,7 @@
         version="1.0.2"
         versioncode="13">
         <change>Set default slider config/PC Size through settings</change>
+        <change>Jump type (Slick/Track/Wingsuit)</change>
     </release>
     <release
         version="1.0.1"

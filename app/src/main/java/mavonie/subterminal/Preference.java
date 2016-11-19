@@ -45,6 +45,7 @@ public class Preference extends BaseFragment {
     public static final String FORCE_SYNC_ENTITIES = "FORCE_SYNC_ENTITIES";
     public static final String PREFS_DEFAULT_SLIDER = "PREFS_DEFAULT_SLIDER";
     public static final String PREFS_DEFAULT_PC = "PREFS_DEFAULT_PC";
+    public static final String PREFS_DEFAULT_JUMP_TYPE = "PREFS_DEFAULT_JUMP_TYPE";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
