@@ -46,7 +46,7 @@ public class Jump extends Synchronizable {
         slider_config.put(SLIDER_UP, "Up");
     }
 
-    public String[] getSliderConfigArray() {
+    public static String[] getSliderConfigArray() {
 
         String[] sliderArray = new String[slider_config.size()];
 
@@ -57,7 +57,7 @@ public class Jump extends Synchronizable {
         return sliderArray;
     }
 
-    public Integer[] getPcSizeArray() {
+    public static Integer[] getPcSizeArray() {
         return pc_sizes;
     }
 

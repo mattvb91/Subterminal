@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.0.2"
+        versioncode="13">
+        <change>Set default slider config/PC Size through settings</change>
+    </release>
+    <release
         version="1.0.1"
         versioncode="12">
         <change>Sign in with Facebook</change>
