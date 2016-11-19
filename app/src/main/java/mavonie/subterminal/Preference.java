@@ -163,7 +163,7 @@ public class Preference extends BaseFragment {
         final Spinner sliderConfigSpinner = (Spinner) view.findViewById(R.id.preference_default_slider_config_value);
         ArrayAdapter<String> sliderAdapter =
                 new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
-                        new mavonie.subterminal.Models.Jump().getSliderConfigArray()
+                        Jump.getSliderConfigArray()
                 );
 
         sliderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -186,12 +186,41 @@ public class Preference extends BaseFragment {
          */
 
         /**
+         * Jump type Spinner
+         */
+        final Spinner jumpTypeSpinner = (Spinner) view.findViewById(R.id.preference_default_jump_type_value);
+        ArrayAdapter<String> jumpTypeAdapter =
+                new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                        Jump.getTypeArray()
+                );
+
+        jumpTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jumpTypeSpinner.setAdapter(jumpTypeAdapter);
+        jumpTypeSpinner.setSelection(Prefs.getInt(PREFS_DEFAULT_JUMP_TYPE, Jump.TYPE_SLICK), false);
+        jumpTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Prefs.putInt(PREFS_DEFAULT_JUMP_TYPE, jumpTypeSpinner.getSelectedItemPosition());
+                UIHelper.toast(getString(R.string.settings_updated));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        /**
+         * End Jump type Spinner
+         */
+
+
+        /**
          * PC Size Spinner
          */
         final Spinner pcSize = (Spinner) view.findViewById(R.id.preference_default_pc_size_value);
         ArrayAdapter<Integer> pcApter =
                 new ArrayAdapter<Integer>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
-                        new mavonie.subterminal.Models.Jump().getPcSizeArray()
+                        Jump.getPcSizeArray()
                 );
 
 

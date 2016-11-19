@@ -177,6 +177,17 @@ public class SettingsTest extends BaseTest {
                 allOf(withId(android.R.id.text1), withText(pcSize), isDisplayed()));
         appCompatCheckedTextView3.perform(click());
 
+        random = new Random().nextInt(Jump.getTypeArray().length);
+        String jumpType = Arrays.asList(Jump.getTypeArray()).get(random);
+
+        ViewInteraction appCompatSpinner3 = onView(
+                allOf(withId(R.id.preference_default_jump_type_value), isDisplayed()));
+        appCompatSpinner3.perform(click());
+
+        ViewInteraction appCompatCheckedTextView4 = onView(
+                allOf(withId(android.R.id.text1), withText(jumpType), isDisplayed()));
+        appCompatCheckedTextView4.perform(click());
+
         JumpTest.navigateToJumpsList();
 
         ViewInteraction floatingActionButton = onView(
@@ -185,6 +196,7 @@ public class SettingsTest extends BaseTest {
 
         onView(withId(R.id.jump_edit_slider)).check(matches(withSpinnerText(containsString(sliderSelect))));
         onView(withId(R.id.jump_edit_pc_size)).check(matches(withSpinnerText(containsString(pcSize))));
+        onView(withId(R.id.jump_edit_type)).check(matches(withSpinnerText(containsString(jumpType))));
 
     }
 }
