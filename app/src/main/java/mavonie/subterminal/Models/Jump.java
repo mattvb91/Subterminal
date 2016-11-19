@@ -32,6 +32,7 @@ public class Jump extends Synchronizable {
 
     public static final int SLIDER_DOWN = 0;
     public static final int SLIDER_UP = 1;
+    public static final int SLIDER_OFF = 2;
 
     private static final Integer[] pc_sizes = {32, 36, 38, 40, 42, 46, 48};
 
@@ -40,6 +41,7 @@ public class Jump extends Synchronizable {
 
     static {
         slider_config = new HashMap<Integer, String>();
+        slider_config.put(SLIDER_OFF, "Off");
         slider_config.put(SLIDER_DOWN, "Down");
         slider_config.put(SLIDER_UP, "Up");
     }
