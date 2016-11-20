@@ -5,12 +5,14 @@ import android.database.Cursor;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
 import mavonie.subterminal.Jobs.SyncJump;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Preference;
+import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**
@@ -106,7 +108,22 @@ public class Jump extends Synchronizable {
         this.description = description;
     }
 
+    /**
+     * Format date correctly
+     *
+     * @return String
+     */
     public String getDate() {
+
+        if (this.date != null) {
+            try {
+                DateFormat df = new DateFormat();
+                this.date = df.format(df.parse(this.date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
         return date;
     }
 
