@@ -2,17 +2,22 @@ package mavonie.subterminal;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sa90.materialarcmenu.ArcMenu;
+
 import java.util.HashMap;
 
+import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.ViewAdapters.GearRecycler;
 
 /**
@@ -56,10 +61,37 @@ public class Gear extends BaseFragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+        ArcMenu arc = (ArcMenu) MainActivity.getActivity().findViewById(R.id.arcMenu);
+        arc.setVisibility(View.GONE);
+
+        if (arc.isMenuOpened()) {
+            arc.toggleMenu();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         // Set title
         String title = getString(R.string.title_gear) + " (" + new mavonie.subterminal.Models.Gear().count() + ")";
         MainActivity.getActivity().setTitle(title);
+
+        //We want to replace the add button with our arc menu
+        UIHelper.getAddButton().setVisibility(View.GONE);
+        final ArcMenu arc = (ArcMenu) MainActivity.getActivity().findViewById(R.id.arcMenu);
+        arc.setVisibility(View.VISIBLE);
+
+        FloatingActionButton rig = (FloatingActionButton) MainActivity.getActivity().findViewById(R.id.gear_menu_rig);
+        rig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UIHelper.replaceFragment(new GearForm());
+                arc.toggleMenu();
+            }
+        });
+
     }
 }

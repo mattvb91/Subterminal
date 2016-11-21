@@ -19,7 +19,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 
-public class GearTest extends BaseTest{
+public class GearTest extends BaseTest {
 
 
     @Test
@@ -27,8 +27,12 @@ public class GearTest extends BaseTest{
         navigateToGear();
 
         ViewInteraction floatingActionButton = onView(
-                allOf(withId(R.id.fab), isDisplayed()));
+                allOf(withId(R.id.arcMenu), isDisplayed()));
         floatingActionButton.perform(click());
+
+        ViewInteraction floatingActionButton2 = onView(
+                allOf(withId(R.id.gear_menu_rig), isDisplayed()));
+        floatingActionButton2.perform(click());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.gear_save), withText("Save")));
@@ -55,7 +59,7 @@ public class GearTest extends BaseTest{
                 withId(R.id.edit_canopy_type));
         appCompatEditText6.perform(scrollTo(), replaceText(this.randomString(5)), closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText7= onView(
+        ViewInteraction appCompatEditText7 = onView(
                 withId(R.id.edit_canopy_type));
         appCompatEditText7.perform(scrollTo(), replaceText(this.randomString(5)), closeSoftKeyboard());
 
