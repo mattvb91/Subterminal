@@ -50,6 +50,18 @@ CREATE TABLE jump (
         synced INTEGER DEFAULT 0,
         deleted INTEGER DEFAULT 0);
 
+
+CREATE TABLE suits (
+    _id INTEGER PRIMARY KEY,
+    manufacturer TEXT,
+    model TEXT,
+    type INTEGER,
+    date_in_use DATE,
+    serial TEXT,
+    synced INTEGER DEFAULT 0,
+    deleted INTEGER DEFAULT 0
+);
+
 CREATE TABLE image (
         _id INTEGER PRIMARY KEY,
         filename TEXT,

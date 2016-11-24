@@ -231,7 +231,11 @@ public class Jump extends Synchronizable {
             }
 
             jump.setSlider(cursor.getInt(idSlider));
-            jump.setType(cursor.getInt(idType));
+
+            if (!cursor.isNull(idType) & !cursor.isNull(cursor.getInt(idType))) {
+                jump.setType(cursor.getInt(idType));
+            }
+
             jump.setRow_id(cursor.getCount() - cursor.getPosition());
 
             jump.populateSynchronizationFromCursor(cursor);
