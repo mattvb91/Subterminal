@@ -10,7 +10,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import mavonie.subterminal.Jobs.SyncJump;
+import mavonie.subterminal.Jobs.SyncSuit;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
+import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Suit model
@@ -102,7 +106,8 @@ public class Suit extends Synchronizable {
 
     @Override
     public void addSyncJob() {
-
+        Subterminal.getJobManager(MainActivity.getActivity())
+                .addJobInBackground(new SyncSuit(this));
     }
 
     @Override
@@ -190,5 +195,75 @@ public class Suit extends Synchronizable {
         }
 
         return results;
+    }
+
+    public static List<Suit> getSuitsForSync() {
+
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereSyncRequired = new HashMap<>();
+        whereSyncRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_SYNCED);
+        whereSyncRequired.put(Model.FILTER_WHERE_VALUE, SYNC_REQUIRED);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereSyncRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Suit().getItems(params);
+    }
+
+    //TODO these 2 methods should be merged
+    public static List<Suit> getSuitsForDelete() {
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereDeleteRequired = new HashMap<>();
+        whereDeleteRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
+        whereDeleteRequired.put(Model.FILTER_WHERE_VALUE, DELETED_TRUE);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereDeleteRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Suit().getItems(params);
+    }
+
+    @Override
+    public boolean delete() {
+
+        if (this.getDeleted() == DELETED_FALSE) {
+            List<Jump> jumps = this.getJumps();
+
+            for (Jump jump : jumps) {
+                jump.setSuit_id(null);
+                jump.save();
+            }
+        }
+
+        return super.delete();
+    }
+
+
+    private List<Jump> _jumps;
+
+    public List<Jump> getJumps() {
+
+        if (this._jumps == null) {
+            HashMap<String, Object> params = new HashMap<>();
+
+            HashMap<String, Object> whereSuitID = new HashMap<>();
+            whereSuitID.put(Model.FILTER_WHERE_FIELD, Jump.COLUMN_NAME_SUIT_ID);
+            whereSuitID.put(Model.FILTER_WHERE_VALUE, Integer.toString(this.getId()));
+
+            HashMap<Integer, HashMap> wheres = new HashMap<>();
+            wheres.put(wheres.size(), whereSuitID);
+
+            params.put(Model.FILTER_WHERE, wheres);
+
+            this._jumps = new Jump().getItems(params);
+        }
+
+        return this._jumps;
     }
 }

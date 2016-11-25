@@ -10,6 +10,7 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -75,4 +76,16 @@ public interface EndpointInterface {
     @GET("user/jumps")
     Call<List<Jump>> downloadJumps(
             @Query("last_sync") String lastSync);
+
+    //Jump requests
+    @POST("suit")
+    Call<Suit> syncSuit(@Body Suit suit);
+
+    @DELETE("user/suit/{id}")
+    Call<Void> deleteSuit(@Path("id") Integer id);
+
+    @GET("user/suits")
+    Call<List<Suit>> downloadSuits(
+            @Query("last_sync") String lastSync);
+
 }

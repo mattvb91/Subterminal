@@ -260,6 +260,8 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
             if (suitSpinner.getVisibility() == View.VISIBLE) {
                 getItem().setSuit_id(Integer.parseInt(this.suitEntry.getKey()));
+            } else {
+                getItem().setSuit_id(null);
             }
 
             getItem().setDescription(descriptionString);

@@ -26,6 +26,7 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Models.User;
 import mavonie.subterminal.R;
@@ -371,6 +372,7 @@ public class API {
         if (gson == null) {
             gson = new GsonBuilder()
                     .setLenient()
+                    .serializeNulls()
                     .create();
         }
         return gson;
@@ -497,6 +499,49 @@ public class API {
                     Synchronized.setLastSyncJump();
                 }
 
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void syncSuit(final Suit suit) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call syncSuit = this.getEndpoints().syncSuit(suit);
+        syncSuit.enqueue(new Callback<Jump>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    suit.markSynced();
+
+                    Synchronized.setLastSyncSuits();
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void deleteSuit(final Suit suit) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call deleteSuit = this.getEndpoints().deleteSuit(suit.getId());
+        deleteSuit.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful() || response.code() == 403) {
+                    suit.delete();
+                }
                 UIHelper.setProgressBarVisibility(View.GONE);
             }
 

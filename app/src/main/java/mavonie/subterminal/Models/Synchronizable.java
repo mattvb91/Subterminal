@@ -186,6 +186,15 @@ public abstract class Synchronizable extends Model {
             gear.addSyncJob();
         }
 
+        for (Suit suit : Suit.getSuitsForSync()) {
+            suit.addSyncJob();
+        }
+
+        for (Suit suit : Suit.getSuitsForDelete()) {
+            suit.addSyncJob();
+        }
+
+
         for (Jump jump : Jump.getJumpsForSync()) {
             jump.addSyncJob();
         }

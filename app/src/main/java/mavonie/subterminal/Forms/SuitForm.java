@@ -69,7 +69,6 @@ public class SuitForm extends BaseForm {
 
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         suitType.setAdapter(typeAdapter);
-        suitType.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_SLIDER, Jump.SLIDER_DOWN), false);
 
         this.suitModel = (EditText) view.findViewById(R.id.suit_form_model);
         this.suitDateInUse = (EditText) view.findViewById(R.id.suit_form_dateInUse);
