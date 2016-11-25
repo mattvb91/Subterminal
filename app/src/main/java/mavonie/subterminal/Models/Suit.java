@@ -51,6 +51,10 @@ public class Suit extends Synchronizable {
         return sliderArray;
     }
 
+    public String getFormattedSuitType() {
+        return getSuitTypeArray()[this.getType()];
+    }
+
     public String getManufacturer() {
         return manufacturer;
     }
@@ -141,5 +145,22 @@ public class Suit extends Synchronizable {
     @Override
     String getTableName() {
         return TABLE_NAME;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Suit suit = (Suit) o;
+
+        if (type != suit.type) return false;
+        if (manufacturer != null ? !manufacturer.equals(suit.manufacturer) : suit.manufacturer != null)
+            return false;
+        if (model != null ? !model.equals(suit.model) : suit.model != null) return false;
+        if (serial != null ? !serial.equals(suit.serial) : suit.serial != null) return false;
+        return dateInUse != null ? dateInUse.equals(suit.dateInUse) : suit.dateInUse == null;
+
     }
 }

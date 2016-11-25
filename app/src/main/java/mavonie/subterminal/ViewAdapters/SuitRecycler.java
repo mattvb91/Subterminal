@@ -41,7 +41,7 @@ public class SuitRecycler extends RecyclerView.Adapter<SuitRecycler.ViewHolder> 
         holder.mItem = mValues.get(position);
         holder.listManufacturer.setText(holder.mItem.getManufacturer());
         holder.listModel.setText(holder.mItem.getModel());
-        holder.listType.setText(Integer.toString(holder.mItem.getType()));
+        holder.listType.setText(holder.mItem.getFormattedSuitType());
 
         if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced())) {
             int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
