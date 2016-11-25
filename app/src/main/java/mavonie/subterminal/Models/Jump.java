@@ -26,6 +26,7 @@ public class Jump extends Synchronizable {
     private Integer gear_id;
     private Integer exit_id;
     private Integer type;
+    private Integer suit_id;
     private int pc_size;
     private int slider;
     private int delay;
@@ -86,6 +87,7 @@ public class Jump extends Synchronizable {
     public static final String COLUMN_NAME_SLIDER = "slider";
     public static final String COLUMN_NAME_DELAY = "delay";
     public static final String COLUMN_NAME_TYPE = "type";
+    public static final String COLUMN_NAME_SUIT_ID = "suit_id";
 
     public static String[] getTypeArray() {
         String[] typeArray = new String[jump_type.size()];
@@ -199,6 +201,13 @@ public class Jump extends Synchronizable {
         this.type = type;
     }
 
+    public Integer getSuit_id() {
+        return suit_id;
+    }
+
+    public void setSuit_id(Integer suit_id) {
+        this.suit_id = suit_id;
+    }
     @Override
     public Jump populateFromCursor(Cursor cursor) {
         try {
@@ -213,6 +222,7 @@ public class Jump extends Synchronizable {
             int idGear = cursor.getColumnIndexOrThrow(COLUMN_NAME_GEAR_ID);
             int idSlider = cursor.getColumnIndexOrThrow(COLUMN_NAME_SLIDER);
             int idType = cursor.getColumnIndexOrThrow(COLUMN_NAME_TYPE);
+            int idSuitId = cursor.getColumnIndexOrThrow(COLUMN_NAME_SUIT_ID);
 
             jump.setId(cursor.getInt(idIndex));
 
@@ -234,6 +244,10 @@ public class Jump extends Synchronizable {
 
             if (!cursor.isNull(idType) & !cursor.isNull(cursor.getInt(idType))) {
                 jump.setType(cursor.getInt(idType));
+            }
+
+            if (!cursor.isNull(idSuitId) & !cursor.isNull(cursor.getInt(idSuitId))) {
+                jump.setSuit_id(cursor.getInt(idSuitId));
             }
 
             jump.setRow_id(cursor.getCount() - cursor.getPosition());
@@ -259,6 +273,7 @@ public class Jump extends Synchronizable {
         contentValues.put(COLUMN_NAME_GEAR_ID, this.getGear_id());
         contentValues.put(COLUMN_NAME_SLIDER, this.getSlider());
         contentValues.put(COLUMN_NAME_TYPE, this.getType());
+        contentValues.put(COLUMN_NAME_SUIT_ID, this.getSuit_id());
 
         this.populateSynchronizationContentValues(contentValues);
     }
@@ -305,6 +320,7 @@ public class Jump extends Synchronizable {
         if (!date.equals(jump.date)) return false;
         if (_gear != null ? !_gear.equals(jump._gear) : jump._gear != null) return false;
         if (type != jump.type) return false;
+        if (suit_id != jump.suit_id) return false;
 
         return true;
     }

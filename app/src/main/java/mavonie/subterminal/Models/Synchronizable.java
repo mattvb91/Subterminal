@@ -194,4 +194,17 @@ public abstract class Synchronizable extends Model {
             jump.addSyncJob();
         }
     }
+
+    /**
+     * Return all items that are not deleted
+     *
+     * @return List
+     */
+    public List<Model> getActiveItems() {
+        HashMap<String, Object> whereNotDeleted = new HashMap<>();
+        whereNotDeleted.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
+        whereNotDeleted.put(Model.FILTER_WHERE_VALUE, DELETED_FALSE.toString());
+
+        return super.getItems(whereNotDeleted);
+    }
 }

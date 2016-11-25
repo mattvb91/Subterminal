@@ -47,6 +47,7 @@ CREATE TABLE jump (
         delay INTEGER,
         description TEXT,
         type INTEGER,
+        suit_id INTEGER,
         synced INTEGER DEFAULT 0,
         deleted INTEGER DEFAULT 0);
 

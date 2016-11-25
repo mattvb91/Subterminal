@@ -5,7 +5,12 @@ import android.database.Cursor;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 
 /**
  * Suit model
@@ -162,5 +167,28 @@ public class Suit extends Synchronizable {
         if (serial != null ? !serial.equals(suit.serial) : suit.serial != null) return false;
         return dateInUse != null ? dateInUse.equals(suit.dateInUse) : suit.dateInUse == null;
 
+    }
+
+    /**
+     * Get items available for a spinner
+     *
+     * @param type
+     * @return
+     */
+    public LinkedHashMap<String, String> getItemsForSpinner(Integer type) {
+
+        LinkedHashMap<String, String> results = new LinkedHashMap<String, String>();
+
+        List<Model> items = this.getActiveItems();
+
+        for (Model suit : items) {
+            if (suit instanceof Suit) {
+                if (((Suit) suit).getType() == type) {
+                    results.put(Integer.toString(suit.getId()), ((Suit) suit).getManufacturer() + " - " + ((Suit) suit).getModel());
+                }
+            }
+        }
+
+        return results;
     }
 }
