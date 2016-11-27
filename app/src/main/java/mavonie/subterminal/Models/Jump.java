@@ -345,7 +345,11 @@ public class Jump extends Synchronizable {
     }
 
     public String getFormattedType() {
-        return getTypeArray()[this.getType()];
+        if(this.getType() != null) {
+            return getTypeArray()[this.getType()];
+        }
+
+        return null;
     }
 
     @Override
