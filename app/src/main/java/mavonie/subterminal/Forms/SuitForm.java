@@ -140,7 +140,11 @@ public class SuitForm extends BaseForm {
 
             getItem().setManufacturer(suitManufacturer);
             getItem().setModel(suitModel);
-            getItem().setDateInUse(suitDateInUse);
+
+            if (suitDateInUse.length() > 0) {
+                getItem().setDateInUse(suitDateInUse);
+            }
+
             getItem().setSerial(suitSerial);
 
             getItem().setType(Integer.parseInt(String.valueOf(this.suitType.getSelectedItemId())));
@@ -165,11 +169,6 @@ public class SuitForm extends BaseForm {
 
         if (suitModel.getText().length() == 0) {
             this.suitModel.setError("Model required");
-            valid = false;
-        }
-
-        if (suitDateInUse.getText().length() == 0) {
-            this.suitDateInUse.setError("Date required");
             valid = false;
         }
 

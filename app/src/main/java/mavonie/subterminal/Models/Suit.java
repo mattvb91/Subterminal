@@ -127,7 +127,11 @@ public class Suit extends Synchronizable {
             suit.setManufacturer(cursor.getString(idManufacturer));
             suit.setType(cursor.getInt(idType));
             suit.setModel(cursor.getString(idModel));
-            suit.setDateInUse(cursor.getString(idDateInUse));
+
+            if (cursor.getString(idDateInUse) != null && cursor.getString(idDateInUse).length() > 0) {
+                suit.setDateInUse(cursor.getString(idDateInUse));
+            }
+
             suit.setSerial(cursor.getString(idSerial));
 
             suit.populateSynchronizationFromCursor(cursor);
@@ -188,7 +192,7 @@ public class Suit extends Synchronizable {
 
         for (Model suit : items) {
             if (suit instanceof Suit) {
-                if (((Suit) suit).getType() == type) {
+                if (type != null && ((Suit) suit).getType() == type) {
                     results.put(Integer.toString(suit.getId()), ((Suit) suit).getManufacturer() + " - " + ((Suit) suit).getModel());
                 }
             }
