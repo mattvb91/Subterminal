@@ -157,6 +157,11 @@ public abstract class Synchronizable extends Model {
             gear.save();
         }
 
+        List<Suit> suits = new Suit().getItems(null);
+        for (Suit suit : suits) {
+            suit.save();
+        }
+
         List<Jump> jumps = new Jump().getItems(null);
         for (Jump jump : jumps) {
             jump.save();
