@@ -14,31 +14,11 @@ public abstract class Synchronized {
     public static String PREF_LAST_SYNC_JUMP = "LAST_SYNC_JUMP";
     public static String PREF_LAST_SYNC_SUIT = "LAST_SYNC_SUIT";
 
-    public static void setLastSyncExits() {
-        Prefs.putString(Synchronized.PREF_LAST_SYNC_EXITS, DateFormat.dateTimeNow());
+    public static void setLastSyncPref(String pref) {
+        Prefs.putString(pref, DateFormat.dateTimeNow());
     }
 
-    public static String getLastSyncExits() {
-        return Prefs.getString(PREF_LAST_SYNC_EXITS, "2000-01-01 00:00:00");
-    }
-
-    public static void setLastSyncGear() {
-        Prefs.putString(Synchronized.PREF_LAST_SYNC_GEAR, DateFormat.dateTimeNow());
-    }
-
-    public static String getLastSyncGear() {
-        return Prefs.getString(PREF_LAST_SYNC_GEAR, "2000-01-01 00:00:00");
-    }
-
-    public static void setLastSyncJump() {
-        Prefs.putString(Synchronized.PREF_LAST_SYNC_JUMP, DateFormat.dateTimeNow());
-    }
-
-    public static String getLastSyncJump() {
-        return Prefs.getString(Synchronized.PREF_LAST_SYNC_JUMP, "2000-01-01 00:00:00");
-    }
-
-    public static void setLastSyncSuits() {
-        Prefs.putString(Synchronized.PREF_LAST_SYNC_SUIT, DateFormat.dateTimeNow());
+    public static String getLastSyncPref(String pref) {
+        return Prefs.getString(pref, "2000-01-01 00:00:00");
     }
 }

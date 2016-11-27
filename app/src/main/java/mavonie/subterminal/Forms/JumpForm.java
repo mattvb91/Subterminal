@@ -1,6 +1,7 @@
 package mavonie.subterminal.Forms;
 
 import android.app.DatePickerDialog;
+import android.support.annotation.Nullable;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Adapter;
@@ -54,7 +55,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
     LinkedHashMapAdapter<String, String> gearAdapter;
 
     private LinkedHashMap suits;
-    LinkedHashMapAdapter suitsAdapter;
+    LinkedHashMapAdapter suitsAdapter = null;
 
     @Override
     protected String getItemClass() {
@@ -134,25 +135,22 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpTypeSpinner.setAdapter(typeAdapter);
-        jumpTypeSpinner.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_JUMP_TYPE, Jump.TYPE_SLICK), false);
         jumpTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Integer type = null;
-                if (i == Jump.TYPE_TRACKING) {
-                    type = Suit.TYPE_TRACKING;
-                } else if (i == Jump.TYPE_WINGSUIT) {
-                    type = Suit.TYPE_WINGSUIT;
-                }
+                Integer type = convertTypes(i);
 
                 if (type != null) {
                     suits = new Suit().getItemsForSpinner(type);
 
                     if (suits.size() > 0) {
                         suitSpinner.setVisibility(View.VISIBLE);
-                        suitsAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, suits);
+
+                        if (suitsAdapter == null) {
+                            suitsAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, suits);
+                            suitSpinner.setAdapter(suitsAdapter);
+                        }
                         suitsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        suitSpinner.setAdapter(suitsAdapter);
                         suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -175,6 +173,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
             }
         });
+        jumpTypeSpinner.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_JUMP_TYPE, Jump.TYPE_SLICK));
 
         this.date = (EditText) view.findViewById(R.id.jump_edit_date);
         DateFormat df = new DateFormat();
@@ -209,6 +208,16 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
                 save();
             }
         });
+    }
+
+    private Integer convertTypes(int i) {
+        Integer type = null;
+        if (i == Jump.TYPE_TRACKING) {
+            type = Suit.TYPE_TRACKING;
+        } else if (i == Jump.TYPE_WINGSUIT) {
+            type = Suit.TYPE_WINGSUIT;
+        }
+        return type;
     }
 
     private void updateDate() {
@@ -287,7 +296,16 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
             this.date.setText(getItem().getDate());
             this.pilotChute.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(getItem().getPc_size()));
-            this.jumpTypeSpinner.setSelection(getItem().getType());
+            this.jumpTypeSpinner.setSelection(getItem().getType(), false);
+
+            this.suits = new Suit().getItemsForSpinner(convertTypes(getItem().getType()));
+            this.suitsAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, suits);
+            this.suitsAdapter.notifyDataSetChanged();
+            if (getItem().getSuit_id() != null) {
+                suitSpinner.setAdapter(this.suitsAdapter);
+                suitSpinner.setSelection(this.suitsAdapter.findPositionFromKey(getItem().getSuit_id()), false);
+            }
+
             this.delay.setText(Integer.toString(getItem().getDelay()));
             this.description.setText(getItem().getDescription());
 

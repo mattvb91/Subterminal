@@ -145,6 +145,7 @@ public class API {
             if (Subterminal.getUser().isPremium()) {
                 downloadExits();
                 downloadGear();
+                downloadSuits();
                 downloadJumps();
 
                 Synchronizable.syncEntities();
@@ -152,9 +153,34 @@ public class API {
         }
     }
 
+    private void downloadSuits() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+        Call mySuits = this.getEndpoints().downloadSuits(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT));
+
+        mySuits.enqueue(new Callback<List<Suit>>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    List<Suit> suits = (List) response.body();
+                    for (Suit suit : suits) {
+                        suit.markSynced();
+                    }
+
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
     private void downloadJumps() {
         UIHelper.setProgressBarVisibility(View.VISIBLE);
-        Call myJumps = this.getEndpoints().downloadJumps(Synchronized.getLastSyncJump());
+        Call myJumps = this.getEndpoints().downloadJumps(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP));
 
         myJumps.enqueue(new Callback<List<Jump>>() {
             @Override
@@ -166,7 +192,7 @@ public class API {
                         jump.markSynced();
                     }
 
-                    Synchronized.setLastSyncJump();
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP);
                 }
             }
 
@@ -179,7 +205,7 @@ public class API {
 
     private void downloadExits() {
         UIHelper.setProgressBarVisibility(View.VISIBLE);
-        Call myExits = this.getEndpoints().downloadExits(Synchronized.getLastSyncExits());
+        Call myExits = this.getEndpoints().downloadExits(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS));
 
         myExits.enqueue(new Callback<List<Exit>>() {
             @Override
@@ -191,7 +217,7 @@ public class API {
                         exit.markSynced();
                     }
 
-                    Synchronized.setLastSyncExits();
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS);
                 }
             }
 
@@ -204,7 +230,7 @@ public class API {
 
     private void downloadGear() {
         UIHelper.setProgressBarVisibility(View.VISIBLE);
-        Call myGear = this.getEndpoints().downloadGear(Synchronized.getLastSyncGear());
+        Call myGear = this.getEndpoints().downloadGear(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR));
 
         myGear.enqueue(new Callback<List<Gear>>() {
             @Override
@@ -217,7 +243,7 @@ public class API {
                     for (Gear gear : gears) {
                         gear.markSynced();
                     }
-                    Synchronized.setLastSyncGear();
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR);
                 }
             }
 
@@ -388,7 +414,7 @@ public class API {
                 if (response.isSuccessful()) {
                     exit.markSynced();
 
-                    Synchronized.setLastSyncExits();
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS);
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -452,7 +478,7 @@ public class API {
                 if (response.isSuccessful()) {
                     gear.markSynced();
 
-                    Synchronized.setLastSyncGear();
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR);
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -496,7 +522,7 @@ public class API {
                 if (response.isSuccessful()) {
                     jump.markSynced();
 
-                    Synchronized.setLastSyncJump();
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP);
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -519,7 +545,7 @@ public class API {
                 if (response.isSuccessful()) {
                     suit.markSynced();
 
-                    Synchronized.setLastSyncSuits();
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT);
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
