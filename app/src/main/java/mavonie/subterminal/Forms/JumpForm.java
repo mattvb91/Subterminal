@@ -54,8 +54,8 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
     private LinkedHashMap<String, String> gear;
     LinkedHashMapAdapter<String, String> gearAdapter;
 
-    private LinkedHashMap suits;
-    LinkedHashMapAdapter suitsAdapter = null;
+    private LinkedHashMap suits = new LinkedHashMap();
+    LinkedHashMapAdapter suitsAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.suits);
 
     @Override
     protected String getItemClass() {
@@ -99,13 +99,10 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
         //SUIT SPINNER
         this.suitSpinner = (Spinner) view.findViewById(R.id.jump_edit_suit);
-        this.suits = new Suit().getItemsForSpinner(-1);
+        this.suitsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.suitSpinner.setAdapter(suitsAdapter);
 
-        if (this.suits.size() > 0) {
-            this.suitsAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.suits);
-            this.suitsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            this.suitSpinner.setAdapter(suitsAdapter);
-        } else {
+        if (this.suits.size() == 0) {
             this.suitSpinner.setVisibility(View.GONE);
         }
         //END SUIT SPINNER
@@ -141,16 +138,12 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
                 Integer type = convertTypes(i);
 
                 if (type != null) {
-                    suits = new Suit().getItemsForSpinner(type);
+                    suits.clear();
+                    suits.putAll(new Suit().getItemsForSpinner(type));
 
                     if (suits.size() > 0) {
                         suitSpinner.setVisibility(View.VISIBLE);
-
-                        if (suitsAdapter == null) {
-                            suitsAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, suits);
-                            suitSpinner.setAdapter(suitsAdapter);
-                        }
-                        suitsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        suitsAdapter.notifyDataSetChanged();
                         suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -164,7 +157,11 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
                         });
                     } else {
                         suitSpinner.setVisibility(View.GONE);
+                        suitEntry = null;
                     }
+                } else {
+                    suitSpinner.setVisibility(View.GONE);
+                    suitEntry = null;
                 }
             }
 
@@ -298,11 +295,11 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             this.pilotChute.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(getItem().getPc_size()));
             this.jumpTypeSpinner.setSelection(getItem().getType(), false);
 
-            this.suits = new Suit().getItemsForSpinner(convertTypes(getItem().getType()));
-            this.suitsAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, suits);
+            this.suits.clear();
+            this.suits.putAll(new Suit().getItemsForSpinner(convertTypes(getItem().getType())));
             this.suitsAdapter.notifyDataSetChanged();
+            suitSpinner.setAdapter(this.suitsAdapter);
             if (getItem().getSuit_id() != null) {
-                suitSpinner.setAdapter(this.suitsAdapter);
                 suitSpinner.setSelection(this.suitsAdapter.findPositionFromKey(getItem().getSuit_id()), false);
             }
 
