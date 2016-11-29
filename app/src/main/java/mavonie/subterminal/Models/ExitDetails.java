@@ -3,6 +3,9 @@ package mavonie.subterminal.Models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ExitDetails extends Model {
 
     private int exit_id;
@@ -29,6 +32,28 @@ public class ExitDetails extends Model {
     public static final String COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING = "difficulty_wingsuit_landing";
     public static final String COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL = "difficulty_wingsuit_overall";
     public static final String COLUMN_NAME_RULES = "rules";
+
+    private static Map<String, Integer> dbColumns = null;
+
+    @Override
+    public Map<String, Integer> getDbColumns() {
+        if (dbColumns == null) {
+            dbColumns = new HashMap<String, Integer>();
+
+            dbColumns.put(COLUMN_NAME_EXIT_ID, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_TRACKING_EXIT, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_TRACKING_FREEFALL, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_TRACKING_LANDING, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_TRACKING_OVERALL, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_EXIT, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_FREEFALL, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_RULES, TYPE_TEXT);
+        }
+
+        return dbColumns;
+    }
     /* END DB DEFINITIONS */
 
 
@@ -156,41 +181,6 @@ public class ExitDetails extends Model {
      */
     public void setDifficulty_wingsuit_overall(int difficulty_wingsuit_overall) {
         this.difficulty_wingsuit_overall = difficulty_wingsuit_overall;
-    }
-
-    @Override
-    Model populateFromCursor(Cursor cursor) {
-        try {
-            ExitDetails details = new ExitDetails();
-
-            int exitId = cursor.getColumnIndexOrThrow(COLUMN_NAME_EXIT_ID);
-            int difficultyTrackingExit = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_EXIT);
-            int difficultyTrackingfreefall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_FREEFALL);
-            int difficultyTrackinglanding = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_LANDING);
-            int difficultyTrackingOverall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_OVERALL);
-            int difficultyWingsuitExit = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_EXIT);
-            int difficultyWingsuitfreefall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_FREEFALL);
-            int difficultyWingsuitlanding = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING);
-            int difficultyWingsuitOverall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL);
-            int rules = cursor.getColumnIndexOrThrow(COLUMN_NAME_RULES);
-
-            details.setExit_id(cursor.getInt(exitId));
-            details.setDifficulty_tracking_exit(cursor.getInt(difficultyTrackingExit));
-            details.setDifficulty_tracking_freefall(cursor.getInt(difficultyTrackingfreefall));
-            details.setDifficulty_tracking_landing(cursor.getInt(difficultyTrackinglanding));
-            details.setDifficulty_tracking_overall(cursor.getInt(difficultyTrackingOverall));
-            details.setDifficulty_wingsuit_exit(cursor.getInt(difficultyWingsuitExit));
-            details.setDifficulty_wingsuit_freefall(cursor.getInt(difficultyWingsuitfreefall));
-            details.setDifficulty_wingsuit_landing(cursor.getInt(difficultyWingsuitlanding));
-            details.setDifficulty_wingsuit_overall(cursor.getInt(difficultyWingsuitOverall));
-            details.setRules(cursor.getString(rules));
-
-            return details;
-        } catch (Exception e) {
-
-        }
-
-        return null;
     }
 
     @Override

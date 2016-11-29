@@ -6,6 +6,7 @@ import android.database.Cursor;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import mavonie.subterminal.Utils.Subterminal;
 
@@ -28,6 +29,11 @@ public abstract class Synchronizable extends Model {
     public static final String COLUMN_SYNCED = "synced";
     public static final String COLUMN_DELETED = "deleted";
 
+    public static void setDBColumns(Map<String, Integer> dbColumns) {
+        dbColumns.put(COLUMN_SYNCED, TYPE_INTEGER);
+        dbColumns.put(COLUMN_DELETED, TYPE_INTEGER);
+    }
+
     /**
      * Transform the remote fields to the local fields
      */
@@ -37,14 +43,6 @@ public abstract class Synchronizable extends Model {
             this.setId(this.remote_id);
             this.remote_id = null;
         }
-    }
-
-    public void populateSynchronizationFromCursor(Cursor cursor) {
-        int synced = cursor.getColumnIndexOrThrow(COLUMN_SYNCED);
-        int deleted = cursor.getColumnIndexOrThrow(COLUMN_DELETED);
-
-        this.setSynced(cursor.getInt(synced));
-        this.setDeleted(cursor.getInt(deleted));
     }
 
     public Integer getSynced() {

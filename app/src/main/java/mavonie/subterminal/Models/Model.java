@@ -8,10 +8,14 @@ import android.provider.BaseColumns;
 import android.util.Pair;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import mavonie.subterminal.DB.DatabaseHandler;
 import mavonie.subterminal.DB.VersionUtils;
@@ -22,8 +26,11 @@ import mavonie.subterminal.MainActivity;
  */
 abstract public class Model implements BaseColumns, Serializable {
 
-    protected static final String TEXT_TYPE = " TEXT";
-    protected static final String COMMA_SEP = ",";
+    protected static final int TYPE_TEXT = 0;
+    protected static final int TYPE_INTEGER = 1;
+    protected static final int TYPE_DOUBLE = 2;
+
+    public abstract Map<String, Integer> getDbColumns();
 
     protected int _id;
 
@@ -136,9 +143,9 @@ abstract public class Model implements BaseColumns, Serializable {
         List<Model> list = new ArrayList<Model>();
 
         if (cursor.moveToFirst()) {
+
             while (cursor.isAfterLast() == false) {
-                Model item = populateFromCursor(cursor);
-                list.add(item);
+                list.add(populateFromCursor(cursor));
                 cursor.moveToNext();
             }
         }
@@ -190,7 +197,64 @@ abstract public class Model implements BaseColumns, Serializable {
         return query;
     }
 
-    abstract Model populateFromCursor(Cursor cursor);
+    private Model populateFromCursor(Cursor cursor) {
+        Model model = null;
+        try {
+            model = getClass().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (Map.Entry<String, Integer> entry : getDbColumns().entrySet()) {
+
+            Field field = null;
+            int index = cursor.getColumnIndex(entry.getKey());
+
+            Class<?> current = getClass();
+
+            while (field == null) {
+                try {
+                    field = current.getDeclaredField(entry.getKey());
+                } catch (NoSuchFieldException e) {
+                    current = current.getSuperclass();
+                }
+            }
+
+            field.setAccessible(true);
+
+            try {
+                switch (entry.getValue()) {
+                    case Model.TYPE_TEXT:
+                        String string = cursor.getString(index);
+
+                        if (!cursor.isNull(index) && string.length() > 0) {
+                            field.set(model, cursor.getString(index));
+                        }
+                        break;
+                    case Model.TYPE_INTEGER:
+                        Integer integer = cursor.getInt(index);
+
+                        if (!cursor.isNull(index) && integer != null) {
+                            field.set(model, integer);
+                        }
+                        break;
+                    case Model.TYPE_DOUBLE:
+                        Double value = cursor.getDouble(index);
+
+                        if (cursor.isNull(index) && value != null) {
+                            field.set(model, value);
+                        }
+                        break;
+                }
+            } catch (IllegalAccessException e) {
+
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return model;
+    }
 
     abstract void populateContentValues(ContentValues contentValues);
 
@@ -341,5 +405,15 @@ abstract public class Model implements BaseColumns, Serializable {
      */
     public boolean isSynchronizable() {
         return this instanceof Synchronizable;
+    }
+
+    public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
+        fields.addAll(Arrays.asList(type.getDeclaredFields()));
+
+        if (type.getSuperclass() != null) {
+            fields = getAllFields(fields, type.getSuperclass());
+        }
+
+        return fields;
     }
 }

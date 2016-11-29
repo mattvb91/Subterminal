@@ -1,13 +1,13 @@
 package mavonie.subterminal.Models;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import mavonie.subterminal.Jobs.SyncJump;
 import mavonie.subterminal.MainActivity;
@@ -58,7 +58,6 @@ public class Jump extends Synchronizable {
         jump_type.put(TYPE_SLICK, "Slick");
         jump_type.put(TYPE_TRACKING, "Tracking");
         jump_type.put(TYPE_WINGSUIT, "Wingsuit");
-
     }
 
     public static String[] getSliderConfigArray() {
@@ -88,6 +87,30 @@ public class Jump extends Synchronizable {
     public static final String COLUMN_NAME_DELAY = "delay";
     public static final String COLUMN_NAME_TYPE = "type";
     public static final String COLUMN_NAME_SUIT_ID = "suit_id";
+
+
+    private static Map<String, Integer> dbColumns = null;
+
+    @Override
+    public Map<String, Integer> getDbColumns() {
+        if (dbColumns == null) {
+            dbColumns = new HashMap<String, Integer>();
+
+            dbColumns.put(COLUMN_NAME_DESCRIPTION, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_DATE, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_EXIT_ID, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_GEAR_ID, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_PC_SIZE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_SLIDER, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DELAY, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_TYPE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_SUIT_ID, TYPE_INTEGER);
+
+            Synchronizable.setDBColumns(dbColumns);
+        }
+
+        return dbColumns;
+    }
 
     public static String[] getTypeArray() {
         String[] typeArray = new String[jump_type.size()];
@@ -208,60 +231,6 @@ public class Jump extends Synchronizable {
     public void setSuit_id(Integer suit_id) {
         this.suit_id = suit_id;
     }
-    @Override
-    public Jump populateFromCursor(Cursor cursor) {
-        try {
-            Jump jump = new Jump();
-
-            int idIndex = cursor.getColumnIndexOrThrow(_ID);
-            int idExitId = cursor.getColumnIndexOrThrow(COLUMN_NAME_EXIT_ID);
-            int idDateId = cursor.getColumnIndexOrThrow(COLUMN_NAME_DATE);
-            int idPcSize = cursor.getColumnIndexOrThrow(COLUMN_NAME_PC_SIZE);
-            int idDescription = cursor.getColumnIndexOrThrow(COLUMN_NAME_DESCRIPTION);
-            int idDelay = cursor.getColumnIndexOrThrow(COLUMN_NAME_DELAY);
-            int idGear = cursor.getColumnIndexOrThrow(COLUMN_NAME_GEAR_ID);
-            int idSlider = cursor.getColumnIndexOrThrow(COLUMN_NAME_SLIDER);
-            int idType = cursor.getColumnIndexOrThrow(COLUMN_NAME_TYPE);
-            int idSuitId = cursor.getColumnIndexOrThrow(COLUMN_NAME_SUIT_ID);
-
-            jump.setId(cursor.getInt(idIndex));
-
-            Integer exitId = cursor.getInt(idExitId);
-            if (exitId != null && exitId != 0) {
-                jump.setExit_id(cursor.getInt(idExitId));
-            }
-
-            jump.setDate(cursor.getString(idDateId));
-            jump.setPc_size(cursor.getInt(idPcSize));
-            jump.setDescription(cursor.getString(idDescription));
-            jump.setDelay(cursor.getInt(idDelay));
-
-            if (!cursor.isNull(idGear) & !cursor.isNull(cursor.getInt(idGear))) {
-                jump.setGear_id(cursor.getInt(idGear));
-            }
-
-            jump.setSlider(cursor.getInt(idSlider));
-
-            if (!cursor.isNull(idType) & !cursor.isNull(cursor.getInt(idType))) {
-                jump.setType(cursor.getInt(idType));
-            }
-
-            if (!cursor.isNull(idSuitId) & !cursor.isNull(cursor.getInt(idSuitId))) {
-                jump.setSuit_id(cursor.getInt(idSuitId));
-            }
-
-            jump.setRow_id(cursor.getCount() - cursor.getPosition());
-
-            jump.populateSynchronizationFromCursor(cursor);
-
-            return jump;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 
     @Override
     void populateContentValues(ContentValues contentValues) {
@@ -345,7 +314,7 @@ public class Jump extends Synchronizable {
     }
 
     public String getFormattedType() {
-        if(this.getType() != null) {
+        if (this.getType() != null) {
             return getTypeArray()[this.getType()];
         }
 

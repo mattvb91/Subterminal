@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import mavonie.subterminal.Jobs.SyncGear;
 import mavonie.subterminal.MainActivity;
@@ -17,29 +18,14 @@ import mavonie.subterminal.Utils.Subterminal;
  */
 public class Gear extends Synchronizable {
 
-    @SerializedName("container_manufacturer")
-    private String containerManufacturer;
-
-    @SerializedName("container_type")
-    private String containerType;
-
-    @SerializedName("container_serial")
-    private String containerSerial;
-
-    @SerializedName("container_date_in_use")
-    private String containerDateInUse;
-
-    @SerializedName("canopy_manufacturer")
-    private String canopyManufacturer;
-
-    @SerializedName("canopy_type")
-    private String canopyType;
-
-    @SerializedName("canopy_serial")
-    private String canopySerial;
-
-    @SerializedName("canopy_date_in_use")
-    private String canopyDateInUse;
+    private String container_manufacturer;
+    private String container_type;
+    private String container_serial;
+    private String container_date_in_use;
+    private String canopy_manufacturer;
+    private String canopy_type;
+    private String canopy_serial;
+    private String canopy_date_in_use;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "gear";
@@ -53,116 +39,101 @@ public class Gear extends Synchronizable {
     public static final String COLUMN_NAME_CANOPY_TYPE = "canopy_type";
     public static final String COLUMN_NAME_CANOPY_SERIAL = "canopy_serial";
     public static final String COLUMN_NAME_CANOPY_DATE_IN_USE = "canopy_date_in_use";
+
+    private static Map<String, Integer> dbColumns = null;
+
     /* END DB DEFINITIONS */
+
+    @Override
+    public Map<String, Integer> getDbColumns() {
+        if (dbColumns == null) {
+            dbColumns = new HashMap<String, Integer>();
+
+            dbColumns.put(COLUMN_NAME_CONTAINER_MANUFACTURER, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_CONTAINER_TYPE, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_CONTAINER_SERIAL, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_CONTAINER_DATE_IN_USE, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_CANOPY_MANUFACTURER, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_CANOPY_TYPE, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_CANOPY_SERIAL, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_CANOPY_DATE_IN_USE, TYPE_TEXT);
+
+            Synchronizable.setDBColumns(dbColumns);
+        }
+
+        return dbColumns;
+    }
 
     public Gear() {
     }
 
     public Gear(int id, String containerManufacturer, String containerSerial) {
-        this.containerManufacturer = containerManufacturer;
-        this.containerSerial = containerSerial;
+        this.container_manufacturer = containerManufacturer;
+        this.container_serial = containerSerial;
     }
 
     public String getContainerManufacturer() {
-        return containerManufacturer;
+        return container_manufacturer;
     }
 
     public void setContainerManufacturer(String containerManufacturer) {
-        this.containerManufacturer = containerManufacturer;
+        this.container_manufacturer = containerManufacturer;
     }
 
     public String getContainerType() {
-        return containerType;
+        return container_type;
     }
 
     public void setContainerType(String containerType) {
-        this.containerType = containerType;
+        this.container_type = containerType;
     }
 
     public String getContainerSerial() {
-        return containerSerial;
+        return container_serial;
     }
 
     public void setContainerSerial(String containerSerial) {
-        this.containerSerial = containerSerial;
+        this.container_serial = containerSerial;
     }
 
     public String getContainerDateInUse() {
-        return containerDateInUse;
+        return container_date_in_use;
     }
 
     public void setContainerDateInUse(String containerDateInUse) {
-        this.containerDateInUse = containerDateInUse;
+        this.container_date_in_use = containerDateInUse;
     }
 
     public String getCanopyManufacturer() {
-        return canopyManufacturer;
+        return canopy_manufacturer;
     }
 
     public void setCanopyManufacturer(String canopyManufacturer) {
-        this.canopyManufacturer = canopyManufacturer;
+        this.canopy_manufacturer = canopyManufacturer;
     }
 
     public String getCanopyType() {
-        return canopyType;
+        return canopy_type;
     }
 
     public void setCanopyType(String canopyType) {
-        this.canopyType = canopyType;
+        this.canopy_type = canopyType;
     }
 
     public String getCanopySerial() {
-        return canopySerial;
+        return canopy_serial;
     }
 
     public void setCanopySerial(String canopySerial) {
-        this.canopySerial = canopySerial;
+        this.canopy_serial = canopySerial;
     }
 
     public String getCanopyDateInUse() {
-        return canopyDateInUse;
+        return canopy_date_in_use;
     }
 
     public void setCanopyDateInUse(String canopyDateInUse) {
-        this.canopyDateInUse = canopyDateInUse;
-    }
-
-    //TODO abstract down to model to handle this in one go for every future model
-    public Gear populateFromCursor(Cursor cursor) {
-        try {
-            Gear gear = new Gear();
-
-            int idIndex = cursor.getColumnIndexOrThrow(_ID);
-            int containerManufacturerIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CONTAINER_MANUFACTURER);
-            int containerTypeIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CONTAINER_TYPE);
-            int containerSerialIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CONTAINER_SERIAL);
-            int containerDateIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CONTAINER_DATE_IN_USE);
-
-            int canopyManufacturerIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CANOPY_MANUFACTURER);
-            int canopyTypeIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CANOPY_TYPE);
-            int canopySerialIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CANOPY_SERIAL);
-            int canopyDateIndex = cursor.getColumnIndexOrThrow(COLUMN_NAME_CANOPY_DATE_IN_USE);
-
-            gear.setId(cursor.getInt(idIndex));
-            gear.setContainerManufacturer(cursor.getString(containerManufacturerIndex));
-            gear.setContainerType(cursor.getString(containerTypeIndex));
-            gear.setContainerSerial(cursor.getString(containerSerialIndex));
-            gear.setContainerDateInUse(cursor.getString(containerDateIndex));
-
-            gear.setCanopyManufacturer(cursor.getString(canopyManufacturerIndex));
-            gear.setCanopyType(cursor.getString(canopyTypeIndex));
-            gear.setCanopySerial(cursor.getString(canopySerialIndex));
-            gear.setCanopyDateInUse(cursor.getString(canopyDateIndex));
-
-            gear.populateSynchronizationFromCursor(cursor);
-
-            return gear;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        this.canopy_date_in_use = canopyDateInUse;
     }
 
     public String getTableName() {
@@ -196,21 +167,21 @@ public class Gear extends Synchronizable {
         Gear gear = (Gear) o;
 
         if (this.getId() != gear.getId()) return false;
-        if (containerManufacturer != null ? !containerManufacturer.equals(gear.containerManufacturer) : gear.containerManufacturer != null)
+        if (container_manufacturer != null ? !container_manufacturer.equals(gear.container_manufacturer) : gear.container_manufacturer != null)
             return false;
-        if (containerType != null ? !containerType.equals(gear.containerType) : gear.containerType != null)
+        if (container_type != null ? !container_type.equals(gear.container_type) : gear.container_type != null)
             return false;
-        if (containerSerial != null ? !containerSerial.equals(gear.containerSerial) : gear.containerSerial != null)
+        if (container_serial != null ? !container_serial.equals(gear.container_serial) : gear.container_serial != null)
             return false;
-        if (containerDateInUse != null ? !containerDateInUse.equals(gear.containerDateInUse) : gear.containerDateInUse != null)
+        if (container_date_in_use != null ? !container_date_in_use.equals(gear.container_date_in_use) : gear.container_date_in_use != null)
             return false;
-        if (canopyManufacturer != null ? !canopyManufacturer.equals(gear.canopyManufacturer) : gear.canopyManufacturer != null)
+        if (canopy_manufacturer != null ? !canopy_manufacturer.equals(gear.canopy_manufacturer) : gear.canopy_manufacturer != null)
             return false;
-        if (canopyType != null ? !canopyType.equals(gear.canopyType) : gear.canopyType != null)
+        if (canopy_type != null ? !canopy_type.equals(gear.canopy_type) : gear.canopy_type != null)
             return false;
-        if (canopySerial != null ? !canopySerial.equals(gear.canopySerial) : gear.canopySerial != null)
+        if (canopy_serial != null ? !canopy_serial.equals(gear.canopy_serial) : gear.canopy_serial != null)
             return false;
-        return canopyDateInUse != null ? canopyDateInUse.equals(gear.canopyDateInUse) : gear.canopyDateInUse == null;
+        return canopy_date_in_use != null ? canopy_date_in_use.equals(gear.canopy_date_in_use) : gear.canopy_date_in_use == null;
 
     }
 

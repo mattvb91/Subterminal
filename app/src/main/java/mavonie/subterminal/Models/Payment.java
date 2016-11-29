@@ -10,6 +10,8 @@ import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 import com.stripe.exception.AuthenticationException;
 
+import java.util.Map;
+
 import io.card.payment.CreditCard;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
@@ -27,7 +29,7 @@ public class Payment extends Model {
     }
 
     @Override
-    Model populateFromCursor(Cursor cursor) {
+    public Map<String, Integer> getDbColumns() {
         return null;
     }
 

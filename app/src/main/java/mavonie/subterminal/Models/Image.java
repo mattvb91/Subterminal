@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import mavonie.subterminal.MainActivity;
@@ -43,6 +44,24 @@ public class Image extends Model {
     public static final String COLUMN_NAME_ENTITY_TYPE = "entity_type";
     public static final String COLUMN_NAME_ENTITY_ID = "entity_id";
     public static final String COLUMN_NAME_SYNCED = "synced";
+
+    private static Map<String, Integer> dbColumns = null;
+
+    @Override
+    public Map<String, Integer> getDbColumns() {
+        if (dbColumns == null) {
+            dbColumns = new HashMap<String, Integer>();
+
+            dbColumns.put(COLUMN_NAME_FILENAME, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_ENTITY_TYPE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_ENTITY_ID, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_SYNCED, TYPE_INTEGER);
+
+            Synchronizable.setDBColumns(dbColumns);
+        }
+
+        return dbColumns;
+    }
 
     public static final int ENTITY_TYPE_EXIT = 0;
     public static final int ENTITY_TYPE_JUMP = 1;
@@ -78,33 +97,6 @@ public class Image extends Model {
 
     public void setSynced(int synced) {
         this.synced = synced;
-    }
-
-    @Override
-    Model populateFromCursor(Cursor cursor) {
-
-        try {
-            Image image = new Image();
-
-            int idIndex = cursor.getColumnIndexOrThrow(_ID);
-            int idEntityType = cursor.getColumnIndexOrThrow(COLUMN_NAME_ENTITY_TYPE);
-            int idEntityId = cursor.getColumnIndexOrThrow(COLUMN_NAME_ENTITY_ID);
-            int idFilename = cursor.getColumnIndexOrThrow(COLUMN_NAME_FILENAME);
-            int idSynced = cursor.getColumnIndexOrThrow(COLUMN_NAME_SYNCED);
-
-            image.setId(cursor.getInt(idIndex));
-            image.setEntity_id(cursor.getInt(idEntityId));
-            image.setEntity_type(cursor.getInt(idEntityType));
-            image.setFilename(cursor.getString(idFilename));
-            image.setSynced(cursor.getInt(idSynced));
-
-            return image;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     @Override

@@ -74,10 +74,32 @@ public class Exit extends Synchronizable {
     public static final String COLUMN_NAME_ROCKDROP_DISTANCE = "rockdrop_distance";
     public static final String COLUMN_NAME_ALTITUDE_TO_LANDING = "altitude_to_landing";
     public static final String COLUMN_NAME_DESCRIPTION = "description";
-    public static final String COLUMN_NAME_LATITUDE = "lat";
-    public static final String COLUMN_NAME_LONGTITUDE = "long";
+    public static final String COLUMN_NAME_LATITUDE = "latitude";
+    public static final String COLUMN_NAME_LONGTITUDE = "longtitude";
     public static final String COLUMN_NAME_OBJECT_TYPE = "object_type";
     public static final String COLUMN_NAME_GLOBAL_ID = "global_id";
+
+    private static Map<String, Integer> dbColumns = null;
+
+    @Override
+    public Map<String, Integer> getDbColumns() {
+        if (dbColumns == null) {
+            dbColumns = new HashMap<String, Integer>();
+
+            dbColumns.put(COLUMN_NAME_NAME, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_ROCKDROP_DISTANCE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_ALTITUDE_TO_LANDING, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DESCRIPTION, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_LATITUDE, TYPE_DOUBLE);
+            dbColumns.put(COLUMN_NAME_LONGTITUDE, TYPE_DOUBLE);
+            dbColumns.put(COLUMN_NAME_OBJECT_TYPE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_GLOBAL_ID, TYPE_TEXT);
+
+            Synchronizable.setDBColumns(dbColumns);
+        }
+
+        return dbColumns;
+    }
 
     /* END DB DEFINITIONS */
 
@@ -143,44 +165,6 @@ public class Exit extends Synchronizable {
 
     public static LinkedHashMap<String, String> getObject_types() {
         return object_types;
-    }
-
-    @Override
-    public Exit populateFromCursor(Cursor cursor) {
-
-        try {
-            Exit exit = new Exit();
-
-            int idIndex = cursor.getColumnIndexOrThrow(_ID);
-            int name = cursor.getColumnIndexOrThrow(COLUMN_NAME_NAME);
-            int rockDropDistance = cursor.getColumnIndexOrThrow(COLUMN_NAME_ROCKDROP_DISTANCE);
-            int altitudeToLanding = cursor.getColumnIndexOrThrow(COLUMN_NAME_ALTITUDE_TO_LANDING);
-            int description = cursor.getColumnIndexOrThrow(COLUMN_NAME_DESCRIPTION);
-            int latitude = cursor.getColumnIndexOrThrow(COLUMN_NAME_LATITUDE);
-            int longtitude = cursor.getColumnIndexOrThrow(COLUMN_NAME_LONGTITUDE);
-            int object_type = cursor.getColumnIndexOrThrow(COLUMN_NAME_OBJECT_TYPE);
-            int global_id = cursor.getColumnIndexOrThrow(COLUMN_NAME_GLOBAL_ID);
-
-            exit.setId(cursor.getInt(idIndex));
-            exit.setName(cursor.getString(name));
-            exit.setRockdrop_distance(cursor.getInt(rockDropDistance));
-            exit.setAltitude_to_landing(cursor.getInt(altitudeToLanding));
-            exit.setDescription(cursor.getString(description));
-            exit.setGlobal_id(cursor.getString(global_id));
-
-            exit.setLatitude(Double.parseDouble(cursor.getString(latitude)));
-            exit.setLongtitude(Double.parseDouble(cursor.getString(longtitude)));
-            exit.setObject_type(cursor.getInt(object_type));
-
-            exit.populateSynchronizationFromCursor(cursor);
-
-            return exit;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     @Override
