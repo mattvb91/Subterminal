@@ -8,7 +8,6 @@ import android.provider.BaseColumns;
 import android.util.Pair;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -241,7 +240,7 @@ abstract public class Model implements BaseColumns, Serializable {
                     case Model.TYPE_DOUBLE:
                         Double value = cursor.getDouble(index);
 
-                        if (cursor.isNull(index) && value != null) {
+                        if (!cursor.isNull(index) && value != null) {
                             field.set(model, value);
                         }
                         break;
@@ -415,5 +414,14 @@ abstract public class Model implements BaseColumns, Serializable {
         }
 
         return fields;
+    }
+
+    /**
+     * Add the db columns common to all models
+     *
+     * @param dbColumns
+     */
+    public static void setDBColumns(Map<String, Integer> dbColumns) {
+        dbColumns.put(_ID, TYPE_INTEGER);
     }
 }

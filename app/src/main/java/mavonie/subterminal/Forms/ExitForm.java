@@ -153,12 +153,21 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
             this.exit_edit_description.setText(getItem().getDescription());
             this.exit_edit_lat.setText(Double.toString(getItem().getLatitude()));
             this.exit_edit_long.setText(Double.toString(getItem().getLongtitude()));
-            this.exit_edit_rockdrop_distance.setText(getItem().getRockdrop_distance().toString());
-            this.exit_edit_altitude_to_landing.setText(getItem().getAltitude_to_landing().toString());
 
-            Integer object_type_position = this.objectTypeAdapter.findPositionFromKey(getItem().getObject_type());
-            if (object_type_position != null) {
-                this.exit_edit_object_type.setSelection(object_type_position);
+            if (getItem().getRockdrop_distance() != null) {
+                this.exit_edit_rockdrop_distance.setText(Integer.toString(getItem().getRockdrop_distance()));
+            }
+
+            if (getItem().getAltitude_to_landing() != null) {
+                this.exit_edit_altitude_to_landing.setText(Integer.toString(getItem().getAltitude_to_landing()));
+            }
+
+            if (getItem().getObject_type() != null) {
+                Integer object_type_position = this.objectTypeAdapter.findPositionFromKey(getItem().getObject_type());
+
+                if (object_type_position != null) {
+                    this.exit_edit_object_type.setSelection(object_type_position);
+                }
             }
         }
     }

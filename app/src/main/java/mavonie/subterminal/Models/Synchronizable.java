@@ -32,6 +32,8 @@ public abstract class Synchronizable extends Model {
     public static void setDBColumns(Map<String, Integer> dbColumns) {
         dbColumns.put(COLUMN_SYNCED, TYPE_INTEGER);
         dbColumns.put(COLUMN_DELETED, TYPE_INTEGER);
+
+        Model.setDBColumns(dbColumns);
     }
 
     /**

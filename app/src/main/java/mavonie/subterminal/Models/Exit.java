@@ -1,7 +1,7 @@
 package mavonie.subterminal.Models;
 
 import android.content.ContentValues;
-import android.database.Cursor;
+import android.support.annotation.Nullable;
 import android.util.Pair;
 
 import java.text.DecimalFormat;
@@ -130,6 +130,7 @@ public class Exit extends Synchronizable {
         this.name = name;
     }
 
+    @Nullable
     public Integer getRockdrop_distance() {
         return rockdrop_distance;
     }
@@ -190,10 +191,18 @@ public class Exit extends Synchronizable {
     }
 
     public String getFormatedAltitudeToLanding() {
+        if (this.getAltitude_to_landing() == null) {
+            return "";
+        }
+
         return this.getAltitude_to_landing() + "m (" + Math.round(this.getAltitude_to_landing() * 3.28) + "ft)";
     }
 
     public String getFormatedRockdrop() {
+        if (this.getRockdrop_distance() == null) {
+            return "";
+        }
+
         return this.getRockdrop_distance() + "m (" + Math.round(this.getRockdrop_distance() * 3.28) + "ft)";
     }
 
@@ -206,11 +215,19 @@ public class Exit extends Synchronizable {
     }
 
     public String getFormattedObjectType() {
+        if (this.getObject_type() == null) {
+            return "";
+        }
+
         return object_types.get(Integer.toString(this.getObject_type()));
     }
 
     //TODO make sure this is right
     public String getFormattedRockdropTime() {
+        if (this.getRockdrop_distance() == null) {
+            return "";
+        }
+
         double time = Math.sqrt(2 * this.getRockdrop_distance() / 9.8);
         DecimalFormat df = new DecimalFormat("#.#");
 
@@ -246,23 +263,18 @@ public class Exit extends Synchronizable {
 
         Exit exit = (Exit) o;
 
+        if (rockdrop_distance.intValue() != exit.rockdrop_distance.intValue()) return false;
+        if (altitude_to_landing.intValue() != exit.altitude_to_landing.intValue()) return false;
         if (Double.compare(exit.latitude, latitude) != 0) return false;
         if (Double.compare(exit.longtitude, longtitude) != 0) return false;
-        if (!name.equals(exit.name)) return false;
-        if (rockdrop_distance != null ? !rockdrop_distance.equals(exit.rockdrop_distance) : exit.rockdrop_distance != null)
-            return false;
-        if (altitude_to_landing != null ? !altitude_to_landing.equals(exit.altitude_to_landing) : exit.altitude_to_landing != null)
+        if (object_type.intValue() != exit.object_type.intValue()) return false;
+        if (name != null ? !name.equals(exit.name) : exit.name != null) return false;
+        if (global_id != null ? !global_id.equals(exit.global_id) : exit.global_id != null)
             return false;
         if (description != null ? !description.equals(exit.description) : exit.description != null)
             return false;
-        if (object_type != null ? !object_type.equals(exit.object_type) : exit.object_type != null)
-            return false;
-        if (global_id != null ? !global_id.equals(exit.global_id) : exit.global_id != null)
-            return false;
-        if (this.getDetails() != null ? !details.equals(exit.details) : exit.details != null)
-            return false;
+        return details != null ? details.equals(exit.details) : exit.details == null;
 
-        return true;
     }
 
     public String getGlobal_id() {
