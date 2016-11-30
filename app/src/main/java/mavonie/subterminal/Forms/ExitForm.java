@@ -51,7 +51,7 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        this.object_types = Exit.getObject_types();
+        this.object_types = Exit.getObjectTypes();
         locationManager = (LocationManager) MainActivity.getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         locationListener = new LocationListener() {
@@ -154,16 +154,16 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
             this.exit_edit_lat.setText(Double.toString(getItem().getLatitude()));
             this.exit_edit_long.setText(Double.toString(getItem().getLongtitude()));
 
-            if (getItem().getRockdrop_distance() != null) {
-                this.exit_edit_rockdrop_distance.setText(Integer.toString(getItem().getRockdrop_distance()));
+            if (getItem().getRockdropDistance() != null) {
+                this.exit_edit_rockdrop_distance.setText(Integer.toString(getItem().getRockdropDistance()));
             }
 
-            if (getItem().getAltitude_to_landing() != null) {
-                this.exit_edit_altitude_to_landing.setText(Integer.toString(getItem().getAltitude_to_landing()));
+            if (getItem().getAltitudeToLanding() != null) {
+                this.exit_edit_altitude_to_landing.setText(Integer.toString(getItem().getAltitudeToLanding()));
             }
 
-            if (getItem().getObject_type() != null) {
-                Integer object_type_position = this.objectTypeAdapter.findPositionFromKey(getItem().getObject_type());
+            if (getItem().getObjectType() != null) {
+                Integer object_type_position = this.objectTypeAdapter.findPositionFromKey(getItem().getObjectType());
 
                 if (object_type_position != null) {
                     this.exit_edit_object_type.setSelection(object_type_position);
@@ -197,14 +197,14 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
             }
 
             getItem().setDescription(exitDescription);
-            getItem().setObject_type(Integer.parseInt(objectEntry.getKey()));
+            getItem().setObjectType(Integer.parseInt(objectEntry.getKey()));
 
             if (!rockDropDistance.isEmpty()) {
-                getItem().setRockdrop_distance(Integer.parseInt(rockDropDistance));
+                getItem().setRockdropDistance(Integer.parseInt(rockDropDistance));
             }
 
             if (!distanceToLanding.isEmpty()) {
-                getItem().setAltitude_to_landing(Integer.parseInt(distanceToLanding));
+                getItem().setAltitudeToLanding(Integer.parseInt(distanceToLanding));
             }
 
             super.save();

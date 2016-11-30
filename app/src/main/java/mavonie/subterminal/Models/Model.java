@@ -9,6 +9,8 @@ import android.util.Pair;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -255,7 +257,43 @@ abstract public class Model implements BaseColumns, Serializable {
         return model;
     }
 
-    abstract void populateContentValues(ContentValues contentValues);
+    private void populateContentValues(ContentValues contentValues) {
+
+        for (Map.Entry<String, Integer> entry : getDbColumns().entrySet()) {
+
+            //Skip if its the id, doesnt need to be set here
+            if (entry.getKey().equals(_ID)) {
+                continue;
+            }
+
+            Method method = null;
+
+            try {
+                method = getClass().getMethod(fieldToGetter(entry.getKey()));
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            try {
+                Object obj = method.invoke(this);
+
+                if (obj != null) {
+                    switch (entry.getValue()) {
+                        case TYPE_DOUBLE:
+                            contentValues.put(entry.getKey(), (double) obj);
+                            break;
+                        case TYPE_INTEGER:
+                            contentValues.put(entry.getKey(), (Integer) obj);
+                            break;
+                        case TYPE_TEXT:
+                            contentValues.put(entry.getKey(), (String) obj);
+                            break;
+                    }
+                }
+            } catch (IllegalAccessException | InvocationTargetException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     abstract String getTableName();
 
@@ -267,11 +305,7 @@ abstract public class Model implements BaseColumns, Serializable {
     public boolean save() {
         ContentValues contentValues = new ContentValues();
 
-        try {
-            this.populateContentValues(contentValues);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        populateContentValues(contentValues);
 
         long res = 0;
 
@@ -423,5 +457,23 @@ abstract public class Model implements BaseColumns, Serializable {
      */
     public static void setDBColumns(Map<String, Integer> dbColumns) {
         dbColumns.put(_ID, TYPE_INTEGER);
+    }
+
+    /**
+     * Quick way of generating the getter for associated instance variable name
+     *
+     * @param name
+     * @return
+     */
+    private static String fieldToGetter(String name) {
+        String[] parts = name.split("_");
+
+        String result = "";
+
+        for (String part : parts) {
+            result += part.substring(0, 1).toUpperCase() + part.substring(1);
+        }
+
+        return "get" + result;
     }
 }

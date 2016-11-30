@@ -1,7 +1,5 @@
 package mavonie.subterminal.Models;
 
-import android.content.ContentValues;
-
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.text.ParseException;
@@ -159,44 +157,44 @@ public class Jump extends Synchronizable {
     private Gear _gear;
 
     public Gear getGear() {
-        if (this._gear == null && this.getGear_id() != null) {
-            this._gear = (Gear) new Gear().getOneById(this.getGear_id());
+        if (this._gear == null && this.getGearId() != null) {
+            this._gear = (Gear) new Gear().getOneById(this.getGearId());
         }
 
         return this._gear;
     }
 
-    public Integer getGear_id() {
+    public Integer getGearId() {
         return gear_id;
     }
 
-    public void setGear_id(Integer gear_id) {
+    public void setGearId(Integer gear_id) {
         this.gear_id = gear_id;
     }
 
     private Exit _exit;
 
     public Exit getExit() {
-        if (this._exit == null && this.getExit_id() != null) {
-            this._exit = (Exit) new Exit().getOneById(this.getExit_id());
+        if (this._exit == null && this.getExitId() != null) {
+            this._exit = (Exit) new Exit().getOneById(this.getExitId());
         }
 
         return this._exit;
     }
 
-    public Integer getExit_id() {
+    public Integer getExitId() {
         return exit_id;
     }
 
-    public void setExit_id(Integer exit_id) {
+    public void setExitId(Integer exit_id) {
         this.exit_id = exit_id;
     }
 
-    public int getPc_size() {
+    public int getPcSize() {
         return pc_size;
     }
 
-    public void setPc_size(int pc_size) {
+    public void setPcSize(int pc_size) {
         this.pc_size = pc_size;
     }
 
@@ -228,31 +226,16 @@ public class Jump extends Synchronizable {
         return suit_id;
     }
 
-    public void setSuit_id(Integer suit_id) {
+    public void setSuitId(Integer suit_id) {
         this.suit_id = suit_id;
     }
 
     @Override
-    void populateContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_NAME_EXIT_ID, this.getExit_id());
-        contentValues.put(COLUMN_NAME_DATE, this.getDate());
-        contentValues.put(COLUMN_NAME_DESCRIPTION, this.getDescription());
-        contentValues.put(COLUMN_NAME_DELAY, this.getDelay());
-        contentValues.put(COLUMN_NAME_PC_SIZE, this.getPc_size());
-        contentValues.put(COLUMN_NAME_GEAR_ID, this.getGear_id());
-        contentValues.put(COLUMN_NAME_SLIDER, this.getSlider());
-        contentValues.put(COLUMN_NAME_TYPE, this.getType());
-        contentValues.put(COLUMN_NAME_SUIT_ID, this.getSuit_id());
-
-        this.populateSynchronizationContentValues(contentValues);
-    }
-
-    @Override
     public boolean save() {
-        if (this.getExit() != null && this.getExit().getGlobal_id() != null) {
+        if (this.getExit() != null && this.getExit().getGlobalId() != null) {
 
             //This was a public exit, make it a users exit
-            this.getExit().setGlobal_id(null);
+            this.getExit().setGlobalId(null);
             this.getExit().save();
         }
 
@@ -294,7 +277,7 @@ public class Jump extends Synchronizable {
         return true;
     }
 
-    public int getRow_id() {
+    public int getRowId() {
 
         int startJump = Prefs.getInt(Preference.PREFS_JUMP_START_COUNT, 0);
 
@@ -305,7 +288,7 @@ public class Jump extends Synchronizable {
         return row_id;
     }
 
-    public void setRow_id(int row_id) {
+    public void setRowId(int row_id) {
         this.row_id = row_id;
     }
 

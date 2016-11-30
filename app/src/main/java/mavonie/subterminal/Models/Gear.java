@@ -1,9 +1,6 @@
 package mavonie.subterminal.Models;
 
 import android.content.ContentValues;
-import android.database.Cursor;
-
-import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 import java.util.List;
@@ -226,7 +223,7 @@ public class Gear extends Synchronizable {
     @Override
     public boolean delete() {
         for (Jump jump : this.getJumps()) {
-            jump.setGear_id(null);
+            jump.setGearId(null);
             jump.save();
         }
 

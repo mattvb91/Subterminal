@@ -100,14 +100,6 @@ public class Image extends Model {
     }
 
     @Override
-    void populateContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_NAME_FILENAME, this.getFilename());
-        contentValues.put(COLUMN_NAME_ENTITY_ID, this.getEntity_id());
-        contentValues.put(COLUMN_NAME_ENTITY_TYPE, this.getEntity_type());
-        contentValues.put(COLUMN_NAME_SYNCED, this.getSynced());
-    }
-
-    @Override
     String getTableName() {
         return TABLE_NAME;
     }

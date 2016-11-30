@@ -1,20 +1,12 @@
 package mavonie.subterminal.Models;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
-import com.google.gson.annotations.SerializedName;
-
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Jobs.SyncJump;
 import mavonie.subterminal.Jobs.SyncSuit;
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**
@@ -129,17 +121,6 @@ public class Suit extends Synchronizable {
     }
 
     @Override
-    void populateContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_NAME_TYPE, this.getType());
-        contentValues.put(COLUMN_NAME_MODEL, this.getModel());
-        contentValues.put(COLUMN_NAME_MANUFACTURER, this.getManufacturer());
-        contentValues.put(COLUMN_NAME_DATE_IN_USE, this.getDateInUse());
-        contentValues.put(COLUMN_NAME_SERIAL, this.getSerial());
-
-        super.populateSynchronizationContentValues(contentValues);
-    }
-
-    @Override
     String getTableName() {
         return TABLE_NAME;
     }
@@ -223,7 +204,7 @@ public class Suit extends Synchronizable {
             List<Jump> jumps = this.getJumps();
 
             for (Jump jump : jumps) {
-                jump.setSuit_id(null);
+                jump.setSuitId(null);
                 jump.save();
             }
         }

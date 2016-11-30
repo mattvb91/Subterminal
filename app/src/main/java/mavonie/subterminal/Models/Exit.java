@@ -1,6 +1,5 @@
 package mavonie.subterminal.Models;
 
-import android.content.ContentValues;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
@@ -131,19 +130,19 @@ public class Exit extends Synchronizable {
     }
 
     @Nullable
-    public Integer getRockdrop_distance() {
+    public Integer getRockdropDistance() {
         return rockdrop_distance;
     }
 
-    public void setRockdrop_distance(Integer rockdrop_distance) {
+    public void setRockdropDistance(Integer rockdrop_distance) {
         this.rockdrop_distance = rockdrop_distance;
     }
 
-    public Integer getAltitude_to_landing() {
+    public Integer getAltitudeToLanding() {
         return altitude_to_landing;
     }
 
-    public void setAltitude_to_landing(Integer altitude_to_landing) {
+    public void setAltitudeToLanding(Integer altitude_to_landing) {
         this.altitude_to_landing = altitude_to_landing;
     }
 
@@ -156,33 +155,16 @@ public class Exit extends Synchronizable {
         this.description = description;
     }
 
-    public Integer getObject_type() {
+    public Integer getObjectType() {
         return object_type;
     }
 
-    public void setObject_type(Integer object_type) {
+    public void setObjectType(Integer object_type) {
         this.object_type = object_type;
     }
 
-    public static LinkedHashMap<String, String> getObject_types() {
+    public static LinkedHashMap<String, String> getObjectTypes() {
         return object_types;
-    }
-
-    @Override
-    void populateContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_NAME_DESCRIPTION, this.getDescription());
-        contentValues.put(COLUMN_NAME_NAME, this.getName());
-        contentValues.put(COLUMN_NAME_LATITUDE, this.getLatitude());
-        contentValues.put(COLUMN_NAME_LONGTITUDE, this.getLongtitude());
-        contentValues.put(COLUMN_NAME_ROCKDROP_DISTANCE, this.getRockdrop_distance());
-        contentValues.put(COLUMN_NAME_ALTITUDE_TO_LANDING, this.getAltitude_to_landing());
-
-        if (this.getObject_type() != null) {
-            contentValues.put(COLUMN_NAME_OBJECT_TYPE, this.getObject_type());
-        }
-
-        contentValues.put(COLUMN_NAME_GLOBAL_ID, this.getGlobal_id());
-        this.populateSynchronizationContentValues(contentValues);
     }
 
     @Override
@@ -191,19 +173,19 @@ public class Exit extends Synchronizable {
     }
 
     public String getFormatedAltitudeToLanding() {
-        if (this.getAltitude_to_landing() == null) {
+        if (this.getAltitudeToLanding() == null) {
             return "";
         }
 
-        return this.getAltitude_to_landing() + "m (" + Math.round(this.getAltitude_to_landing() * 3.28) + "ft)";
+        return this.getAltitudeToLanding() + "m (" + Math.round(this.getAltitudeToLanding() * 3.28) + "ft)";
     }
 
     public String getFormatedRockdrop() {
-        if (this.getRockdrop_distance() == null) {
+        if (this.getRockdropDistance() == null) {
             return "";
         }
 
-        return this.getRockdrop_distance() + "m (" + Math.round(this.getRockdrop_distance() * 3.28) + "ft)";
+        return this.getRockdropDistance() + "m (" + Math.round(this.getRockdropDistance() * 3.28) + "ft)";
     }
 
     public static String getDifficultyColor(int difficulty) {
@@ -215,20 +197,20 @@ public class Exit extends Synchronizable {
     }
 
     public String getFormattedObjectType() {
-        if (this.getObject_type() == null) {
+        if (this.getObjectType() == null) {
             return "";
         }
 
-        return object_types.get(Integer.toString(this.getObject_type()));
+        return object_types.get(Integer.toString(this.getObjectType()));
     }
 
     //TODO make sure this is right
     public String getFormattedRockdropTime() {
-        if (this.getRockdrop_distance() == null) {
+        if (this.getRockdropDistance() == null) {
             return "";
         }
 
-        double time = Math.sqrt(2 * this.getRockdrop_distance() / 9.8);
+        double time = Math.sqrt(2 * this.getRockdropDistance() / 9.8);
         DecimalFormat df = new DecimalFormat("#.#");
 
         return df.format(time) + "s";
@@ -277,16 +259,16 @@ public class Exit extends Synchronizable {
 
     }
 
-    public String getGlobal_id() {
+    public String getGlobalId() {
         return global_id;
     }
 
-    public void setGlobal_id(String global_id) {
+    public void setGlobalId(String global_id) {
         this.global_id = global_id;
     }
 
     public boolean isGlobal() {
-        return this.getGlobal_id() != null;
+        return this.getGlobalId() != null;
     }
 
     /**
@@ -299,7 +281,7 @@ public class Exit extends Synchronizable {
 
         if (exit.isGlobal()) {
             //Its a global exit check if we already have it.
-            Exit dbExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_GLOBAL_ID, exit.getGlobal_id()));
+            Exit dbExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_GLOBAL_ID, exit.getGlobalId()));
 
             //Check if it equals
             if (dbExit != null) {
@@ -342,7 +324,7 @@ public class Exit extends Synchronizable {
 
         boolean res = super.save();
         if (res && this.isGlobal()) {
-            this.getDetails().setExit_id(this.getId());
+            this.getDetails().setExitId(this.getId());
             this.getDetails().save();
         }
 
@@ -416,7 +398,7 @@ public class Exit extends Synchronizable {
 
         //We need to update exits before deleting
         for (Jump jump : this.getJumps()) {
-            jump.setExit_id(null);
+            jump.setExitId(null);
             jump.save();
         }
 

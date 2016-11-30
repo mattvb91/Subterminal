@@ -1,10 +1,8 @@
 package mavonie.subterminal.Forms;
 
 import android.app.DatePickerDialog;
-import android.support.annotation.Nullable;
 import android.util.Pair;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -250,13 +248,13 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             String delayString = delay.getText().toString();
             String descriptionString = description.getText().toString();
 
-            getItem().setExit_id(exitId);
+            getItem().setExitId(exitId);
 
             if (this.gearEntry != null) {
-                getItem().setGear_id(Integer.parseInt(this.gearEntry.getKey()));
+                getItem().setGearId(Integer.parseInt(this.gearEntry.getKey()));
             }
 
-            getItem().setPc_size(Integer.parseInt(pilotChuteSize));
+            getItem().setPcSize(Integer.parseInt(pilotChuteSize));
             getItem().setSlider(Integer.parseInt(Long.toString(sliderConfigID)));
             getItem().setDate(date.getText().toString());
 
@@ -265,9 +263,9 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             }
 
             if (suitSpinner.getVisibility() == View.VISIBLE) {
-                getItem().setSuit_id(Integer.parseInt(this.suitEntry.getKey()));
+                getItem().setSuitId(Integer.parseInt(this.suitEntry.getKey()));
             } else {
-                getItem().setSuit_id(null);
+                getItem().setSuitId(null);
             }
 
             getItem().setDescription(descriptionString);
@@ -292,7 +290,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             }
 
             this.date.setText(getItem().getDate());
-            this.pilotChute.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(getItem().getPc_size()));
+            this.pilotChute.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(getItem().getPcSize()));
 
             if (getItem().getType() != null) {
                 this.jumpTypeSpinner.setSelection(getItem().getType(), false);
@@ -313,8 +311,8 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             this.delay.setText(Integer.toString(getItem().getDelay()));
             this.description.setText(getItem().getDescription());
 
-            if (getItem().getGear_id() != null) {
-                Integer position = this.gearAdapter.findPositionFromKey(getItem().getGear_id());
+            if (getItem().getGearId() != null) {
+                Integer position = this.gearAdapter.findPositionFromKey(getItem().getGearId());
                 if (position != null) {
                     this.rig.setSelection(position);
                 }

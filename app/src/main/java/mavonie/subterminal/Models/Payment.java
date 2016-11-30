@@ -34,11 +34,6 @@ public class Payment extends Model {
     }
 
     @Override
-    void populateContentValues(ContentValues contentValues) {
-
-    }
-
-    @Override
     String getTableName() {
         return null;
     }

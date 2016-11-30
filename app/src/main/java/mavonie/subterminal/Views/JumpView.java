@@ -68,7 +68,7 @@ public class JumpView extends BaseFragment {
         jumpSlider.setText(getItem().getFormattedSlider());
 
         TextView jumpPC = (TextView) view.findViewById(R.id.jump_view_pc);
-        jumpPC.setText(Integer.toString(getItem().getPc_size()));
+        jumpPC.setText(Integer.toString(getItem().getPcSize()));
 
         TextView jumpDescription = (TextView) view.findViewById(R.id.jump_view_description);
         jumpDescription.setText(getItem().getDescription());
