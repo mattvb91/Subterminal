@@ -23,10 +23,14 @@ import mavonie.subterminal.DB.VersionUtils;
 import mavonie.subterminal.MainActivity;
 
 /**
- * Created by mavon on 12/10/16.
+ * Base Model
+ * Handle all core functionality like retrieving/saving a model
  */
 abstract public class Model implements BaseColumns, Serializable {
 
+    /**
+     * dbColumns data types
+     */
     protected static final int TYPE_TEXT = 0;
     protected static final int TYPE_INTEGER = 1;
     protected static final int TYPE_DOUBLE = 2;
@@ -46,7 +50,7 @@ abstract public class Model implements BaseColumns, Serializable {
     /**
      * Check if a record exists in the database
      *
-     * @return
+     * @return boolean
      */
     public boolean exists() {
 
@@ -64,7 +68,9 @@ abstract public class Model implements BaseColumns, Serializable {
 
     protected LinkedHashMap<String, String> itemsForSelect;
 
-    //Declare db once
+    /**
+     * Declare the db instance once
+     */
     public Model() {
 
         if (_db == null) {
@@ -85,6 +91,12 @@ abstract public class Model implements BaseColumns, Serializable {
         _db = db;
     }
 
+    /**
+     * Get a model by its ID
+     *
+     * @param id
+     * @return Model|Null
+     */
     public Model getOneById(int id) {
         SQLiteDatabase db = _db.getReadableDatabase();
 
@@ -108,7 +120,7 @@ abstract public class Model implements BaseColumns, Serializable {
     public static final String FILTER_LIMIT = "LIMIT";
 
     /**
-     * Get items associated with this model
+     * Get models matching passed in filter.
      *
      * @param filter
      * @return List
@@ -156,6 +168,12 @@ abstract public class Model implements BaseColumns, Serializable {
         return list;
     }
 
+    /**
+     * Build up the WHERE string with its various filters
+     *
+     * @param filter
+     * @return String
+     */
     public String buildWhere(HashMap<String, Object> filter) {
 
         String query = "";
@@ -198,6 +216,12 @@ abstract public class Model implements BaseColumns, Serializable {
         return query;
     }
 
+    /**
+     * This will use the defined dbColumns to load the model.
+     *
+     * @param cursor
+     * @return Model
+     */
     private Model populateFromCursor(Cursor cursor) {
         Model model = null;
         try {
@@ -257,6 +281,11 @@ abstract public class Model implements BaseColumns, Serializable {
         return model;
     }
 
+    /**
+     * Use the dbColumns to insert the contentValues
+     *
+     * @param contentValues
+     */
     private void populateContentValues(ContentValues contentValues) {
 
         for (Map.Entry<String, Integer> entry : getDbColumns().entrySet()) {
@@ -298,7 +327,8 @@ abstract public class Model implements BaseColumns, Serializable {
     abstract String getTableName();
 
     /**
-     * Write a model to the DB
+     * Save model to DB
+     * If exists update, else insert
      *
      * @return Boolean
      */
@@ -321,9 +351,9 @@ abstract public class Model implements BaseColumns, Serializable {
     }
 
     /**
-     * Delete a row
+     * Delete the current model
      *
-     * @return Boolean
+     * @return boolean
      */
     public boolean delete() {
 
@@ -339,7 +369,7 @@ abstract public class Model implements BaseColumns, Serializable {
     }
 
     /**
-     * Count how many rows on this model
+     * Count how many rows on this table
      *
      * @return int
      */
@@ -434,7 +464,7 @@ abstract public class Model implements BaseColumns, Serializable {
     /**
      * Check if current model is synchronizable
      *
-     * @return
+     * @return boolean
      */
     public boolean isSynchronizable() {
         return this instanceof Synchronizable;
