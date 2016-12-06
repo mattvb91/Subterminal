@@ -44,6 +44,7 @@ import mavonie.subterminal.Views.Premium.PremiumView;
 
 /**
  * Class to deal with UI/Fragment navigation components
+ * Make sure all changes are made on the UI thread
  */
 public class UIHelper {
 
@@ -270,23 +271,32 @@ public class UIHelper {
      */
     public static void userLoggedOut() {
 
-        MenuItem item = MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
-        item.setVisible(true);
+        Handler mainHandler = new Handler(MainActivity.getActivity().getMainLooper());
 
-        NavigationView nav = MainActivity.getActivity().getNavigationView();
-        View headerView = nav.getHeaderView(0);
+        Runnable uiRunnable = new Runnable() {
+            @Override
+            public void run() {
+                MenuItem item = MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
+                item.setVisible(true);
 
-        ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
-        profilePictureView.setVisibility(View.GONE);
+                NavigationView nav = MainActivity.getActivity().getNavigationView();
+                View headerView = nav.getHeaderView(0);
 
-        TextView appDescriptor = (TextView) headerView.findViewById(R.id.profile_name);
-        appDescriptor.setText(R.string.app_descriptor);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) appDescriptor.getLayoutParams();
-        params.addRule(RelativeLayout.END_OF, R.id.nav_header_icon);
-        appDescriptor.setLayoutParams(params);
+                ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
+                profilePictureView.setVisibility(View.GONE);
 
-        ImageView logo = (ImageView) headerView.findViewById(R.id.nav_header_icon);
-        logo.setVisibility(View.VISIBLE);
+                TextView appDescriptor = (TextView) headerView.findViewById(R.id.profile_name);
+                appDescriptor.setText(R.string.app_descriptor);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) appDescriptor.getLayoutParams();
+                params.addRule(RelativeLayout.END_OF, R.id.nav_header_icon);
+                appDescriptor.setLayoutParams(params);
+
+                ImageView logo = (ImageView) headerView.findViewById(R.id.nav_header_icon);
+                logo.setVisibility(View.VISIBLE);
+            }
+        };
+
+        mainHandler.post(uiRunnable);
     }
 
     public static void init() {
@@ -299,7 +309,7 @@ public class UIHelper {
             userLoggedOut();
         }
 
-        if(Subterminal.getUser().isPremium()) {
+        if (Subterminal.getUser().isPremium()) {
             userPremium();
         }
     }

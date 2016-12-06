@@ -1,19 +1,12 @@
 package mavonie.subterminal.Models;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
-import com.google.gson.annotations.SerializedName;
-
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import mavonie.subterminal.Jobs.SyncJump;
 import mavonie.subterminal.Jobs.SyncSuit;
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**
@@ -25,9 +18,7 @@ public class Suit extends Synchronizable {
     private int type;
     private String model;
     private String serial;
-
-    @SerializedName("date_in_use")
-    private String dateInUse;
+    private String date_in_use;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "suits";
@@ -37,6 +28,25 @@ public class Suit extends Synchronizable {
     public static final String COLUMN_NAME_DATE_IN_USE = "date_in_use";
     public static final String COLUMN_NAME_TYPE = "type";
     public static final String COLUMN_NAME_SERIAL = "serial";
+
+    private static Map<String, Integer> dbColumns = null;
+
+    @Override
+    public Map<String, Integer> getDbColumns() {
+        if (dbColumns == null) {
+            dbColumns = new HashMap<String, Integer>();
+
+            dbColumns.put(COLUMN_NAME_MANUFACTURER, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_MODEL, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_DATE_IN_USE, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_TYPE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_SERIAL, TYPE_TEXT);
+
+            Synchronizable.setDBColumns(dbColumns);
+        }
+
+        return dbColumns;
+    }
 
     public static final int TYPE_WINGSUIT = 0;
     public static final int TYPE_TRACKING = 1;
@@ -97,63 +107,17 @@ public class Suit extends Synchronizable {
     }
 
     public String getDateInUse() {
-        return dateInUse;
+        return date_in_use;
     }
 
     public void setDateInUse(String dateInUse) {
-        this.dateInUse = dateInUse;
+        this.date_in_use = dateInUse;
     }
 
     @Override
     public void addSyncJob() {
         Subterminal.getJobManager(MainActivity.getActivity())
                 .addJobInBackground(new SyncSuit(this));
-    }
-
-    @Override
-    Model populateFromCursor(Cursor cursor) {
-
-        try {
-            Suit suit = new Suit();
-
-            int idIndex = cursor.getColumnIndexOrThrow(_ID);
-            int idManufacturer = cursor.getColumnIndexOrThrow(COLUMN_NAME_MANUFACTURER);
-            int idType = cursor.getColumnIndexOrThrow(COLUMN_NAME_TYPE);
-            int idModel = cursor.getColumnIndexOrThrow(COLUMN_NAME_MODEL);
-            int idDateInUse = cursor.getColumnIndexOrThrow(COLUMN_NAME_DATE_IN_USE);
-            int idSerial = cursor.getColumnIndexOrThrow(COLUMN_NAME_SERIAL);
-
-            suit.setId(cursor.getInt(idIndex));
-            suit.setManufacturer(cursor.getString(idManufacturer));
-            suit.setType(cursor.getInt(idType));
-            suit.setModel(cursor.getString(idModel));
-
-            if (cursor.getString(idDateInUse) != null && cursor.getString(idDateInUse).length() > 0) {
-                suit.setDateInUse(cursor.getString(idDateInUse));
-            }
-
-            suit.setSerial(cursor.getString(idSerial));
-
-            suit.populateSynchronizationFromCursor(cursor);
-
-            return suit;
-
-        } catch (Exception e) {
-
-        }
-
-        return null;
-    }
-
-    @Override
-    void populateContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_NAME_TYPE, this.getType());
-        contentValues.put(COLUMN_NAME_MODEL, this.getModel());
-        contentValues.put(COLUMN_NAME_MANUFACTURER, this.getManufacturer());
-        contentValues.put(COLUMN_NAME_DATE_IN_USE, this.getDateInUse());
-        contentValues.put(COLUMN_NAME_SERIAL, this.getSerial());
-
-        super.populateSynchronizationContentValues(contentValues);
     }
 
     @Override
@@ -174,7 +138,7 @@ public class Suit extends Synchronizable {
             return false;
         if (model != null ? !model.equals(suit.model) : suit.model != null) return false;
         if (serial != null ? !serial.equals(suit.serial) : suit.serial != null) return false;
-        return dateInUse != null ? dateInUse.equals(suit.dateInUse) : suit.dateInUse == null;
+        return date_in_use != null ? date_in_use.equals(suit.date_in_use) : suit.date_in_use == null;
 
     }
 
@@ -240,7 +204,7 @@ public class Suit extends Synchronizable {
             List<Jump> jumps = this.getJumps();
 
             for (Jump jump : jumps) {
-                jump.setSuit_id(null);
+                jump.setSuitId(null);
                 jump.save();
             }
         }

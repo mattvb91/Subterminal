@@ -3,6 +3,9 @@ package mavonie.subterminal.Models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ExitDetails extends Model {
 
     private int exit_id;
@@ -29,182 +32,100 @@ public class ExitDetails extends Model {
     public static final String COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING = "difficulty_wingsuit_landing";
     public static final String COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL = "difficulty_wingsuit_overall";
     public static final String COLUMN_NAME_RULES = "rules";
+
+    private static Map<String, Integer> dbColumns = null;
+
+    @Override
+    public Map<String, Integer> getDbColumns() {
+        if (dbColumns == null) {
+            dbColumns = new HashMap<String, Integer>();
+
+            dbColumns.put(COLUMN_NAME_EXIT_ID, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_TRACKING_EXIT, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_TRACKING_FREEFALL, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_TRACKING_LANDING, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_TRACKING_OVERALL, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_EXIT, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_FREEFALL, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_RULES, TYPE_TEXT);
+        }
+
+        return dbColumns;
+    }
     /* END DB DEFINITIONS */
 
-
-    /**
-     * @return The rules
-     */
     public String getRules() {
         return rules;
     }
 
-    /**
-     * @param rules The rules
-     */
     public void setRules(String rules) {
         this.rules = rules;
     }
 
-    /**
-     * @return The difficulty_tracking_exit
-     */
-    public int getDifficulty_tracking_exit() {
+    public int getDifficultyTrackingExit() {
         return difficulty_tracking_exit;
     }
 
-    /**
-     * @param difficulty_tracking_exit The difficulty_tracking_exit
-     */
-    public void setDifficulty_tracking_exit(int difficulty_tracking_exit) {
+    public void setDifficultyTrackingExit(int difficulty_tracking_exit) {
         this.difficulty_tracking_exit = difficulty_tracking_exit;
     }
 
-    /**
-     * @return The difficulty_tracking_freefall
-     */
-    public int getDifficulty_tracking_freefall() {
+    public int getDifficultyTrackingFreefall() {
         return difficulty_tracking_freefall;
     }
 
-    /**
-     * @param difficulty_tracking_freefall The difficulty_tracking_freefall
-     */
-    public void setDifficulty_tracking_freefall(int difficulty_tracking_freefall) {
+    public void setDifficultyTrackingFreefall(int difficulty_tracking_freefall) {
         this.difficulty_tracking_freefall = difficulty_tracking_freefall;
     }
 
-    /**
-     * @return The difficulty_tracking_landing
-     */
-    public int getDifficulty_tracking_landing() {
+    public int getDifficultyTrackingLanding() {
         return difficulty_tracking_landing;
     }
 
-    /**
-     * @param difficulty_tracking_landing The difficulty_tracking_landing
-     */
-    public void setDifficulty_tracking_landing(int difficulty_tracking_landing) {
+    public void setDifficultyTrackingLanding(int difficulty_tracking_landing) {
         this.difficulty_tracking_landing = difficulty_tracking_landing;
     }
 
-    /**
-     * @return The difficulty_tracking_overall
-     */
-    public int getDifficulty_tracking_overall() {
+    public int getDifficultyTrackingOverall() {
         return difficulty_tracking_overall;
     }
 
-    /**
-     * @param difficulty_tracking_overall The difficulty_tracking_overall
-     */
-    public void setDifficulty_tracking_overall(int difficulty_tracking_overall) {
+    public void setDifficultyTrackingOverall(int difficulty_tracking_overall) {
         this.difficulty_tracking_overall = difficulty_tracking_overall;
     }
 
-    /**
-     * @return The difficulty_wingsuit_exit
-     */
-    public int getDifficulty_wingsuit_exit() {
+    public int getDifficultyWingsuitExit() {
         return difficulty_wingsuit_exit;
     }
 
-    /**
-     * @param difficulty_wingsuit_exit The difficulty_wingsuit_exit
-     */
-    public void setDifficulty_wingsuit_exit(int difficulty_wingsuit_exit) {
+    public void setDifficultyWingsuitExit(int difficulty_wingsuit_exit) {
         this.difficulty_wingsuit_exit = difficulty_wingsuit_exit;
     }
 
-    /**
-     * @return The difficulty_wingsuit_freefall
-     */
-    public int getDifficulty_wingsuit_freefall() {
+    public int getDifficultyWingsuitFreefall() {
         return difficulty_wingsuit_freefall;
     }
 
-    /**
-     * @param difficulty_wingsuit_freefall The difficulty_wingsuit_freefall
-     */
-    public void setDifficulty_wingsuit_freefall(int difficulty_wingsuit_freefall) {
+    public void setDifficultyWingsuitFreefall(int difficulty_wingsuit_freefall) {
         this.difficulty_wingsuit_freefall = difficulty_wingsuit_freefall;
     }
 
-    /**
-     * @return The difficulty_wingsuit_landing
-     */
-    public int getDifficulty_wingsuit_landing() {
+    public int getDifficultyWingsuitLanding() {
         return difficulty_wingsuit_landing;
     }
 
-    /**
-     * @param difficulty_wingsuit_landing The difficulty_wingsuit_landing
-     */
-    public void setDifficulty_wingsuit_landing(int difficulty_wingsuit_landing) {
+    public void setDifficultyWingsuitLanding(int difficulty_wingsuit_landing) {
         this.difficulty_wingsuit_landing = difficulty_wingsuit_landing;
     }
 
-    /**
-     * @return The difficulty_wingsuit_overall
-     */
-    public int getDifficulty_wingsuit_overall() {
+    public int getDifficultyWingsuitOverall() {
         return difficulty_wingsuit_overall;
     }
 
-    /**
-     * @param difficulty_wingsuit_overall The difficulty_wingsuit_overall
-     */
-    public void setDifficulty_wingsuit_overall(int difficulty_wingsuit_overall) {
+    public void setDifficultyWingsuitOverall(int difficulty_wingsuit_overall) {
         this.difficulty_wingsuit_overall = difficulty_wingsuit_overall;
-    }
-
-    @Override
-    Model populateFromCursor(Cursor cursor) {
-        try {
-            ExitDetails details = new ExitDetails();
-
-            int exitId = cursor.getColumnIndexOrThrow(COLUMN_NAME_EXIT_ID);
-            int difficultyTrackingExit = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_EXIT);
-            int difficultyTrackingfreefall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_FREEFALL);
-            int difficultyTrackinglanding = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_LANDING);
-            int difficultyTrackingOverall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_TRACKING_OVERALL);
-            int difficultyWingsuitExit = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_EXIT);
-            int difficultyWingsuitfreefall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_FREEFALL);
-            int difficultyWingsuitlanding = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING);
-            int difficultyWingsuitOverall = cursor.getColumnIndexOrThrow(COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL);
-            int rules = cursor.getColumnIndexOrThrow(COLUMN_NAME_RULES);
-
-            details.setExit_id(cursor.getInt(exitId));
-            details.setDifficulty_tracking_exit(cursor.getInt(difficultyTrackingExit));
-            details.setDifficulty_tracking_freefall(cursor.getInt(difficultyTrackingfreefall));
-            details.setDifficulty_tracking_landing(cursor.getInt(difficultyTrackinglanding));
-            details.setDifficulty_tracking_overall(cursor.getInt(difficultyTrackingOverall));
-            details.setDifficulty_wingsuit_exit(cursor.getInt(difficultyWingsuitExit));
-            details.setDifficulty_wingsuit_freefall(cursor.getInt(difficultyWingsuitfreefall));
-            details.setDifficulty_wingsuit_landing(cursor.getInt(difficultyWingsuitlanding));
-            details.setDifficulty_wingsuit_overall(cursor.getInt(difficultyWingsuitOverall));
-            details.setRules(cursor.getString(rules));
-
-            return details;
-        } catch (Exception e) {
-
-        }
-
-        return null;
-    }
-
-    @Override
-    void populateContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_EXIT, this.getDifficulty_tracking_exit());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_FREEFALL, this.getDifficulty_tracking_freefall());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_LANDING, this.getDifficulty_tracking_landing());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_TRACKING_OVERALL, this.getDifficulty_tracking_overall());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_EXIT, this.getDifficulty_wingsuit_exit());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_FREEFALL, this.getDifficulty_wingsuit_freefall());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_LANDING, this.getDifficulty_wingsuit_landing());
-        contentValues.put(COLUMN_NAME_DIFFICULTY_WINGSUIT_OVERALL, this.getDifficulty_wingsuit_overall());
-        contentValues.put(COLUMN_NAME_RULES, this.getRules());
-        contentValues.put(COLUMN_NAME_EXIT_ID, this.getExit_id());
     }
 
     @Override
@@ -212,11 +133,11 @@ public class ExitDetails extends Model {
         return TABLE_NAME;
     }
 
-    public int getExit_id() {
+    public int getExitId() {
         return exit_id;
     }
 
-    public void setExit_id(int exit_id) {
+    public void setExitId(int exit_id) {
         this.exit_id = exit_id;
     }
 

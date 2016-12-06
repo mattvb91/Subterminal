@@ -375,8 +375,10 @@ public class API {
         updateUser.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call call, Response response) {
-                Subterminal.getUser().update((User) response.body());
-                Once.markDone(CALLS_UPDATE_USER);
+                if (response.isSuccessful()) {
+                    Subterminal.getUser().update((User) response.body());
+                    Once.markDone(CALLS_UPDATE_USER);
+                }
             }
 
             @Override

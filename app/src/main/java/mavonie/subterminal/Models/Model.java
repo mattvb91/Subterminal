@@ -8,22 +8,34 @@ import android.provider.BaseColumns;
 import android.util.Pair;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import mavonie.subterminal.DB.DatabaseHandler;
 import mavonie.subterminal.DB.VersionUtils;
 import mavonie.subterminal.MainActivity;
 
 /**
- * Created by mavon on 12/10/16.
+ * Base Model
+ * Handle all core functionality like retrieving/saving a model
  */
 abstract public class Model implements BaseColumns, Serializable {
 
-    protected static final String TEXT_TYPE = " TEXT";
-    protected static final String COMMA_SEP = ",";
+    /**
+     * dbColumns data types
+     */
+    protected static final int TYPE_TEXT = 0;
+    protected static final int TYPE_INTEGER = 1;
+    protected static final int TYPE_DOUBLE = 2;
+
+    public abstract Map<String, Integer> getDbColumns();
 
     protected int _id;
 
@@ -38,7 +50,7 @@ abstract public class Model implements BaseColumns, Serializable {
     /**
      * Check if a record exists in the database
      *
-     * @return
+     * @return boolean
      */
     public boolean exists() {
 
@@ -56,7 +68,9 @@ abstract public class Model implements BaseColumns, Serializable {
 
     protected LinkedHashMap<String, String> itemsForSelect;
 
-    //Declare db once
+    /**
+     * Declare the db instance once
+     */
     public Model() {
 
         if (_db == null) {
@@ -77,6 +91,12 @@ abstract public class Model implements BaseColumns, Serializable {
         _db = db;
     }
 
+    /**
+     * Get a model by its ID
+     *
+     * @param id
+     * @return Model|Null
+     */
     public Model getOneById(int id) {
         SQLiteDatabase db = _db.getReadableDatabase();
 
@@ -100,7 +120,7 @@ abstract public class Model implements BaseColumns, Serializable {
     public static final String FILTER_LIMIT = "LIMIT";
 
     /**
-     * Get items associated with this model
+     * Get models matching passed in filter.
      *
      * @param filter
      * @return List
@@ -136,9 +156,9 @@ abstract public class Model implements BaseColumns, Serializable {
         List<Model> list = new ArrayList<Model>();
 
         if (cursor.moveToFirst()) {
+
             while (cursor.isAfterLast() == false) {
-                Model item = populateFromCursor(cursor);
-                list.add(item);
+                list.add(populateFromCursor(cursor));
                 cursor.moveToNext();
             }
         }
@@ -148,6 +168,12 @@ abstract public class Model implements BaseColumns, Serializable {
         return list;
     }
 
+    /**
+     * Build up the WHERE string with its various filters
+     *
+     * @param filter
+     * @return String
+     */
     public String buildWhere(HashMap<String, Object> filter) {
 
         String query = "";
@@ -190,25 +216,126 @@ abstract public class Model implements BaseColumns, Serializable {
         return query;
     }
 
-    abstract Model populateFromCursor(Cursor cursor);
+    /**
+     * This will use the defined dbColumns to load the model.
+     *
+     * @param cursor
+     * @return Model
+     */
+    private Model populateFromCursor(Cursor cursor) {
+        Model model = null;
+        try {
+            model = getClass().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-    abstract void populateContentValues(ContentValues contentValues);
+        for (Map.Entry<String, Integer> entry : getDbColumns().entrySet()) {
+
+            Field field = null;
+            int index = cursor.getColumnIndex(entry.getKey());
+
+            Class<?> current = getClass();
+
+            while (field == null) {
+                try {
+                    field = current.getDeclaredField(entry.getKey());
+                } catch (NoSuchFieldException e) {
+                    current = current.getSuperclass();
+                }
+            }
+
+            field.setAccessible(true);
+
+            try {
+                switch (entry.getValue()) {
+                    case Model.TYPE_TEXT:
+                        String string = cursor.getString(index);
+
+                        if (!cursor.isNull(index) && string.length() > 0) {
+                            field.set(model, cursor.getString(index));
+                        }
+                        break;
+                    case Model.TYPE_INTEGER:
+                        Integer integer = cursor.getInt(index);
+
+                        if (!cursor.isNull(index) && integer != null) {
+                            field.set(model, integer);
+                        }
+                        break;
+                    case Model.TYPE_DOUBLE:
+                        Double value = cursor.getDouble(index);
+
+                        if (!cursor.isNull(index) && value != null) {
+                            field.set(model, value);
+                        }
+                        break;
+                }
+            } catch (IllegalAccessException e) {
+
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return model;
+    }
+
+    /**
+     * Use the dbColumns to insert the contentValues
+     *
+     * @param contentValues
+     */
+    private void populateContentValues(ContentValues contentValues) {
+
+        for (Map.Entry<String, Integer> entry : getDbColumns().entrySet()) {
+
+            //Skip if its the id, doesnt need to be set here
+            if (entry.getKey().equals(_ID)) {
+                continue;
+            }
+
+            Method method = null;
+
+            try {
+                method = getClass().getMethod(fieldToGetter(entry.getKey()));
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            try {
+                Object obj = method.invoke(this);
+
+                if (obj != null) {
+                    switch (entry.getValue()) {
+                        case TYPE_DOUBLE:
+                            contentValues.put(entry.getKey(), (double) obj);
+                            break;
+                        case TYPE_INTEGER:
+                            contentValues.put(entry.getKey(), (Integer) obj);
+                            break;
+                        case TYPE_TEXT:
+                            contentValues.put(entry.getKey(), (String) obj);
+                            break;
+                    }
+                }
+            } catch (IllegalAccessException | InvocationTargetException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     abstract String getTableName();
 
     /**
-     * Write a model to the DB
+     * Save model to DB
+     * If exists update, else insert
      *
      * @return Boolean
      */
     public boolean save() {
         ContentValues contentValues = new ContentValues();
 
-        try {
-            this.populateContentValues(contentValues);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        populateContentValues(contentValues);
 
         long res = 0;
 
@@ -224,9 +351,9 @@ abstract public class Model implements BaseColumns, Serializable {
     }
 
     /**
-     * Delete a row
+     * Delete the current model
      *
-     * @return Boolean
+     * @return boolean
      */
     public boolean delete() {
 
@@ -242,7 +369,7 @@ abstract public class Model implements BaseColumns, Serializable {
     }
 
     /**
-     * Count how many rows on this model
+     * Count how many rows on this table
      *
      * @return int
      */
@@ -337,9 +464,46 @@ abstract public class Model implements BaseColumns, Serializable {
     /**
      * Check if current model is synchronizable
      *
-     * @return
+     * @return boolean
      */
     public boolean isSynchronizable() {
         return this instanceof Synchronizable;
+    }
+
+    public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
+        fields.addAll(Arrays.asList(type.getDeclaredFields()));
+
+        if (type.getSuperclass() != null) {
+            fields = getAllFields(fields, type.getSuperclass());
+        }
+
+        return fields;
+    }
+
+    /**
+     * Add the db columns common to all models
+     *
+     * @param dbColumns
+     */
+    public static void setDBColumns(Map<String, Integer> dbColumns) {
+        dbColumns.put(_ID, TYPE_INTEGER);
+    }
+
+    /**
+     * Quick way of generating the getter for associated instance variable name
+     *
+     * @param name
+     * @return
+     */
+    private static String fieldToGetter(String name) {
+        String[] parts = name.split("_");
+
+        String result = "";
+
+        for (String part : parts) {
+            result += part.substring(0, 1).toUpperCase() + part.substring(1);
+        }
+
+        return "get" + result;
     }
 }

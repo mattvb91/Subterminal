@@ -1,7 +1,6 @@
 package mavonie.subterminal.Models;
 
-import android.content.ContentValues;
-import android.database.Cursor;
+import android.support.annotation.Nullable;
 import android.util.Pair;
 
 import java.text.DecimalFormat;
@@ -74,10 +73,32 @@ public class Exit extends Synchronizable {
     public static final String COLUMN_NAME_ROCKDROP_DISTANCE = "rockdrop_distance";
     public static final String COLUMN_NAME_ALTITUDE_TO_LANDING = "altitude_to_landing";
     public static final String COLUMN_NAME_DESCRIPTION = "description";
-    public static final String COLUMN_NAME_LATITUDE = "lat";
-    public static final String COLUMN_NAME_LONGTITUDE = "long";
+    public static final String COLUMN_NAME_LATITUDE = "latitude";
+    public static final String COLUMN_NAME_LONGTITUDE = "longtitude";
     public static final String COLUMN_NAME_OBJECT_TYPE = "object_type";
     public static final String COLUMN_NAME_GLOBAL_ID = "global_id";
+
+    private static Map<String, Integer> dbColumns = null;
+
+    @Override
+    public Map<String, Integer> getDbColumns() {
+        if (dbColumns == null) {
+            dbColumns = new HashMap<String, Integer>();
+
+            dbColumns.put(COLUMN_NAME_NAME, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_ROCKDROP_DISTANCE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_ALTITUDE_TO_LANDING, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DESCRIPTION, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_LATITUDE, TYPE_DOUBLE);
+            dbColumns.put(COLUMN_NAME_LONGTITUDE, TYPE_DOUBLE);
+            dbColumns.put(COLUMN_NAME_OBJECT_TYPE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_GLOBAL_ID, TYPE_TEXT);
+
+            Synchronizable.setDBColumns(dbColumns);
+        }
+
+        return dbColumns;
+    }
 
     /* END DB DEFINITIONS */
 
@@ -108,19 +129,20 @@ public class Exit extends Synchronizable {
         this.name = name;
     }
 
-    public Integer getRockdrop_distance() {
+    @Nullable
+    public Integer getRockdropDistance() {
         return rockdrop_distance;
     }
 
-    public void setRockdrop_distance(Integer rockdrop_distance) {
+    public void setRockdropDistance(Integer rockdrop_distance) {
         this.rockdrop_distance = rockdrop_distance;
     }
 
-    public Integer getAltitude_to_landing() {
+    public Integer getAltitudeToLanding() {
         return altitude_to_landing;
     }
 
-    public void setAltitude_to_landing(Integer altitude_to_landing) {
+    public void setAltitudeToLanding(Integer altitude_to_landing) {
         this.altitude_to_landing = altitude_to_landing;
     }
 
@@ -133,71 +155,16 @@ public class Exit extends Synchronizable {
         this.description = description;
     }
 
-    public Integer getObject_type() {
+    public Integer getObjectType() {
         return object_type;
     }
 
-    public void setObject_type(Integer object_type) {
+    public void setObjectType(Integer object_type) {
         this.object_type = object_type;
     }
 
-    public static LinkedHashMap<String, String> getObject_types() {
+    public static LinkedHashMap<String, String> getObjectTypes() {
         return object_types;
-    }
-
-    @Override
-    public Exit populateFromCursor(Cursor cursor) {
-
-        try {
-            Exit exit = new Exit();
-
-            int idIndex = cursor.getColumnIndexOrThrow(_ID);
-            int name = cursor.getColumnIndexOrThrow(COLUMN_NAME_NAME);
-            int rockDropDistance = cursor.getColumnIndexOrThrow(COLUMN_NAME_ROCKDROP_DISTANCE);
-            int altitudeToLanding = cursor.getColumnIndexOrThrow(COLUMN_NAME_ALTITUDE_TO_LANDING);
-            int description = cursor.getColumnIndexOrThrow(COLUMN_NAME_DESCRIPTION);
-            int latitude = cursor.getColumnIndexOrThrow(COLUMN_NAME_LATITUDE);
-            int longtitude = cursor.getColumnIndexOrThrow(COLUMN_NAME_LONGTITUDE);
-            int object_type = cursor.getColumnIndexOrThrow(COLUMN_NAME_OBJECT_TYPE);
-            int global_id = cursor.getColumnIndexOrThrow(COLUMN_NAME_GLOBAL_ID);
-
-            exit.setId(cursor.getInt(idIndex));
-            exit.setName(cursor.getString(name));
-            exit.setRockdrop_distance(cursor.getInt(rockDropDistance));
-            exit.setAltitude_to_landing(cursor.getInt(altitudeToLanding));
-            exit.setDescription(cursor.getString(description));
-            exit.setGlobal_id(cursor.getString(global_id));
-
-            exit.setLatitude(Double.parseDouble(cursor.getString(latitude)));
-            exit.setLongtitude(Double.parseDouble(cursor.getString(longtitude)));
-            exit.setObject_type(cursor.getInt(object_type));
-
-            exit.populateSynchronizationFromCursor(cursor);
-
-            return exit;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    @Override
-    void populateContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_NAME_DESCRIPTION, this.getDescription());
-        contentValues.put(COLUMN_NAME_NAME, this.getName());
-        contentValues.put(COLUMN_NAME_LATITUDE, this.getLatitude());
-        contentValues.put(COLUMN_NAME_LONGTITUDE, this.getLongtitude());
-        contentValues.put(COLUMN_NAME_ROCKDROP_DISTANCE, this.getRockdrop_distance());
-        contentValues.put(COLUMN_NAME_ALTITUDE_TO_LANDING, this.getAltitude_to_landing());
-
-        if (this.getObject_type() != null) {
-            contentValues.put(COLUMN_NAME_OBJECT_TYPE, this.getObject_type());
-        }
-
-        contentValues.put(COLUMN_NAME_GLOBAL_ID, this.getGlobal_id());
-        this.populateSynchronizationContentValues(contentValues);
     }
 
     @Override
@@ -206,11 +173,19 @@ public class Exit extends Synchronizable {
     }
 
     public String getFormatedAltitudeToLanding() {
-        return this.getAltitude_to_landing() + "m (" + Math.round(this.getAltitude_to_landing() * 3.28) + "ft)";
+        if (this.getAltitudeToLanding() == null) {
+            return "";
+        }
+
+        return this.getAltitudeToLanding() + "m (" + Math.round(this.getAltitudeToLanding() * 3.28) + "ft)";
     }
 
     public String getFormatedRockdrop() {
-        return this.getRockdrop_distance() + "m (" + Math.round(this.getRockdrop_distance() * 3.28) + "ft)";
+        if (this.getRockdropDistance() == null) {
+            return "";
+        }
+
+        return this.getRockdropDistance() + "m (" + Math.round(this.getRockdropDistance() * 3.28) + "ft)";
     }
 
     public static String getDifficultyColor(int difficulty) {
@@ -222,12 +197,20 @@ public class Exit extends Synchronizable {
     }
 
     public String getFormattedObjectType() {
-        return object_types.get(Integer.toString(this.getObject_type()));
+        if (this.getObjectType() == null) {
+            return "";
+        }
+
+        return object_types.get(Integer.toString(this.getObjectType()));
     }
 
     //TODO make sure this is right
     public String getFormattedRockdropTime() {
-        double time = Math.sqrt(2 * this.getRockdrop_distance() / 9.8);
+        if (this.getRockdropDistance() == null) {
+            return "";
+        }
+
+        double time = Math.sqrt(2 * this.getRockdropDistance() / 9.8);
         DecimalFormat df = new DecimalFormat("#.#");
 
         return df.format(time) + "s";
@@ -262,35 +245,30 @@ public class Exit extends Synchronizable {
 
         Exit exit = (Exit) o;
 
+        if (rockdrop_distance.intValue() != exit.rockdrop_distance.intValue()) return false;
+        if (altitude_to_landing.intValue() != exit.altitude_to_landing.intValue()) return false;
         if (Double.compare(exit.latitude, latitude) != 0) return false;
         if (Double.compare(exit.longtitude, longtitude) != 0) return false;
-        if (!name.equals(exit.name)) return false;
-        if (rockdrop_distance != null ? !rockdrop_distance.equals(exit.rockdrop_distance) : exit.rockdrop_distance != null)
-            return false;
-        if (altitude_to_landing != null ? !altitude_to_landing.equals(exit.altitude_to_landing) : exit.altitude_to_landing != null)
+        if (object_type.intValue() != exit.object_type.intValue()) return false;
+        if (name != null ? !name.equals(exit.name) : exit.name != null) return false;
+        if (global_id != null ? !global_id.equals(exit.global_id) : exit.global_id != null)
             return false;
         if (description != null ? !description.equals(exit.description) : exit.description != null)
             return false;
-        if (object_type != null ? !object_type.equals(exit.object_type) : exit.object_type != null)
-            return false;
-        if (global_id != null ? !global_id.equals(exit.global_id) : exit.global_id != null)
-            return false;
-        if (this.getDetails() != null ? !details.equals(exit.details) : exit.details != null)
-            return false;
+        return details != null ? details.equals(exit.details) : exit.details == null;
 
-        return true;
     }
 
-    public String getGlobal_id() {
+    public String getGlobalId() {
         return global_id;
     }
 
-    public void setGlobal_id(String global_id) {
+    public void setGlobalId(String global_id) {
         this.global_id = global_id;
     }
 
     public boolean isGlobal() {
-        return this.getGlobal_id() != null;
+        return this.getGlobalId() != null;
     }
 
     /**
@@ -303,7 +281,7 @@ public class Exit extends Synchronizable {
 
         if (exit.isGlobal()) {
             //Its a global exit check if we already have it.
-            Exit dbExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_GLOBAL_ID, exit.getGlobal_id()));
+            Exit dbExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_GLOBAL_ID, exit.getGlobalId()));
 
             //Check if it equals
             if (dbExit != null) {
@@ -346,7 +324,7 @@ public class Exit extends Synchronizable {
 
         boolean res = super.save();
         if (res && this.isGlobal()) {
-            this.getDetails().setExit_id(this.getId());
+            this.getDetails().setExitId(this.getId());
             this.getDetails().save();
         }
 
@@ -420,7 +398,7 @@ public class Exit extends Synchronizable {
 
         //We need to update exits before deleting
         for (Jump jump : this.getJumps()) {
-            jump.setExit_id(null);
+            jump.setExitId(null);
             jump.save();
         }
 

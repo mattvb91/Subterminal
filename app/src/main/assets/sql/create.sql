@@ -18,8 +18,8 @@ CREATE TABLE exit (
     rockdrop_distance INTEGER,
     altitude_to_landing INTEGER,
     description TEXT,
-    lat TEXT,
-    long TEXT,
+    latitude DOUBLE,
+    longtitude DOUBLE,
     object_type INTEGER,
     synced INTEGER DEFAULT 0,
     deleted INTEGER DEFAULT 0);

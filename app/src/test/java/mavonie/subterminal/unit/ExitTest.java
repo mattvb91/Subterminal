@@ -57,20 +57,20 @@ public class ExitTest extends BaseDBUnit {
         Exit exit = this.createExit();
 
         ExitDetails details = new ExitDetails();
-        details.setExit_id(exit.getId());
+        details.setExitId(exit.getId());
         details.setRules("Test rules");
-        details.setDifficulty_tracking_exit(exit.DIFFICULTY_BEGINNER);
-        details.setDifficulty_tracking_freefall(exit.DIFFICULTY_INTERMEDIATE);
-        details.setDifficulty_tracking_landing(exit.DIFFICULTY_ADVANCED);
-        details.setDifficulty_tracking_overall(exit.DIFFICULTY_EXPERT);
-        details.setDifficulty_wingsuit_exit(exit.DIFFICULTY_BEGINNER);
-        details.setDifficulty_wingsuit_freefall(exit.DIFFICULTY_INTERMEDIATE);
-        details.setDifficulty_wingsuit_landing(exit.DIFFICULTY_ADVANCED);
-        details.setDifficulty_wingsuit_overall(exit.DIFFICULTY_EXPERT);
+        details.setDifficultyTrackingExit(exit.DIFFICULTY_BEGINNER);
+        details.setDifficultyTrackingFreefall(exit.DIFFICULTY_INTERMEDIATE);
+        details.setDifficultyTrackingLanding(exit.DIFFICULTY_ADVANCED);
+        details.setDifficultyTrackingOverall(exit.DIFFICULTY_EXPERT);
+        details.setDifficultyWingsuitExit(exit.DIFFICULTY_BEGINNER);
+        details.setDifficultyWingsuitFreefall(exit.DIFFICULTY_INTERMEDIATE);
+        details.setDifficultyWingsuitLanding(exit.DIFFICULTY_ADVANCED);
+        details.setDifficultyWingsuitOverall(exit.DIFFICULTY_EXPERT);
 
         exit.setDetails(details);
         //Set the global_id so the details get saved
-        exit.setGlobal_id("testing");
+        exit.setGlobalId("testing");
         exit.save();
 
         Exit exit2 = (Exit) new Exit().getOneById(exit.getId());
@@ -82,12 +82,12 @@ public class ExitTest extends BaseDBUnit {
         Exit exit = new Exit();
 
         exit.setName("Test exit");
-        exit.setRockdrop_distance(200);
-        exit.setAltitude_to_landing(200);
+        exit.setRockdropDistance(200);
+        exit.setAltitudeToLanding(200);
         exit.setDescription("Test Description");
         exit.setLatitude(59.02342);
         exit.setLongtitude(24.30456);
-        exit.setObject_type(Exit.TYPE_EARTH);
+        exit.setObjectType(Exit.TYPE_EARTH);
         exit.save();
 
         return exit;
@@ -105,7 +105,7 @@ public class ExitTest extends BaseDBUnit {
         List<Exit> exits = new Exit().getItems(params);
 
         for (Exit exit : exits) {
-            assertNull(exit.getGlobal_id());
+            assertNull(exit.getGlobalId());
         }
     }
 
