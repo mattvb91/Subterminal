@@ -68,5 +68,6 @@ CREATE TABLE image (
         filename TEXT,
         entity_type INTEGER,
         entity_id INTEGER,
-        synced INTEGER DEFAULT 0
+        synced INTEGER DEFAULT 0,
+        deleted INTEGER DEFAULT 0
 );

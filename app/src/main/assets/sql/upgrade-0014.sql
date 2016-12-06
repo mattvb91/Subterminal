@@ -16,3 +16,5 @@ CREATE TABLE exit (
 INSERT INTO exit SELECT *  FROM exit_old;
 
 DROP TABLE exit_old;
+
+ALTER TABLE image ADD COLUMN deleted INTEGER DEFAULT 0;
