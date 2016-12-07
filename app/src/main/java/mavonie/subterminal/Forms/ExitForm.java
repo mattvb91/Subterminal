@@ -47,22 +47,25 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
     private LinkedHashMap<String, String> object_types;
     LinkedHashMapAdapter<String, String> objectTypeAdapter;
 
+    private static final int REQUEST_GPS = 1;
+
+    private static String[] PERMISSIONS_GPS = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+    };
+
     //TODO move the gps tracking out of here and off into its own class
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         this.object_types = Exit.getObjectTypes();
-        locationManager = (LocationManager) MainActivity.getActivity().getSystemService(Context.LOCATION_SERVICE);
+        this.locationManager = (LocationManager) MainActivity.getActivity().getSystemService(Context.LOCATION_SERVICE);
 
-        locationListener = new LocationListener() {
+        this.locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                TextView editLat = (TextView) view.findViewById(R.id.exit_edit_lat);
-                editLat.setText(Double.toString(location.getLatitude()));
-
-                TextView editLong = (TextView) view.findViewById(R.id.exit_edit_long);
-                editLong.setText(Double.toString(location.getLongitude()));
-
+                exit_edit_lat.setText(Double.toString(location.getLatitude()));
+                exit_edit_long.setText(Double.toString(location.getLongitude()));
                 progress.dismiss();
             }
 
@@ -114,25 +117,23 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
         Button gpsButton = (Button) view.findViewById(R.id.exit_edit_gps_button);
         gpsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 if (ActivityCompat.checkSelfPermission(MainActivity.getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                         && ActivityCompat.checkSelfPermission(MainActivity.getActivity().getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                    ActivityCompat.requestPermissions(
+                            MainActivity.getActivity(),
+                            PERMISSIONS_GPS,
+                            REQUEST_GPS
+                    );
+                } else {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0, locationListener);
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 0, locationListener);
 
-                progress = new ProgressDialog(MainActivity.getActivity());
-                progress.setTitle("Loading");
-                progress.setMessage("Fetching GPS...");
-                progress.show();
+                    progress = new ProgressDialog(MainActivity.getActivity());
+                    progress.setTitle("Loading");
+                    progress.setMessage("Fetching GPS...");
+                    progress.show();
+
+                }
             }
         });
 
@@ -178,6 +179,7 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
     }
 
     public void save() {
+
         //Required fields
         String exitName = this.exit_edit_name.getText().toString().trim();
         String exitLat = this.exit_edit_lat.getText().toString();
