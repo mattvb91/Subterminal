@@ -34,6 +34,7 @@ abstract public class Model implements BaseColumns, Serializable {
     protected static final int TYPE_TEXT = 0;
     protected static final int TYPE_INTEGER = 1;
     protected static final int TYPE_DOUBLE = 2;
+    protected static final int TYPE_OTHER = 3; //Custom, pass the cursor directly to the setter
 
     public abstract Map<String, Integer> getDbColumns();
 
@@ -270,15 +271,26 @@ abstract public class Model implements BaseColumns, Serializable {
                             field.set(model, value);
                         }
                         break;
+                    case Model.TYPE_OTHER:
+                        model.populateCustomFromCursor(field, cursor);
+                        break;
                 }
-            } catch (IllegalAccessException e) {
-
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException e) {
                 e.printStackTrace();
             }
         }
 
         return model;
+    }
+
+    /**
+     * Allow custom populating from cursor in child classes
+     *
+     * @param field
+     * @param cursor
+     */
+    protected void populateCustomFromCursor(Field field, Cursor cursor) throws NoSuchMethodException {
+        throw new NoSuchMethodException();
     }
 
     /**
@@ -291,7 +303,7 @@ abstract public class Model implements BaseColumns, Serializable {
         for (Map.Entry<String, Integer> entry : getDbColumns().entrySet()) {
 
             //Skip if its the id, doesnt need to be set here
-            if (entry.getKey().equals(_ID)) {
+            if (entry.getKey().equals(_ID) || entry.getKey().equals(TYPE_OTHER)) {
                 continue;
             }
 

@@ -1,7 +1,10 @@
 package mavonie.subterminal.Models;
 
+import android.database.Cursor;
+
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -85,6 +88,7 @@ public class Jump extends Synchronizable {
     public static final String COLUMN_NAME_DELAY = "delay";
     public static final String COLUMN_NAME_TYPE = "type";
     public static final String COLUMN_NAME_SUIT_ID = "suit_id";
+    /* END DB DEFINITIONS */
 
 
     private static Map<String, Integer> dbColumns = null;
@@ -103,11 +107,21 @@ public class Jump extends Synchronizable {
             dbColumns.put(COLUMN_NAME_DELAY, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_TYPE, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_SUIT_ID, TYPE_INTEGER);
+            dbColumns.put("row_id", TYPE_OTHER);
 
             Synchronizable.setDBColumns(dbColumns);
         }
 
         return dbColumns;
+    }
+
+    @Override
+    protected void populateCustomFromCursor(Field field, Cursor cursor) {
+        switch(field.getName()) {
+            case "row_id":
+                    this.setRowId(cursor.getCount() - cursor.getPosition());
+                break;
+        }
     }
 
     public static String[] getTypeArray() {
@@ -119,9 +133,6 @@ public class Jump extends Synchronizable {
 
         return typeArray;
     }
-
-
-    /* END DB DEFINITIONS */
 
     public String getDescription() {
         return description;
@@ -222,7 +233,7 @@ public class Jump extends Synchronizable {
         this.type = type;
     }
 
-    public Integer getSuit_id() {
+    public Integer getSuitId() {
         return suit_id;
     }
 
@@ -278,14 +289,13 @@ public class Jump extends Synchronizable {
     }
 
     public int getRowId() {
-
         int startJump = Prefs.getInt(Preference.PREFS_JUMP_START_COUNT, 0);
 
         if (startJump > 0) {
-            row_id += (startJump - 1);
+            this.row_id += (startJump - 1);
         }
 
-        return row_id;
+        return this.row_id;
     }
 
     public void setRowId(int row_id) {

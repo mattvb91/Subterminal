@@ -209,6 +209,7 @@ public class Image extends Synchronizable {
         return uri;
     }
 
+    //TODO properly name images based on model
     public static Image createFromPath(String originalPath, Model model) {
 
         String root = Environment.getExternalStorageDirectory().toString();
