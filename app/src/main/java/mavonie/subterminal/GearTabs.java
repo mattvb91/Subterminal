@@ -1,6 +1,5 @@
 package mavonie.subterminal;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import com.sa90.materialarcmenu.ArcMenu;
 
 import java.util.HashMap;
-import java.util.List;
 
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.SuitForm;

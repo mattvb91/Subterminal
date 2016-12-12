@@ -8,15 +8,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
 import java.util.Calendar;
 
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Gear;
-import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Suit;
-import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Subterminal;

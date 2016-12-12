@@ -29,8 +29,8 @@ import java.util.concurrent.TimeUnit;
 
 import de.cketti.library.changelog.ChangeLog;
 import jonathanfinerty.once.Once;
-import mavonie.subterminal.Models.*;
 import mavonie.subterminal.Models.Jump;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;

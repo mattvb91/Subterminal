@@ -1,9 +1,6 @@
 package mavonie.subterminal.Models;
 
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
