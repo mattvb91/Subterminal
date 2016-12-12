@@ -158,9 +158,16 @@ public class GearTest extends BaseTest {
                 withId(R.id.suit_form_dateInUse));
         appCompatEditText5.perform(scrollTo(), click());
 
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(android.R.id.button1), withText("Set"), isDisplayed()));
-        appCompatButton2.perform(click());
+        //Different versions of calender
+        try {
+            ViewInteraction appCompatButton2 = onView(
+                    allOf(withId(android.R.id.button1), withText("Set"), isDisplayed()));
+            appCompatButton2.perform(click());
+        } catch (Exception e) {
+            ViewInteraction appCompatButton2 = onView(
+                    allOf(withId(android.R.id.button1), withText("OK"), isDisplayed()));
+            appCompatButton2.perform(click());
+        }
 
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.suit_save), withText("Save")));
