@@ -1,8 +1,6 @@
 package mavonie.subterminal.Models;
 
 
-import android.content.ContentValues;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,15 +58,6 @@ public abstract class Synchronizable extends Model {
 
     public void setDeleted(Integer deleted) {
         this.deleted = deleted;
-    }
-
-    public void populateSynchronizationContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_DELETED, this.getDeleted());
-        contentValues.put(COLUMN_SYNCED, this.getSynced());
-
-        if (this.remote_id != null) {
-            contentValues.put(_ID, this.remote_id);
-        }
     }
 
     public boolean isSynced() {

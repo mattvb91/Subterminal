@@ -92,7 +92,7 @@ public class API {
                 apiUrl = Subterminal.getMetaData(this.context, "mavonie.subterminal.API_URL");
 
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
 
             // creating a RestAdapter using the custom client

@@ -25,7 +25,6 @@ import mavonie.subterminal.Utils.Subterminal;
  */
 public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> {
 
-    private static final int THUMB_SIZE = 50;
     private final List<mavonie.subterminal.Models.Jump> mValues;
     private final BaseFragment.OnFragmentInteractionListener mListener;
 

@@ -24,18 +24,6 @@ public class SuitForm extends BaseForm {
     private EditText suitSerial;
     private EditText suitDateInUse;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment GearForm.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SuitForm newInstance() {
-        SuitForm fragment = new SuitForm();
-        return fragment;
-    }
-
     @Override
     protected Suit getItem() {
         return (Suit) super.getItem();
