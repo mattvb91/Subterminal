@@ -16,6 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="Exit"
             android:textSize="10pt"></TextView>
 
@@ -32,21 +33,52 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"/>
 
-        <EditText
-            android:id="@+id/exit_edit_rockdrop_distance"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top|left"
-            android:hint="Rockdrop distance (Meters)"
-            android:inputType="numberSigned"/>
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
 
-        <EditText
-            android:id="@+id/exit_edit_distance_to_landing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top|left"
-            android:hint="Altitude to landing (Meters)"
-            android:inputType="numberSigned"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rockdrop (Meters)"/>
+
+                <EditText
+                    android:id="@+id/exit_edit_rockdrop_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|left"
+                    android:hint="0"
+                    android:inputType="number"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Altitude to landing (Meters)"/>
+
+                <EditText
+                    android:id="@+id/exit_edit_distance_to_landing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|left"
+                    android:hint="0"
+                    android:inputType="number"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <EditText
             android:id="@+id/exit_edit_description"
@@ -72,25 +104,57 @@
             android:onClick="loadGPSCoordinates"
             android:text="Load from GPS"/>
 
-        <EditText
-            android:id="@+id/exit_edit_lat"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Latitude"
-            android:inputType="numberDecimal"
-            android:paddingTop="20dp"></EditText>
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/exit_edit_long"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Longtitude"
-            android:inputType="numberDecimal"></EditText>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Latitude"/>
+
+                <EditText
+                    android:id="@+id/exit_edit_lat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="0.0000"
+                    android:inputType="numberDecimal"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Longtitude"/>
+
+                <EditText
+                    android:id="@+id/exit_edit_long"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="0.0000"
+                    android:inputType="numberDecimal"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <Button
             android:id="@+id/exit_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:onClick="save"
             android:text="Save"/>
 

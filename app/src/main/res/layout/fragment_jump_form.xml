@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ScrollView01"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:scrollbars="vertical">
+            android:id="@+id/ScrollView01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical">
 
 
     <LinearLayout
@@ -16,44 +16,103 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Log Jump"
             android:textSize="10pt"></TextView>
 
-        <AutoCompleteTextView
-            android:id="@+id/jump_edit_exit_name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:hint="Exit name" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/jump_edit_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:focusable="false"
-            android:hint="Date"
-            android:inputType="date" />
+            <AutoCompleteTextView
+                android:id="@+id/jump_edit_exit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Exit name"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Type"
-            android:textSize="7pt"></TextView>
+            <EditText
+                android:id="@+id/jump_edit_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Date"
+                android:inputType="date"/>
+        </LinearLayout>
 
-        <Spinner
-            android:id="@+id/jump_edit_type"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Type"
+                    android:textSize="7pt"></TextView>
+
+                <Spinner
+                    android:id="@+id/jump_edit_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Pilot Chute"
+                    android:textSize="7pt"></TextView>
+
+                <Spinner
+                    android:id="@+id/jump_edit_pc_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Slider"
+                    android:textSize="7pt"></TextView>
+
+                <Spinner
+                    android:id="@+id/jump_edit_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <Spinner
             android:id="@+id/jump_edit_suit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="10dp" />
+            android:paddingTop="10dp"/>
 
         <TextView
             android:id="@+id/jump_edit_gear_text"
@@ -66,31 +125,7 @@
         <Spinner
             android:id="@+id/jump_edit_gear"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Pilot Chute"
-            android:textSize="7pt"></TextView>
-
-        <Spinner
-            android:id="@+id/jump_edit_pc_size"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Slider Configuration"
-            android:textSize="7pt"></TextView>
-
-        <Spinner
-            android:id="@+id/jump_edit_slider"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
         <EditText
             android:id="@+id/jump_edit_delay"
@@ -115,7 +150,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="save"
-            android:text="Save" />
+            android:text="Save"/>
 
     </LinearLayout>
 </ScrollView>
