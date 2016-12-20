@@ -11,17 +11,27 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.Random;
+
+import mavonie.subterminal.Models.*;
+import mavonie.subterminal.Models.Jump;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -138,6 +148,55 @@ public class SettingsTest extends BaseTest {
         appCompatEditText4.perform(pressImeActionButton());
 
         JumpTest.navigateToJumpsList();
+
+    }
+
+    @Test
+    public void defaultSliderTest() {
+        goToSettings();
+
+        ViewInteraction appCompatSpinner = onView(
+                allOf(withId(R.id.preference_default_slider_config_value), isDisplayed()));
+        appCompatSpinner.perform(click());
+
+        int random = new Random().nextInt(Jump.getSliderConfigArray().length);
+        String sliderSelect = Arrays.asList(Jump.getSliderConfigArray()).get(random);
+
+        ViewInteraction appCompatCheckedTextView2 = onView(
+                allOf(withId(android.R.id.text1), withText(sliderSelect), isDisplayed()));
+        appCompatCheckedTextView2.perform(click());
+
+        ViewInteraction appCompatSpinner2 = onView(
+                allOf(withId(R.id.preference_default_pc_size_value), isDisplayed()));
+        appCompatSpinner2.perform(click());
+
+        random = new Random().nextInt(Jump.getPcSizeArray().length);
+        String pcSize = Integer.toString(Arrays.asList(Jump.getPcSizeArray()).get(random));
+
+        ViewInteraction appCompatCheckedTextView3 = onView(
+                allOf(withId(android.R.id.text1), withText(pcSize), isDisplayed()));
+        appCompatCheckedTextView3.perform(click());
+
+        random = new Random().nextInt(Jump.getTypeArray().length);
+        String jumpType = Arrays.asList(Jump.getTypeArray()).get(random);
+
+        ViewInteraction appCompatSpinner3 = onView(
+                allOf(withId(R.id.preference_default_jump_type_value), isDisplayed()));
+        appCompatSpinner3.perform(click());
+
+        ViewInteraction appCompatCheckedTextView4 = onView(
+                allOf(withId(android.R.id.text1), withText(jumpType), isDisplayed()));
+        appCompatCheckedTextView4.perform(click());
+
+        JumpTest.navigateToJumpsList();
+
+        ViewInteraction floatingActionButton = onView(
+                allOf(withId(R.id.fab), isDisplayed()));
+        floatingActionButton.perform(click());
+
+        onView(withId(R.id.jump_edit_slider)).check(matches(withSpinnerText(containsString(sliderSelect))));
+        onView(withId(R.id.jump_edit_pc_size)).check(matches(withSpinnerText(containsString(pcSize))));
+        onView(withId(R.id.jump_edit_type)).check(matches(withSpinnerText(containsString(jumpType))));
 
     }
 }

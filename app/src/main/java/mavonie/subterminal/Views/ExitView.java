@@ -79,40 +79,42 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         if (getItem().getDetails() != null) {
 
-            TextView rules = (TextView) view.findViewById(R.id.exit_view_rules);
-            rules.setText(Html.fromHtml(getItem().getDetails().getRules()));
+            if (getItem().getDetails().getRules() != null) {
+                TextView rules = (TextView) view.findViewById(R.id.exit_view_rules);
+                rules.setText(Html.fromHtml(getItem().getDetails().getRules()));
+            }
 
             TextView difficultyTrackingExit = (TextView) view.findViewById(R.id.exit_view_difficulty_tracking_exit);
-            difficultyTrackingExit.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficulty_tracking_exit()));
-            difficultyTrackingExit.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficulty_tracking_exit())));
+            difficultyTrackingExit.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyTrackingExit()));
+            difficultyTrackingExit.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyTrackingExit())));
 
             TextView difficultyTrackingFreefall = (TextView) view.findViewById(R.id.exit_view_difficulty_tracking_freefall);
-            difficultyTrackingFreefall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficulty_tracking_freefall()));
-            difficultyTrackingFreefall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficulty_tracking_freefall())));
+            difficultyTrackingFreefall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyTrackingFreefall()));
+            difficultyTrackingFreefall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyTrackingFreefall())));
 
             TextView difficultyTrackingLanding = (TextView) view.findViewById(R.id.exit_view_difficulty_tracking_landing);
-            difficultyTrackingLanding.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficulty_tracking_landing()));
-            difficultyTrackingLanding.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficulty_tracking_landing())));
+            difficultyTrackingLanding.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyTrackingLanding()));
+            difficultyTrackingLanding.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyTrackingLanding())));
 
             TextView difficultyTrackingOverall = (TextView) view.findViewById(R.id.exit_view_difficulty_tracking_overall);
-            difficultyTrackingOverall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficulty_tracking_overall()));
-            difficultyTrackingOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficulty_tracking_overall())));
+            difficultyTrackingOverall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyTrackingOverall()));
+            difficultyTrackingOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyTrackingOverall())));
 
             TextView difficultyWingsuitExit = (TextView) view.findViewById(R.id.exit_view_difficulty_wingsuit_exit);
-            difficultyWingsuitExit.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficulty_wingsuit_exit()));
-            difficultyWingsuitExit.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficulty_wingsuit_exit())));
+            difficultyWingsuitExit.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyWingsuitExit()));
+            difficultyWingsuitExit.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyWingsuitExit())));
 
             TextView difficultyWingsuitFreefall = (TextView) view.findViewById(R.id.exit_view_difficulty_wingsuit_freefall);
-            difficultyWingsuitFreefall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficulty_wingsuit_freefall()));
-            difficultyWingsuitFreefall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficulty_wingsuit_freefall())));
+            difficultyWingsuitFreefall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyWingsuitFreefall()));
+            difficultyWingsuitFreefall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyWingsuitFreefall())));
 
             TextView difficultyWingsuitLanding = (TextView) view.findViewById(R.id.exit_view_difficulty_wingsuit_landing);
-            difficultyWingsuitLanding.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficulty_wingsuit_landing()));
-            difficultyWingsuitLanding.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficulty_wingsuit_landing())));
+            difficultyWingsuitLanding.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyWingsuitLanding()));
+            difficultyWingsuitLanding.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyWingsuitLanding())));
 
             TextView difficultyWingsuitOverall = (TextView) view.findViewById(R.id.exit_view_difficulty_wingsuit_overall);
-            difficultyWingsuitOverall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficulty_wingsuit_overall()));
-            difficultyWingsuitOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficulty_wingsuit_overall())));
+            difficultyWingsuitOverall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyWingsuitOverall()));
+            difficultyWingsuitOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyWingsuitOverall())));
         } else {
             RelativeLayout difficulty = (RelativeLayout) view.findViewById(R.id.exit_view_difficulty_card);
             difficulty.setVisibility(View.INVISIBLE);

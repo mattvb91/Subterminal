@@ -24,18 +24,6 @@ public class GearForm extends BaseForm {
     private EditText canopySerial;
     private EditText canopyDateInUse;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment GearForm.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GearForm newInstance() {
-        GearForm fragment = new GearForm();
-        return fragment;
-    }
-
     @Override
     protected Gear getItem() {
         return (Gear) super.getItem();

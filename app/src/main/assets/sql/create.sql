@@ -18,8 +18,8 @@ CREATE TABLE exit (
     rockdrop_distance INTEGER,
     altitude_to_landing INTEGER,
     description TEXT,
-    lat TEXT,
-    long TEXT,
+    latitude DOUBLE,
+    longtitude DOUBLE,
     object_type INTEGER,
     synced INTEGER DEFAULT 0,
     deleted INTEGER DEFAULT 0);
@@ -46,13 +46,28 @@ CREATE TABLE jump (
         slider INTEGER,
         delay INTEGER,
         description TEXT,
+        type INTEGER,
+        suit_id INTEGER,
         synced INTEGER DEFAULT 0,
         deleted INTEGER DEFAULT 0);
+
+
+CREATE TABLE suits (
+    _id INTEGER PRIMARY KEY,
+    manufacturer TEXT,
+    model TEXT,
+    type INTEGER,
+    date_in_use DATE,
+    serial TEXT,
+    synced INTEGER DEFAULT 0,
+    deleted INTEGER DEFAULT 0
+);
 
 CREATE TABLE image (
         _id INTEGER PRIMARY KEY,
         filename TEXT,
         entity_type INTEGER,
         entity_id INTEGER,
-        synced INTEGER DEFAULT 0
+        synced INTEGER DEFAULT 0,
+        deleted INTEGER DEFAULT 0
 );

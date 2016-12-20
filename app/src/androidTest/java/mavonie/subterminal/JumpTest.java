@@ -6,6 +6,11 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.Random;
+
+import mavonie.subterminal.Models.*;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -39,9 +44,28 @@ public class JumpTest extends BaseTest {
                 allOf(withId(R.id.jump_edit_date)));
         appCompatEditText.perform(scrollTo(), click());
 
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(android.R.id.button1), withText("Set"), isDisplayed()));
-        appCompatButton2.perform(click());
+        //Different versions of calender
+        try {
+            ViewInteraction appCompatButton2 = onView(
+                    allOf(withId(android.R.id.button1), withText("Set"), isDisplayed()));
+            appCompatButton2.perform(click());
+        } catch (Exception e) {
+            ViewInteraction appCompatButton2 = onView(
+                    allOf(withId(android.R.id.button1), withText("OK"), isDisplayed()));
+            appCompatButton2.perform(click());
+        }
+
+        //Jump type
+        int random = new Random().nextInt(mavonie.subterminal.Models.Jump.getTypeArray().length);
+        String jumpType = Arrays.asList(mavonie.subterminal.Models.Jump.getTypeArray()).get(random);
+
+        ViewInteraction jumpTypeSpinner = onView(
+                allOf(withId(R.id.jump_edit_type), isDisplayed()));
+        jumpTypeSpinner.perform(click());
+
+        ViewInteraction appCompatCheckedTextView4 = onView(
+                allOf(withId(android.R.id.text1), withText(jumpType), isDisplayed()));
+        appCompatCheckedTextView4.perform(click());
 
         ViewInteraction appCompatSpinner = onView(
                 withId(R.id.jump_edit_pc_size));

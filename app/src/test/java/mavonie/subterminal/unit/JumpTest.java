@@ -60,10 +60,10 @@ public class JumpTest extends BaseDBUnit {
         List jumps = jump.getItems(params);
 
         jump2 = (Jump) jumps.get(1);
-        assertEquals(jump2.getRow_id(), 2);
+        assertEquals(jump2.getRowId(), 2);
 
         jump = (Jump) jumps.get(2);
-        assertEquals(jump.getRow_id(), 1);
+        assertEquals(jump.getRowId(), 1);
 
         //Change it to the most recent
         jump2.setDate("2015-05-25");
@@ -71,7 +71,7 @@ public class JumpTest extends BaseDBUnit {
 
         jumps = jump.getItems(params);
         jump2 = (Jump) jumps.get(0);
-        assertEquals(jump2.getRow_id(), 3);
+        assertEquals(jump2.getRowId(), 3);
         assertEquals(jump2.getDate(), "2015-05-25");
     }
 
@@ -80,9 +80,9 @@ public class JumpTest extends BaseDBUnit {
 
         jump.setDelay(2);
         jump.setDescription("Jump description");
-        jump.setExit_id(1);
-        jump.setPc_size(32);
-        jump.setGear_id(1);
+        jump.setExitId(1);
+        jump.setPcSize(32);
+        jump.setGearId(1);
         jump.setDate("2015-05-24");
         jump.setSlider(0);
         jump.save();

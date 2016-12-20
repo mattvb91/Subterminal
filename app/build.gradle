@@ -12,8 +12,8 @@ android {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 12
-        versionName "1.0.1"
+        versionCode 14
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -59,6 +59,9 @@ dependencies {
     compile 'com.kbeanie:multipicker:1.1.2@aar'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.sa90.materialarcmenu:library:1.4.1'
+    compile 'com.android.support:design:24+'
+    compile 'com.android.support:appcompat-v7:24.2.0'
     compile('com.github.orangegangsters:lollipin:2.0.0@aar') {
         transitive = true
     }

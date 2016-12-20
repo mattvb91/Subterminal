@@ -1,14 +1,10 @@
 package mavonie.subterminal.Utils.Api;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 
 import java.io.IOException;
 
-import mavonie.subterminal.BuildConfig;
-import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;

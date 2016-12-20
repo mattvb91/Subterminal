@@ -1,11 +1,13 @@
 package mavonie.subterminal.Models;
 
-import android.content.ContentValues;
-import android.database.Cursor;
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
@@ -17,16 +19,17 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
 
-/**
- * Created by mavon on 20/10/16.
- */
 
-public class Image extends Model {
+/**
+ * Image class
+ */
+public class Image extends Synchronizable {
 
     private static final String IMAGE_PATH = "/Subterminal/images";
 
@@ -34,7 +37,6 @@ public class Image extends Model {
     String filename;
     int entity_type;
     int entity_id;
-    int synced;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "image";
@@ -42,7 +44,23 @@ public class Image extends Model {
     public static final String COLUMN_NAME_FILENAME = "filename";
     public static final String COLUMN_NAME_ENTITY_TYPE = "entity_type";
     public static final String COLUMN_NAME_ENTITY_ID = "entity_id";
-    public static final String COLUMN_NAME_SYNCED = "synced";
+
+    private static Map<String, Integer> dbColumns = null;
+
+    @Override
+    public Map<String, Integer> getDbColumns() {
+        if (dbColumns == null) {
+            dbColumns = new HashMap<String, Integer>();
+
+            dbColumns.put(COLUMN_NAME_FILENAME, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_ENTITY_TYPE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_ENTITY_ID, TYPE_INTEGER);
+
+            Synchronizable.setDBColumns(dbColumns);
+        }
+
+        return dbColumns;
+    }
 
     public static final int ENTITY_TYPE_EXIT = 0;
     public static final int ENTITY_TYPE_JUMP = 1;
@@ -56,63 +74,20 @@ public class Image extends Model {
         this.filename = filename;
     }
 
-    public int getEntity_type() {
+    public int getEntityType() {
         return entity_type;
     }
 
-    public void setEntity_type(int entity_type) {
+    public void setEntityType(int entity_type) {
         this.entity_type = entity_type;
     }
 
-    public int getEntity_id() {
+    public int getEntityId() {
         return entity_id;
     }
 
-    public void setEntity_id(int entity_id) {
+    public void setEntityId(int entity_id) {
         this.entity_id = entity_id;
-    }
-
-    public int getSynced() {
-        return synced;
-    }
-
-    public void setSynced(int synced) {
-        this.synced = synced;
-    }
-
-    @Override
-    Model populateFromCursor(Cursor cursor) {
-
-        try {
-            Image image = new Image();
-
-            int idIndex = cursor.getColumnIndexOrThrow(_ID);
-            int idEntityType = cursor.getColumnIndexOrThrow(COLUMN_NAME_ENTITY_TYPE);
-            int idEntityId = cursor.getColumnIndexOrThrow(COLUMN_NAME_ENTITY_ID);
-            int idFilename = cursor.getColumnIndexOrThrow(COLUMN_NAME_FILENAME);
-            int idSynced = cursor.getColumnIndexOrThrow(COLUMN_NAME_SYNCED);
-
-            image.setId(cursor.getInt(idIndex));
-            image.setEntity_id(cursor.getInt(idEntityId));
-            image.setEntity_type(cursor.getInt(idEntityType));
-            image.setFilename(cursor.getString(idFilename));
-            image.setSynced(cursor.getInt(idSynced));
-
-            return image;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    @Override
-    void populateContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_NAME_FILENAME, this.getFilename());
-        contentValues.put(COLUMN_NAME_ENTITY_ID, this.getEntity_id());
-        contentValues.put(COLUMN_NAME_ENTITY_TYPE, this.getEntity_type());
-        contentValues.put(COLUMN_NAME_SYNCED, this.getSynced());
     }
 
     @Override
@@ -198,10 +173,8 @@ public class Image extends Model {
         if (this.getId() != ((Image) o).getId()) return false;
         if (entity_type != image.entity_type) return false;
         if (entity_id != image.entity_id) return false;
-        if (synced != image.synced) return false;
         if (bitmap != null ? !bitmap.equals(image.bitmap) : image.bitmap != null) return false;
         return filename.equals(image.filename);
-
     }
 
     /**
@@ -235,6 +208,7 @@ public class Image extends Model {
         return uri;
     }
 
+    //TODO properly name images based on model
     public static Image createFromPath(String originalPath, Model model) {
 
         String root = Environment.getExternalStorageDirectory().toString();
@@ -250,8 +224,8 @@ public class Image extends Model {
             copy(new File(originalPath), new File(myDir, fname));
 
             Image image = new Image();
-            image.setEntity_type(getEntityTypeFromModel(model));
-            image.setEntity_id(model.getId());
+            image.setEntityType(getEntityTypeFromModel(model));
+            image.setEntityId(model.getId());
             image.setFilename(fname);
             image.save();
 
@@ -265,6 +239,9 @@ public class Image extends Model {
     }
 
     private static void copy(File src, File dst) throws IOException {
+
+        verifyStoragePermissions(MainActivity.getActivity());
+
         FileInputStream inStream = new FileInputStream(src);
         FileOutputStream outStream = new FileOutputStream(dst);
         FileChannel inChannel = inStream.getChannel();
@@ -286,5 +263,33 @@ public class Image extends Model {
         return builder
                 .setPlaceholderImage(R.mipmap.ic_image_placeholder)
                 .build();
+    }
+
+    @Override
+    public void addSyncJob() {
+
+    }
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+
+    public static void verifyStoragePermissions(Activity activity) {
+
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 }

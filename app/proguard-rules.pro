@@ -15,3 +15,18 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-dontwarn android.databinding.**
+-keep class android.databinding.** { *; }
+
+-dontwarn com.facebook.**
+-keep class com.facebook.** { *; }
+
+-dontwarn com.birbit.android.jobqueue.**
+-keep class com.birbit.android.jobqueue.** { *; }
+
+-dontwarn okio.**
+-keep class okio.** { *; }
+
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }

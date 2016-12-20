@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
@@ -95,5 +96,44 @@ public class GearTest extends BaseDBUnit {
         gear.save();
 
         return gear;
+    }
+
+    private Suit createSuit() {
+        Suit suit = new Suit();
+
+        suit.setManufacturer("Manufacturer");
+        suit.setType(Suit.TYPE_WINGSUIT);
+        suit.setDateInUse("2010-06-05");
+        suit.setModel("Model");
+        suit.setSerial("Serial");
+        suit.save();
+
+        return suit;
+    }
+
+    @Test
+    public void testSaveSuitToDB() {
+
+        Suit suit = createSuit();
+        assertTrue(suit.exists());
+        Suit dbSuit= (Suit) new Suit().getOneById(suit.getId());
+
+        assertTrue(suit.equals(dbSuit));
+    }
+
+    /**
+     * Make sure item gets removed from db
+     */
+    @Test
+    public void deleteSuitFromDB() {
+        Suit suit = createSuit();
+
+        assertTrue(suit.delete());
+        Suit dbSuit= (Suit) new Suit().getOneById(suit.getId());
+
+        assertEquals(dbSuit.getDeleted(), Synchronizable.DELETED_TRUE);
+
+        dbSuit.delete();
+        assertNull(dbSuit.getOneById(dbSuit.getId()));
     }
 }

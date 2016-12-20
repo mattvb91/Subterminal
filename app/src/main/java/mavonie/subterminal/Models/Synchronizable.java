@@ -1,11 +1,9 @@
 package mavonie.subterminal.Models;
 
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import mavonie.subterminal.Utils.Subterminal;
 
@@ -28,6 +26,13 @@ public abstract class Synchronizable extends Model {
     public static final String COLUMN_SYNCED = "synced";
     public static final String COLUMN_DELETED = "deleted";
 
+    public static void setDBColumns(Map<String, Integer> dbColumns) {
+        dbColumns.put(COLUMN_SYNCED, TYPE_INTEGER);
+        dbColumns.put(COLUMN_DELETED, TYPE_INTEGER);
+
+        Model.setDBColumns(dbColumns);
+    }
+
     /**
      * Transform the remote fields to the local fields
      */
@@ -37,14 +42,6 @@ public abstract class Synchronizable extends Model {
             this.setId(this.remote_id);
             this.remote_id = null;
         }
-    }
-
-    public void populateSynchronizationFromCursor(Cursor cursor) {
-        int synced = cursor.getColumnIndexOrThrow(COLUMN_SYNCED);
-        int deleted = cursor.getColumnIndexOrThrow(COLUMN_DELETED);
-
-        this.setSynced(cursor.getInt(synced));
-        this.setDeleted(cursor.getInt(deleted));
     }
 
     public Integer getSynced() {
@@ -61,15 +58,6 @@ public abstract class Synchronizable extends Model {
 
     public void setDeleted(Integer deleted) {
         this.deleted = deleted;
-    }
-
-    public void populateSynchronizationContentValues(ContentValues contentValues) {
-        contentValues.put(COLUMN_DELETED, this.getDeleted());
-        contentValues.put(COLUMN_SYNCED, this.getSynced());
-
-        if (this.remote_id != null) {
-            contentValues.put(_ID, this.remote_id);
-        }
     }
 
     public boolean isSynced() {
@@ -157,6 +145,11 @@ public abstract class Synchronizable extends Model {
             gear.save();
         }
 
+        List<Suit> suits = new Suit().getItems(null);
+        for (Suit suit : suits) {
+            suit.save();
+        }
+
         List<Jump> jumps = new Jump().getItems(null);
         for (Jump jump : jumps) {
             jump.save();
@@ -186,6 +179,15 @@ public abstract class Synchronizable extends Model {
             gear.addSyncJob();
         }
 
+        for (Suit suit : Suit.getSuitsForSync()) {
+            suit.addSyncJob();
+        }
+
+        for (Suit suit : Suit.getSuitsForDelete()) {
+            suit.addSyncJob();
+        }
+
+
         for (Jump jump : Jump.getJumpsForSync()) {
             jump.addSyncJob();
         }
@@ -193,5 +195,18 @@ public abstract class Synchronizable extends Model {
         for (Jump jump : Jump.getJumpsForDelete()) {
             jump.addSyncJob();
         }
+    }
+
+    /**
+     * Return all items that are not deleted
+     *
+     * @return List
+     */
+    public List<Model> getActiveItems() {
+        HashMap<String, Object> whereNotDeleted = new HashMap<>();
+        whereNotDeleted.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
+        whereNotDeleted.put(Model.FILTER_WHERE_VALUE, DELETED_FALSE.toString());
+
+        return super.getItems(whereNotDeleted);
     }
 }

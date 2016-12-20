@@ -68,7 +68,7 @@ public class APITest extends BaseDBUnit {
 
         for (Exit exit : exits) {
             assertTrue(exit.save());
-            assertNotNull(exit.getDetails().getExit_id());
+            assertNotNull(exit.getDetails().getExitId());
             assertTrue(exit.getDetails().exists());
         }
 

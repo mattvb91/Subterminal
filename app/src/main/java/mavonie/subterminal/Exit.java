@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class Exit extends Fragment {
+
     private FragmentTabHost mTabHost;
 
     public static final String TAB = "TAB";

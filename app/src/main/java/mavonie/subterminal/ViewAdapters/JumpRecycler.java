@@ -25,7 +25,6 @@ import mavonie.subterminal.Utils.Subterminal;
  */
 public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> {
 
-    private static final int THUMB_SIZE = 50;
     private final List<mavonie.subterminal.Models.Jump> mValues;
     private final BaseFragment.OnFragmentInteractionListener mListener;
 
@@ -57,7 +56,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
 
         holder.slider.setText("Slider: " + holder.mItem.getFormattedSlider());
         holder.delay.setText("Delay: " + holder.mItem.getFormattedDelay());
-        holder.row_id.setText("#" + holder.mItem.getRow_id());
+        holder.row_id.setText("#" + holder.mItem.getRowId());
 
         if (date != null) {
             holder.ago.setText(TimeAgo.sinceToday(date));

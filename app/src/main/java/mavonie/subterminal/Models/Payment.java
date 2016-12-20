@@ -1,14 +1,13 @@
 package mavonie.subterminal.Models;
 
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 import com.stripe.exception.AuthenticationException;
+
+import java.util.Map;
 
 import io.card.payment.CreditCard;
 import mavonie.subterminal.MainActivity;
@@ -27,13 +26,8 @@ public class Payment extends Model {
     }
 
     @Override
-    Model populateFromCursor(Cursor cursor) {
+    public Map<String, Integer> getDbColumns() {
         return null;
-    }
-
-    @Override
-    void populateContentValues(ContentValues contentValues) {
-
     }
 
     @Override

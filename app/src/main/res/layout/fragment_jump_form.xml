@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/ScrollView01"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical">
+    android:id="@+id/ScrollView01"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical">
 
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:ems="10"
-            android:hint="Exit name"/>
+            android:hint="Exit name" />
 
         <EditText
             android:id="@+id/jump_edit_date"
@@ -41,13 +41,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
+            android:text="Type"
+            android:textSize="7pt"></TextView>
+
+        <Spinner
+            android:id="@+id/jump_edit_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <Spinner
+            android:id="@+id/jump_edit_suit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp" />
+
+        <TextView
+            android:id="@+id/jump_edit_gear_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
             android:text="Rig"
             android:textSize="7pt"></TextView>
 
         <Spinner
             android:id="@+id/jump_edit_gear"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <TextView
             android:layout_width="match_parent"
@@ -59,7 +78,7 @@
         <Spinner
             android:id="@+id/jump_edit_pc_size"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <TextView
             android:layout_width="match_parent"
@@ -71,7 +90,7 @@
         <Spinner
             android:id="@+id/jump_edit_slider"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <EditText
             android:id="@+id/jump_edit_delay"
@@ -96,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="save"
-            android:text="Save"/>
+            android:text="Save" />
 
     </LinearLayout>
 </ScrollView>

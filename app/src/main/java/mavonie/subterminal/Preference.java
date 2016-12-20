@@ -11,8 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,10 +24,12 @@ import com.github.orangegangsters.lollipin.lib.managers.AppLock;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import de.cketti.library.changelog.ChangeLog;
 import jonathanfinerty.once.Once;
+import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
@@ -38,6 +43,9 @@ public class Preference extends BaseFragment {
     public static final String PIN_ENABLED = "PIN_ENABLED";
     public static final String PREFS_JUMP_START_COUNT = "PREFS_JUMP_START_COUNT";
     public static final String FORCE_SYNC_ENTITIES = "FORCE_SYNC_ENTITIES";
+    public static final String PREFS_DEFAULT_SLIDER = "PREFS_DEFAULT_SLIDER";
+    public static final String PREFS_DEFAULT_PC = "PREFS_DEFAULT_PC";
+    public static final String PREFS_DEFAULT_JUMP_TYPE = "PREFS_DEFAULT_JUMP_TYPE";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -148,6 +156,93 @@ public class Preference extends BaseFragment {
                 return false;
             }
         });
+
+        /**
+         * Slider Spinner
+         */
+        final Spinner sliderConfigSpinner = (Spinner) view.findViewById(R.id.preference_default_slider_config_value);
+        ArrayAdapter<String> sliderAdapter =
+                new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                        Jump.getSliderConfigArray()
+                );
+
+        sliderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sliderConfigSpinner.setAdapter(sliderAdapter);
+        sliderConfigSpinner.setSelection(Prefs.getInt(PREFS_DEFAULT_SLIDER, Jump.SLIDER_DOWN), false);
+        sliderConfigSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Prefs.putInt(PREFS_DEFAULT_SLIDER, sliderConfigSpinner.getSelectedItemPosition());
+                UIHelper.toast(getString(R.string.settings_updated));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        /**
+         * End Slider Spinner
+         */
+
+        /**
+         * Jump type Spinner
+         */
+        final Spinner jumpTypeSpinner = (Spinner) view.findViewById(R.id.preference_default_jump_type_value);
+        ArrayAdapter<String> jumpTypeAdapter =
+                new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                        Jump.getTypeArray()
+                );
+
+        jumpTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jumpTypeSpinner.setAdapter(jumpTypeAdapter);
+        jumpTypeSpinner.setSelection(Prefs.getInt(PREFS_DEFAULT_JUMP_TYPE, Jump.TYPE_SLICK), false);
+        jumpTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Prefs.putInt(PREFS_DEFAULT_JUMP_TYPE, jumpTypeSpinner.getSelectedItemPosition());
+                UIHelper.toast(getString(R.string.settings_updated));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        /**
+         * End Jump type Spinner
+         */
+
+
+        /**
+         * PC Size Spinner
+         */
+        final Spinner pcSize = (Spinner) view.findViewById(R.id.preference_default_pc_size_value);
+        ArrayAdapter<Integer> pcApter =
+                new ArrayAdapter<Integer>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                        Jump.getPcSizeArray()
+                );
+
+
+        pcApter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pcSize.setAdapter(pcApter);
+        pcSize.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(Prefs.getInt(PREFS_DEFAULT_PC, 32)), false);
+        pcSize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Prefs.putInt(PREFS_DEFAULT_PC, Integer.parseInt(pcSize.getSelectedItem().toString()));
+                UIHelper.toast(getString(R.string.settings_updated));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        /**
+         * End PC Size Spinner
+         */
+
         return view;
     }
 

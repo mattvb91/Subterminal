@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -21,21 +23,25 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
+import mavonie.subterminal.Models.Suit;
+import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Subterminal;
 
-/**
- * Created by mavon on 15/10/16.
- */
 
+/**
+ * Jump form
+ */
 public class JumpForm extends BaseForm implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     private AutoCompleteTextView exitNameAutoComplete;
     private Spinner rig;
     private Spinner pilotChute;
     private Spinner sliderConfig;
+    private Spinner jumpTypeSpinner;
+    private Spinner suitSpinner;
     private TextView delay;
     private TextView description;
     private TextView date;
@@ -46,7 +52,8 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
     private LinkedHashMap<String, String> gear;
     LinkedHashMapAdapter<String, String> gearAdapter;
 
-    Integer[] pcSizes;
+    private LinkedHashMap suits = new LinkedHashMap();
+    LinkedHashMapAdapter suitsAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.suits);
 
     @Override
     protected String getItemClass() {
@@ -77,25 +84,91 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
         Spinner gearSpinner = (Spinner) view.findViewById(R.id.jump_edit_gear);
         this.gear = new Gear().getItemsForSelect("container_manufacturer");
-        this.gearAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.gear);
-        this.gearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        gearSpinner.setAdapter(this.gearAdapter);
-        gearSpinner.setOnItemSelectedListener(this);
+
+        if (this.gear.size() > 0) {
+            this.gearAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.gear);
+            this.gearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            gearSpinner.setAdapter(this.gearAdapter);
+            gearSpinner.setOnItemSelectedListener(this);
+        } else {
+            view.findViewById(R.id.jump_edit_gear_text).setVisibility(View.GONE);
+            gearSpinner.setVisibility(View.GONE);
+        }
+
+        //SUIT SPINNER
+        this.suitSpinner = (Spinner) view.findViewById(R.id.jump_edit_suit);
+        this.suitsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.suitSpinner.setAdapter(suitsAdapter);
+
+        if (this.suits.size() == 0) {
+            this.suitSpinner.setVisibility(View.GONE);
+        }
+        //END SUIT SPINNER
 
         Spinner pcSizeSpinner = (Spinner) view.findViewById(R.id.jump_edit_pc_size);
-        this.pcSizes = new Jump().getPcSizeArray();
-        ArrayAdapter<Integer> pcSizeAdapter = new ArrayAdapter<Integer>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.pcSizes);
+        ArrayAdapter<Integer> pcSizeAdapter = new ArrayAdapter<Integer>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Jump.getPcSizeArray());
         pcSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pcSizeSpinner.setAdapter(pcSizeAdapter);
+        pcSizeSpinner.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(Prefs.getInt(Preference.PREFS_DEFAULT_PC, 32)), false);
+
 
         Spinner sliderConfigSpinner = (Spinner) view.findViewById(R.id.jump_edit_slider);
         ArrayAdapter<String> sliderAdapter =
                 new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
-                        new Jump().getSliderConfigArray()
+                        Jump.getSliderConfigArray()
                 );
 
         sliderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sliderConfigSpinner.setAdapter(sliderAdapter);
+        sliderConfigSpinner.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_SLIDER, Jump.SLIDER_DOWN), false);
+
+        jumpTypeSpinner = (Spinner) view.findViewById(R.id.jump_edit_type);
+        ArrayAdapter<String> typeAdapter =
+                new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                        Jump.getTypeArray()
+                );
+
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jumpTypeSpinner.setAdapter(typeAdapter);
+        jumpTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Integer type = convertTypes(i);
+
+                if (type != null) {
+                    suits.clear();
+                    suits.putAll(new Suit().getItemsForSpinner(type));
+
+                    if (suits.size() > 0) {
+                        suitSpinner.setVisibility(View.VISIBLE);
+                        suitsAdapter.notifyDataSetChanged();
+                        suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                suitEntry = suitsAdapter.getItem(i);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
+                    } else {
+                        suitSpinner.setVisibility(View.GONE);
+                        suitEntry = null;
+                    }
+                } else {
+                    suitSpinner.setVisibility(View.GONE);
+                    suitEntry = null;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        jumpTypeSpinner.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_JUMP_TYPE, Jump.TYPE_SLICK));
 
         this.date = (EditText) view.findViewById(R.id.jump_edit_date);
         DateFormat df = new DateFormat();
@@ -132,6 +205,16 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
         });
     }
 
+    private Integer convertTypes(int i) {
+        Integer type = null;
+        if (i == Jump.TYPE_TRACKING) {
+            type = Suit.TYPE_TRACKING;
+        } else if (i == Jump.TYPE_WINGSUIT) {
+            type = Suit.TYPE_WINGSUIT;
+        }
+        return type;
+    }
+
     private void updateDate() {
 
         DateFormat df = new DateFormat();
@@ -165,13 +248,13 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             String delayString = delay.getText().toString();
             String descriptionString = description.getText().toString();
 
-            getItem().setExit_id(exitId);
+            getItem().setExitId(exitId);
 
             if (this.gearEntry != null) {
-                getItem().setGear_id(Integer.parseInt(this.gearEntry.getKey()));
+                getItem().setGearId(Integer.parseInt(this.gearEntry.getKey()));
             }
 
-            getItem().setPc_size(Integer.parseInt(pilotChuteSize));
+            getItem().setPcSize(Integer.parseInt(pilotChuteSize));
             getItem().setSlider(Integer.parseInt(Long.toString(sliderConfigID)));
             getItem().setDate(date.getText().toString());
 
@@ -179,7 +262,14 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
                 getItem().setDelay(Integer.parseInt(delayString));
             }
 
+            if (suitSpinner.getVisibility() == View.VISIBLE) {
+                getItem().setSuitId(Integer.parseInt(this.suitEntry.getKey()));
+            } else {
+                getItem().setSuitId(null);
+            }
+
             getItem().setDescription(descriptionString);
+            getItem().setType(Integer.parseInt(Long.toString(jumpTypeSpinner.getSelectedItemId())));
 
             super.save();
         }
@@ -200,12 +290,29 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             }
 
             this.date.setText(getItem().getDate());
-            this.pilotChute.setSelection(Arrays.asList(this.pcSizes).indexOf(getItem().getPc_size()));
+            this.pilotChute.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(getItem().getPcSize()));
+
+            if (getItem().getType() != null) {
+                this.jumpTypeSpinner.setSelection(getItem().getType(), false);
+            }
+
+            this.suits.clear();
+
+            if (getItem().getType() != null) {
+                this.suits.putAll(new Suit().getItemsForSpinner(convertTypes(getItem().getType())));
+                this.suitsAdapter.notifyDataSetChanged();
+            }
+            suitSpinner.setAdapter(this.suitsAdapter);
+            if (getItem().getSuitId() != null) {
+                suitEntry = suitsAdapter.getItem(this.suitsAdapter.findPositionFromKey(getItem().getSuitId()));
+                suitSpinner.setSelection(this.suitsAdapter.findPositionFromKey(getItem().getSuitId()), false);
+            }
+
             this.delay.setText(Integer.toString(getItem().getDelay()));
             this.description.setText(getItem().getDescription());
 
-            if (getItem().getGear_id() != null) {
-                Integer position = this.gearAdapter.findPositionFromKey(getItem().getGear_id());
+            if (getItem().getGearId() != null) {
+                Integer position = this.gearAdapter.findPositionFromKey(getItem().getGearId());
                 if (position != null) {
                     this.rig.setSelection(position);
                 }
@@ -237,6 +344,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
     private Map.Entry<String, String> exitEntry;
     private Map.Entry<String, String> gearEntry;
+    private Map.Entry<String, String> suitEntry;
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
