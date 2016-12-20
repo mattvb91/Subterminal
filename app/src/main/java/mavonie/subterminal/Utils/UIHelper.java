@@ -22,6 +22,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.ProfilePictureView;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +42,7 @@ import mavonie.subterminal.R;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
 import mavonie.subterminal.Views.Premium.PremiumView;
+import uk.me.lewisdeane.ldialogs.CustomListDialog;
 
 /**
  * Class to deal with UI/Fragment navigation components
@@ -158,6 +160,45 @@ public class UIHelper {
 
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
+    }
+
+    public static void switchModeDialog() {
+
+        // Create list dialog with required parameters - context, title, and our array of items to fill the list.
+        String[] modes = {Subterminal.MODE_BASE, Subterminal.Mode_SKYDIVING};
+
+        CustomListDialog.Builder builder = new CustomListDialog.Builder(MainActivity.getActivity(), "Mode", modes);
+        CustomListDialog customListDialog = builder.build();
+        customListDialog.show();
+
+        customListDialog.setListClickListener(new CustomListDialog.ListClickListener() {
+            @Override
+            public void onListItemSelected(int i, String[] strings, String s) {
+                switchMode(s);
+            }
+        });
+    }
+
+    /**
+     * Switch to requested mode
+     *
+     * @param mode
+     */
+    private static void switchMode(String mode) {
+        Prefs.putString(Preference.PREFS_MODE, mode);
+
+        if (mode.equals(Subterminal.MODE_BASE)) {
+            //Switch to B.A.S.E mode
+            MainActivity.getActivity().getNavigationView().getMenu().setGroupVisible(R.id.menu_group_BASE, true);
+            MainActivity.getActivity().getNavigationView().getMenu().setGroupVisible(R.id.menu_group_SKYDIVING, false);
+
+        } else {
+            //Switch to Skydiving mode
+            MainActivity.getActivity().getNavigationView().getMenu().setGroupVisible(R.id.menu_group_SKYDIVING, true);
+            MainActivity.getActivity().getNavigationView().getMenu().setGroupVisible(R.id.menu_group_BASE, false);
+        }
+
+        MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_mode).setTitle(mode);
     }
 
 
@@ -304,6 +345,7 @@ public class UIHelper {
         UIHelper.replaceFragment(new Jump());
 
         UIHelper.initAddButton();
+        UIHelper.switchMode(Prefs.getString(Preference.PREFS_MODE, Subterminal.Mode_SKYDIVING));
 
         if (!Subterminal.getUser().isLoggedIn()) {
             userLoggedOut();
