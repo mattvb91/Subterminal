@@ -9,8 +9,6 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Random;
 
-import mavonie.subterminal.Models.*;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;

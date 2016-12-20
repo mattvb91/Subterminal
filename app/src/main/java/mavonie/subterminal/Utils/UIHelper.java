@@ -128,10 +128,6 @@ public class UIHelper {
         Fragment fragmentClass = null;
 
         switch (id) {
-//            case R.id.nav_home:
-//                fragmentClass = Home.class;
-//                fab.hide();
-//                break;
             case R.id.nav_jumps:
                 fragmentClass = new Jump();
                 getAddButton().show();
@@ -150,6 +146,9 @@ public class UIHelper {
                 break;
             case R.id.nav_premium:
                 fragmentClass = new PremiumView();
+                break;
+
+            case R.id.skydiving_nav_jumps:
                 break;
         }
 
