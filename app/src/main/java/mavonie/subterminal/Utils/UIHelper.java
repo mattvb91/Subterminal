@@ -165,7 +165,7 @@ public class UIHelper {
     public static void switchModeDialog() {
 
         // Create list dialog with required parameters - context, title, and our array of items to fill the list.
-        String[] modes = {Subterminal.MODE_BASE, Subterminal.Mode_SKYDIVING};
+        String[] modes = {Subterminal.MODE_BASE, Subterminal.MODE_SKYDIVING};
 
         CustomListDialog.Builder builder = new CustomListDialog.Builder(MainActivity.getActivity(), "Mode", modes);
         CustomListDialog customListDialog = builder.build();
@@ -345,7 +345,7 @@ public class UIHelper {
         UIHelper.replaceFragment(new Jump());
 
         UIHelper.initAddButton();
-        UIHelper.switchMode(Prefs.getString(Preference.PREFS_MODE, Subterminal.Mode_SKYDIVING));
+        UIHelper.switchMode(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING));
 
         if (!Subterminal.getUser().isLoggedIn()) {
             userLoggedOut();
