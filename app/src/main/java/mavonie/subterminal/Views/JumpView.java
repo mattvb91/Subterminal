@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Jump;
@@ -84,6 +87,8 @@ public class JumpView extends BaseFragment {
                 MainActivity.getActivity().onPickImage(v);
             }
         });
+
+        adRequest(view);
 
         return view;
     }

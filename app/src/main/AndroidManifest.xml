@@ -61,6 +61,10 @@
             android:name="mavonie.subterminal.STRIPE_PUBLISHABLE_KEY"
             android:value="@string/stripe_publishable_key"/>
 
+        <meta-data
+            android:name="mavonie.subterminal.ADMOB_APP_ID"
+            android:value="@string/admob_app_id" />
+
         <service
             android:name=".Utils.Api.FirebaseInstanceService">
             <intent-filter>
