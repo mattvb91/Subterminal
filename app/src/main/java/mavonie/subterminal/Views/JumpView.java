@@ -22,10 +22,6 @@ import mavonie.subterminal.Utils.UIHelper;
  */
 public class JumpView extends BaseFragment {
 
-    public JumpView() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +67,7 @@ public class JumpView extends BaseFragment {
         jumpPC.setText(Integer.toString(getItem().getPcSize()));
 
         TextView jumpDescription = (TextView) view.findViewById(R.id.jump_view_description);
-        jumpDescription.setText(getItem().getDescription());
+        jumpDescription.setText(getItem().getDescription().replace("\\n", "\n"));
 
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
