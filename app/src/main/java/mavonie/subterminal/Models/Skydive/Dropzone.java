@@ -183,4 +183,17 @@ public class Dropzone extends Model {
         return address_country != null ? address_country.equals(dropzone.address_country) : dropzone.address_country == null;
 
     }
+
+    /**
+     * Check to see if the map should be active for this Dropzone
+     *
+     * @return boolean
+     */
+    public boolean isMapActive() {
+        if (this.getLatitude() != 0.00 && this.getLongtitude() != 0.00) {
+            return true;
+        }
+
+        return false;
+    }
 }

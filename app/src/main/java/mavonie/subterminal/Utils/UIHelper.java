@@ -40,6 +40,7 @@ import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Skydive.Dropzone;
+import mavonie.subterminal.Skydive.Views.DropzoneView;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
 import mavonie.subterminal.Views.Premium.PremiumView;
@@ -87,6 +88,8 @@ public class UIHelper {
             fragment = new JumpView();
         } else if (entity instanceof Suit) {
             fragment = new SuitForm();
+        } else if (entity instanceof mavonie.subterminal.Models.Skydive.Dropzone) {
+            fragment = new DropzoneView();
         }
 
         fragment.setArguments(args);

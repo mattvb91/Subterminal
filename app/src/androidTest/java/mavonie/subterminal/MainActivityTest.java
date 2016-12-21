@@ -17,24 +17,37 @@ import mavonie.subterminal.Utils.Subterminal;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 public class MainActivityTest extends BaseTest {
 
-    public void openNavigationDrawer() {
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Open navigation drawer"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
-    }
-
     @Test
     public void testModeChange() {
+        testBaseMode();
+        testSkydiveMode();
+    }
+
+    public static void testSkydiveMode() {
+        openNavigationDrawer();
+
+        ViewInteraction modeMenu2 = onView(
+                allOf(withId(R.id.design_menu_item_text), withText(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING)), isDisplayed()));
+        modeMenu2.perform(click());
+
+        ViewInteraction appCompatTextView2 = onView(
+                allOf(withId(R.id.item_dialog_list_item), withText(Subterminal.MODE_SKYDIVING),
+                        childAtPosition(
+                                withId(R.id.dialog_list_custom_list),
+                                1),
+                        isDisplayed()));
+        appCompatTextView2.perform(click());
+
+        closeNavigationDrawer();
+    }
+
+    public static void testBaseMode() {
         openNavigationDrawer();
 
         ViewInteraction modeMenu = onView(
@@ -49,17 +62,7 @@ public class MainActivityTest extends BaseTest {
                         isDisplayed()));
         appCompatTextView.perform(click());
 
-        ViewInteraction modeMenu2 = onView(
-                allOf(withId(R.id.design_menu_item_text), withText(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING)), isDisplayed()));
-        modeMenu2.perform(click());
-
-        ViewInteraction appCompatTextView2 = onView(
-                allOf(withId(R.id.item_dialog_list_item), withText(Subterminal.MODE_SKYDIVING),
-                        childAtPosition(
-                                withId(R.id.dialog_list_custom_list),
-                                1),
-                        isDisplayed()));
-        appCompatTextView2.perform(click());
+        closeNavigationDrawer();
     }
 
     private static Matcher<View> childAtPosition(

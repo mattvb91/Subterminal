@@ -3,6 +3,7 @@ package mavonie.subterminal;
 
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +19,9 @@ import java.util.Random;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
@@ -43,6 +46,18 @@ public class BaseTest {
         } catch (NoMatchingViewException e) {
             //View is not in hierarchy
         }
+    }
+
+    public static void openNavigationDrawer() {
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        withParent(withId(R.id.toolbar)),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+    }
+
+    public static void closeNavigationDrawer() {
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.close());
     }
 
     public int getRandomRecyclerPosition(int recyclerId) {

@@ -4,7 +4,12 @@ package mavonie.subterminal;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
+import org.junit.Before;
 import org.junit.Test;
+
+import mavonie.subterminal.Utils.Subterminal;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -23,6 +28,12 @@ import static org.hamcrest.Matchers.is;
 
 public class GearTest extends BaseTest {
 
+    @Before
+    public void setMode() {
+        if (!Prefs.getString(Preference.PREFS_MODE, null).equals(Subterminal.MODE_BASE)) {
+            MainActivityTest.testBaseMode();
+        }
+    }
 
     @Test
     public void addRigTest() {
@@ -72,11 +83,7 @@ public class GearTest extends BaseTest {
     }
 
     public void navigateToGear() {
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Open navigation drawer"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
+        openNavigationDrawer();
 
         ViewInteraction appCompatCheckedTextView = onView(
                 allOf(withId(R.id.design_menu_item_text), withText("Gear"), isDisplayed()));
