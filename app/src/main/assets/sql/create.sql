@@ -79,6 +79,17 @@ CREATE TABLE image (
 /*
  * Skydiving Tables
  */
+CREATE TABLE skydive (
+        _id INTEGER PRIMARY KEY,
+        dropzone_id TEXT,
+        date DATE,
+        altitude INTEGER,
+        delay INTEGER,
+        description TEXT,
+        jump_type INTEGER,
+        synced INTEGER DEFAULT 0,
+        deleted INTEGER DEFAULT 0
+);
 
 CREATE TABLE skydive_dropzone (
         _id INTEGER PRIMARY KEY,

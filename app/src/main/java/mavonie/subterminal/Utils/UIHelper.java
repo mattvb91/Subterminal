@@ -36,11 +36,14 @@ import mavonie.subterminal.Gear;
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Skydive.Dropzone;
+import mavonie.subterminal.Skydive.Forms.SkydiveForm;
 import mavonie.subterminal.Skydive.Views.DropzoneView;
+import mavonie.subterminal.Skydive.Views.SkydiveView;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
 import mavonie.subterminal.Views.Premium.PremiumView;
@@ -52,10 +55,10 @@ import uk.me.lewisdeane.ldialogs.CustomListDialog;
  */
 public class UIHelper {
 
-    //private static final int FRAGMENT_HOME = R.id.nav_home;
     private static final int FRAGMENT_JUMPS = R.id.nav_jumps;
     private static final int FRAGMENT_GEAR = R.id.nav_gear;
     private static final int FRAGMENT_EXIT = R.id.nav_exits;
+    private static final int FRAGMENT_SKYDIVES = R.id.skydiving_nav_jumps;
 
     private static FloatingActionButton addButton;
 
@@ -90,6 +93,8 @@ public class UIHelper {
             fragment = new SuitForm();
         } else if (entity instanceof mavonie.subterminal.Models.Skydive.Dropzone) {
             fragment = new DropzoneView();
+        } else if (entity instanceof Skydive) {
+            fragment = new SkydiveView();
         }
 
         fragment.setArguments(args);
@@ -153,6 +158,8 @@ public class UIHelper {
                 break;
 
             case R.id.skydiving_nav_jumps:
+                fragmentClass = new mavonie.subterminal.Skydive.Skydive();
+                getAddButton().show();
                 break;
 
             case R.id.skydiving_nav_dropzones:
@@ -250,6 +257,10 @@ public class UIHelper {
                         break;
                     case FRAGMENT_JUMPS:
                         UIHelper.replaceFragment(new JumpForm());
+                        addButton.hide();
+                        break;
+                    case FRAGMENT_SKYDIVES:
+                        UIHelper.replaceFragment(new SkydiveForm());
                         addButton.hide();
                         break;
                 }
