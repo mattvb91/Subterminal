@@ -38,7 +38,6 @@ import static mavonie.subterminal.Utils.UIHelper.openFragmentForEntity;
 
 public class MainActivity extends PinCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        Home.OnFragmentInteractionListener,
         GearForm.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;

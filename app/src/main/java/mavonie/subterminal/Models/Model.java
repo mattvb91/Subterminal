@@ -335,7 +335,7 @@ abstract public class Model implements BaseColumns, Serializable {
         }
     }
 
-    abstract String getTableName();
+    protected abstract String getTableName();
 
     /**
      * Save model to DB

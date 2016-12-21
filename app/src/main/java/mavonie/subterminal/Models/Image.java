@@ -91,7 +91,7 @@ public class Image extends Synchronizable {
     }
 
     @Override
-    String getTableName() {
+    protected String getTableName() {
         return TABLE_NAME;
     }
 

@@ -39,6 +39,7 @@ import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Skydive.Dropzone;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
 import mavonie.subterminal.Views.Premium.PremiumView;
@@ -149,6 +150,11 @@ public class UIHelper {
                 break;
 
             case R.id.skydiving_nav_jumps:
+                break;
+
+            case R.id.skydiving_nav_dropzones:
+                fragmentClass = new Dropzone();
+                getAddButton().hide();
                 break;
         }
 

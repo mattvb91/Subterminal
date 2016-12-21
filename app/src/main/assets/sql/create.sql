@@ -1,3 +1,6 @@
+/*
+* B.A.S.E Tables
+*/
 CREATE TABLE gear (
     _id INTEGER PRIMARY KEY,
     container_manufacturer TEXT,
@@ -63,6 +66,7 @@ CREATE TABLE suits (
     deleted INTEGER DEFAULT 0
 );
 
+
 CREATE TABLE image (
         _id INTEGER PRIMARY KEY,
         filename TEXT,
@@ -70,4 +74,23 @@ CREATE TABLE image (
         entity_id INTEGER,
         synced INTEGER DEFAULT 0,
         deleted INTEGER DEFAULT 0
+);
+
+/*
+ * Skydiving Tables
+ */
+
+CREATE TABLE skydive_dropzone (
+        _id INTEGER PRIMARY KEY,
+        name TEXT,
+        global_id INTEGER,
+        description TEXT,
+        latitude DOUBLE,
+        longtitude DOUBLE,
+        website TEXT,
+        phone TEXT,
+        email TEXT,
+        address_line_1 TEXT,
+        address_line_2 TEXT,
+        address_country TEXT
 );

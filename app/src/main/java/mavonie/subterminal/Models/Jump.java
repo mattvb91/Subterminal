@@ -254,7 +254,7 @@ public class Jump extends Synchronizable {
     }
 
     @Override
-    String getTableName() {
+    protected String getTableName() {
         return TABLE_NAME;
     }
 

@@ -126,7 +126,7 @@ public class ExitDetails extends Model {
     }
 
     @Override
-    String getTableName() {
+    protected String getTableName() {
         return TABLE_NAME;
     }
 

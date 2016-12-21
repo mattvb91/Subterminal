@@ -6,16 +6,16 @@
         <item
             android:id="@+id/nav_jumps"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Jumps"/>
+            android:title="Jumps" />
         <item
             android:id="@+id/nav_gear"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Gear"/>
+            android:title="Gear" />
 
         <item
             android:id="@+id/nav_exits"
             android:icon="@android:drawable/ic_dialog_map"
-            android:title="Exits"/>
+            android:title="Exits" />
     </group>
 
     <group
@@ -24,18 +24,19 @@
         <item
             android:id="@+id/skydiving_nav_jumps"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Jumps"/>
+            android:title="Jumps" />
         <item
             android:icon="@drawable/ic_menu_manage"
-            android:title="Gear"/>
+            android:title="Gear" />
+
+        <item
+            android:id="@+id/skydiving_nav_dropzones"
+            android:icon="@android:drawable/ic_dialog_map"
+            android:title="Dropzones" />
 
         <item
             android:icon="@android:drawable/ic_dialog_map"
-            android:title="Dropzones"/>
-
-        <item
-            android:icon="@android:drawable/ic_dialog_map"
-            android:title="Planes"/>
+            android:title="Planes" />
 
     </group>
 
@@ -44,15 +45,15 @@
             <item
                 android:id="@+id/nav_premium"
                 android:icon="@android:drawable/star_off"
-                android:title="@string/get_premium"/>
+                android:title="@string/get_premium" />
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@android:drawable/ic_menu_zoom"
-                android:title="Settings"/>
+                android:title="Settings" />
             <item
                 android:id="@+id/nav_login"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Sign in"/>
+                android:title="Sign in" />
         </menu>
     </item>
 
@@ -60,7 +61,7 @@
         <menu>
             <item
                 android:id="@+id/nav_mode"
-                android:title="@string/mode"/>
+                android:title="@string/mode" />
         </menu>
     </item>
 

@@ -43,5 +43,6 @@
     <string name="default_slider_config">Default Slider</string>
     <string name="default_pc_size">Default PC Size</string>
     <string name="mode">Mode</string>
+    <string name="title_dropzones">Dropzones</string>
 
 </resources>
