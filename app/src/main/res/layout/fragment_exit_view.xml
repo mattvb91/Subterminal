@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/exit_view_layout"
@@ -12,8 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.CardView
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view"
                 android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Rockdrop distance:"/>
+                            android:text="Rockdrop distance:" />
 
                         <TextView
                             android:id="@+id/exit_view_rockdrop_distance"
@@ -45,7 +45,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow>
@@ -54,7 +54,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Rockdrop time:"/>
+                            android:text="Rockdrop time:" />
 
                         <TextView
                             android:id="@+id/exit_view_rockdrop_time"
@@ -62,7 +62,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow>
@@ -71,7 +71,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Altitude to landing:"/>
+                            android:text="Altitude to landing:" />
 
                         <TextView
                             android:id="@+id/exit_view_altitude_to_landing"
@@ -79,11 +79,10 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
-                    <TableRow
-                        android:paddingTop="10dp">
+                    <TableRow android:paddingTop="10dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -91,7 +90,7 @@
                             android:layout_span="2"
                             android:layout_weight="1"
                             android:text="Exit Info"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow>
@@ -102,7 +101,7 @@
                             android:layout_span="2"
                             android:layout_weight="1"
                             android:paddingBottom="10dp"
-                            android:text=""/>
+                            android:text="" />
                     </TableRow>
 
                     <TableRow>
@@ -113,7 +112,7 @@
                             android:layout_span="2"
                             android:layout_weight="1"
                             android:text="Jump Rules"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow>
@@ -124,17 +123,33 @@
                             android:layout_span="2"
                             android:layout_weight="1"
                             android:paddingBottom="10dp"
-                            android:text=""/>
+                            android:text="" />
                     </TableRow>
                 </TableLayout>
             </android.support.v7.widget.CardView>
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/exit_view_add_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/exit_view_detail_card"
+            android:layout_marginTop="10dp">
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"></com.google.android.gms.ads.AdView>
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/exit_view_images_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/exit_view_detail_card"
+            android:layout_below="@+id/exit_view_add_banner"
             android:padding="10dp">
 
             <android.support.v7.widget.CardView
@@ -150,7 +165,7 @@
 
                         <Button
                             android:id="@+id/exit_picture_button"
-                            android:text="Add Picture"/>
+                            android:text="Add Picture" />
 
                     </TableRow>
 
@@ -204,7 +219,7 @@
                             android:layout_weight="1"
                             android:paddingBottom="10dp"
                             android:text="Exit Difficulty"
-                            android:textSize="20dp"/>
+                            android:textSize="20dp" />
                     </TableRow>
 
                     <TableRow>
@@ -215,7 +230,7 @@
                             android:layout_span="2"
                             android:layout_weight="1"
                             android:text="Difficulty Tracking"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow>
@@ -224,7 +239,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Exit:"/>
+                            android:text="Exit:" />
 
                         <TextView
                             android:id="@+id/exit_view_difficulty_tracking_exit"
@@ -232,7 +247,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
 
@@ -242,7 +257,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Freefall:"/>
+                            android:text="Freefall:" />
 
                         <TextView
                             android:id="@+id/exit_view_difficulty_tracking_freefall"
@@ -250,7 +265,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow>
@@ -259,7 +274,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Landing:"/>
+                            android:text="Landing:" />
 
                         <TextView
                             android:id="@+id/exit_view_difficulty_tracking_landing"
@@ -267,7 +282,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow>
@@ -276,7 +291,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Overall:"/>
+                            android:text="Overall:" />
 
                         <TextView
                             android:id="@+id/exit_view_difficulty_tracking_overall"
@@ -284,11 +299,10 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
-                    <TableRow
-                        android:paddingTop="10dp">
+                    <TableRow android:paddingTop="10dp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -296,7 +310,7 @@
                             android:layout_span="2"
                             android:layout_weight="1"
                             android:text="Difficulty Wingsuit"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow>
@@ -305,7 +319,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Exit:"/>
+                            android:text="Exit:" />
 
                         <TextView
                             android:id="@+id/exit_view_difficulty_wingsuit_exit"
@@ -313,7 +327,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
 
@@ -323,7 +337,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Freefall:"/>
+                            android:text="Freefall:" />
 
                         <TextView
                             android:id="@+id/exit_view_difficulty_wingsuit_freefall"
@@ -331,7 +345,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow>
@@ -340,7 +354,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Landing:"/>
+                            android:text="Landing:" />
 
                         <TextView
                             android:id="@+id/exit_view_difficulty_wingsuit_landing"
@@ -348,7 +362,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
 
                     <TableRow>
@@ -357,7 +371,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Overall:"/>
+                            android:text="Overall:" />
 
                         <TextView
                             android:id="@+id/exit_view_difficulty_wingsuit_overall"
@@ -365,7 +379,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text=""
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
                     </TableRow>
                 </TableLayout>
             </android.support.v7.widget.CardView>
@@ -396,18 +410,17 @@
                             android:layout_weight="1"
                             android:paddingBottom="10dp"
                             android:text="Map"
-                            android:textSize="20dp"/>
+                            android:textSize="20dp" />
                     </TableRow>
 
-                    <TableRow
-                        android:paddingTop="10dp">
+                    <TableRow android:paddingTop="10dp">
 
                         <mavonie.subterminal.Utils.Views.MapView
                             android:id="@+id/exit_view_map"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:layout_span="2"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1" />
                     </TableRow>
                 </TableLayout>
             </android.support.v7.widget.CardView>
