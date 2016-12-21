@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ScrollView01"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:scrollbars="vertical">
-
+            android:id="@+id/ScrollView01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,50 +15,96 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Suit"
             android:textSize="10pt"></TextView>
 
-        <Spinner
-            android:id="@+id/suit_form_type"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Type"/>
+
+                <Spinner
+                    android:id="@+id/suit_form_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date In Use"/>
+
+                <EditText
+                    android:id="@+id/suit_form_dateInUse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:hint="0000-00-00"
+                    android:inputType="date"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gear_manufacturer"/>
 
         <EditText
             android:id="@+id/suit_form_manufacturer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/gear_manufacturer"
             android:inputType="textPersonName"></EditText>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Model"/>
 
         <EditText
             android:id="@+id/suit_form_model"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Model"
             android:inputType="textPersonName"></EditText>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Serial"/>
 
         <EditText
             android:id="@+id/suit_form_serial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Serial"
             android:inputType="textPersonName"></EditText>
-
-        <EditText
-            android:id="@+id/suit_form_dateInUse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:focusable="false"
-            android:hint="Date in use"
-            android:inputType="date" />
 
         <Button
             android:id="@+id/suit_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="save"
-            android:text="Save" />
+            android:text="Save"/>
 
     </LinearLayout>
 </ScrollView>

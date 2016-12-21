@@ -144,6 +144,8 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             view.findViewById(R.id.exit_view_map_card).setVisibility(View.INVISIBLE);
         }
 
+        adRequest(view);
+
         return view;
     }
 

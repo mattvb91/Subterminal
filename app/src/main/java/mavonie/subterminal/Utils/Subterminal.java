@@ -14,6 +14,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -164,6 +165,11 @@ public class Subterminal {
         api.init();
 
         UIHelper.init();
+
+        //Only initialize adds if we arent premium
+        if (!getUser().isPremium()) {
+            MobileAds.initialize(activity.getApplicationContext(), Subterminal.getMetaData(activity, "mavonie.subterminal.ADMOB_APP_ID"));
+        }
     }
 
     public static FirebaseAnalytics getAnalytics() {

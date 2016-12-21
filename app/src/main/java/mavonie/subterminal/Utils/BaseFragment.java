@@ -4,10 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
@@ -16,6 +19,7 @@ import mavonie.subterminal.Forms.BaseForm;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Listeners.ImageListener;
 
 /**
@@ -157,5 +161,21 @@ public abstract class BaseFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
 
         void onFragmentInteraction(Model mItem);
+    }
+
+    /**
+     * Request an Ad if user is not premium
+     *
+     * @param view
+     */
+    protected void adRequest(View view) {
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+
+        if (!Subterminal.getUser().isPremium()) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        } else {
+            mAdView.setVisibility(View.GONE);
+        }
     }
 }
