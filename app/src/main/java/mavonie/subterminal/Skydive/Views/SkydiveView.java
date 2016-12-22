@@ -42,7 +42,23 @@ public class SkydiveView extends BaseFragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_dropzone_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_skydive_view, container, false);
+
+        TextView description = (TextView) view.findViewById(R.id.skydive_view_description);
+        description.setText(getItem().getDescription());
+
+        if (getItem().getAltitude() != null) {
+            TextView altitude = (TextView) view.findViewById(R.id.skydive_view_altitude);
+            altitude.setText(getItem().getAltitude());
+        }
+
+        if (getItem().getDelay() != null) {
+            TextView delay = (TextView) view.findViewById(R.id.skydive_view_delay);
+            delay.setText(Integer.toString(getItem().getDelay()) + "s");
+        }
+
+        TextView date = (TextView) view.findViewById(R.id.skydive_view_date);
+        date.setText(getItem().getDate());
 
         adRequest(view);
 

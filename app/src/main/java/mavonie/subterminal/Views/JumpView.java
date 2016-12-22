@@ -66,8 +66,10 @@ public class JumpView extends BaseFragment {
         TextView jumpPC = (TextView) view.findViewById(R.id.jump_view_pc);
         jumpPC.setText(Integer.toString(getItem().getPcSize()));
 
-        TextView jumpDescription = (TextView) view.findViewById(R.id.jump_view_description);
-        jumpDescription.setText(getItem().getDescription().replace("\\n", "\n"));
+        if (getItem().getDescription() != null) {
+            TextView jumpDescription = (TextView) view.findViewById(R.id.jump_view_description);
+            jumpDescription.setText(getItem().getDescription().replace("\\n", "\n"));
+        }
 
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 

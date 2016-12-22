@@ -8,7 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
+
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Skydive.ViewAdapters.DropzoneRecycler;
 import mavonie.subterminal.Skydive.ViewAdapters.SkydiveRecycler;
@@ -30,7 +34,21 @@ public class Skydive extends BaseFragment {
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-            recyclerView.setAdapter(new SkydiveRecycler(new mavonie.subterminal.Models.Skydive.Skydive().getItems(null), this.getmListener()));
+            HashMap<String, Object> params = new HashMap<>();
+
+            params.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_DESC);
+            params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Jump.COLUMN_NAME_DATE);
+
+            HashMap<String, Object> whereNotDeleted = new HashMap<>();
+            whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
+            whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
+
+            HashMap<Integer, HashMap> wheres = new HashMap<>();
+            wheres.put(wheres.size(), whereNotDeleted);
+
+            params.put(Model.FILTER_WHERE, wheres);
+
+            recyclerView.setAdapter(new SkydiveRecycler(new mavonie.subterminal.Models.Skydive.Skydive().getItems(params), this.getmListener()));
         }
 
         return view;

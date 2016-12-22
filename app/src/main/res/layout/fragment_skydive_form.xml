@@ -25,23 +25,51 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <AutoCompleteTextView
-                android:id="@+id/skydive_edit_dropzone"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
-                android:hint="Dropzone" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/skydive_edit_date"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Dropzone"
+                    android:textSize="7pt"></TextView>
+
+                <AutoCompleteTextView
+                    android:id="@+id/skydive_edit_dropzone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Dropzone" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="Date"
-                android:inputType="date" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Date"
+                    android:textSize="7pt"></TextView>
+
+                <EditText
+                    android:id="@+id/skydive_edit_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:hint="Date"
+                    android:inputType="date" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -49,22 +77,58 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/skydive_edit_delay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="Delay"
-                android:inputType="number"></EditText>
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/skydive_edit_altitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Delay"
+                    android:textSize="7pt"></TextView>
+
+                <EditText
+                    android:id="@+id/skydive_edit_delay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="0"
+                    android:inputType="number"></EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="130000"
-                android:inputType="number"></EditText>
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Exit Altitude"
+                    android:textSize="7pt"></TextView>
+
+                <EditText
+                    android:id="@+id/skydive_edit_altitude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="13,000"
+                    android:inputType="number"></EditText>
+            </LinearLayout>
         </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Description"
+            android:textSize="7pt"></TextView>
 
         <EditText
             android:id="@+id/skydive_edit_description"

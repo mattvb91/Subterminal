@@ -1,17 +1,26 @@
 package mavonie.subterminal.Skydive.ViewAdapters;
 
+import android.graphics.Color;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.DraweeView;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.Date.TimeAgo;
+import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Skydive recycler
@@ -42,7 +51,22 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
         }
 
         if (holder.mItem.getDelay() != null) {
-            holder.listDelay.setText(holder.mItem.getDelay());
+            holder.listDelay.setText("Delay: " + Integer.toString(holder.mItem.getDelay()) + "s");
+        }
+
+        holder.listAgo.setText(TimeAgo.sinceToday(holder.mItem.getDate()));
+
+        Image thumb = Image.loadThumbForEntity(holder.mItem);
+
+        if (thumb != null) {
+            holder.mThumb.setImageURI(thumb.getUri().toString());
+        } else {
+            holder.mThumb.setHierarchy(Image.getHierarchy());
+        }
+
+        if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced())) {
+            int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
+            holder.mListSynchronized.setColorFilter(color);
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +90,9 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
         public final View mView;
         public final TextView listDropzone;
         public final TextView listDelay;
+        public final TextView listAgo;
+        public final SimpleDraweeView mThumb;
+        public final ImageView mListSynchronized;
 
         public Skydive mItem;
 
@@ -74,6 +101,9 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
             mView = view;
             listDropzone = (TextView) view.findViewById(R.id.skydive_list_dropzone);
             listDelay = (TextView) view.findViewById(R.id.skydive_list_delay);
+            listAgo = (TextView) view.findViewById(R.id.skydive_list_ago);
+            mThumb = (SimpleDraweeView) view.findViewById(R.id.skydive_list_thumb);
+            mListSynchronized = (ImageView) view.findViewById(R.id.skydive_list_synchronized);
         }
     }
 }

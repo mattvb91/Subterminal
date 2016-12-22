@@ -64,7 +64,7 @@
             android:layout_below="@id/skydive_list_dropzone"
             android:layout_marginTop="1dip"
             android:layout_toRightOf="@+id/skydive_list_thumb_layout"
-            android:text="Delay"
+            android:text="Delay:"
             android:textColor="#343434"
             android:textSize="10dip" />
 
