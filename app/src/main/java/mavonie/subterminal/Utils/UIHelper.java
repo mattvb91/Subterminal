@@ -116,7 +116,10 @@ public class UIHelper {
                 fragment = new ExitForm();
             } else if (activeModel instanceof mavonie.subterminal.Models.Jump) {
                 fragment = new JumpForm();
+            } else if (activeModel instanceof Skydive) {
+                fragment = new SkydiveForm();
             }
+
             fragment.setArguments(args);
 
             replaceFragment(fragment);

@@ -35,7 +35,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
     private TextView delay,
             description,
             date,
-            altitude;
+            exit_altitude,
+            deploy_altitude;
 
     private LinkedHashMap<String, String> dropzoneNames;
     LinkedHashMapAdapter<String, String> dropzonesAdapter;
@@ -59,7 +60,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         dropzone = (AutoCompleteTextView) view.findViewById(R.id.skydive_edit_dropzone);
         delay = (TextView) view.findViewById(R.id.skydive_edit_delay);
         description = (TextView) view.findViewById(R.id.skydive_edit_description);
-        altitude = (TextView) view.findViewById(R.id.skydive_edit_altitude);
+        exit_altitude = (TextView) view.findViewById(R.id.skydive_edit_altitude);
+        deploy_altitude = (TextView) view.findViewById(R.id.skydive_edit_deploy_altitude);
         date = (EditText) view.findViewById(R.id.skydive_edit_date);
 
         dropzoneNames = new Dropzone().getItemsForSelect("name");
@@ -118,6 +120,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             String descriptionString = description.getText().toString();
 
             getItem().setDate(date.getText().toString());
+            getItem().setExitAltitude(Integer.parseInt(exit_altitude.getText().toString()));
+            getItem().setDeployAltitude(Integer.parseInt(deploy_altitude.getText().toString()));
 
             if (delayString.length() > 0) {
                 getItem().setDelay(Integer.parseInt(delayString));
@@ -144,8 +148,20 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             }
 
             date.setText(getItem().getDate());
-            delay.setText(Integer.toString(getItem().getDelay()));
+
+            if (getItem().getDelay() != null) {
+                delay.setText(Integer.toString(getItem().getDelay()));
+            }
+
             description.setText(getItem().getDescription());
+
+            if (getItem().getExitAltitude() != null) {
+                exit_altitude.setText(Integer.toString(getItem().getExitAltitude()));
+            }
+
+            if (getItem().getExitAltitude() != null) {
+                deploy_altitude.setText(Integer.toString(getItem().getDeployAltitude()));
+            }
         }
     }
 

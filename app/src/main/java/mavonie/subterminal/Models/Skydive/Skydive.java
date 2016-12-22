@@ -4,7 +4,6 @@ import android.util.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import mavonie.subterminal.Models.Synchronizable;
 
@@ -17,7 +16,8 @@ public class Skydive extends Synchronizable {
             description,
             date;
 
-    private Integer altitude,
+    private Integer exit_altitude,
+            deploy_altitude,
             delay,
             jump_type;
 
@@ -26,7 +26,8 @@ public class Skydive extends Synchronizable {
 
     public static final String COLUMN_NAME_DROPZONE_ID = "dropzone_id";
     public static final String COLUMN_NAME_DATE = "date";
-    public static final String COLUMN_NAME_ALTITUDE = "altitude";
+    public static final String COLUMN_NAME_EXIT_ALTITUDE = "exit_altitude";
+    public static final String COLUMN_NAME_DEPLOY_ALTITUDE = "deploy_altitude";
     public static final String COLUMN_NAME_DELAY = "delay";
     public static final String COLUMN_NAME_DESCRIPTION = "description";
     public static final String COLUMN_NAME_JUMP_TYPE = "jump_type";
@@ -47,7 +48,8 @@ public class Skydive extends Synchronizable {
 
             dbColumns.put(COLUMN_NAME_DROPZONE_ID, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_DATE, TYPE_TEXT);
-            dbColumns.put(COLUMN_NAME_ALTITUDE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_EXIT_ALTITUDE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_DEPLOY_ALTITUDE, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_DELAY, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_DESCRIPTION, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_JUMP_TYPE, TYPE_INTEGER);
@@ -87,12 +89,12 @@ public class Skydive extends Synchronizable {
         this.date = date;
     }
 
-    public Integer getAltitude() {
-        return altitude;
+    public Integer getExitAltitude() {
+        return exit_altitude;
     }
 
-    public void setAltitude(Integer altitude) {
-        this.altitude = altitude;
+    public void setExitAltitude(Integer exit_altitude) {
+        this.exit_altitude = exit_altitude;
     }
 
     public Integer getDelay() {
@@ -111,6 +113,15 @@ public class Skydive extends Synchronizable {
         this.jump_type = jump_type;
     }
 
+
+    public Integer getDeployAltitude() {
+        return deploy_altitude;
+    }
+
+    public void setDeployAltitude(Integer deploy_altitude) {
+        this.deploy_altitude = deploy_altitude;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -123,7 +134,7 @@ public class Skydive extends Synchronizable {
         if (description != null ? !description.equals(skydive.description) : skydive.description != null)
             return false;
         if (date != null ? !date.equals(skydive.date) : skydive.date != null) return false;
-        if (altitude != null ? !altitude.equals(skydive.altitude) : skydive.altitude != null)
+        if (exit_altitude != null ? !exit_altitude.equals(skydive.exit_altitude) : skydive.exit_altitude != null)
             return false;
         if (delay != null ? !delay.equals(skydive.delay) : skydive.delay != null) return false;
         return jump_type != null ? jump_type.equals(skydive.jump_type) : skydive.jump_type == null;

@@ -33,7 +33,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
+                        android:layout_margin="@dimen/detail_list_margin"
                         android:layout_span="1"
                         android:gravity="left"
                         android:text="Dropzone"
@@ -44,7 +44,7 @@
                         android:id="@+id/skydive_view_dropzone_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
+                        android:layout_margin="@dimen/detail_list_margin"
                         android:layout_span="1"
                         android:text="Not set"
                         android:textAppearance="?attr/textAppearanceListItem" />
@@ -53,7 +53,7 @@
                         android:id="@+id/skydive_view_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
+                        android:layout_margin="@dimen/detail_list_margin"
                         android:gravity="right"
                         android:text="Date"
                         android:textAppearance="?attr/textAppearanceListItem" />
@@ -66,9 +66,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/text_margin"
+                        android:layout_margin="@dimen/detail_list_margin"
                         android:layout_weight="1"
-                        android:gravity="left"
                         android:text="Rig:"
                         android:textAppearance="?attr/textAppearanceListItem"
                         android:textStyle="bold" />
@@ -79,8 +78,56 @@
                         android:layout_height="wrap_content"
                         android:layout_span="2"
                         android:layout_weight="2"
-                        android:gravity="left"
-                        android:text=""
+                        android:text="Rig"
+                        android:textAppearance="?attr/textAppearanceListItem" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/detail_list_margin"
+                        android:layout_weight="1"
+                        android:text="Plane:"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/skydive_view_plane"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_span="2"
+                        android:layout_weight="2"
+                        android:text="Plane"
+                        android:textAppearance="?attr/textAppearanceListItem" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/detail_list_margin"
+                        android:layout_weight="1"
+                        android:text="Type:"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/skydive_view_jump_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_span="2"
+                        android:layout_weight="2"
+                        android:text="type"
                         android:textAppearance="?attr/textAppearanceListItem" />
                 </TableRow>
 
@@ -100,7 +147,18 @@
                         android:layout_margin="@dimen/text_margin"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="Type"
+                        android:text="Exit Altitude"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/text_margin"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="Deploy Altitude"
                         android:textAppearance="?attr/textAppearanceListItem"
                         android:textStyle="bold" />
 
@@ -114,52 +172,11 @@
                         android:textAppearance="?attr/textAppearanceListItem"
                         android:textStyle="bold" />
 
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="Altitude"
-                        android:textAppearance="?attr/textAppearanceListItem"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="Plane"
-                        android:textAppearance="?attr/textAppearanceListItem"
-                        android:textStyle="bold" />
-
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/skydive_view_jump_type"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="type"
-                        android:textAppearance="?attr/textAppearanceListItem" />
-
-
-                    <TextView
-                        android:id="@+id/skydive_view_delay"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="delay"
-                        android:textAppearance="?attr/textAppearanceListItem" />
-
 
                     <TextView
                         android:id="@+id/skydive_view_altitude"
@@ -171,14 +188,24 @@
                         android:textAppearance="?attr/textAppearanceListItem" />
 
                     <TextView
-                        android:id="@+id/skydive_view_plane"
+                        android:id="@+id/skydive_view_deplpoy_altitude"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:paddingRight="16dp"
-                        android:text="Plane"
+                        android:gravity="center_horizontal"
+                        android:text="3,500"
                         android:textAppearance="?attr/textAppearanceListItem" />
+
+                    <TextView
+                        android:id="@+id/skydive_view_delay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="delay"
+                        android:textAppearance="?attr/textAppearanceListItem" />
+
+
                 </TableRow>
 
                 <View
@@ -246,7 +273,7 @@
                     android:layout_height="wrap_content">
 
                     <Button
-                        android:id="@+id/exit_picture_button"
+                        android:id="@+id/skydive_view_picture_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Add Picture" />

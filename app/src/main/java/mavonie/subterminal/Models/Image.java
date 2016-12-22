@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Random;
 
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 
 
@@ -64,6 +65,7 @@ public class Image extends Synchronizable {
 
     public static final int ENTITY_TYPE_EXIT = 0;
     public static final int ENTITY_TYPE_JUMP = 1;
+    public static final int ENTITY_TYPE_SKYDIVE = 2;
 
 
     public String getFilename() {
@@ -107,6 +109,8 @@ public class Image extends Synchronizable {
             return ENTITY_TYPE_EXIT;
         } else if (associatedEntity instanceof Jump) {
             return ENTITY_TYPE_JUMP;
+        } else if (associatedEntity instanceof Skydive) {
+            return ENTITY_TYPE_SKYDIVE;
         }
 
         return -1;

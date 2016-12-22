@@ -1,28 +1,19 @@
 package mavonie.subterminal.Skydive.Views;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
-import mavonie.subterminal.Utils.Views.MapView;
+import mavonie.subterminal.Utils.UIHelper;
 
 /**
  * Skydive View
@@ -35,6 +26,8 @@ public class SkydiveView extends BaseFragment {
         super.onCreate(savedInstanceState);
 
         Subterminal.setActiveModel(getItem());
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
     }
 
     @Override
@@ -47,9 +40,9 @@ public class SkydiveView extends BaseFragment {
         TextView description = (TextView) view.findViewById(R.id.skydive_view_description);
         description.setText(getItem().getDescription());
 
-        if (getItem().getAltitude() != null) {
+        if (getItem().getExitAltitude() != null) {
             TextView altitude = (TextView) view.findViewById(R.id.skydive_view_altitude);
-            altitude.setText(getItem().getAltitude());
+            altitude.setText(Integer.toString(getItem().getExitAltitude()));
         }
 
         if (getItem().getDelay() != null) {
@@ -59,6 +52,18 @@ public class SkydiveView extends BaseFragment {
 
         TextView date = (TextView) view.findViewById(R.id.skydive_view_date);
         date.setText(getItem().getDate());
+
+        imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
+
+        loadImages();
+
+        Button pictureButton = (Button) view.findViewById(R.id.skydive_view_picture_button);
+        pictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getActivity().onPickImage(v);
+            }
+        });
 
         adRequest(view);
 
@@ -73,6 +78,15 @@ public class SkydiveView extends BaseFragment {
     @Override
     protected String getItemClass() {
         return Skydive.class.getCanonicalName();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        _mListener = null;
+        UIHelper.getAddButton().show();
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
     }
 
 }

@@ -17,9 +17,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by mavon on 21/12/16.
+ * Dropzone unit tests
  */
-
 public class DropzoneTest extends BaseDBUnit {
 
     @Test
