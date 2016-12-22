@@ -32,7 +32,7 @@ import mavonie.subterminal.R;
  */
 public class Image extends Synchronizable {
 
-    private static final String IMAGE_PATH = "/Subterminal/images";
+    public static final String IMAGE_PATH = "/Subterminal/images";
 
     Bitmap bitmap;
     String filename;

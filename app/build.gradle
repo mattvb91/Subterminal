@@ -64,6 +64,7 @@ dependencies {
     compile 'com.sa90.materialarcmenu:library:1.4.1'
     compile 'com.android.support:design:24+'
     compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.github.gcacace:signature-pad:1.2.0'
     compile('com.github.orangegangsters:lollipin:2.0.0@aar') {
         transitive = true
     }

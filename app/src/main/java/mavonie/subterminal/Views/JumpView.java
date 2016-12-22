@@ -1,5 +1,6 @@
 package mavonie.subterminal.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.R;
+import mavonie.subterminal.SignatureActivity;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Date.TimeAgo;
 import mavonie.subterminal.Utils.Subterminal;
@@ -75,13 +77,23 @@ public class JumpView extends BaseFragment {
 
         loadImages();
 
-        Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
+        Button pictureButton = (Button) view.findViewById(R.id.jump_picture_button);
         pictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.getActivity().onPickImage(v);
             }
         });
+
+        Button signatureButton = (Button) view.findViewById(R.id.jump_signature_button);
+        signatureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.getActivity(), SignatureActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         adRequest(view);
 

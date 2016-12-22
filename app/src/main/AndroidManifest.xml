@@ -107,6 +107,10 @@
             android:configChanges="keyboardHidden|orientation"/>
         <activity android:name="io.card.payment.DataEntryActivity"/>
 
+        <activity
+            android:name=".SignatureActivity"
+            android:screenOrientation="landscape" />
+
     </application>
 
 </manifest>

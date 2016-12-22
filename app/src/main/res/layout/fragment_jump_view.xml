@@ -246,10 +246,17 @@
                     android:layout_height="wrap_content">
 
                     <Button
-                        android:id="@+id/exit_picture_button"
+                        android:id="@+id/jump_picture_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Add Picture" />
+
+                    <Button
+                        android:id="@+id/jump_signature_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Add Signature" />
+
 
                 </TableRow>
 
