@@ -1,4 +1,4 @@
-package mavonie.subterminal;
+package mavonie.subterminal.Skydive;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,11 +12,13 @@ import com.sa90.materialarcmenu.ArcMenu;
 
 import java.util.HashMap;
 
-import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.SuitForm;
+import mavonie.subterminal.Gear;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
+import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.ViewAdapters.GearRecycler;
@@ -90,7 +92,7 @@ public class GearTabs extends BaseFragment {
         rig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UIHelper.replaceFragment(new GearForm());
+                UIHelper.replaceFragment(new mavonie.subterminal.Skydive.Forms.GearForm());
                 arc.toggleMenu();
             }
         });

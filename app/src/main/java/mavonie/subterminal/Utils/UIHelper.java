@@ -144,18 +144,22 @@ public class UIHelper {
                 fragmentClass = new Jump();
                 getAddButton().show();
                 break;
+
             case R.id.nav_gear:
                 fragmentClass = new Gear();
                 getAddButton().show();
                 break;
+
             case R.id.nav_exits:
                 fragmentClass = new Exit();
                 getAddButton().show();
                 break;
+
             case R.id.nav_settings:
                 fragmentClass = new Preference();
                 getAddButton().hide();
                 break;
+
             case R.id.nav_premium:
                 fragmentClass = new PremiumView();
                 break;
@@ -168,6 +172,11 @@ public class UIHelper {
             case R.id.skydiving_nav_dropzones:
                 fragmentClass = new Dropzone();
                 getAddButton().hide();
+                break;
+
+            case R.id.skydiving_nav_gear:
+                fragmentClass = new mavonie.subterminal.Skydive.Gear();
+                getAddButton().show();
                 break;
         }
 

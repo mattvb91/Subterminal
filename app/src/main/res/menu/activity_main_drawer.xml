@@ -26,6 +26,7 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/title_skydives" />
         <item
+            android:id="@+id/skydiving_nav_gear"
             android:icon="@drawable/ic_menu_manage"
             android:title="Gear" />
 
