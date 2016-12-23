@@ -258,4 +258,13 @@ public class Rig extends Synchronizable {
             return false;
         return aad_date_in_use != null ? aad_date_in_use.equals(rig.aad_date_in_use) : rig.aad_date_in_use == null;
     }
+
+    /**
+     * Return formatted display title for rig
+     *
+     * @return String
+     */
+    public String getDisplayName() {
+        return container_manufacturer + " - " + main_manufacturer + " " + main_model;
+    }
 }

@@ -19,7 +19,8 @@ public class Skydive extends Synchronizable {
     private Integer exit_altitude,
             deploy_altitude,
             delay,
-            jump_type;
+            jump_type,
+            rig_id;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "skydive";
@@ -31,6 +32,7 @@ public class Skydive extends Synchronizable {
     public static final String COLUMN_NAME_DELAY = "delay";
     public static final String COLUMN_NAME_DESCRIPTION = "description";
     public static final String COLUMN_NAME_JUMP_TYPE = "jump_type";
+    public static final String COLUMN_NAME_JUMP_RIG_ID = "rig_id";
     /* END DB DEFINITIONS*/
 
     @Override
@@ -53,6 +55,7 @@ public class Skydive extends Synchronizable {
             dbColumns.put(COLUMN_NAME_DELAY, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_DESCRIPTION, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_JUMP_TYPE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_JUMP_RIG_ID, TYPE_INTEGER);
 
             Synchronizable.setDBColumns(dbColumns);
         }
@@ -113,6 +116,13 @@ public class Skydive extends Synchronizable {
         this.jump_type = jump_type;
     }
 
+    public Integer getRigId() {
+        return rig_id;
+    }
+
+    public void setRigId(Integer rig_id) {
+        this.rig_id = rig_id;
+    }
 
     public Integer getDeployAltitude() {
         return deploy_altitude;
@@ -137,6 +147,7 @@ public class Skydive extends Synchronizable {
         if (exit_altitude != null ? !exit_altitude.equals(skydive.exit_altitude) : skydive.exit_altitude != null)
             return false;
         if (delay != null ? !delay.equals(skydive.delay) : skydive.delay != null) return false;
+        if (rig_id != null ? !rig_id.equals(skydive.rig_id) : skydive.rig_id != null) return false;
         return jump_type != null ? jump_type.equals(skydive.jump_type) : skydive.jump_type == null;
 
     }
@@ -149,10 +160,25 @@ public class Skydive extends Synchronizable {
      * @return Dropzone|Null
      */
     public Dropzone getDropzone() {
-        if (_dropzone != null) {
-            _dropzone = (Dropzone) new Dropzone().getItem(new Pair<String, String>(Dropzone.COLUMN_NAME_GLOBAL_ID, getDropzoneId()));
+        if (_dropzone == null && this.getDropzoneId() != null) {
+            _dropzone = (Dropzone) new Dropzone().getItem(new Pair<String, String>(Dropzone.COLUMN_NAME_GLOBAL_ID, this.getDropzoneId()));
         }
 
         return _dropzone;
+    }
+
+    private Rig _rig;
+
+    /**
+     * Get the associated Rig model
+     *
+     * @return Rig|Null
+     */
+    public Rig getRig() {
+        if (_rig == null && this.rig_id != null) {
+            _rig = (Rig) new Rig().getOneById(this.rig_id);
+        }
+
+        return _rig;
     }
 }

@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_span="2"
                         android:layout_weight="2"
-                        android:text="Rig"
+                        android:text="-"
                         android:textAppearance="?attr/textAppearanceListItem" />
 
                 </TableRow>
@@ -103,7 +103,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_span="2"
                         android:layout_weight="2"
-                        android:text="Plane"
+                        android:text="-"
                         android:textAppearance="?attr/textAppearanceListItem" />
                 </TableRow>
 
@@ -127,7 +127,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_span="2"
                         android:layout_weight="2"
-                        android:text="type"
+                        android:text="-"
                         android:textAppearance="?attr/textAppearanceListItem" />
                 </TableRow>
 
@@ -184,7 +184,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="13,0000"
+                        android:text="-"
                         android:textAppearance="?attr/textAppearanceListItem" />
 
                     <TextView
@@ -193,7 +193,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="3,500"
+                        android:text="-"
                         android:textAppearance="?attr/textAppearanceListItem" />
 
                     <TextView
@@ -202,7 +202,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="delay"
+                        android:text="-"
                         android:textAppearance="?attr/textAppearanceListItem" />
 
 

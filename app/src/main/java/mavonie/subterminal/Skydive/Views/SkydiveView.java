@@ -45,6 +45,11 @@ public class SkydiveView extends BaseFragment {
             altitude.setText(Integer.toString(getItem().getExitAltitude()));
         }
 
+        if (getItem().getDeployAltitude() != null) {
+            TextView deployAlitude = (TextView) view.findViewById(R.id.skydive_view_deplpoy_altitude);
+            deployAlitude.setText(Integer.toString(getItem().getDeployAltitude()));
+        }
+
         if (getItem().getDelay() != null) {
             TextView delay = (TextView) view.findViewById(R.id.skydive_view_delay);
             delay.setText(Integer.toString(getItem().getDelay()) + "s");
@@ -52,6 +57,11 @@ public class SkydiveView extends BaseFragment {
 
         TextView date = (TextView) view.findViewById(R.id.skydive_view_date);
         date.setText(getItem().getDate());
+
+        if(getItem().getRig() != null) {
+            TextView rig = (TextView) view.findViewById(R.id.skydive_view_rig);
+            rig.setText(getItem().getRig().getDisplayName());
+        }
 
         imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 

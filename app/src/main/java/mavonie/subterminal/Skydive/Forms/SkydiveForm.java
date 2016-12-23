@@ -67,6 +67,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         exit_altitude = (TextView) view.findViewById(R.id.skydive_edit_altitude);
         deploy_altitude = (TextView) view.findViewById(R.id.skydive_edit_deploy_altitude);
         date = (EditText) view.findViewById(R.id.skydive_edit_date);
+        rigSpinner = (Spinner) view.findViewById(R.id.skydive_edit_rig);
 
         dropzoneNames = new Dropzone().getItemsForSelect("name");
         dropzonesAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity().getApplicationContext(), R.layout.item_simple, dropzoneNames, LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE);
@@ -145,12 +146,24 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
                 getItem().setDropzoneId(dropzoneEntry.getValue());
             }
 
+            if (rigEntry != null) {
+                getItem().setRigId(Integer.parseInt(rigEntry.getKey()));
+            }
+
             String delayString = delay.getText().toString();
             String descriptionString = description.getText().toString();
+            String exitAltitude = exit_altitude.getText().toString();
+            String deployAltitude = deploy_altitude.getText().toString();
 
             getItem().setDate(date.getText().toString());
-            getItem().setExitAltitude(Integer.parseInt(exit_altitude.getText().toString()));
-            getItem().setDeployAltitude(Integer.parseInt(deploy_altitude.getText().toString()));
+
+            if (exitAltitude.length() > 0) {
+                getItem().setExitAltitude(Integer.parseInt(exit_altitude.getText().toString()));
+            }
+
+            if (deployAltitude.length() > 0) {
+                getItem().setDeployAltitude(Integer.parseInt(deploy_altitude.getText().toString()));
+            }
 
             if (delayString.length() > 0) {
                 getItem().setDelay(Integer.parseInt(delayString));
@@ -192,8 +205,11 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
                 deploy_altitude.setText(Integer.toString(getItem().getDeployAltitude()));
             }
 
-            if (this.rigEntry != null) {
-//                getItem().setRigId(Integer.parseInt(this.rigEntry.getKey()));
+            if (getItem().getRigId() != null) {
+                Integer position = this.rigAdapter.findPositionFromKey(getItem().getRigId());
+                if (position != null) {
+                    this.rigSpinner.setSelection(position);
+                }
             }
         }
     }

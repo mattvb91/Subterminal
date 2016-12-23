@@ -83,6 +83,7 @@ CREATE TABLE skydive (
         _id INTEGER PRIMARY KEY,
         dropzone_id TEXT,
         date DATE,
+        rig_id INTEGER,
         exit_altitude INTEGER,
         deploy_altitude INTEGER,
         delay INTEGER,
