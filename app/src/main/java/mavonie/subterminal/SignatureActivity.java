@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import mavonie.subterminal.Models.Image;
+import mavonie.subterminal.Models.Signature;
+import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Signature activity
@@ -74,10 +76,22 @@ public class SignatureActivity extends Activity {
     public boolean addJpgSignatureToGallery(Bitmap signature) {
         boolean result = false;
         try {
-            File photo = new File(Environment.getExternalStorageDirectory().toString() + Image.IMAGE_PATH, String.format("Signature_%d.jpg", System.currentTimeMillis()));
+            Image.verifyStoragePermissions(MainActivity.getActivity());
+
+            File path = new File(Environment.getExternalStorageDirectory().toString() + Image.IMAGE_PATH);
+            path.mkdirs();
+
+            File photo = new File(path.getAbsolutePath(), String.format("Signature_%d.jpg", System.currentTimeMillis()));
             saveBitmapToJPG(signature, photo);
 
-            //TODO create signature entity and attach image
+            Signature signatureEntity = new Signature();
+            signatureEntity.associateEntity(Subterminal.getActiveModel());
+            signatureEntity.save();
+
+            Image image = new Image();
+            image.associateEntity(signatureEntity);
+            image.setFilename(photo.getName());
+            image.save();
 
             result = true;
         } catch (IOException e) {

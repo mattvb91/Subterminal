@@ -66,6 +66,7 @@ public class Image extends Synchronizable {
     public static final int ENTITY_TYPE_EXIT = 0;
     public static final int ENTITY_TYPE_JUMP = 1;
     public static final int ENTITY_TYPE_SKYDIVE = 2;
+    public static final int ENTITY_TYPE_SIGNATURE = 3;
 
 
     public String getFilename() {
@@ -99,6 +100,16 @@ public class Image extends Synchronizable {
 
 
     /**
+     * Associate an entity with this image.
+     *
+     * @param associatedEntity
+     */
+    public void associateEntity(Model associatedEntity) {
+        this.setEntityType(getEntityTypeFromModel(associatedEntity));
+        this.setEntityId(associatedEntity.getId());
+    }
+
+    /**
      * Figure out what entity we are dealing with.
      *
      * @param associatedEntity
@@ -111,6 +122,8 @@ public class Image extends Synchronizable {
             return ENTITY_TYPE_JUMP;
         } else if (associatedEntity instanceof Skydive) {
             return ENTITY_TYPE_SKYDIVE;
+        } else if (associatedEntity instanceof Signature) {
+            return ENTITY_TYPE_SIGNATURE;
         }
 
         return -1;
@@ -228,8 +241,7 @@ public class Image extends Synchronizable {
             copy(new File(originalPath), new File(myDir, fname));
 
             Image image = new Image();
-            image.setEntityType(getEntityTypeFromModel(model));
-            image.setEntityId(model.getId());
+            image.associateEntity(model);
             image.setFilename(fname);
             image.save();
 

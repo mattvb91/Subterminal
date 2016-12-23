@@ -3,8 +3,11 @@ package mavonie.subterminal.Models.Skydive;
 import android.util.Pair;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Synchronizable;
 
 /**
@@ -181,4 +184,30 @@ public class Skydive extends Synchronizable {
 
         return _rig;
     }
+
+    /**
+     * Get all signatures associated with this jump.
+     *
+     * @return
+     */
+    public List<Signature> getSignatures() {
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereEntityType = new HashMap<>();
+        whereEntityType.put(Model.FILTER_WHERE_FIELD, Signature.COLUMN_NAME_ENTITY_TYPE);
+        whereEntityType.put(Model.FILTER_WHERE_VALUE, Signature.getEntityTypeFromModel(this));
+
+        HashMap<String, Object> whereId = new HashMap<>();
+        whereId.put(Model.FILTER_WHERE_FIELD, Signature.COLUMN_NAME_ENTITY_ID);
+        whereId.put(Model.FILTER_WHERE_VALUE, this.getId());
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereId);
+        wheres.put(wheres.size(), whereEntityType);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Signature().getItems(params);
+    }
+
 }

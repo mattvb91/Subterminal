@@ -1,5 +1,6 @@
 package mavonie.subterminal.Skydive.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
+import mavonie.subterminal.SignatureActivity;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
@@ -58,7 +60,7 @@ public class SkydiveView extends BaseFragment {
         TextView date = (TextView) view.findViewById(R.id.skydive_view_date);
         date.setText(getItem().getDate());
 
-        if(getItem().getRig() != null) {
+        if (getItem().getRig() != null) {
             TextView rig = (TextView) view.findViewById(R.id.skydive_view_rig);
             rig.setText(getItem().getRig().getDisplayName());
         }
@@ -67,11 +69,22 @@ public class SkydiveView extends BaseFragment {
 
         loadImages();
 
+        loadSignatures(getItem().getSignatures(), view);
+
         Button pictureButton = (Button) view.findViewById(R.id.skydive_view_picture_button);
         pictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.getActivity().onPickImage(v);
+            }
+        });
+
+        Button signatureButton = (Button) view.findViewById(R.id.jump_signature_button);
+        signatureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.getActivity(), SignatureActivity.class);
+                startActivity(intent);
             }
         });
 

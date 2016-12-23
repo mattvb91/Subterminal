@@ -77,6 +77,8 @@ public class JumpView extends BaseFragment {
 
         loadImages();
 
+        loadSignatures(getItem().getSignatures(), view);
+
         Button pictureButton = (Button) view.findViewById(R.id.jump_picture_button);
         pictureButton.setOnClickListener(new View.OnClickListener() {
             @Override

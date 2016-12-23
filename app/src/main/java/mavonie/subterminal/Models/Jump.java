@@ -117,9 +117,9 @@ public class Jump extends Synchronizable {
 
     @Override
     protected void populateCustomFromCursor(Field field, Cursor cursor) {
-        switch(field.getName()) {
+        switch (field.getName()) {
             case "row_id":
-                    this.setRowId(cursor.getCount() - cursor.getPosition());
+                this.setRowId(cursor.getCount() - cursor.getPosition());
                 break;
         }
     }
@@ -350,6 +350,31 @@ public class Jump extends Synchronizable {
         params.put(Model.FILTER_WHERE, wheres);
 
         return new Jump().getItems(params);
+    }
+
+    /**
+     * Get all signatures associated with this jump.
+     *
+     * @return
+     */
+    public List<Signature> getSignatures() {
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereEntityType = new HashMap<>();
+        whereEntityType.put(Model.FILTER_WHERE_FIELD, Signature.COLUMN_NAME_ENTITY_TYPE);
+        whereEntityType.put(Model.FILTER_WHERE_VALUE, Signature.getEntityTypeFromModel(this));
+
+        HashMap<String, Object> whereId = new HashMap<>();
+        whereId.put(Model.FILTER_WHERE_FIELD, Signature.COLUMN_NAME_ENTITY_ID);
+        whereId.put(Model.FILTER_WHERE_VALUE, this.getId());
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereId);
+        wheres.put(wheres.size(), whereEntityType);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return new Signature().getItems(params);
     }
 
 }

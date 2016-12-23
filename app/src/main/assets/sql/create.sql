@@ -76,6 +76,16 @@ CREATE TABLE image (
         deleted INTEGER DEFAULT 0
 );
 
+
+CREATE TABLE signature (
+        _id INTEGER PRIMARY KEY,
+        entity_type INTEGER,
+        entity_id INTEGER,
+        print_name TEXT,
+        synced INTEGER DEFAULT 0,
+        deleted INTEGER DEFAULT 0
+);
+
 /*
  * Skydiving Tables
  */

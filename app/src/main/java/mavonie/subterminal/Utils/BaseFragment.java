@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -19,6 +20,7 @@ import mavonie.subterminal.Forms.BaseForm;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Listeners.ImageListener;
 
@@ -142,6 +144,28 @@ public abstract class BaseFragment extends Fragment {
         if (!images.isEmpty()) {
             showImages(images);
             this.imageLayout.invalidate();
+        }
+    }
+
+    protected void loadSignatures(List<Signature> signatures, View view) {
+        if (signatures.size() > 0) {
+            HorizontalScrollView sigScrollView = (HorizontalScrollView) view.findViewById(R.id.horizontal_scroll_sig);
+            sigScrollView.setVisibility(View.VISIBLE);
+
+            LinearLayout sigs = (LinearLayout) view.findViewById(R.id.image_thumbs_sig);
+
+            for (Signature signature : signatures) {
+
+                SimpleDraweeView image = new SimpleDraweeView(MainActivity.getActivity().getApplicationContext());
+                image.setImageURI(signature.getImage().getUri().toString());
+                image.setMinimumWidth(150);
+                image.setMinimumHeight(150);
+                image.setOnClickListener(new ImageListener(signature.getImage()));
+
+                sigs.addView(image);
+            }
+
+            sigs.invalidate();
         }
     }
 
