@@ -67,6 +67,8 @@ public class SignatureActivity extends Activity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
                 addJpgSignatureToGallery(signatureBitmap);
             }

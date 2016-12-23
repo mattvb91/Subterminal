@@ -375,11 +375,16 @@ public class UIHelper {
     }
 
     public static void init() {
+        UIHelper.switchMode(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING));
 
-        UIHelper.replaceFragment(new Jump());
+        //Check which mode we are in and instantiate the correct list view
+        if (Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING).equals(Subterminal.MODE_BASE)) {
+            UIHelper.replaceFragment(new Jump());
+        } else {
+            UIHelper.replaceFragment(new mavonie.subterminal.Skydive.Skydive());
+        }
 
         UIHelper.initAddButton();
-        UIHelper.switchMode(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING));
 
         if (!Subterminal.getUser().isLoggedIn()) {
             userLoggedOut();
