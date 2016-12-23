@@ -16,12 +16,13 @@ import mavonie.subterminal.Forms.SuitForm;
 import mavonie.subterminal.Gear;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Skydive.ViewAdapters.RigRecycler;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.UIHelper;
-import mavonie.subterminal.ViewAdapters.GearRecycler;
 import mavonie.subterminal.ViewAdapters.SuitRecycler;
 
 /**
@@ -41,10 +42,10 @@ public class GearTabs extends BaseFragment {
         RecyclerView view;
 
         if (getArguments() != null && getArguments().getInt(Gear.TAB) == Gear.TAB_RIGS) {
-            mavonie.subterminal.Models.Gear gear = new mavonie.subterminal.Models.Gear();
+            Rig rig = new Rig();
 
             view = (RecyclerView) inflater.inflate(R.layout.fragment_gear_list, container, false);
-            adapter = new GearRecycler(gear.getItems(whereNotDeleted), getmListener());
+            adapter = new RigRecycler(rig.getItems(whereNotDeleted), getmListener());
         } else {
             Suit suit = new Suit();
 

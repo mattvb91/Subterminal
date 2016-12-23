@@ -9,54 +9,87 @@ import android.widget.EditText;
 import java.util.Calendar;
 
 import mavonie.subterminal.Forms.BaseForm;
-import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Subterminal;
 
 public class GearForm extends BaseForm {
 
-    private EditText containerManufacturer;
-    private EditText containerType;
-    private EditText containerSerial;
-    private EditText containerDateInUse;
-    private EditText canopyManufacturer;
-    private EditText canopyType;
-    private EditText canopySerial;
-    private EditText canopyDateInUse;
+    private EditText containerManufacturer,
+            containerModel,
+            containerSerial,
+            containerDateInUse,
+            mainManufacturer,
+            mainModel,
+            mainSerial,
+            mainDateInUse,
+            reserveManufacturer,
+            reserveModel,
+            reserveSerial,
+            reserveDateInUse,
+            aadManufacturer,
+            aadModel,
+            aadSerial,
+            aadDateInUse;
 
     @Override
-    protected Gear getItem() {
-        return (Gear) super.getItem();
+    protected Rig getItem() {
+        return (Rig) super.getItem();
     }
 
 
     protected void updateForm() {
         if (getItem().exists()) {
             Subterminal.setActiveModel(getItem());
+
             this.containerManufacturer.setText(getItem().getContainerManufacturer());
-            this.containerType.setText(getItem().getContainerType());
+            this.containerModel.setText(getItem().getContainerModel());
             this.containerSerial.setText(getItem().getContainerSerial());
             this.containerDateInUse.setText(getItem().getContainerDateInUse());
-            this.canopyManufacturer.setText(getItem().getCanopyManufacturer());
-            this.canopyType.setText(getItem().getCanopyType());
-            this.canopySerial.setText(getItem().getCanopySerial());
-            this.canopyDateInUse.setText(getItem().getCanopyDateInUse());
+
+            this.mainManufacturer.setText(getItem().getMainManufacturer());
+            this.mainModel.setText(getItem().getMainModel());
+            this.mainSerial.setText(getItem().getMainSerial());
+            this.mainDateInUse.setText(getItem().getMainDateInUse());
+
+            this.reserveManufacturer.setText(getItem().getReserveManufacturer());
+            this.reserveModel.setText(getItem().getReserveModel());
+            this.reserveSerial.setText(getItem().getReserveSerial());
+            this.reserveDateInUse.setText(getItem().getReserveDateInUse());
+
+            this.aadManufacturer.setText(getItem().getAadManufacturer());
+            this.aadModel.setText(getItem().getAadModel());
+            this.aadSerial.setText(getItem().getAadSerial());
+            this.aadDateInUse.setText(getItem().getAadDateInUse());
         }
     }
 
     protected void assignFormElements(View view) {
         this.containerManufacturer = (EditText) view.findViewById(R.id.edit_container_manufacturer);
-        this.containerType = (EditText) view.findViewById(R.id.edit_container_type);
+        this.containerModel = (EditText) view.findViewById(R.id.edit_container_type);
         this.containerSerial = (EditText) view.findViewById(R.id.edit_container_serial);
-
         this.containerDateInUse = (EditText) view.findViewById(R.id.edit_container_dateInUse);
+
+        this.mainManufacturer = (EditText) view.findViewById(R.id.edit_canopy_manufacturer);
+        this.mainModel = (EditText) view.findViewById(R.id.edit_canopy_model);
+        this.mainSerial = (EditText) view.findViewById(R.id.edit_canopy_serial);
+        this.mainDateInUse = (EditText) view.findViewById(R.id.edit_canopy_dateInUse);
+
+        this.reserveManufacturer = (EditText) view.findViewById(R.id.edit_reserve_manufacturer);
+        this.reserveModel = (EditText) view.findViewById(R.id.edit_reserve_model);
+        this.reserveSerial = (EditText) view.findViewById(R.id.edit_reserve_serial);
+        this.reserveDateInUse = (EditText) view.findViewById(R.id.edit_reserve_dateInUse);
+
+        this.aadManufacturer = (EditText) view.findViewById(R.id.edit_aad_manufacturer);
+        this.aadModel = (EditText) view.findViewById(R.id.edit_aad_model);
+        this.aadSerial = (EditText) view.findViewById(R.id.edit_aad_serial);
+        this.aadDateInUse = (EditText) view.findViewById(R.id.edit_aad_dateInUse);
 
         final DatePickerDialog.OnDateSetListener containerDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -69,11 +102,34 @@ public class GearForm extends BaseForm {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateCanopyDate();
+                updateMainDate();
+            }
+
+        };
+
+        final DatePickerDialog.OnDateSetListener reserveDate = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateReserveDate();
+            }
+
+        };
+
+        final DatePickerDialog.OnDateSetListener aadDate = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateAAdDate();
             }
 
         };
@@ -88,17 +144,31 @@ public class GearForm extends BaseForm {
             }
         });
 
-        this.canopyManufacturer = (EditText) view.findViewById(R.id.edit_canopy_manufacturer);
-        this.canopyType = (EditText) view.findViewById(R.id.edit_canopy_type);
-        this.canopySerial = (EditText) view.findViewById(R.id.edit_canopy_serial);
-
-        this.canopyDateInUse = (EditText) view.findViewById(R.id.edit_canopy_dateInUse);
-
-        this.canopyDateInUse.setOnClickListener(new View.OnClickListener() {
+        this.mainDateInUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 new DatePickerDialog(getContext(), canopyDate, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        this.reserveDateInUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(getContext(), reserveDate, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        this.aadDateInUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(getContext(), aadDate, calendar
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -118,44 +188,60 @@ public class GearForm extends BaseForm {
         this.containerDateInUse.setText(df.format(calendar.getTime()));
     }
 
-    private void updateCanopyDate() {
+    private void updateMainDate() {
 
         DateFormat df = new DateFormat();
-        this.canopyDateInUse.setText(df.format(calendar.getTime()));
+        this.mainDateInUse.setText(df.format(calendar.getTime()));
     }
 
+    private void updateReserveDate() {
+
+        DateFormat df = new DateFormat();
+        this.reserveDateInUse.setText(df.format(calendar.getTime()));
+    }
+
+    private void updateAAdDate() {
+
+        DateFormat df = new DateFormat();
+        this.aadDateInUse.setText(df.format(calendar.getTime()));
+    }
 
     @Override
     protected String getItemClass() {
-        return Gear.class.getCanonicalName();
+        return Rig.class.getCanonicalName();
     }
 
     @Override
     protected int getParentFragmentId() {
-        return R.id.nav_gear;
+        return R.id.skydiving_nav_gear;
     }
 
 
     /**
      * Save the item
-     * //TODO call item.save() method
      */
     public void save() {
-        //Required fields
-        String containerManufacturer = this.containerManufacturer.getText().toString();
-        String containerType = this.containerType.getText().toString();
-        String canopyManufacturer = this.canopyManufacturer.getText().toString();
 
         if (validateForm()) {
-            getItem().setContainerManufacturer(containerManufacturer);
-            getItem().setContainerType(containerType);
+            getItem().setContainerManufacturer(this.containerManufacturer.getText().toString());
+            getItem().setContainerModel(this.containerModel.getText().toString());
             getItem().setContainerSerial(this.containerSerial.getText().toString());
             getItem().setContainerDateInUse(this.containerDateInUse.getText().toString());
 
-            getItem().setCanopyManufacturer(canopyManufacturer);
-            getItem().setCanopyType(this.canopyType.getText().toString());
-            getItem().setCanopySerial(this.canopySerial.getText().toString());
-            getItem().setCanopyDateInUse(this.canopyDateInUse.getText().toString());
+            getItem().setMainManufacturer(this.mainManufacturer.getText().toString());
+            getItem().setMainModel(this.mainModel.getText().toString());
+            getItem().setMainSerial(this.mainSerial.getText().toString());
+            getItem().setMainDateInUse(this.mainDateInUse.getText().toString());
+
+            getItem().setReserveManufacturer(this.reserveManufacturer.getText().toString());
+            getItem().setReserveModel(this.reserveModel.getText().toString());
+            getItem().setReserveSerial(this.reserveSerial.getText().toString());
+            getItem().setReserveDateInUse(this.reserveDateInUse.getText().toString());
+
+            getItem().setAadManufacturer(this.aadManufacturer.getText().toString());
+            getItem().setAadModel(this.aadModel.getText().toString());
+            getItem().setAadSerial(this.aadSerial.getText().toString());
+            getItem().setAadDateInUse(this.aadDateInUse.getText().toString());
 
             super.save();
         }
@@ -175,13 +261,23 @@ public class GearForm extends BaseForm {
             valid = false;
         }
 
-        if (containerType.getText().length() == 0) {
-            this.containerType.setError("Type required");
+        if (containerModel.getText().length() == 0) {
+            this.containerModel.setError("Type required");
             valid = false;
         }
 
-        if (canopyManufacturer.getText().length() == 0) {
-            this.canopyManufacturer.setError("Manufacturer required");
+        if (mainManufacturer.getText().length() == 0) {
+            this.mainManufacturer.setError("Manufacturer required");
+            valid = false;
+        }
+
+        if (reserveManufacturer.getText().length() == 0) {
+            this.reserveManufacturer.setError("Manufacturer required");
+            valid = false;
+        }
+
+        if (aadManufacturer.getText().length() == 0) {
+            this.aadManufacturer.setError("Manufacturer required");
             valid = false;
         }
 

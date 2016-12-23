@@ -36,6 +36,7 @@ import mavonie.subterminal.Gear;
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Preference;
@@ -95,6 +96,8 @@ public class UIHelper {
             fragment = new DropzoneView();
         } else if (entity instanceof Skydive) {
             fragment = new SkydiveView();
+        } else if (entity instanceof Rig) {
+            fragment = new mavonie.subterminal.Skydive.Forms.GearForm();
         }
 
         fragment.setArguments(args);

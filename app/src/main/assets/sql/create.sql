@@ -106,3 +106,24 @@ CREATE TABLE skydive_dropzone (
         address_line_2 TEXT,
         address_country TEXT
 );
+
+CREATE TABLE skydive_rig (
+    _id INTEGER PRIMARY KEY,
+    container_manufacturer TEXT,
+    container_model TEXT,
+    container_serial TEXT,
+    container_date_in_use DATE,
+    main_manufacturer TEXT,
+    main_model TEXT,
+    main_serial TEXT,
+    main_date_in_use DATE,
+    reserve_manufacturer TEXT,
+    reserve_model TEXT,
+    reserve_serial TEXT,
+    reserve_date_in_use DATE,
+    aad_manufacturer TEXT,
+    aad_model TEXT,
+    aad_serial TEXT,
+    aad_date_in_use DATE,
+    synced INTEGER DEFAULT 0,
+    deleted INTEGER DEFAULT 0);

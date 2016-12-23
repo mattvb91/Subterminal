@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="4dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dip">
+
+        <TextView
+            android:id="@+id/gear_container_manufacturer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:gravity="left"
+            android:text="Manuacturer"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/gear_container_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/gear_container_manufacturer"
+            android:paddingLeft="16dp"
+            android:text="Type"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <TextView
+            android:id="@+id/gear_canopy_manufacturer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gear_container_manufacturer"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:paddingTop="5dp"
+            android:text="Canopy Manufacturer"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/gear_canopy_type"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gear_container_type"
+            android:layout_toRightOf="@id/gear_canopy_manufacturer"
+            android:paddingLeft="16dp"
+            android:paddingTop="5dp"
+            android:text="Canopy Type"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <ImageView
+            android:id="@+id/gear_list_synchronized"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/synchronized_circle"/>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

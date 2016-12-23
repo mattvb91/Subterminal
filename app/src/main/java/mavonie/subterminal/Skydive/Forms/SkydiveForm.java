@@ -17,6 +17,7 @@ import java.util.Map;
 import mavonie.subterminal.Forms.BaseForm;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
@@ -30,7 +31,7 @@ import mavonie.subterminal.Utils.Subterminal;
 public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     private AutoCompleteTextView dropzone;
-    private Spinner jumpType;
+    private Spinner rigSpinner;
 
     private TextView delay,
             description,
@@ -40,6 +41,9 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
     private LinkedHashMap<String, String> dropzoneNames;
     LinkedHashMapAdapter<String, String> dropzonesAdapter;
+
+    private LinkedHashMap<String, String> rigs;
+    LinkedHashMapAdapter<String, String> rigAdapter;
 
     private LinkedHashMap suits = new LinkedHashMap();
     LinkedHashMapAdapter suitsAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.suits);
@@ -93,6 +97,31 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
                         calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        Spinner rigSpinner = (Spinner) view.findViewById(R.id.skydive_edit_rig);
+        this.rigs = new Rig().getItemsForSelect("container_manufacturer");
+
+        if (this.rigs.size() > 0) {
+            this.rigAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.rigs);
+            this.rigAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            rigSpinner.setAdapter(this.rigAdapter);
+
+            rigSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    rigEntry = rigAdapter.getItem(i);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+        } else {
+            view.findViewById(R.id.skydive_edit_rig_text).setVisibility(View.GONE);
+            rigSpinner.setVisibility(View.GONE);
+        }
 
 
         Button button = (Button) view.findViewById(R.id.skydive_save);
@@ -162,6 +191,10 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             if (getItem().getExitAltitude() != null) {
                 deploy_altitude.setText(Integer.toString(getItem().getDeployAltitude()));
             }
+
+            if (this.rigEntry != null) {
+//                getItem().setRigId(Integer.parseInt(this.rigEntry.getKey()));
+            }
         }
     }
 
@@ -178,6 +211,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
     }
 
     private Map.Entry<String, String> dropzoneEntry;
+    private Map.Entry<String, String> rigEntry;
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

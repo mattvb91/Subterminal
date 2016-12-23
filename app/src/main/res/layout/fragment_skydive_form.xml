@@ -72,6 +72,19 @@
             </LinearLayout>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/skydive_edit_rig_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Rig"
+            android:textSize="7pt"></TextView>
+
+        <Spinner
+            android:id="@+id/skydive_edit_rig"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

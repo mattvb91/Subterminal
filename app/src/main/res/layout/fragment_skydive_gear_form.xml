@@ -157,7 +157,7 @@
                     android:text="Model" />
 
                 <EditText
-                    android:id="@+id/edit_canopy_type"
+                    android:id="@+id/edit_canopy_model"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"></EditText>
