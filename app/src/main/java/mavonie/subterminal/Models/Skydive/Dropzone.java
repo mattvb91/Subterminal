@@ -1,8 +1,11 @@
 package mavonie.subterminal.Models.Skydive;
 
+import android.util.Pair;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Model;
 
 /**
@@ -16,8 +19,8 @@ public class Dropzone extends Model {
             website,
             phone,
             email,
-            address_line_1,
-            address_line_2,
+            formatted_address,
+            address_level_1,
             address_country;
 
     private double latitude,
@@ -34,8 +37,8 @@ public class Dropzone extends Model {
     public static final String COLUMN_NAME_WEBSITE = "website";
     public static final String COLUMN_NAME_PHONE = "phone";
     public static final String COLUMN_NAME_EMAIL = "email";
-    public static final String COLUMN_NAME_ADDRESS_LINE_1 = "address_line_1";
-    public static final String COLUMN_NAME_ADDRESS_LINE_2 = "address_line_2";
+    public static final String COLUMN_NAME_ADDRESS_FORMATTED_ADDRESS = "formatted_address";
+    public static final String COLUMN_NAME_ADDRESS_LEVEL_1 = "address_level_1";
     public static final String COLUMN_NAME_ADDRESS_LINE_COUNTRY = "address_country";
 
     /* END DB DEFINITIONS */
@@ -55,8 +58,8 @@ public class Dropzone extends Model {
             dbColumns.put(COLUMN_NAME_WEBSITE, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_PHONE, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_EMAIL, TYPE_TEXT);
-            dbColumns.put(COLUMN_NAME_ADDRESS_LINE_1, TYPE_TEXT);
-            dbColumns.put(COLUMN_NAME_ADDRESS_LINE_2, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_ADDRESS_FORMATTED_ADDRESS, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_ADDRESS_LEVEL_1, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_ADDRESS_LINE_COUNTRY, TYPE_TEXT);
 
             Model.setDBColumns(dbColumns);
@@ -118,22 +121,6 @@ public class Dropzone extends Model {
         this.email = email;
     }
 
-    public String getAddressLine1() {
-        return address_line_1;
-    }
-
-    public void setAddressLine1(String address_line_1) {
-        this.address_line_1 = address_line_1;
-    }
-
-    public String getAddressLine2() {
-        return address_line_2;
-    }
-
-    public void setAddressLine2(String address_line_2) {
-        this.address_line_2 = address_line_2;
-    }
-
     public String getAddressCountry() {
         return address_country;
     }
@@ -158,6 +145,22 @@ public class Dropzone extends Model {
         this.longtitude = longtitude;
     }
 
+    public String getFormattedAddress() {
+        return formatted_address;
+    }
+
+    public void setFormattedAddress(String formatted_address) {
+        this.formatted_address = formatted_address;
+    }
+
+    public String getAddressLevel1() {
+        return address_level_1;
+    }
+
+    public void setAddressLevel1(String address_level_1) {
+        this.address_level_1 = address_level_1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -176,12 +179,11 @@ public class Dropzone extends Model {
             return false;
         if (phone != null ? !phone.equals(dropzone.phone) : dropzone.phone != null) return false;
         if (email != null ? !email.equals(dropzone.email) : dropzone.email != null) return false;
-        if (address_line_1 != null ? !address_line_1.equals(dropzone.address_line_1) : dropzone.address_line_1 != null)
+        if (formatted_address != null ? !formatted_address.equals(dropzone.formatted_address) : dropzone.formatted_address != null)
             return false;
-        if (address_line_2 != null ? !address_line_2.equals(dropzone.address_line_2) : dropzone.address_line_2 != null)
+        if (address_level_1 != null ? !address_level_1.equals(dropzone.address_level_1) : dropzone.address_level_1 != null)
             return false;
         return address_country != null ? address_country.equals(dropzone.address_country) : dropzone.address_country == null;
-
     }
 
     /**
@@ -195,5 +197,22 @@ public class Dropzone extends Model {
         }
 
         return false;
+    }
+
+    public static void createOrUpdate(Dropzone dropzone) {
+
+        //TODO use slug instead of name
+        Dropzone dbDropzone = (Dropzone) new Dropzone().getItem(new Pair<String, String>(COLUMN_NAME_NAME, dropzone.getName()));
+
+        //Check if it equals
+        if (dbDropzone != null) {
+            if (!dbDropzone.equals(dbDropzone)) {
+                //Update if it doesnt
+                dropzone.setId(dbDropzone.getId());
+                dropzone.save();
+            }
+        } else {
+            dropzone.save();
+        }
     }
 }

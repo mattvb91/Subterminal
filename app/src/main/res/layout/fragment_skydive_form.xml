@@ -15,62 +15,43 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:text="Log Skydive"
             android:textSize="10pt"></TextView>
 
-        <LinearLayout
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Dropzone"
+            android:textSize="7pt"></TextView>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+        <AutoCompleteTextView
+            android:id="@+id/skydive_edit_dropzone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Dropzone" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:text="Dropzone"
-                    android:textSize="7pt"></TextView>
 
-                <AutoCompleteTextView
-                    android:id="@+id/skydive_edit_dropzone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="Dropzone" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Date"
+            android:textSize="7pt"></TextView>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:text="Date"
-                    android:textSize="7pt"></TextView>
-
-                <EditText
-                    android:id="@+id/skydive_edit_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:focusable="false"
-                    android:hint="Date"
-                    android:inputType="date" />
-            </LinearLayout>
-        </LinearLayout>
+        <EditText
+            android:id="@+id/skydive_edit_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:focusable="false"
+            android:hint="Date"
+            android:inputType="date" />
 
         <TextView
             android:id="@+id/skydive_edit_rig_text"

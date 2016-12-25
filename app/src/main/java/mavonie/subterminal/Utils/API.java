@@ -1,6 +1,7 @@
 package mavonie.subterminal.Utils;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.View;
 
 import com.facebook.AccessToken;
@@ -26,6 +27,7 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Models.User;
@@ -52,6 +54,7 @@ public class API {
     }
 
     public static final String CALLS_LIST_PUBLIC_EXITS = "LIST_PUBLIC_EXITS";
+    public static final String CALLS_LIST_DROPZONES = "LIST_DROPZONES";
     public static final String CALLS_UPDATE_NOTIFICATIONS = "UPDATE_NOTIFICATIONS";
     public static final String CALLS_UPDATE_USER = "UPDATE_USER";
 
@@ -133,6 +136,10 @@ public class API {
             updatePublicExits();
         }
 
+        if (!Once.beenDone(TimeUnit.HOURS, 168, CALLS_LIST_DROPZONES)) {
+            updateDropzones();
+        }
+
         if (!Once.beenDone(TimeUnit.DAYS, 1, CALLS_UPDATE_NOTIFICATIONS)) {
             updateNotificationSettings();
         }
@@ -151,6 +158,44 @@ public class API {
                 Synchronizable.syncEntities();
             }
         }
+    }
+
+    /**
+     * Update the dropzones list on background runnable
+     */
+    private void updateDropzones() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call dropzones = this.getEndpoints().getDropzones();
+        dropzones.enqueue(new Callback<List<Dropzone>>() {
+            @Override
+            public void onResponse(Call call, final Response response) {
+                if (response.isSuccessful()) {
+
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            List<Dropzone> dropzones = (List<Dropzone>) response.body();
+
+                            for (Dropzone dropzone : dropzones) {
+                                Dropzone.createOrUpdate(dropzone);
+                            }
+
+                            Once.markDone(CALLS_LIST_DROPZONES);
+                        }
+                    });
+
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                API.issueContactingServer();
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
     }
 
     private void downloadSuits() {

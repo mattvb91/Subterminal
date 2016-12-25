@@ -113,8 +113,8 @@ CREATE TABLE skydive_dropzone (
         website TEXT,
         phone TEXT,
         email TEXT,
-        address_line_1 TEXT,
-        address_line_2 TEXT,
+        formatted_address TEXT,
+        address_level_1 TEXT,
         address_country TEXT
 );
 

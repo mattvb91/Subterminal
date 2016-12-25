@@ -5,6 +5,7 @@
         versioncode="16">
         <change>Added skydiving mode</change>
         <change>Added dropzones</change>
+        <change>Added signatures to jumps</change>
         <change>General improvements</change>
     </release>
     <release
