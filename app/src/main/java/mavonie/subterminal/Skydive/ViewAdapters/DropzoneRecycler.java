@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.DropzoneAircraft;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 
@@ -36,7 +37,8 @@ public class DropzoneRecycler extends RecyclerView.Adapter<DropzoneRecycler.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.listName.setText(holder.mItem.getName());
-        holder.listCountry.setText(holder.mItem.getAddressCountry());
+        holder.listCountry.setText(holder.mItem.getCountry());
+        holder.listAircraft.setText(new DropzoneAircraft().count(holder.mItem.aircraftParemeters()) + " Aircraft");
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +61,7 @@ public class DropzoneRecycler extends RecyclerView.Adapter<DropzoneRecycler.View
         public final View mView;
         public final TextView listName;
         public final TextView listCountry;
+        public final TextView listAircraft;
 
         public mavonie.subterminal.Models.Skydive.Dropzone mItem;
 
@@ -67,6 +70,7 @@ public class DropzoneRecycler extends RecyclerView.Adapter<DropzoneRecycler.View
             mView = view;
             listName = (TextView) view.findViewById(R.id.dropzone_list_name);
             listCountry = (TextView) view.findViewById(R.id.dropzone_list_country);
+            listAircraft = (TextView) view.findViewById(R.id.dropzone_list_aircraft);
         }
     }
 }

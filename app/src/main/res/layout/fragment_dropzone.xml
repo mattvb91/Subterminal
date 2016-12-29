@@ -6,50 +6,45 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="4dp">
 
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dip">
 
-        <LinearLayout
-            android:id="@+id/country"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/dropzone_list_country"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:text="Country"
-                android:textSize="15dp"/>
-
-        </LinearLayout>
-
-
         <TextView
             android:id="@+id/dropzone_list_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/country"
-            android:layout_toRightOf="@+id/country"
+            android:paddingLeft="5dp"
             android:text="Dropzone"
             android:textColor="#040404"
             android:textSize="15dip"
             android:textStyle="bold"
-            android:typeface="sans"/>
+            android:typeface="sans" />
+
+        <TextView
+            android:id="@+id/dropzone_list_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dropzone_list_name"
+            android:padding="5dp"
+            android:text="Country"
+            android:textSize="15dp" />
 
         <!-- Rightend Duration -->
 
-        <!-- Rightend Arrow -->
-        <ImageView
-            android:id="@+id/jump_list_arrow"
+        <TextView
+            android:id="@+id/dropzone_list_aircraft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@android:drawable/arrow_down_float"/>
+            android:layout_below="@id/dropzone_list_name"
+            android:gravity="right"
+            android:padding="5dp"
+            android:text="Aircraft"
+            android:textSize="15dp" />
 
     </RelativeLayout>
 

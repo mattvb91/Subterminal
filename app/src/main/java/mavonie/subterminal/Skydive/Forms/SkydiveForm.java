@@ -143,7 +143,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
         if (validateForm()) {
             if (dropzoneEntry != null) {
-                getItem().setDropzoneId(dropzoneEntry.getValue());
+                getItem().setDropzoneId(Integer.parseInt(dropzoneEntry.getKey()));
             }
 
             if (rigEntry != null) {
@@ -187,6 +187,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
             if (getItem().getDropzoneId() != null) {
                 this.dropzone.setText(getItem().getDropzone().getName());
+                this.dropzoneEntry = this.dropzonesAdapter.getItem(this.dropzonesAdapter.findPositionFromKey(getItem().getDropzoneId()));
             }
 
             date.setText(getItem().getDate());
@@ -201,7 +202,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
                 exit_altitude.setText(Integer.toString(getItem().getExitAltitude()));
             }
 
-            if (getItem().getExitAltitude() != null) {
+            if (getItem().getDeployAltitude() != null) {
                 deploy_altitude.setText(Integer.toString(getItem().getDeployAltitude()));
             }
 

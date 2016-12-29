@@ -60,6 +60,9 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
         TextView description = (TextView) view.findViewById(R.id.dropzone_view_description);
         description.setText(getItem().getDescription());
 
+        TextView aircraft = (TextView) view.findViewById(R.id.dropzone_view_aircraft);
+        aircraft.setText(getItem().getFormattedAircraft());
+
         if (getItem().isMapActive()) {
             mMapView = (MapView) view.findViewById(R.id.dropzone_view_map);
             mMapView.setVisibility(View.VISIBLE);

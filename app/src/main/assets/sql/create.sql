@@ -114,8 +114,8 @@ CREATE TABLE skydive_dropzone (
         phone TEXT,
         email TEXT,
         formatted_address TEXT,
-        address_level_1 TEXT,
-        address_country TEXT
+        local TEXT,
+        country TEXT
 );
 
 CREATE TABLE skydive_rig (
@@ -138,3 +138,14 @@ CREATE TABLE skydive_rig (
     aad_date_in_use DATE,
     synced INTEGER DEFAULT 0,
     deleted INTEGER DEFAULT 0);
+
+CREATE TABLE skydive_aircraft (
+    _id INTEGER PRIMARY KEY,
+    name TEXT
+);
+
+CREATE TABLE skydive_dropzone_aircraft (
+    _id INTEGER PRIMARY KEY,
+    dropzone_id INTEGER,
+    aircraft_id INTEGER
+);

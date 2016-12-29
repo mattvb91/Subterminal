@@ -27,6 +27,7 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
@@ -57,6 +58,7 @@ public class API {
     public static final String CALLS_LIST_DROPZONES = "LIST_DROPZONES";
     public static final String CALLS_UPDATE_NOTIFICATIONS = "UPDATE_NOTIFICATIONS";
     public static final String CALLS_UPDATE_USER = "UPDATE_USER";
+    public static final String CALLS_LIST_AIRCRAFT = "LIST_AIRCRAFT";
 
     /**
      * Get our retrofit client.
@@ -136,8 +138,12 @@ public class API {
             updatePublicExits();
         }
 
-        if (!Once.beenDone(TimeUnit.HOURS, 168, CALLS_LIST_DROPZONES)) {
+        if (!Once.beenDone(TimeUnit.DAYS, 2, CALLS_LIST_DROPZONES)) {
             updateDropzones();
+        }
+
+        if (!Once.beenDone(TimeUnit.DAYS, 1, CALLS_LIST_AIRCRAFT)) {
+            updateAircraft();
         }
 
         if (!Once.beenDone(TimeUnit.DAYS, 1, CALLS_UPDATE_NOTIFICATIONS)) {
@@ -158,6 +164,34 @@ public class API {
                 Synchronizable.syncEntities();
             }
         }
+    }
+
+    private void updateAircraft() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call aircraft = this.getEndpoints().getAircraft();
+        aircraft.enqueue(new Callback<List<Aircraft>>() {
+            @Override
+            public void onResponse(Call call, final Response response) {
+                if (response.isSuccessful()) {
+                    List<Aircraft> aircrafts = (List<Aircraft>) response.body();
+
+                    for (Aircraft aircraft : aircrafts) {
+                        Aircraft.createOrUpdate(aircraft);
+                    }
+
+                    Once.markDone(CALLS_LIST_AIRCRAFT);
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                API.issueContactingServer();
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
     }
 
     /**

@@ -1,17 +1,21 @@
 package mavonie.subterminal.Models.Skydive;
 
-import android.util.Pair;
 
+import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Model;
 
 /**
  * Dropzone Model
  */
 public class Dropzone extends Model {
+
+    private int id; //THIS IS JUST TO SYNC TO REMOTE DB ID
 
     private String global_id,
             name,
@@ -20,11 +24,13 @@ public class Dropzone extends Model {
             phone,
             email,
             formatted_address,
-            address_level_1,
-            address_country;
+            local,
+            country;
 
     private double latitude,
             longtitude;
+
+    private List<DropzoneAircraft> dropzone_aircraft;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "skydive_dropzone";
@@ -38,8 +44,8 @@ public class Dropzone extends Model {
     public static final String COLUMN_NAME_PHONE = "phone";
     public static final String COLUMN_NAME_EMAIL = "email";
     public static final String COLUMN_NAME_ADDRESS_FORMATTED_ADDRESS = "formatted_address";
-    public static final String COLUMN_NAME_ADDRESS_LEVEL_1 = "address_level_1";
-    public static final String COLUMN_NAME_ADDRESS_LINE_COUNTRY = "address_country";
+    public static final String COLUMN_NAME_ADDRESS_LEVEL_1 = "local";
+    public static final String COLUMN_NAME_ADDRESS_LINE_COUNTRY = "country";
 
     /* END DB DEFINITIONS */
 
@@ -121,14 +127,6 @@ public class Dropzone extends Model {
         this.email = email;
     }
 
-    public String getAddressCountry() {
-        return address_country;
-    }
-
-    public void setAddressCountry(String address_line_country) {
-        this.address_country = address_line_country;
-    }
-
     public double getLatitude() {
         return latitude;
     }
@@ -153,12 +151,20 @@ public class Dropzone extends Model {
         this.formatted_address = formatted_address;
     }
 
-    public String getAddressLevel1() {
-        return address_level_1;
+    public String getLocal() {
+        return local;
     }
 
-    public void setAddressLevel1(String address_level_1) {
-        this.address_level_1 = address_level_1;
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override
@@ -181,9 +187,9 @@ public class Dropzone extends Model {
         if (email != null ? !email.equals(dropzone.email) : dropzone.email != null) return false;
         if (formatted_address != null ? !formatted_address.equals(dropzone.formatted_address) : dropzone.formatted_address != null)
             return false;
-        if (address_level_1 != null ? !address_level_1.equals(dropzone.address_level_1) : dropzone.address_level_1 != null)
+        if (local != null ? !local.equals(dropzone.local) : dropzone.local != null)
             return false;
-        return address_country != null ? address_country.equals(dropzone.address_country) : dropzone.address_country == null;
+        return country != null ? country.equals(dropzone.country) : dropzone.country == null;
     }
 
     /**
@@ -200,19 +206,71 @@ public class Dropzone extends Model {
     }
 
     public static void createOrUpdate(Dropzone dropzone) {
-
-        //TODO use slug instead of name
-        Dropzone dbDropzone = (Dropzone) new Dropzone().getItem(new Pair<String, String>(COLUMN_NAME_NAME, dropzone.getName()));
+        Dropzone dbDropzone = (Dropzone) new Dropzone().getOneById(dropzone.id);
 
         //Check if it equals
         if (dbDropzone != null) {
-            if (!dbDropzone.equals(dbDropzone)) {
+            if (!dropzone.equals(dbDropzone)) {
                 //Update if it doesnt
                 dropzone.setId(dbDropzone.getId());
                 dropzone.save();
             }
         } else {
+            dropzone.setId(dropzone.id);
             dropzone.save();
         }
+
+        dropzone.updateAircraft(dropzone.dropzone_aircraft);
+    }
+
+    private void updateAircraft(List<DropzoneAircraft> dropzone_aircraft) {
+        for (DropzoneAircraft dzAircraft : dropzone_aircraft) {
+            dzAircraft.setDropzoneId(this.getId());
+            dzAircraft.save();
+        }
+    }
+
+    /**
+     * Get all aircrafts associated with this dropzone
+     *
+     * @return
+     */
+    public List<Aircraft> getAircraft() {
+        List<Aircraft> aircraft = new ArrayList<Aircraft>();
+
+        HashMap<String, Object> params = aircraftParemeters();
+
+        List<DropzoneAircraft> dzAircrafts = new DropzoneAircraft().getItems(params);
+
+        for (DropzoneAircraft dzAircraft : dzAircrafts) {
+            aircraft.add((Aircraft) new Aircraft().getOneById(dzAircraft.getAircraftId()));
+        }
+
+        return aircraft;
+    }
+
+    @NonNull
+    public HashMap<String, Object> aircraftParemeters() {
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereDropzoneId = new HashMap<>();
+        whereDropzoneId.put(Model.FILTER_WHERE_FIELD, DropzoneAircraft.COLUMN_NAME_DROPZONE_ID);
+        whereDropzoneId.put(Model.FILTER_WHERE_VALUE, this.getId());
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereDropzoneId);
+
+        params.put(Model.FILTER_WHERE, wheres);
+        return params;
+    }
+
+    public String getFormattedAircraft() {
+        String result = "";
+
+        for (Aircraft aircraft : this.getAircraft()) {
+            result += aircraft.getName() + ", ";
+        }
+
+        return result.length() > 0 ? result.substring(0, result.length() - 2) : " - ";
     }
 }

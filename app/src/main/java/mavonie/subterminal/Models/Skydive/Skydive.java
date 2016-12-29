@@ -1,7 +1,5 @@
 package mavonie.subterminal.Models.Skydive;
 
-import android.util.Pair;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,11 +13,11 @@ import mavonie.subterminal.Models.Synchronizable;
  */
 public class Skydive extends Synchronizable {
 
-    private String dropzone_id,
-            description,
+    private String description,
             date;
 
-    private Integer exit_altitude,
+    private Integer dropzone_id,
+            exit_altitude,
             deploy_altitude,
             delay,
             jump_type,
@@ -51,7 +49,7 @@ public class Skydive extends Synchronizable {
         if (dbColumns == null) {
             dbColumns = new HashMap<String, Integer>();
 
-            dbColumns.put(COLUMN_NAME_DROPZONE_ID, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_DROPZONE_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_DATE, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_EXIT_ALTITUDE, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_DEPLOY_ALTITUDE, TYPE_INTEGER);
@@ -71,11 +69,11 @@ public class Skydive extends Synchronizable {
         return TABLE_NAME;
     }
 
-    public String getDropzoneId() {
+    public Integer getDropzoneId() {
         return dropzone_id;
     }
 
-    public void setDropzoneId(String dropzone_id) {
+    public void setDropzoneId(Integer dropzone_id) {
         this.dropzone_id = dropzone_id;
     }
 
@@ -164,7 +162,7 @@ public class Skydive extends Synchronizable {
      */
     public Dropzone getDropzone() {
         if (_dropzone == null && this.getDropzoneId() != null) {
-            _dropzone = (Dropzone) new Dropzone().getItem(new Pair<String, String>(Dropzone.COLUMN_NAME_GLOBAL_ID, this.getDropzoneId()));
+            _dropzone = (Dropzone) new Dropzone().getOneById(this.getDropzoneId());
         }
 
         return _dropzone;
