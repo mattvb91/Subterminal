@@ -1,7 +1,10 @@
 package mavonie.subterminal.Models.Skydive;
 
-import android.view.InputDevice;
+import android.database.Cursor;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +12,7 @@ import java.util.Map;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Synchronizable;
+import mavonie.subterminal.Preference;
 
 /**
  * Skydive Model
@@ -25,6 +29,9 @@ public class Skydive extends Synchronizable {
             jump_type,
             aircraft_id,
             rig_id;
+
+    //use this to get the current position from the query
+    private int row_id;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "skydive";
@@ -62,11 +69,21 @@ public class Skydive extends Synchronizable {
             dbColumns.put(COLUMN_NAME_JUMP_TYPE, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_JUMP_RIG_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_AIRCRAFT_ID, TYPE_INTEGER);
+            dbColumns.put("row_id", TYPE_OTHER);
 
             Synchronizable.setDBColumns(dbColumns);
         }
 
         return dbColumns;
+    }
+
+    @Override
+    protected void populateCustomFromCursor(Field field, Cursor cursor) {
+        switch (field.getName()) {
+            case "row_id":
+                this.setRowId(cursor.getCount() - cursor.getPosition());
+                break;
+        }
     }
 
     @Override
@@ -232,4 +249,19 @@ public class Skydive extends Synchronizable {
 
         return this._aircraft;
     }
+
+    public int getRowId() {
+        int startJump = Prefs.getInt(Preference.PREFS_JUMP_START_COUNT, 0);
+
+        if (startJump > 0) {
+            this.row_id += (startJump - 1);
+        }
+
+        return this.row_id;
+    }
+
+    public void setRowId(int row_id) {
+        this.row_id = row_id;
+    }
+
 }

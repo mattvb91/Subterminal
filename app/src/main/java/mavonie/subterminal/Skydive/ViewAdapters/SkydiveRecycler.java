@@ -97,6 +97,8 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
                 holder.mListSynchronized.setColorFilter(color);
             }
 
+            holder.row_id.setText("#" + holder.mItem.getRowId());
+
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,6 +137,7 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
         public final TextView listDropzone;
         public final TextView listDelay;
         public final TextView listAgo;
+        public final TextView row_id;
         public final SimpleDraweeView mThumb;
         public final ImageView mListSynchronized;
 
@@ -146,6 +149,7 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
             listDropzone = (TextView) view.findViewById(R.id.skydive_list_dropzone);
             listDelay = (TextView) view.findViewById(R.id.skydive_list_delay);
             listAgo = (TextView) view.findViewById(R.id.skydive_list_ago);
+            row_id = (TextView) view.findViewById(R.id.skydive_list_row_id);
             mThumb = (SimpleDraweeView) view.findViewById(R.id.skydive_list_thumb);
             mListSynchronized = (ImageView) view.findViewById(R.id.skydive_list_synchronized);
         }
