@@ -33,7 +33,7 @@ public class DropzoneRecycler extends RecyclerView.Adapter<DropzoneRecycler.View
 
     public DropzoneRecycler(List<Object> items, BaseFragment.OnFragmentInteractionListener listener) {
 
-        if (!Subterminal.getUser().isPremium()) {
+        if (!Subterminal.getUser().isPremium() & !Subterminal.isTesting()) {
             List<Object> updatedList = new ArrayList<>();
             for (int i = 0; i < items.size(); i++) {
                 if (i % ITEMS_PER_AD == 0) {
@@ -92,7 +92,7 @@ public class DropzoneRecycler extends RecyclerView.Adapter<DropzoneRecycler.View
     @Override
     public int getItemViewType(int position) {
 
-        if (!Subterminal.getUser().isPremium()) {
+        if (!Subterminal.getUser().isPremium() & !Subterminal.isTesting()) {
             if (mValues.get(position) == null)
                 return ITEM_TYPE_AD;
         }
@@ -102,7 +102,7 @@ public class DropzoneRecycler extends RecyclerView.Adapter<DropzoneRecycler.View
 
     @Override
     public int getItemCount() {
-        return mValues.size() + (mValues.size() / 15);
+        return mValues.size() + (mValues.size() / ITEMS_PER_AD);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
