@@ -1,5 +1,7 @@
 package mavonie.subterminal.Models.Skydive;
 
+import android.view.InputDevice;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,7 @@ public class Skydive extends Synchronizable {
             deploy_altitude,
             delay,
             jump_type,
+            aircraft_id,
             rig_id;
 
     /* DB DEFINITIONS */
@@ -31,6 +34,7 @@ public class Skydive extends Synchronizable {
     public static final String COLUMN_NAME_EXIT_ALTITUDE = "exit_altitude";
     public static final String COLUMN_NAME_DEPLOY_ALTITUDE = "deploy_altitude";
     public static final String COLUMN_NAME_DELAY = "delay";
+    public static final String COLUMN_NAME_AIRCRAFT_ID = "aircraft_id";
     public static final String COLUMN_NAME_DESCRIPTION = "description";
     public static final String COLUMN_NAME_JUMP_TYPE = "jump_type";
     public static final String COLUMN_NAME_JUMP_RIG_ID = "rig_id";
@@ -57,6 +61,7 @@ public class Skydive extends Synchronizable {
             dbColumns.put(COLUMN_NAME_DESCRIPTION, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_JUMP_TYPE, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_JUMP_RIG_ID, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_AIRCRAFT_ID, TYPE_INTEGER);
 
             Synchronizable.setDBColumns(dbColumns);
         }
@@ -133,6 +138,14 @@ public class Skydive extends Synchronizable {
         this.deploy_altitude = deploy_altitude;
     }
 
+    public Integer getAircraftId() {
+        return aircraft_id;
+    }
+
+    public void setAircraftId(Integer aircraft_id) {
+        this.aircraft_id = aircraft_id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -149,6 +162,8 @@ public class Skydive extends Synchronizable {
             return false;
         if (delay != null ? !delay.equals(skydive.delay) : skydive.delay != null) return false;
         if (rig_id != null ? !rig_id.equals(skydive.rig_id) : skydive.rig_id != null) return false;
+        if (aircraft_id != null ? !aircraft_id.equals(skydive.aircraft_id) : skydive.aircraft_id != null)
+            return false;
         return jump_type != null ? jump_type.equals(skydive.jump_type) : skydive.jump_type == null;
 
     }
@@ -208,4 +223,13 @@ public class Skydive extends Synchronizable {
         return new Signature().getItems(params);
     }
 
+    private Aircraft _aircraft;
+
+    public Aircraft getAircraft() {
+        if (this._aircraft == null && this.getAircraftId() != null) {
+            this._aircraft = (Aircraft) new Aircraft().getOneById(this.getAircraftId());
+        }
+
+        return this._aircraft;
+    }
 }

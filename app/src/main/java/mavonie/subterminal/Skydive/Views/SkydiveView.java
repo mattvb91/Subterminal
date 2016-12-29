@@ -65,6 +65,16 @@ public class SkydiveView extends BaseFragment {
             rig.setText(getItem().getRig().getDisplayName());
         }
 
+        if (getItem().getAircraftId() != null) {
+            TextView aircraft = (TextView) view.findViewById(R.id.skydive_view_aircraft);
+            aircraft.setText(getItem().getAircraft().getName());
+        }
+
+        if (getItem().getDropzone() != null) {
+            TextView dropzone = (TextView) view.findViewById(R.id.skydive_view_dropzone_name);
+            dropzone.setText(getItem().getDropzone().getName());
+        }
+
         imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
         loadImages();
