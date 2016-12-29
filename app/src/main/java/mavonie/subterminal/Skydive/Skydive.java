@@ -57,7 +57,11 @@ public class Skydive extends BaseFragment {
     public void onResume() {
         super.onResume();
         // Set title
-        String title = getString(R.string.title_skydives) + " (" + new mavonie.subterminal.Models.Skydive.Skydive().count() + ")";
+        HashMap<String, Object> whereNotDeleted = new HashMap<>();
+        whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
+        whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
+
+        String title = getString(R.string.title_skydives) + " (" + new mavonie.subterminal.Models.Skydive.Skydive().count(whereNotDeleted) + ")";
         MainActivity.getActivity().setTitle(title);
     }
 

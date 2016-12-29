@@ -61,8 +61,13 @@ public class Jump extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+
         // Set title
-        String title = getString(R.string.title_jumps) + " (" + new mavonie.subterminal.Models.Jump().count() + ")";
+        HashMap<String, Object> whereNotDeleted = new HashMap<>();
+        whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
+        whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
+
+        String title = getString(R.string.title_jumps) + " (" + new mavonie.subterminal.Models.Jump().count(whereNotDeleted) + ")";
         MainActivity.getActivity().setTitle(title);
     }
 

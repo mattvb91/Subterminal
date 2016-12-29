@@ -131,6 +131,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
         aircraftSpinner = (Spinner) view.findViewById(R.id.skydive_edit_aircraft);
         aircraftAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
+        aircraftAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         aircraftSpinner.setAdapter(aircraftAdapter);
         aircraftSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
