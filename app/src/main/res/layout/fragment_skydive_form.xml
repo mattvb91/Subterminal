@@ -99,6 +99,20 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent" />
 
+        <TextView
+            android:id="@+id/skydive_edit_type_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Type"
+            android:textSize="7pt"></TextView>
+
+        <Spinner
+            android:id="@+id/skydive_edit_type"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" />
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

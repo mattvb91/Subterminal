@@ -431,6 +431,8 @@ abstract public class Model implements BaseColumns, Serializable {
             query += " WHERE " + Synchronizable.COLUMN_DELETED + " = " + Synchronizable.DELETED_FALSE;
         }
 
+        query += " ORDER BY " + fieldName + " ASC";
+
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
         if (cursor.moveToFirst()) {

@@ -13,6 +13,7 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 import mavonie.subterminal.SignatureActivity;
+import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
@@ -73,6 +74,11 @@ public class SkydiveView extends BaseFragment {
         if (getItem().getDropzone() != null) {
             TextView dropzone = (TextView) view.findViewById(R.id.skydive_view_dropzone_name);
             dropzone.setText(getItem().getDropzone().getName());
+        }
+
+        if (getItem().getJumpType() != null) {
+            TextView jumpType = (TextView) view.findViewById(R.id.skydive_view_jump_type);
+            jumpType.setText(Skydive.getJumpTypes().get(getItem().getJumpType()));
         }
 
         imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);

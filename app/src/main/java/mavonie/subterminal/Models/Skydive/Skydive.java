@@ -6,6 +6,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +85,102 @@ public class Skydive extends Synchronizable {
                 this.setRowId(cursor.getCount() - cursor.getPosition());
                 break;
         }
+    }
+
+    public static final int SKYDIVE_TYPE_BELLY = 1;
+    public static final int SKYDIVE_TYPE_FREEFLY = 2;
+    public static final int SKYDIVE_TYPE_HYBRID = 3;
+    public static final int SKYDIVE_TYPE_WINGSUIT = 4;
+    public static final int SKYDIVE_TYPE_TRACKING = 5;
+    public static final int SKYDIVE_TYPE_ANGLE = 6;
+    public static final int SKYDIVE_TYPE_HEADUP = 7;
+    public static final int SKYDIVE_TYPE_HEADDOWN = 8;
+    public static final int SKYDIVE_TYPE_BIGWAY = 9;
+    public static final int SKYDIVE_TYPE_FREESTYLE = 10;
+    public static final int SKYDIVE_TYPE_FORMATION = 11;
+
+    public static final int SKYDIVE_TYPE_CANOPY_SWOOP = 20;
+    public static final int SKYDIVE_TYPE_CANOPY_ACCURACY = 21;
+    public static final int SKYDIVE_TYPE_CANOPY_HOPNPOP = 22;
+    public static final int SKYDIVE_TYPE_CANOPY_CREW = 23;
+    public static final int SKYDIVE_TYPE_CANOPY_CROSSCOUNTRY = 24;
+    public static final int SKYDIVE_TYPE_CANOPY_HIGHPULL = 25;
+    public static final int SKYDIVE_TYPE_CANOPY_XRW = 26;
+    public static final int SKYDIVE_TYPE_CANOPY_FLAG = 27;
+
+    public static final int SKYDIVE_TYPE_VIDEO = 40;
+
+    public static final int SKYDIVE_TYPE_INSTRUCTOR_TANDEM = 50;
+    public static final int SKYDIVE_TYPE_INSTRUCTOR_AFF = 51;
+    public static final int SKYDIVE_TYPE_INSTRUCTOR_LOADORGANIZER = 52;
+    public static final int SKYDIVE_TYPE_INSTRUCTOR_COACH = 53;
+    public static final int SKYDIVE_TYPE_INSTRUCTOR_STATICLINE = 54;
+
+    public static final int SKYDIVE_TYPE_MILITARY_HALO = 60;
+    public static final int SKYDIVE_TYPE_MILITARY_SLICK = 61;
+    public static final int SKYDIVE_TYPE_MILITARY_COMBAT = 62;
+
+    public static final int SKYDIVE_TYPE_OTHER_NAKED = 70;
+    public static final int SKYDIVE_TYPE_OTHER_NIGHT = 71;
+    public static final int SKYDIVE_TYPE_OTHER_MR_BILL = 72;
+    public static final int SKYDIVE_TYPE_OTHER_DEMO = 73;
+
+    public static final int SKYDIVE_TYPE_STUDENT_AFF = 80;
+    public static final int SKYDIVE_TYPE_STUDENT_STATICLINE = 81;
+    public static final int SKYDIVE_TYPE_STUDENT_TANDEM = 82;
+    public static final int SKYDIVE_TYPE_STUDENT_CONSOLE = 83;
+
+    private static LinkedHashMap<Integer, String> jumpTypes = null;
+
+    static {
+        jumpTypes = new LinkedHashMap<Integer, String>();
+
+        jumpTypes.put(SKYDIVE_TYPE_BELLY, "Belly");
+        jumpTypes.put(SKYDIVE_TYPE_FREEFLY, "Freefly");
+        jumpTypes.put(SKYDIVE_TYPE_HYBRID, "Hybrid");
+        jumpTypes.put(SKYDIVE_TYPE_WINGSUIT, "Wingsuit");
+        jumpTypes.put(SKYDIVE_TYPE_TRACKING, "Tracking");
+        jumpTypes.put(SKYDIVE_TYPE_ANGLE, "Angle");
+        jumpTypes.put(SKYDIVE_TYPE_HEADUP, "Headup");
+        jumpTypes.put(SKYDIVE_TYPE_HEADDOWN, "Headdown");
+        jumpTypes.put(SKYDIVE_TYPE_BIGWAY, "Bigway");
+        jumpTypes.put(SKYDIVE_TYPE_FREESTYLE, "Freestyle");
+        jumpTypes.put(SKYDIVE_TYPE_FORMATION, "Formation");
+
+        jumpTypes.put(SKYDIVE_TYPE_CANOPY_SWOOP, "Canopy - Swoop");
+        jumpTypes.put(SKYDIVE_TYPE_CANOPY_ACCURACY, "Canopy - Accuracy");
+        jumpTypes.put(SKYDIVE_TYPE_CANOPY_HOPNPOP, "Canopy - Hop-n-Pop");
+        jumpTypes.put(SKYDIVE_TYPE_CANOPY_CREW, "Canopy - CReW");
+        jumpTypes.put(SKYDIVE_TYPE_CANOPY_CROSSCOUNTRY, "Canopy - Cross Country");
+        jumpTypes.put(SKYDIVE_TYPE_CANOPY_HIGHPULL, "Canopy - High Pull");
+        jumpTypes.put(SKYDIVE_TYPE_CANOPY_XRW, "Canopy - XRW");
+        jumpTypes.put(SKYDIVE_TYPE_CANOPY_FLAG, "Canopy - Flag");
+
+        jumpTypes.put(SKYDIVE_TYPE_VIDEO, "Video");
+
+        jumpTypes.put(SKYDIVE_TYPE_INSTRUCTOR_TANDEM, "Instructor - Tandem");
+        jumpTypes.put(SKYDIVE_TYPE_INSTRUCTOR_AFF, "Instructor - AFF");
+        jumpTypes.put(SKYDIVE_TYPE_INSTRUCTOR_LOADORGANIZER, "Instructor - Load Organizer");
+        jumpTypes.put(SKYDIVE_TYPE_INSTRUCTOR_COACH, "Instructor - Coach");
+        jumpTypes.put(SKYDIVE_TYPE_INSTRUCTOR_STATICLINE, "Instructor - Static Line");
+
+        jumpTypes.put(SKYDIVE_TYPE_MILITARY_HALO, "Military - HALO ");
+        jumpTypes.put(SKYDIVE_TYPE_MILITARY_SLICK, "Military - Slick ");
+        jumpTypes.put(SKYDIVE_TYPE_MILITARY_COMBAT, "Military - Combat");
+
+        jumpTypes.put(SKYDIVE_TYPE_OTHER_NAKED, "Other - Naked");
+        jumpTypes.put(SKYDIVE_TYPE_OTHER_NIGHT, "Other - Night");
+        jumpTypes.put(SKYDIVE_TYPE_OTHER_MR_BILL, "Other - Mr. Bill");
+        jumpTypes.put(SKYDIVE_TYPE_OTHER_DEMO, "Other - Demo");
+
+        jumpTypes.put(SKYDIVE_TYPE_STUDENT_AFF, "Student - AFF");
+        jumpTypes.put(SKYDIVE_TYPE_STUDENT_STATICLINE, "Student - Static Line");
+        jumpTypes.put(SKYDIVE_TYPE_STUDENT_TANDEM, "Student - Tanden");
+        jumpTypes.put(SKYDIVE_TYPE_STUDENT_CONSOLE, "Student - Console");
+    }
+
+    public static LinkedHashMap<Integer, String> getJumpTypes() {
+        return jumpTypes;
     }
 
     @Override

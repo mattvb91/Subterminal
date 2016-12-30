@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import mavonie.subterminal.Forms.BaseForm;
@@ -33,6 +34,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
     private AutoCompleteTextView dropzone;
     private Spinner rigSpinner,
+            jumpType,
             aircraftSpinner;
 
     private TextView delay,
@@ -52,6 +54,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
     private LinkedHashMap<String, String> aircrafts;
     LinkedHashMapAdapter<String, String> aircraftAdapter;
+
+    LinkedHashMapAdapter<Integer, String> jumpTypesAdapter;
 
     @Override
     protected String getItemClass() {
@@ -145,6 +149,23 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             }
         });
 
+        jumpType = (Spinner) view.findViewById(R.id.skydive_edit_type);
+        jumpTypesAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Skydive.getJumpTypes());
+        jumpTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jumpType.setAdapter(jumpTypesAdapter);
+
+        jumpType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                jumpTypeEntry = jumpTypesAdapter.getItem(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         Button button = (Button) view.findViewById(R.id.skydive_save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -172,6 +193,10 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
             if (aircraftEntry != null) {
                 getItem().setAircraftId(Integer.parseInt(aircraftEntry.getKey()));
+            }
+
+            if (jumpTypeEntry != null) {
+                getItem().setJumpType(jumpTypeEntry.getKey());
             }
 
             String delayString = delay.getText().toString();
@@ -226,6 +251,10 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
                 exit_altitude.setText(Integer.toString(getItem().getExitAltitude()));
             }
 
+            if (getItem().getJumpType() != null) {
+                jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(getItem().getJumpType()));
+            }
+
             if (getItem().getDeployAltitude() != null) {
                 deploy_altitude.setText(Integer.toString(getItem().getDeployAltitude()));
             }
@@ -258,6 +287,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
     private Map.Entry<String, String> dropzoneEntry;
     private Map.Entry<String, String> rigEntry;
     private Map.Entry<String, String> aircraftEntry;
+    private Map.Entry<Integer, String> jumpTypeEntry;
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
