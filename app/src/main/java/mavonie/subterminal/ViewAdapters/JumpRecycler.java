@@ -32,7 +32,7 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
     static final int ITEM_TYPE_MODEL = 1;
     static final int ITEM_TYPE_AD = 2;
 
-    static final int ITEMS_PER_AD = 15;
+    static final int ITEMS_PER_AD = 20;
 
     private final List<Object> mValues;
     private final BaseFragment.OnFragmentInteractionListener mListener;

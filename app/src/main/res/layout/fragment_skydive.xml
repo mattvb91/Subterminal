@@ -68,6 +68,16 @@
             android:textColor="#343434"
             android:textSize="10dip" />
 
+        <TextView
+            android:id="@+id/skydive_list_aircraft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/skydive_list_delay"
+            android:layout_toRightOf="@+id/skydive_list_thumb_layout"
+            android:text="Aircraft:"
+            android:textColor="#343434"
+            android:textSize="10dip" />
+
         <!-- Rightend Duration -->
         <TextView
             android:id="@+id/skydive_list_ago"

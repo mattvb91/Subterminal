@@ -31,7 +31,7 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
     static final int ITEM_TYPE_MODEL = 1;
     static final int ITEM_TYPE_AD = 2;
 
-    static final int ITEMS_PER_AD = 15;
+    static final int ITEMS_PER_AD = 20;
 
     private final List<Object> mValues;
     private final BaseFragment.OnFragmentInteractionListener mListener;
@@ -80,6 +80,8 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
 
             if (holder.mItem.getDelay() != null) {
                 holder.listDelay.setText("Delay: " + Integer.toString(holder.mItem.getDelay()) + "s");
+            } else {
+                holder.listDelay.setVisibility(View.GONE);
             }
 
             holder.listAgo.setText(TimeAgo.sinceToday(holder.mItem.getDate()));
@@ -91,6 +93,8 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
             } else {
                 holder.mThumb.setHierarchy(Image.getHierarchy());
             }
+
+            holder.listAircraft.setText("Aircraft: " + holder.mItem.getAircraft().getName());
 
             if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced())) {
                 int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
@@ -135,6 +139,7 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView listDropzone;
+        public final TextView listAircraft;
         public final TextView listDelay;
         public final TextView listAgo;
         public final TextView row_id;
@@ -147,6 +152,7 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
             super(view);
             mView = view;
             listDropzone = (TextView) view.findViewById(R.id.skydive_list_dropzone);
+            listAircraft = (TextView) view.findViewById(R.id.skydive_list_aircraft);
             listDelay = (TextView) view.findViewById(R.id.skydive_list_delay);
             listAgo = (TextView) view.findViewById(R.id.skydive_list_ago);
             row_id = (TextView) view.findViewById(R.id.skydive_list_row_id);
