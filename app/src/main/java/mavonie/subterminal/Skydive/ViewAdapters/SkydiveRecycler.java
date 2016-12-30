@@ -91,7 +91,8 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
             if (thumb != null) {
                 holder.mThumb.setImageURI(thumb.getUri().toString());
             } else {
-                holder.mThumb.setHierarchy(Image.getHierarchy());
+                holder.mThumb.setVisibility(View.GONE);
+                holder.mView.findViewById(R.id.skydive_list_thumb_layout).setVisibility(View.GONE);
             }
 
             holder.listAircraft.setText("Aircraft: " + holder.mItem.getAircraft().getName());

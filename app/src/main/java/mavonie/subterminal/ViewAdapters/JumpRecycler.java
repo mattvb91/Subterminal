@@ -95,7 +95,8 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
             if (thumb != null) {
                 holder.mThumb.setImageURI(thumb.getUri().toString());
             } else {
-                holder.mThumb.setHierarchy(Image.getHierarchy());
+                holder.mThumb.setVisibility(View.GONE);
+                holder.mView.findViewById(R.id.jump_list_thumb_layout).setVisibility(View.GONE);
             }
 
             if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced())) {
