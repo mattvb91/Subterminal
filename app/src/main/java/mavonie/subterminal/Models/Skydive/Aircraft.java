@@ -64,4 +64,16 @@ public class Aircraft extends Model {
         }
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Aircraft aircraft = (Aircraft) o;
+
+        if (id != aircraft.id) return false;
+        return name != null ? name.equals(aircraft.name) : aircraft.name == null;
+
+    }
 }

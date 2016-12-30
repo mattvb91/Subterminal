@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.DropzoneAircraft;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static junit.framework.Assert.assertTrue;
@@ -60,5 +62,30 @@ public class DropzoneTest extends BaseDBUnit {
         dropzone.save();
 
         return dropzone;
+    }
+
+    @Test
+    public void attachAircraftTest() {
+        Aircraft aircraft = new Aircraft();
+        aircraft.setId(1);
+        aircraft.setName("Test Aircraft");
+        aircraft.save();
+
+        Aircraft dbAircraft = (Aircraft) new Aircraft().getOneById(1);
+
+        Assert.assertEquals(dbAircraft, aircraft);
+
+        Dropzone dropzone = createDropzone();
+
+        DropzoneAircraft dzAircraft = new DropzoneAircraft();
+        dzAircraft.setDropzoneId(dropzone.getId());
+        dzAircraft.setAircraftId(dbAircraft.getId());
+        dzAircraft.save();
+
+        assertEquals(dropzone.getAircraft().size(), 1);
+
+        for (Aircraft aircraft1 : dropzone.getAircraft()) {
+            aircraft1.equals(aircraft);
+        }
     }
 }
