@@ -348,7 +348,7 @@ public class Skydive extends Synchronizable {
     }
 
     public int getRowId() {
-        int startJump = Prefs.getInt(Preference.PREFS_JUMP_START_COUNT, 0);
+        int startJump = Prefs.getInt(Preference.PREFS_SKYDIVE_START_COUNT, 0);
 
         if (startJump > 0) {
             this.row_id += (startJump - 1);

@@ -48,6 +48,8 @@ public class Preference extends BaseFragment {
     public static final String PREFS_DEFAULT_JUMP_TYPE = "PREFS_DEFAULT_JUMP_TYPE";
     public static final String PREFS_MODE = "PREFS_MODE";
 
+    public static final String PREFS_SKYDIVE_START_COUNT = "PREFS_SKYDIVE_START_COUNT";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -146,6 +148,26 @@ public class Preference extends BaseFragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     Prefs.putInt(PREFS_JUMP_START_COUNT, Integer.parseInt(String.valueOf(startCount.getText())));
+                    UIHelper.toast(getString(R.string.settings_updated));
+
+                    InputMethodManager imm = (InputMethodManager) MainActivity.getActivity()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        final EditText skydiveStartCount = (EditText) view.findViewById(R.id.preference_skydive_start_count);
+        skydiveStartCount.setText(Integer.toString(Prefs.getInt(PREFS_SKYDIVE_START_COUNT, 0)));
+
+        skydiveStartCount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    Prefs.putInt(PREFS_SKYDIVE_START_COUNT, Integer.parseInt(String.valueOf(skydiveStartCount.getText())));
                     UIHelper.toast(getString(R.string.settings_updated));
 
                     InputMethodManager imm = (InputMethodManager) MainActivity.getActivity()
