@@ -134,7 +134,11 @@ public class JumpRecycler extends RecyclerView.Adapter<JumpRecycler.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mValues.size() + (mValues.size() / ITEMS_PER_AD);
+        if (!Subterminal.getUser().isPremium() & !Subterminal.isTesting()) {
+            return mValues.size() + (mValues.size() / ITEMS_PER_AD);
+        }
+
+        return mValues.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

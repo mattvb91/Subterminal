@@ -206,27 +206,41 @@ public class Dropzone extends Model {
     }
 
     public static void createOrUpdate(Dropzone dropzone) {
-        Dropzone dbDropzone = (Dropzone) new Dropzone().getOneById(dropzone.id);
-
-        //Check if it equals
-        if (dbDropzone != null) {
-            if (!dropzone.equals(dbDropzone)) {
-                //Update if it doesnt
-                dropzone.setId(dbDropzone.getId());
-                dropzone.save();
-            }
-        } else {
-            dropzone.setId(dropzone.id);
-            dropzone.save();
-        }
+        dropzone.setId(dropzone.id);
+        dropzone.save();
 
         dropzone.updateAircraft(dropzone.dropzone_aircraft);
     }
 
+    /**
+     * Check we dont already have this added to system
+     *
+     * @param dropzone_aircraft
+     */
     private void updateAircraft(List<DropzoneAircraft> dropzone_aircraft) {
+
         for (DropzoneAircraft dzAircraft : dropzone_aircraft) {
-            dzAircraft.setDropzoneId(this.getId());
-            dzAircraft.save();
+            HashMap<String, Object> params = new HashMap<>();
+
+            HashMap<String, Object> whereDropzoneId = new HashMap<>();
+            whereDropzoneId.put(Model.FILTER_WHERE_FIELD, DropzoneAircraft.COLUMN_NAME_DROPZONE_ID);
+            whereDropzoneId.put(Model.FILTER_WHERE_VALUE, this.getId());
+
+            HashMap<String, Object> whereAircraftId = new HashMap<>();
+            whereAircraftId.put(Model.FILTER_WHERE_FIELD, DropzoneAircraft.COLUMN_NAME_AIRCRAFT_ID);
+            whereAircraftId.put(Model.FILTER_WHERE_VALUE, dzAircraft.getAircraftId());
+
+            HashMap<Integer, HashMap> wheres = new HashMap<>();
+            wheres.put(wheres.size(), whereDropzoneId);
+            wheres.put(wheres.size(), whereAircraftId);
+            params.put(Model.FILTER_WHERE, wheres);
+
+            int count = new DropzoneAircraft().count(params);
+
+            if (count == 0) {
+                dzAircraft.setDropzoneId(this.getId());
+                dzAircraft.save();
+            }
         }
     }
 
@@ -239,11 +253,13 @@ public class Dropzone extends Model {
         List<Aircraft> aircraft = new ArrayList<Aircraft>();
 
         HashMap<String, Object> params = aircraftParemeters();
-
         List<DropzoneAircraft> dzAircrafts = new DropzoneAircraft().getItems(params);
 
         for (DropzoneAircraft dzAircraft : dzAircrafts) {
-            aircraft.add((Aircraft) new Aircraft().getOneById(dzAircraft.getAircraftId()));
+            Aircraft item = (Aircraft) new Aircraft().getOneById(dzAircraft.getAircraftId());
+            if (item != null) {
+                aircraft.add(item);
+            }
         }
 
         return aircraft;

@@ -138,12 +138,12 @@ public class API {
             updatePublicExits();
         }
 
-        if (!Once.beenDone(TimeUnit.DAYS, 2, CALLS_LIST_DROPZONES)) {
-            updateDropzones();
+        if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_AIRCRAFT)) {
+            updateAircraft();
         }
 
-        if (!Once.beenDone(TimeUnit.DAYS, 1, CALLS_LIST_AIRCRAFT)) {
-            updateAircraft();
+        if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_DROPZONES)) {
+            updateDropzones();
         }
 
         if (!Once.beenDone(TimeUnit.DAYS, 1, CALLS_UPDATE_NOTIFICATIONS)) {
@@ -200,7 +200,7 @@ public class API {
     private void updateDropzones() {
         UIHelper.setProgressBarVisibility(View.VISIBLE);
 
-        Call dropzones = this.getEndpoints().getDropzones();
+        Call dropzones = this.getEndpoints().getDropzones(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_DROPZONES));
         dropzones.enqueue(new Callback<List<Dropzone>>() {
             @Override
             public void onResponse(Call call, final Response response) {
@@ -215,6 +215,7 @@ public class API {
                                 Dropzone.createOrUpdate(dropzone);
                             }
 
+                            Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_DROPZONES);
                             Once.markDone(CALLS_LIST_DROPZONES);
                         }
                     });

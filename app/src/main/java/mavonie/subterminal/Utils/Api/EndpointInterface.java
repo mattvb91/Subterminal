@@ -34,7 +34,7 @@ public interface EndpointInterface {
     Call<List<Exit>> listPublicExits();
 
     @GET("dropzone")
-    Call<List<Dropzone>> getDropzones();
+    Call<List<Dropzone>> getDropzones(@Query("last_sync") String lastSync);
 
     @GET("aircraft")
     Call<List<Aircraft>> getAircraft();
