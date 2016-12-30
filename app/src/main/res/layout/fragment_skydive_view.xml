@@ -37,9 +37,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/detail_list_margin"
-                            android:layout_span="1"
-                            android:gravity="left"
-                            android:text="Dropzone"
+                            android:layout_weight="1"
+                            android:text="Dropzone:"
                             android:textAppearance="?attr/textAppearanceListItem"
                             android:textStyle="bold" />
 
@@ -47,19 +46,12 @@
                             android:id="@+id/skydive_view_dropzone_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/detail_list_margin"
-                            android:layout_span="1"
+                            android:layout_gravity="center_vertical"
+                            android:layout_span="2"
+                            android:layout_weight="2"
                             android:text="Not set"
                             android:textAppearance="?attr/textAppearanceListItem" />
 
-                        <TextView
-                            android:id="@+id/skydive_view_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/detail_list_margin"
-                            android:gravity="right"
-                            android:text="Date"
-                            android:textAppearance="?attr/textAppearanceListItem" />
                     </TableRow>
 
                     <TableRow
@@ -79,6 +71,7 @@
                             android:id="@+id/skydive_view_rig"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_span="2"
                             android:layout_weight="2"
                             android:text="-"

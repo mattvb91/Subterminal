@@ -58,9 +58,6 @@ public class SkydiveView extends BaseFragment {
             delay.setText(Integer.toString(getItem().getDelay()) + "s");
         }
 
-        TextView date = (TextView) view.findViewById(R.id.skydive_view_date);
-        date.setText(getItem().getDate());
-
         if (getItem().getRig() != null) {
             TextView rig = (TextView) view.findViewById(R.id.skydive_view_rig);
             rig.setText(getItem().getRig().getDisplayName());
