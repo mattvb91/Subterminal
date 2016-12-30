@@ -47,7 +47,7 @@ public class DropzoneTest extends BaseDBUnit {
     public static Dropzone createDropzone() {
         Dropzone dropzone = new Dropzone();
 
-        dropzone.setAddressCountry("Ireland");
+        dropzone.setCountry("Ireland");
         dropzone.setName("Irish Parachute Club");
         dropzone.setDescription("Description");
         dropzone.setGlobalId("irish_parachute_club");

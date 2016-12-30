@@ -195,7 +195,7 @@ public abstract class BaseFragment extends Fragment {
     protected void adRequest(View view) {
         AdView mAdView = (AdView) view.findViewById(R.id.adView);
 
-        if (!Subterminal.getUser().isPremium()) {
+        if (!Subterminal.getUser().isPremium() & !Subterminal.isTesting()) {
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
         } else {

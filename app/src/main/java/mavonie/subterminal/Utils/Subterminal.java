@@ -236,6 +236,12 @@ public class Subterminal {
             Class.forName("mavonie.subterminal.unit.Base.BaseUnit");
             return true;
         } catch (ClassNotFoundException e) {
+            try {
+                Class.forName("android.support.test.runner");
+            } catch (ClassNotFoundException e1) {
+                return true;
+            }
+
             return false;
         }
     }
