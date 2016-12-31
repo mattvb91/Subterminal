@@ -1,6 +1,8 @@
 package mavonie.subterminal.Models;
 
 
+import android.content.ContentValues;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +23,7 @@ public abstract class Synchronizable extends Model {
     private Integer synced = SYNC_REQUIRED;
     private Integer deleted = DELETED_FALSE;
 
-    private Integer remote_id;
+    protected Integer remote_id;
 
     public static final String COLUMN_SYNCED = "synced";
     public static final String COLUMN_DELETED = "deleted";
@@ -31,17 +33,6 @@ public abstract class Synchronizable extends Model {
         dbColumns.put(COLUMN_DELETED, TYPE_INTEGER);
 
         Model.setDBColumns(dbColumns);
-    }
-
-    /**
-     * Transform the remote fields to the local fields
-     */
-    private void transformToLocal() {
-
-        if (this.remote_id != null) {
-            this.setId(this.remote_id);
-            this.remote_id = null;
-        }
     }
 
     public Integer getSynced() {
@@ -71,12 +62,6 @@ public abstract class Synchronizable extends Model {
     public void markSynced() {
         this.setSynced(SYNC_COMPLETED);
         super.save();
-
-        //Check if this was a remote call and associate it with its original id
-        if (this.remote_id != null && this.remote_id != this.getId()) {
-            this.transformToLocal();
-            super.save();
-        }
     }
 
     /**
@@ -94,6 +79,18 @@ public abstract class Synchronizable extends Model {
         }
 
         return res;
+    }
+
+
+    @Override
+    protected void populateContentValues(ContentValues contentValues) {
+
+        //Check if this was a remote call and associate it with its original id
+        if (this.remote_id != null) {
+            contentValues.put(_ID, this.remote_id);
+        }
+
+        super.populateContentValues(contentValues);
     }
 
     @Override

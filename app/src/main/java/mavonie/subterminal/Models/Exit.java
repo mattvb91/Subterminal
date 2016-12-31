@@ -1,5 +1,6 @@
 package mavonie.subterminal.Models;
 
+import android.content.ContentValues;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
@@ -280,7 +281,7 @@ public class Exit extends Synchronizable {
     public static void createOrUpdate(Exit exit) {
 
         if (exit.isGlobal()) {
-            //Its a global exit check if we already have it.
+            //Its a global exit check if we already have it or if an exit with same name exists
             Exit dbExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_GLOBAL_ID, exit.getGlobalId()));
 
             //Check if it equals
@@ -323,7 +324,7 @@ public class Exit extends Synchronizable {
     public boolean save() {
 
         boolean res = super.save();
-        if (res && this.isGlobal()) {
+        if (res && this.isGlobal() && this.getDetails() != null) {
             this.getDetails().setExitId(this.getId());
             this.getDetails().save();
         }
@@ -403,5 +404,49 @@ public class Exit extends Synchronizable {
         }
 
         return super.delete();
+    }
+
+
+    /**
+     * If we are pulling down next exits we need to make sure we sync the
+     * remote_id to local id and move any currently existing exits over.
+     *
+     * @param contentValues
+     */
+    @Override
+    protected void populateContentValues(ContentValues contentValues) {
+
+        if (this.remote_id != null) {
+            Exit current = (Exit) new Exit().getOneById(this.remote_id);
+            if (current != null) {
+                int nextAvailableId = this.count() + 1;
+
+                //Update the details exit id
+                if (current.getDetails() != null) {
+                    current.getDetails().setExitId(nextAvailableId);
+                    current.getDetails().save();
+                }
+
+                current._id = nextAvailableId;
+                if (current.save()) {
+                    //Make space for incoming by removing the row
+                    current.setId(this.remote_id);
+                    current.setDeleted(DELETED_TRUE);
+                    current.delete();
+                }
+
+                //Check does an exit with the same name globally exist? Remove it
+
+            }
+
+            contentValues.put(_ID, this.remote_id);
+            this.remote_id = null;
+        }
+
+        if (this._id > 0) {
+            contentValues.put(_ID, this._id);
+        }
+
+        super.populateContentValues(contentValues);
     }
 }
