@@ -1,6 +1,7 @@
 package mavonie.subterminal.Models.Skydive;
 
 
+import android.content.ContentValues;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -288,5 +289,16 @@ public class Dropzone extends Model {
         }
 
         return result.length() > 0 ? result.substring(0, result.length() - 2) : " - ";
+    }
+
+    /**
+     * Override so we can insert the ID before it gets to the parent method.
+     *
+     * @param contentValues
+     */
+    @Override
+    protected void populateContentValues(ContentValues contentValues) {
+        contentValues.put(_ID, this.id);
+        super.populateContentValues(contentValues);
     }
 }

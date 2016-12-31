@@ -297,7 +297,7 @@ abstract public class Model implements BaseColumns, Serializable {
      *
      * @param contentValues
      */
-    private void populateContentValues(ContentValues contentValues) {
+    protected void populateContentValues(ContentValues contentValues) {
 
         for (Map.Entry<String, Integer> entry : getDbColumns().entrySet()) {
 
