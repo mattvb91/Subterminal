@@ -233,5 +233,39 @@
                 </TableLayout>
             </android.support.v7.widget.CardView>
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/dropzone_weather_map_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/dropzone_view_map_card"
+            android:layout_margin="10dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_span="2"
+                            android:layout_weight="1"
+                            android:paddingBottom="10dp"
+                            android:text="Current Weather - Coming soon"
+                            android:textSize="20dp" />
+                    </TableRow>
+
+
+
+                </TableLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

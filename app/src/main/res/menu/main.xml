@@ -22,6 +22,7 @@
         android:id="@+id/action_filter"
         android:icon="@android:drawable/ic_menu_search"
         android:onClick="editItem"
+        android:visible="false"
         android:title="Filter" />
 
 </menu>

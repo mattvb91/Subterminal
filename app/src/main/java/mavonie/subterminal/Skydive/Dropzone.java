@@ -26,6 +26,7 @@ import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Skydive.ViewAdapters.DropzoneRecycler;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 
 /**
@@ -89,6 +90,7 @@ public class Dropzone extends BaseFragment {
         // Set title
         String title = getString(R.string.title_dropzones) + " (" + new mavonie.subterminal.Models.Skydive.Dropzone().count() + ")";
         MainActivity.getActivity().setTitle(title);
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_filter).setVisible(true);
     }
 
     @Override
@@ -160,5 +162,13 @@ public class Dropzone extends BaseFragment {
             }
         });
 
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        _mListener = null;
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_filter).setVisible(false);
     }
 }

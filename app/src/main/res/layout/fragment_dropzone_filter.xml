@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:autoLink="web"
-            android:text="Thanks to skydivelocations.com  for their dropzone data. \n\nIf your dropzone is missing please see skydivelocations.com"
+            android:text="Thanks to skydivelocations.com  for dropzone data. \n\nIf your dropzone is missing please see skydivelocations.com"
             android:textSize="7pt"></TextView>
 
         <View
