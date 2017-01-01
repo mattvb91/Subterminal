@@ -41,7 +41,7 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
         if (!Subterminal.getUser().isPremium() & !Subterminal.isTesting()) {
             List<Object> updatedList = new ArrayList<>();
             for (int i = 0; i < items.size(); i++) {
-                if (i % ITEMS_PER_AD == 0) {
+                if (i % ITEMS_PER_AD == 4) {
                     updatedList.add(null);
                 }
                 updatedList.add(items.get(i));
