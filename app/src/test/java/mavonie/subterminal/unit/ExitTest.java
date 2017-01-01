@@ -2,6 +2,7 @@ package mavonie.subterminal.unit;
 
 import android.util.Pair;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -9,7 +10,9 @@ import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.ExitDetails;
+import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -123,5 +126,23 @@ public class ExitTest extends BaseDBUnit {
 
         List<Exit> listSynced = Exit.getExitsForSync();
         assertEquals(1, listSynced.size());
+    }
+
+    @Test
+    public void autoIncrementTest() {
+
+        createExit();
+        Assert.assertEquals(new Exit().getNextAutoIncrement(), 2);
+        createExit();
+        createExit();
+        createExit();
+        Assert.assertEquals(new Exit().getNextAutoIncrement(), 5);
+
+        Assert.assertEquals(new Jump().getNextAutoIncrement(), 1);
+        Jump jump = JumpTest.createJump();
+        Assert.assertEquals(new Jump().getNextAutoIncrement(), 2);
+        JumpTest.createJump();
+        JumpTest.createJump();
+        Assert.assertEquals(new Jump().getNextAutoIncrement(), 4);
     }
 }

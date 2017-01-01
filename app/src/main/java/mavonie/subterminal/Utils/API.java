@@ -134,9 +134,9 @@ public class API {
      * Calls for startup
      */
     public void init() {
-        if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_PUBLIC_EXITS)) {
+//        if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_PUBLIC_EXITS)) {
             updatePublicExits();
-        }
+//        }
 
         if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_AIRCRAFT)) {
             updateAircraft();
@@ -348,7 +348,7 @@ public class API {
                     List<Exit> exits = (List<Exit>) response.body();
 
                     for (Exit exit : exits) {
-                        Exit.createOrUpdate(exit);
+                        Exit.createOrUpdatePublicExit(exit);
                     }
 
                     Once.markDone(CALLS_LIST_PUBLIC_EXITS);

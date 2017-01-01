@@ -6,6 +6,7 @@
         <change>Added skydiving mode</change>
         <change>Added dropzones</change>
         <change>Added signatures to jumps</change>
+        <change>Fixed Exitpoints duplicating</change>
         <change>General improvements</change>
     </release>
     <release

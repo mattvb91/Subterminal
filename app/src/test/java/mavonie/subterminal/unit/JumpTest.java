@@ -75,7 +75,7 @@ public class JumpTest extends BaseDBUnit {
         assertEquals(jump2.getDate(), "2015-05-25");
     }
 
-    private Jump createJump() {
+    public static Jump createJump() {
         Jump jump = new Jump();
 
         jump.setDelay(2);

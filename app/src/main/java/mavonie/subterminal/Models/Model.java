@@ -461,6 +461,8 @@ abstract public class Model implements BaseColumns, Serializable {
             item = populateFromCursor(cursor);
         }
 
+        cursor.close();
+
         return item;
     }
 
@@ -508,5 +510,23 @@ abstract public class Model implements BaseColumns, Serializable {
         }
 
         return "get" + result;
+    }
+
+    /**
+     * Get the next available autoIncrement value
+     */
+    public int getNextAutoIncrement() {
+        String query = "SELECT MAX(" + _ID + ") FROM " + this.getTableName() + ";";
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
+
+        int nextIncrement = 0;
+
+        if (cursor.moveToFirst()) {
+            nextIncrement = cursor.getInt(0) + 1;
+        }
+        cursor.close();
+
+        return nextIncrement;
+
     }
 }

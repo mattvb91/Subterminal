@@ -11,6 +11,7 @@ import java.util.List;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Utils.API;
+import mavonie.subterminal.Utils.Synchronized;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -46,7 +47,7 @@ public class APITest extends BaseDBUnit {
 
     @Test
     public void testDropzonesCall() throws IOException {
-        Call dropzonesCall = this.api.getEndpoints().getDropzones();
+        Call dropzonesCall = this.api.getEndpoints().getDropzones(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_DROPZONES));
 
         Response response = dropzonesCall.execute();
 
