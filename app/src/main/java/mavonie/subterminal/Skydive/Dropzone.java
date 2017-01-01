@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -111,7 +112,9 @@ public class Dropzone extends BaseFragment {
         popupWindow.setOutsideTouchable(true);
 
         final Spinner countrySpinner = (Spinner) popupView.findViewById(R.id.filter_country);
-        final ArrayAdapter<CharSequence> adapter = new ArrayAdapter(MainActivity.getActivity(), android.R.layout.simple_spinner_item, mavonie.subterminal.Models.Skydive.Dropzone.getCountriesForSelect());
+
+        ArrayList<String> countries = mavonie.subterminal.Models.Skydive.Dropzone.getCountriesForSelect();
+        final ArrayAdapter<String> adapter = new ArrayAdapter(MainActivity.getActivity(), android.R.layout.simple_spinner_item, countries);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         countrySpinner.setAdapter(adapter);
 
@@ -125,7 +128,7 @@ public class Dropzone extends BaseFragment {
                     popupView.findViewById(R.id.filter_local_text).setVisibility(View.VISIBLE);
                     localSpinner.setVisibility(View.VISIBLE);
 
-                    ArrayAdapter<CharSequence> local = new ArrayAdapter(MainActivity.getActivity(), android.R.layout.simple_spinner_item, mavonie.subterminal.Models.Skydive.Dropzone.getCountiesForSelect(adapter.getItem(position).toString()));
+                    ArrayAdapter<String> local = new ArrayAdapter(MainActivity.getActivity(), android.R.layout.simple_spinner_item, mavonie.subterminal.Models.Skydive.Dropzone.getCountiesForSelect(adapter.getItem(position).toString()));
                     local.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     localSpinner.setAdapter(local);
                     localSpinner.invalidate();

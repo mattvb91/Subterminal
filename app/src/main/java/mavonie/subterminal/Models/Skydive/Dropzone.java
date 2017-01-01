@@ -317,7 +317,9 @@ public class Dropzone extends Model {
         if (cursor.moveToFirst()) {
             while (cursor.isAfterLast() == false) {
                 String string = cursor.getString(1);
-                itemsForSelect.add(string);
+                if (string != null) {
+                    itemsForSelect.add(string);
+                }
                 cursor.moveToNext();
             }
         }
@@ -339,7 +341,9 @@ public class Dropzone extends Model {
         if (cursor.moveToFirst()) {
             while (cursor.isAfterLast() == false) {
                 String string = cursor.getString(1);
-                itemsForSelect.add(string);
+                if (string != null) {
+                    itemsForSelect.add(string);
+                }
                 cursor.moveToNext();
             }
         }
