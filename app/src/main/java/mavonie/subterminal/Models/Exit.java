@@ -397,13 +397,14 @@ public class Exit extends Synchronizable {
         return new Exit().getItems(params);
     }
 
-    @Override
-    public boolean delete() {
+    public boolean delete(boolean updateJumps) {
 
-        //We need to update exits before deleting
-        for (Jump jump : this.getJumps()) {
-            jump.setExitId(null);
-            jump.save();
+        //We need to update jumps before deleting
+        if (updateJumps) {
+            for (Jump jump : this.getJumps()) {
+                jump.setExitId(null);
+                jump.save();
+            }
         }
 
         return super.delete();
@@ -411,6 +412,10 @@ public class Exit extends Synchronizable {
 
     @Override
     protected void populateContentValues(ContentValues contentValues) {
+
+        if (this._id > 0) {
+            contentValues.put(_ID, this._id);
+        }
 
         moveExistingExit();
         super.populateContentValues(contentValues);
@@ -426,11 +431,11 @@ public class Exit extends Synchronizable {
             Exit existingExit = (Exit) new Exit().getOneById(this.remote_id);
 
             if (existingExit != null) {
-                existingExit.setDeleted(DELETED_TRUE);
-                existingExit.delete();
-
-                //Move existing exit to a new id
+                //get the newId BEFORE deleting existing exit to prevent overlapping
                 int newId = new Exit().getNextAutoIncrement();
+
+                existingExit.setDeleted(DELETED_TRUE);
+                existingExit.delete(false);
 
                 if (existingExit.getDetails() != null) {
                     existingExit.getDetails().setExitId(newId);
@@ -447,8 +452,8 @@ public class Exit extends Synchronizable {
                 if (globalExit.getDetails() != null) {
                     globalExit.getDetails().delete();
                 }
-                existingExit.setDeleted(DELETED_TRUE);
-                existingExit.delete();
+                globalExit.setDeleted(DELETED_TRUE);
+                globalExit.delete();
             }
         }
     }
