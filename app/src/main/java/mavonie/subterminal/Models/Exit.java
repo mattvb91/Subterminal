@@ -297,6 +297,11 @@ public class Exit extends Synchronizable {
             } else {
                 exit.markSynced();
             }
+
+            if (exit.getDetails() != null) {
+                exit.getDetails().setExitId(exit.getId());
+                exit.getDetails().save();
+            }
         }
     }
 
@@ -316,23 +321,6 @@ public class Exit extends Synchronizable {
 
     public void setDetails(ExitDetails details) {
         this.details = details;
-    }
-
-    /**
-     * Override because we need to also save the associated
-     * details if its a global
-     *
-     * @return
-     */
-    public boolean save() {
-
-        boolean res = super.save();
-        if (res && this.isGlobal() && this.getDetails() != null) {
-            this.getDetails().setExitId(this.getId());
-            this.getDetails().save();
-        }
-
-        return res;
     }
 
     @Override
