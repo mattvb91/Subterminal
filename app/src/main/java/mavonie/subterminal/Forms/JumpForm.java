@@ -172,16 +172,16 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
         this.date = (EditText) view.findViewById(R.id.jump_edit_date);
         DateFormat df = new DateFormat();
-        this.date.setText(df.format(myCalendar.getTime()));
+        this.date.setText(df.format(calendar.getTime()));
 
         final DatePickerDialog.OnDateSetListener jumpDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
                 // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateDate();
             }
         };
@@ -190,9 +190,9 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(getContext(), jumpDate, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(getContext(), jumpDate, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -218,7 +218,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
     private void updateDate() {
 
         DateFormat df = new DateFormat();
-        this.date.setText(df.format(myCalendar.getTime()));
+        this.date.setText(df.format(calendar.getTime()));
     }
 
     public void save() {

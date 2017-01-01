@@ -27,13 +27,6 @@ import mavonie.subterminal.ViewAdapters.SuitRecycler;
  */
 public class GearTabs extends BaseFragment {
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public GearTabs() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

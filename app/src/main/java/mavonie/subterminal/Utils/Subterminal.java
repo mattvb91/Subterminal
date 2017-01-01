@@ -31,6 +31,9 @@ import mavonie.subterminal.Preference;
  */
 public class Subterminal {
 
+    public static String MODE_BASE = "B.A.S.E";
+    public static String MODE_SKYDIVING = "Skydiving";
+
     private static Model activeModel;
     private static int activeFragment;
     private static API api;
@@ -233,7 +236,12 @@ public class Subterminal {
             Class.forName("mavonie.subterminal.unit.Base.BaseUnit");
             return true;
         } catch (ClassNotFoundException e) {
-            return false;
+            try {
+                Class.forName("android.support.test.runner");
+                return true;
+            } catch (ClassNotFoundException e1) {
+                return false;
+            }
         }
     }
 }

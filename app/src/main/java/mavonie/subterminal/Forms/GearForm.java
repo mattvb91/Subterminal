@@ -56,9 +56,9 @@ public class GearForm extends BaseForm {
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
                 // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateContainerDate();
             }
 
@@ -69,9 +69,9 @@ public class GearForm extends BaseForm {
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
                 // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateCanopyDate();
             }
 
@@ -81,9 +81,9 @@ public class GearForm extends BaseForm {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(getContext(), containerDate, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(getContext(), containerDate, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -97,9 +97,9 @@ public class GearForm extends BaseForm {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(getContext(), canopyDate, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(getContext(), canopyDate, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -114,13 +114,13 @@ public class GearForm extends BaseForm {
     private void updateContainerDate() {
 
         DateFormat df = new DateFormat();
-        this.containerDateInUse.setText(df.format(myCalendar.getTime()));
+        this.containerDateInUse.setText(df.format(calendar.getTime()));
     }
 
     private void updateCanopyDate() {
 
         DateFormat df = new DateFormat();
-        this.canopyDateInUse.setText(df.format(myCalendar.getTime()));
+        this.canopyDateInUse.setText(df.format(calendar.getTime()));
     }
 
 

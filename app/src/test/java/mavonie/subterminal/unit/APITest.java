@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Utils.API;
+import mavonie.subterminal.Utils.Synchronized;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -43,6 +45,19 @@ public class APITest extends BaseDBUnit {
         assertTrue(exits.get(0) instanceof Exit);
     }
 
+    @Test
+    public void testDropzonesCall() throws IOException {
+        Call dropzonesCall = this.api.getEndpoints().getDropzones(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_DROPZONES));
+
+        Response response = dropzonesCall.execute();
+
+        assertTrue(response.isSuccessful());
+        assertTrue(response.body() instanceof List);
+
+        List<Dropzone> dropzones = (List) response.body();
+        assertTrue(dropzones.get(0) instanceof Dropzone);
+    }
+
     //TODO test authorized method
     @Test
     public void testUnauthorizedUserGetCall() throws IOException {
@@ -67,7 +82,8 @@ public class APITest extends BaseDBUnit {
         List<Exit> exits = (List) response.body();
 
         for (Exit exit : exits) {
-            assertTrue(exit.save());
+            Exit.createOrUpdatePublicExit(exit);
+            assertTrue(exit.exists());
             assertNotNull(exit.getDetails().getExitId());
             assertTrue(exit.getDetails().exists());
         }

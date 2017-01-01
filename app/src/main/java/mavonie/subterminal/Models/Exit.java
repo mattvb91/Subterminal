@@ -1,5 +1,6 @@
 package mavonie.subterminal.Models;
 
+import android.content.ContentValues;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
@@ -118,9 +119,6 @@ public class Exit extends Synchronizable {
         this.longtitude = longtitude;
     }
 
-    public Exit() {
-    }
-
     public String getName() {
         return name;
     }
@@ -168,7 +166,7 @@ public class Exit extends Synchronizable {
     }
 
     @Override
-    String getTableName() {
+    protected String getTableName() {
         return TABLE_NAME;
     }
 
@@ -277,21 +275,32 @@ public class Exit extends Synchronizable {
      *
      * @param exit
      */
-    public static void createOrUpdate(Exit exit) {
+    public static void createOrUpdatePublicExit(Exit exit) {
 
         if (exit.isGlobal()) {
-            //Its a global exit check if we already have it.
+            //Its a global exit check if we already have it or if an exit with same name exists
             Exit dbExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_GLOBAL_ID, exit.getGlobalId()));
+
+            //If we have a private exit with the same name lets skip this.
+            Exit privateExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_NAME, exit.getName()));
+            if (privateExit != null && privateExit.getGlobalId() == null) {
+                return;
+            }
 
             //Check if it equals
             if (dbExit != null) {
                 if (!dbExit.equals(exit)) {
                     //Update if it doesnt
                     exit.setId(dbExit.getId());
-                    exit.save();
+                    exit.markSynced();
                 }
             } else {
-                exit.save();
+                exit.markSynced();
+            }
+
+            if (exit.getDetails() != null) {
+                exit.getDetails().setExitId(exit.getId());
+                exit.getDetails().save();
             }
         }
     }
@@ -312,23 +321,6 @@ public class Exit extends Synchronizable {
 
     public void setDetails(ExitDetails details) {
         this.details = details;
-    }
-
-    /**
-     * Override because we need to also save the associated
-     * details if its a global
-     *
-     * @return
-     */
-    public boolean save() {
-
-        boolean res = super.save();
-        if (res && this.isGlobal()) {
-            this.getDetails().setExitId(this.getId());
-            this.getDetails().save();
-        }
-
-        return res;
     }
 
     @Override
@@ -393,15 +385,64 @@ public class Exit extends Synchronizable {
         return new Exit().getItems(params);
     }
 
-    @Override
-    public boolean delete() {
+    public boolean delete(boolean updateJumps) {
 
-        //We need to update exits before deleting
-        for (Jump jump : this.getJumps()) {
-            jump.setExitId(null);
-            jump.save();
+        //We need to update jumps before deleting
+        if (updateJumps) {
+            for (Jump jump : this.getJumps()) {
+                jump.setExitId(null);
+                jump.save();
+            }
         }
 
         return super.delete();
+    }
+
+    @Override
+    protected void populateContentValues(ContentValues contentValues) {
+
+        if (this._id > 0) {
+            contentValues.put(_ID, this._id);
+        }
+
+        moveExistingExit();
+        super.populateContentValues(contentValues);
+    }
+
+    /**
+     * This method is only used when a remote_id attribute is set.
+     * We need to check if we already have an exit in this position and shuffle it out to a new unused ID
+     */
+    private void moveExistingExit() {
+        if (this.remote_id != null) {
+            //Check if we need to move an existing item out of the way.
+            Exit existingExit = (Exit) new Exit().getOneById(this.remote_id);
+
+            if (existingExit != null) {
+                //get the newId BEFORE deleting existing exit to prevent overlapping
+                int newId = new Exit().getNextAutoIncrement();
+
+                existingExit.setDeleted(DELETED_TRUE);
+                existingExit.delete(false);
+
+                if (existingExit.getDetails() != null) {
+                    existingExit.getDetails().setExitId(newId);
+                    existingExit.getDetails().save();
+                }
+
+                existingExit._id = newId;
+                existingExit.markSynced();
+            }
+
+            //Check if we have a global exit with the same incoming name, if we do, remove it
+            Exit globalExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_NAME, this.getName()));
+            if (globalExit != null && globalExit.isGlobal()) {
+                if (globalExit.getDetails() != null) {
+                    globalExit.getDetails().delete();
+                }
+                globalExit.setDeleted(DELETED_TRUE);
+                globalExit.delete();
+            }
+        }
     }
 }

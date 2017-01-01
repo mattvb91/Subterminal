@@ -12,8 +12,8 @@ android {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 15
-        versionName "1.0.4"
+        versionCode 16
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -64,13 +64,14 @@ dependencies {
     compile 'com.sa90.materialarcmenu:library:1.4.1'
     compile 'com.android.support:design:24+'
     compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.github.gcacace:signature-pad:1.2.0'
     compile('com.github.orangegangsters:lollipin:2.0.0@aar') {
         transitive = true
     }
     compile 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
     compile 'com.jonathanfinerty.once:once:1.2.1'
-    compile 'com.stripe:stripe-android:+'
+    compile 'com.stripe:stripe-android:1.1.1'
     compile 'io.card:android-sdk:5.4.2'
     compile 'com.birbit:android-priority-jobqueue:2.0.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

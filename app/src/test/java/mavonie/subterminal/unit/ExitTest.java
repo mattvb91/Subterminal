@@ -2,6 +2,7 @@ package mavonie.subterminal.unit;
 
 import android.util.Pair;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -9,7 +10,9 @@ import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.ExitDetails;
+import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -54,7 +57,16 @@ public class ExitTest extends BaseDBUnit {
 
     @Test
     public void testExitDetails() {
-        Exit exit = this.createExit();
+        Exit exit = new Exit();
+
+        exit.setName("Test exit");
+        exit.setRockdropDistance(200);
+        exit.setAltitudeToLanding(200);
+        exit.setDescription("Test Description");
+        exit.setLatitude(59.02342);
+        exit.setLongtitude(24.30456);
+        exit.setGlobalId("testing");
+        exit.setObjectType(Exit.TYPE_EARTH);
 
         ExitDetails details = new ExitDetails();
         details.setExitId(exit.getId());
@@ -70,8 +82,7 @@ public class ExitTest extends BaseDBUnit {
 
         exit.setDetails(details);
         //Set the global_id so the details get saved
-        exit.setGlobalId("testing");
-        exit.save();
+        Exit.createOrUpdatePublicExit(exit);
 
         Exit exit2 = (Exit) new Exit().getOneById(exit.getId());
         assertNotNull(exit2.getDetails());
@@ -123,5 +134,23 @@ public class ExitTest extends BaseDBUnit {
 
         List<Exit> listSynced = Exit.getExitsForSync();
         assertEquals(1, listSynced.size());
+    }
+
+    @Test
+    public void autoIncrementTest() {
+
+        createExit();
+        Assert.assertEquals(new Exit().getNextAutoIncrement(), 2);
+        createExit();
+        createExit();
+        createExit();
+        Assert.assertEquals(new Exit().getNextAutoIncrement(), 5);
+
+        Assert.assertEquals(new Jump().getNextAutoIncrement(), 1);
+        Jump jump = JumpTest.createJump();
+        Assert.assertEquals(new Jump().getNextAutoIncrement(), 2);
+        JumpTest.createJump();
+        JumpTest.createJump();
+        Assert.assertEquals(new Jump().getNextAutoIncrement(), 4);
     }
 }

@@ -1,282 +1,312 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10px"
-    tools:context="mavonie.subterminal.Views.JumpView">
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/jump_view_detail_card"
+        android:id="@+id/jump_view_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/card_view"
+        <RelativeLayout
+            android:id="@+id/jump_view_detail_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="4dp"
-            app:cardUseCompatPadding="true">
+            android:layout_height="wrap_content">
 
-            <TableLayout
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/card_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:columnCount="3"
-                android:paddingBottom="10dp">
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
 
-                <TableRow
+                <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:columnCount="3"
+                    android:paddingBottom="10dp">
 
-                    <TextView
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
-                        android:layout_span="1"
-                        android:gravity="left"
-                        android:text="Exit:"
-                        android:textAppearance="?attr/textAppearanceListItem"
-                        android:textStyle="bold" />
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/jump_view_exit_name"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:layout_span="1"
+                            android:gravity="left"
+                            android:text="Exit:"
+                            android:textAppearance="?attr/textAppearanceListItem"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/jump_view_exit_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:layout_span="1"
+                            android:text="@string/no_exit_info"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+
+                        <TextView
+                            android:id="@+id/jump_view_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:gravity="right"
+                            android:text="Date"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+                    </TableRow>
+
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
-                        android:layout_span="1"
-                        android:text="@string/no_exit_info"
-                        android:textAppearance="?attr/textAppearanceListItem" />
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/jump_view_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
-                        android:gravity="right"
-                        android:text="Date"
-                        android:textAppearance="?attr/textAppearanceListItem" />
-                </TableRow>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/text_margin"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Rig:"
+                            android:textAppearance="?attr/textAppearanceListItem"
+                            android:textStyle="bold" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/text_margin"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:text="Rig:"
-                        android:textAppearance="?attr/textAppearanceListItem"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/jump_view_rig"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_span="2"
-                        android:layout_weight="2"
-                        android:gravity="left"
-                        android:text=""
-                        android:textAppearance="?attr/textAppearanceListItem" />
-                </TableRow>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/lighter_gray" />
-
-                <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="Type"
-                        android:textAppearance="?attr/textAppearanceListItem"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="Delay"
-                        android:textAppearance="?attr/textAppearanceListItem"
-                        android:textStyle="bold" />
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="PC"
-                        android:textAppearance="?attr/textAppearanceListItem"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="Slider"
-                        android:textAppearance="?attr/textAppearanceListItem"
-                        android:textStyle="bold" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/jump_view_jump_type"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="type"
-                        android:textAppearance="?attr/textAppearanceListItem" />
-
-
-                    <TextView
-                        android:id="@+id/jump_view_delay"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="delay"
-                        android:textAppearance="?attr/textAppearanceListItem" />
-
-
-                    <TextView
-                        android:id="@+id/jump_view_pc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="pc size"
-                        android:textAppearance="?attr/textAppearanceListItem" />
-
-                    <TextView
-                        android:id="@+id/jump_view_slider"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:paddingRight="16dp"
-                        android:text="slider"
-                        android:textAppearance="?attr/textAppearanceListItem" />
-                </TableRow>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@color/lighter_gray" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/jump_view_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_span="3"
-                        android:gravity="left"
-                        android:text="Description"
-                        android:textAppearance="?attr/textAppearanceListItem" />
-                </TableRow>
-
-            </TableLayout>
-        </android.support.v7.widget.CardView>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/jump_view_add_banner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/jump_view_detail_card"
-        android:layout_marginTop="10dp">
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/jump_view_image_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/jump_view_add_banner">
-
-        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="4dp"
-            app:cardUseCompatPadding="true">
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/exit_picture_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Add Picture" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <HorizontalScrollView
-                        android:id="@+id/horizontal_scroll"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_span="3"
-                        android:layout_weight="3">
-
-                        <LinearLayout
-                            android:id="@+id/image_thumbs"
+                        <TextView
+                            android:id="@+id/jump_view_rig"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_span="2"
-                            android:orientation="horizontal"></LinearLayout>
+                            android:layout_weight="2"
+                            android:gravity="left"
+                            android:text=""
+                            android:textAppearance="?attr/textAppearanceListItem" />
+                    </TableRow>
 
-                    </HorizontalScrollView>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/lighter_gray" />
 
-                </TableRow>
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
 
-            </TableLayout>
-        </android.support.v7.widget.CardView>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="Type"
+                            android:textAppearance="?attr/textAppearanceListItem"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="Delay"
+                            android:textAppearance="?attr/textAppearanceListItem"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="PC"
+                            android:textAppearance="?attr/textAppearanceListItem"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="Slider"
+                            android:textAppearance="?attr/textAppearanceListItem"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/jump_view_jump_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="type"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+
+
+                        <TextView
+                            android:id="@+id/jump_view_delay"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="delay"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+
+
+                        <TextView
+                            android:id="@+id/jump_view_pc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="pc size"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+
+                        <TextView
+                            android:id="@+id/jump_view_slider"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:paddingRight="16dp"
+                            android:text="slider"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+                    </TableRow>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/lighter_gray" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/jump_view_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:layout_span="3"
+                            android:gravity="left"
+                            android:text="Description"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+                    </TableRow>
+
+                </TableLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/jump_view_add_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/jump_view_detail_card"
+            android:layout_marginTop="10dp">
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/jump_view_image_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/jump_view_add_banner">
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:id="@+id/jump_picture_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Add Picture" />
+
+                        <Button
+                            android:id="@+id/jump_signature_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Add Signature" />
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <HorizontalScrollView
+                            android:id="@+id/horizontal_scroll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_span="3"
+                            android:layout_weight="3">
+
+                            <LinearLayout
+                                android:id="@+id/image_thumbs"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_span="2"
+                                android:orientation="horizontal"></LinearLayout>
+
+                        </HorizontalScrollView>
+                    </TableRow>
+
+                    <TableRow>
+
+                        <HorizontalScrollView
+                            android:id="@+id/horizontal_scroll_sig"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_span="3"
+                            android:layout_weight="3">
+
+                            <LinearLayout
+                                android:id="@+id/image_thumbs_sig"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_span="2"
+                                android:orientation="horizontal"></LinearLayout>
+
+                        </HorizontalScrollView>
+
+                    </TableRow>
+
+                </TableLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
     </RelativeLayout>
-
-</RelativeLayout>
+</ScrollView>

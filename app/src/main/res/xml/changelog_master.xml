@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.1.0"
+        versioncode="16">
+        <change>Added skydiving mode</change>
+        <change>Added dropzones</change>
+        <change>Added signatures to jumps</change>
+        <change>Fixed Exitpoints duplicating</change>
+        <change>General improvements</change>
+    </release>
+    <release
         version="1.0.4"
         versioncode="15">
         <change>Updated forms for Jump, Gear, Exit</change>

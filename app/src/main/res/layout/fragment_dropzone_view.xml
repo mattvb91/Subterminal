@@ -1,0 +1,271 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/dropzone_view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/jump_view_detail_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="10dp">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/dropzone_view_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:layout_span="1"
+                            android:text="Dropzone Name"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <LinearLayout
+                            android:id="@+id/contact_layout_website"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/detail_list_margin"
+                                android:text="Website"
+                                android:textAppearance="?attr/textAppearanceListItem"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/dropzone_view_website"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/detail_list_margin"
+                                android:autoLink="web"
+                                android:text="http://website.com" />
+
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/detail_list_margin"
+                                android:text="Email"
+                                android:textAppearance="?attr/textAppearanceListItem"
+                                android:textStyle="bold" />
+
+
+                            <TextView
+                                android:id="@+id/dropzone_view_email"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/detail_list_margin"
+                                android:autoLink="email"
+                                android:text="email@email.com" />
+
+
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/detail_list_margin"
+                                android:text="Phone"
+                                android:textAppearance="?attr/textAppearanceListItem"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/dropzone_view_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/detail_list_margin"
+                                android:autoLink="phone"
+                                android:text="00000 00 0000" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/detail_list_margin"
+                                android:text="Aircraft"
+                                android:textAppearance="?attr/textAppearanceListItem"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/dropzone_view_aircraft"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/detail_list_margin"
+                                android:text="Aircraft" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/lighter_gray" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/dropzone_view_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Description"
+                            android:textAppearance="?attr/textAppearanceListItem" />
+                    </TableRow>
+
+                </TableLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/jump_view_add_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/jump_view_detail_card"
+            android:layout_marginTop="10dp">
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/dropzone_view_map_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/jump_view_add_banner"
+            android:layout_margin="10dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_span="2"
+                            android:layout_weight="1"
+                            android:paddingBottom="10dp"
+                            android:text="Map"
+                            android:textSize="20dp" />
+                    </TableRow>
+
+                    <TableRow android:paddingTop="10dp">
+
+                        <mavonie.subterminal.Utils.Views.MapView
+                            android:id="@+id/dropzone_view_map"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_span="2"
+                            android:layout_weight="1" />
+                    </TableRow>
+                </TableLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/dropzone_weather_map_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/dropzone_view_map_card"
+            android:layout_margin="10dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_span="2"
+                            android:layout_weight="1"
+                            android:paddingBottom="10dp"
+                            android:text="Current Weather - Coming soon"
+                            android:textSize="20dp" />
+                    </TableRow>
+
+
+
+                </TableLayout>
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

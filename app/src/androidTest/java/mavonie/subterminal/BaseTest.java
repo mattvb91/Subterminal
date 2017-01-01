@@ -3,6 +3,7 @@ package mavonie.subterminal;
 
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +19,9 @@ import java.util.Random;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
@@ -45,6 +48,18 @@ public class BaseTest {
         }
     }
 
+    public static void openNavigationDrawer() {
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        withParent(withId(R.id.toolbar)),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+    }
+
+    public static void closeNavigationDrawer() {
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.close());
+    }
+
     public int getRandomRecyclerPosition(int recyclerId) {
         Random ran = new Random();
         //Get the actual drawn RecyclerView
@@ -58,6 +73,19 @@ public class BaseTest {
 
         //Return a random number from 0 (inclusive) to adapter.itemCount() (exclusive)
         return ran.nextInt(n);
+    }
+
+    public void confirmCalendar() {
+        //Different versions of calender
+        try {
+            ViewInteraction appCompatButton2 = onView(
+                    allOf(withId(android.R.id.button1), withText("Set"), isDisplayed()));
+            appCompatButton2.perform(click());
+        } catch (Exception e) {
+            ViewInteraction appCompatButton2 = onView(
+                    allOf(withId(android.R.id.button1), withText("OK"), isDisplayed()));
+            appCompatButton2.perform(click());
+        }
     }
 
     private Random random = new Random();

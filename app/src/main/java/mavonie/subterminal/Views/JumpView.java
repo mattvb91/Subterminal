@@ -1,5 +1,6 @@
 package mavonie.subterminal.Views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +9,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.R;
+import mavonie.subterminal.SignatureActivity;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Date.TimeAgo;
 import mavonie.subterminal.Utils.Subterminal;
@@ -24,10 +23,6 @@ import mavonie.subterminal.Utils.UIHelper;
  * Jump view
  */
 public class JumpView extends BaseFragment {
-
-    public JumpView() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,20 +68,34 @@ public class JumpView extends BaseFragment {
         TextView jumpPC = (TextView) view.findViewById(R.id.jump_view_pc);
         jumpPC.setText(Integer.toString(getItem().getPcSize()));
 
-        TextView jumpDescription = (TextView) view.findViewById(R.id.jump_view_description);
-        jumpDescription.setText(getItem().getDescription());
+        if (getItem().getDescription() != null) {
+            TextView jumpDescription = (TextView) view.findViewById(R.id.jump_view_description);
+            jumpDescription.setText(getItem().getDescription().replace("\\n", "\n"));
+        }
 
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
         loadImages();
 
-        Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
+        loadSignatures(getItem().getSignatures(), view);
+
+        Button pictureButton = (Button) view.findViewById(R.id.jump_picture_button);
         pictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.getActivity().onPickImage(v);
             }
         });
+
+        Button signatureButton = (Button) view.findViewById(R.id.jump_signature_button);
+        signatureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.getActivity(), SignatureActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         adRequest(view);
 

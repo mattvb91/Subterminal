@@ -81,7 +81,7 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
             if (getItem().getDetails().getRules() != null) {
                 TextView rules = (TextView) view.findViewById(R.id.exit_view_rules);
-                rules.setText(Html.fromHtml(getItem().getDetails().getRules()));
+                rules.setText(getItem().getDetails().getRules().replace("\\n", "\n"));
             }
 
             TextView difficultyTrackingExit = (TextView) view.findViewById(R.id.exit_view_difficulty_tracking_exit);

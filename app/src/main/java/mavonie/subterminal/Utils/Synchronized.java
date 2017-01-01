@@ -13,6 +13,7 @@ public abstract class Synchronized {
     public static String PREF_LAST_SYNC_GEAR = "LAST_SYNC_GEAR";
     public static String PREF_LAST_SYNC_JUMP = "LAST_SYNC_JUMP";
     public static String PREF_LAST_SYNC_SUIT = "LAST_SYNC_SUIT";
+    public static String PREF_LAST_SYNC_DROPZONES = "LAST_SYNC_DROPZONES";
 
     public static void setLastSyncPref(String pref) {
         Prefs.putString(pref, DateFormat.dateTimeNow());

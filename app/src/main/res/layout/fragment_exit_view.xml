@@ -100,6 +100,7 @@
                             android:layout_width="match_parent"
                             android:layout_span="2"
                             android:layout_weight="1"
+                            android:autoLink="all"
                             android:paddingBottom="10dp"
                             android:text="" />
                     </TableRow>
@@ -122,6 +123,7 @@
                             android:layout_width="match_parent"
                             android:layout_span="2"
                             android:layout_weight="1"
+                            android:autoLink="all"
                             android:paddingBottom="10dp"
                             android:text="" />
                     </TableRow>

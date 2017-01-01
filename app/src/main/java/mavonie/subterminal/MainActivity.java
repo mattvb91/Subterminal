@@ -38,7 +38,6 @@ import static mavonie.subterminal.Utils.UIHelper.openFragmentForEntity;
 
 public class MainActivity extends PinCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        Home.OnFragmentInteractionListener,
         GearForm.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
@@ -71,6 +70,15 @@ public class MainActivity extends PinCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        if (BuildConfig.DEBUG) {
+//            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//                    .detectLeakedSqlLiteObjects()
+//                    .detectLeakedClosableObjects()
+//                    .penaltyLog()
+//                    .penaltyDeath()
+//                    .build());
+//        }
+
         super.onCreate(savedInstanceState);
 
         activity = this;
@@ -134,9 +142,12 @@ public class MainActivity extends PinCompatActivity
     @Override
     public boolean onNavigationItemSelected(final MenuItem item) {
 
-        //Once off for login check
+        //Checks for items where we dont want the drawer to close
         if (item.getItemId() == R.id.nav_login) {
             UIHelper.facebookDialog();
+            return true;
+        } else if (item.getItemId() == R.id.nav_mode) {
+            UIHelper.switchModeDialog();
             return true;
         }
 
@@ -170,7 +181,11 @@ public class MainActivity extends PinCompatActivity
     }
 
     public void editItem(MenuItem item) {
-        UIHelper.editEntity();
+        if (item.getItemId() == R.id.action_filter) {
+            mavonie.subterminal.Skydive.Dropzone.filterPopup();
+        } else {
+            UIHelper.editEntity();
+        }
     }
 
     @Override

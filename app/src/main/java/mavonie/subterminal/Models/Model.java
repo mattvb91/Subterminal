@@ -297,7 +297,7 @@ abstract public class Model implements BaseColumns, Serializable {
      *
      * @param contentValues
      */
-    private void populateContentValues(ContentValues contentValues) {
+    protected void populateContentValues(ContentValues contentValues) {
 
         for (Map.Entry<String, Integer> entry : getDbColumns().entrySet()) {
 
@@ -335,7 +335,7 @@ abstract public class Model implements BaseColumns, Serializable {
         }
     }
 
-    abstract String getTableName();
+    protected abstract String getTableName();
 
     /**
      * Save model to DB
@@ -431,6 +431,8 @@ abstract public class Model implements BaseColumns, Serializable {
             query += " WHERE " + Synchronizable.COLUMN_DELETED + " = " + Synchronizable.DELETED_FALSE;
         }
 
+        query += " ORDER BY " + fieldName + " ASC";
+
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -458,6 +460,8 @@ abstract public class Model implements BaseColumns, Serializable {
         if (cursor.moveToFirst()) {
             item = populateFromCursor(cursor);
         }
+
+        cursor.close();
 
         return item;
     }
@@ -506,5 +510,23 @@ abstract public class Model implements BaseColumns, Serializable {
         }
 
         return "get" + result;
+    }
+
+    /**
+     * Get the next available autoIncrement value
+     */
+    public int getNextAutoIncrement() {
+        String query = "SELECT MAX(" + _ID + ") FROM " + this.getTableName() + ";";
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
+
+        int nextIncrement = 0;
+
+        if (cursor.moveToFirst()) {
+            nextIncrement = cursor.getInt(0) + 1;
+        }
+        cursor.close();
+
+        return nextIncrement;
+
     }
 }

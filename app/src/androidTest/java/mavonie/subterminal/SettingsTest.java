@@ -14,7 +14,6 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 import java.util.Random;
 
-import mavonie.subterminal.Models.*;
 import mavonie.subterminal.Models.Jump;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -22,10 +21,8 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
@@ -111,11 +108,7 @@ public class SettingsTest extends BaseTest {
     }
 
     private void goToSettings() {
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Open navigation drawer"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
+        openNavigationDrawer();
 
         ViewInteraction appCompatCheckedTextView = onView(
                 allOf(withId(R.id.design_menu_item_text), withText("Settings"), isDisplayed()));
@@ -124,6 +117,8 @@ public class SettingsTest extends BaseTest {
 
     @Test
     public void startingJumpNumberTest() {
+
+        MainActivityTest.testBaseMode();
 
         goToSettings();
 
@@ -153,6 +148,9 @@ public class SettingsTest extends BaseTest {
 
     @Test
     public void defaultSliderTest() {
+
+        MainActivityTest.testBaseMode();
+
         goToSettings();
 
         ViewInteraction appCompatSpinner = onView(

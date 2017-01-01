@@ -31,7 +31,7 @@ public class Payment extends Model {
     }
 
     @Override
-    String getTableName() {
+    protected String getTableName() {
         return null;
     }
 

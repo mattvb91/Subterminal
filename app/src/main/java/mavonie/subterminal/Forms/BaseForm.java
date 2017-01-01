@@ -21,7 +21,7 @@ import mavonie.subterminal.Utils.UIHelper;
 
 public abstract class BaseForm extends BaseFragment {
 
-    Calendar myCalendar = Calendar.getInstance();
+    public static Calendar calendar = Calendar.getInstance();
 
     protected abstract int getParentFragmentId();
 

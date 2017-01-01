@@ -10,6 +10,8 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.Skydive.Aircraft;
+import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.User;
 import retrofit2.Call;
@@ -30,6 +32,12 @@ public interface EndpointInterface {
     // Callback for the parsed response is the last parameter
     @GET("exit")
     Call<List<Exit>> listPublicExits();
+
+    @GET("dropzone")
+    Call<List<Dropzone>> getDropzones(@Query("last_sync") String lastSync);
+
+    @GET("aircraft")
+    Call<List<Aircraft>> getAircraft();
 
     @POST("user")
     Call<AccessToken> createOrUpdateUser(@Body AccessToken token);

@@ -4,12 +4,15 @@ package mavonie.subterminal;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import mavonie.subterminal.Models.*;
+import mavonie.subterminal.Utils.Subterminal;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -18,7 +21,6 @@ import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -26,6 +28,12 @@ import static org.hamcrest.Matchers.allOf;
 
 public class JumpTest extends BaseTest {
 
+    @Before
+    public void setMode() {
+        if (!Prefs.getString(Preference.PREFS_MODE, null).equals(Subterminal.MODE_BASE)) {
+            MainActivityTest.testBaseMode();
+        }
+    }
 
     @Test
     public void addJump() {
@@ -44,16 +52,7 @@ public class JumpTest extends BaseTest {
                 allOf(withId(R.id.jump_edit_date)));
         appCompatEditText.perform(scrollTo(), click());
 
-        //Different versions of calender
-        try {
-            ViewInteraction appCompatButton2 = onView(
-                    allOf(withId(android.R.id.button1), withText("Set"), isDisplayed()));
-            appCompatButton2.perform(click());
-        } catch (Exception e) {
-            ViewInteraction appCompatButton2 = onView(
-                    allOf(withId(android.R.id.button1), withText("OK"), isDisplayed()));
-            appCompatButton2.perform(click());
-        }
+        confirmCalendar();
 
         //Jump type
         int random = new Random().nextInt(mavonie.subterminal.Models.Jump.getTypeArray().length);
@@ -99,11 +98,7 @@ public class JumpTest extends BaseTest {
     }
 
     public static void navigateToJumpsList() {
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Open navigation drawer"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
+        openNavigationDrawer();
 
         ViewInteraction appCompatCheckedTextView = onView(
                 allOf(withId(R.id.design_menu_item_text), withText("Jumps"), isDisplayed()));

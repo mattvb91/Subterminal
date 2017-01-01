@@ -22,6 +22,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.ProfilePictureView;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,12 +36,19 @@ import mavonie.subterminal.Gear;
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Skydive.Rig;
+import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Skydive.Dropzone;
+import mavonie.subterminal.Skydive.Forms.SkydiveForm;
+import mavonie.subterminal.Skydive.Views.DropzoneView;
+import mavonie.subterminal.Skydive.Views.SkydiveView;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
 import mavonie.subterminal.Views.Premium.PremiumView;
+import uk.me.lewisdeane.ldialogs.CustomListDialog;
 
 /**
  * Class to deal with UI/Fragment navigation components
@@ -48,10 +56,10 @@ import mavonie.subterminal.Views.Premium.PremiumView;
  */
 public class UIHelper {
 
-    //private static final int FRAGMENT_HOME = R.id.nav_home;
     private static final int FRAGMENT_JUMPS = R.id.nav_jumps;
     private static final int FRAGMENT_GEAR = R.id.nav_gear;
     private static final int FRAGMENT_EXIT = R.id.nav_exits;
+    private static final int FRAGMENT_SKYDIVES = R.id.skydiving_nav_jumps;
 
     private static FloatingActionButton addButton;
 
@@ -84,6 +92,12 @@ public class UIHelper {
             fragment = new JumpView();
         } else if (entity instanceof Suit) {
             fragment = new SuitForm();
+        } else if (entity instanceof mavonie.subterminal.Models.Skydive.Dropzone) {
+            fragment = new DropzoneView();
+        } else if (entity instanceof Skydive) {
+            fragment = new SkydiveView();
+        } else if (entity instanceof Rig) {
+            fragment = new mavonie.subterminal.Skydive.Forms.GearForm();
         }
 
         fragment.setArguments(args);
@@ -105,7 +119,10 @@ public class UIHelper {
                 fragment = new ExitForm();
             } else if (activeModel instanceof mavonie.subterminal.Models.Jump) {
                 fragment = new JumpForm();
+            } else if (activeModel instanceof Skydive) {
+                fragment = new SkydiveForm();
             }
+
             fragment.setArguments(args);
 
             replaceFragment(fragment);
@@ -126,28 +143,43 @@ public class UIHelper {
         Fragment fragmentClass = null;
 
         switch (id) {
-//            case R.id.nav_home:
-//                fragmentClass = Home.class;
-//                fab.hide();
-//                break;
             case R.id.nav_jumps:
                 fragmentClass = new Jump();
                 getAddButton().show();
                 break;
+
             case R.id.nav_gear:
                 fragmentClass = new Gear();
                 getAddButton().show();
                 break;
+
             case R.id.nav_exits:
                 fragmentClass = new Exit();
                 getAddButton().show();
                 break;
+
             case R.id.nav_settings:
                 fragmentClass = new Preference();
                 getAddButton().hide();
                 break;
+
             case R.id.nav_premium:
                 fragmentClass = new PremiumView();
+                break;
+
+            case R.id.skydiving_nav_jumps:
+                fragmentClass = new mavonie.subterminal.Skydive.Skydive();
+                getAddButton().show();
+                break;
+
+            case R.id.skydiving_nav_dropzones:
+                fragmentClass = new Dropzone();
+                getAddButton().hide();
+                break;
+
+            case R.id.skydiving_nav_gear:
+                fragmentClass = new mavonie.subterminal.Skydive.Gear();
+                getAddButton().show();
                 break;
         }
 
@@ -158,6 +190,45 @@ public class UIHelper {
 
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(false);
+    }
+
+    public static void switchModeDialog() {
+
+        // Create list dialog with required parameters - context, title, and our array of items to fill the list.
+        String[] modes = {Subterminal.MODE_BASE, Subterminal.MODE_SKYDIVING};
+
+        CustomListDialog.Builder builder = new CustomListDialog.Builder(MainActivity.getActivity(), "Mode", modes);
+        CustomListDialog customListDialog = builder.build();
+        customListDialog.show();
+
+        customListDialog.setListClickListener(new CustomListDialog.ListClickListener() {
+            @Override
+            public void onListItemSelected(int i, String[] strings, String s) {
+                switchMode(s);
+            }
+        });
+    }
+
+    /**
+     * Switch to requested mode
+     *
+     * @param mode
+     */
+    private static void switchMode(String mode) {
+        Prefs.putString(Preference.PREFS_MODE, mode);
+
+        if (mode.equals(Subterminal.MODE_BASE)) {
+            //Switch to B.A.S.E mode
+            MainActivity.getActivity().getNavigationView().getMenu().setGroupVisible(R.id.menu_group_BASE, true);
+            MainActivity.getActivity().getNavigationView().getMenu().setGroupVisible(R.id.menu_group_SKYDIVING, false);
+
+        } else {
+            //Switch to Skydiving mode
+            MainActivity.getActivity().getNavigationView().getMenu().setGroupVisible(R.id.menu_group_SKYDIVING, true);
+            MainActivity.getActivity().getNavigationView().getMenu().setGroupVisible(R.id.menu_group_BASE, false);
+        }
+
+        MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_mode).setTitle(mode);
     }
 
 
@@ -201,6 +272,10 @@ public class UIHelper {
                         break;
                     case FRAGMENT_JUMPS:
                         UIHelper.replaceFragment(new JumpForm());
+                        addButton.hide();
+                        break;
+                    case FRAGMENT_SKYDIVES:
+                        UIHelper.replaceFragment(new SkydiveForm());
                         addButton.hide();
                         break;
                 }
@@ -300,8 +375,14 @@ public class UIHelper {
     }
 
     public static void init() {
+        UIHelper.switchMode(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING));
 
-        UIHelper.replaceFragment(new Jump());
+        //Check which mode we are in and instantiate the correct list view
+        if (Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING).equals(Subterminal.MODE_BASE)) {
+            UIHelper.replaceFragment(new Jump());
+        } else {
+            UIHelper.replaceFragment(new mavonie.subterminal.Skydive.Skydive());
+        }
 
         UIHelper.initAddButton();
 

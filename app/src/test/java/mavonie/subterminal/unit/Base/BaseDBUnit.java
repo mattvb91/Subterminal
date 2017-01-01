@@ -2,8 +2,10 @@ package mavonie.subterminal.unit.Base;
 
 import android.content.pm.PackageManager;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
@@ -13,6 +15,7 @@ import mavonie.subterminal.BuildConfig;
 import mavonie.subterminal.DB.DatabaseHandler;
 import mavonie.subterminal.DB.VersionUtils;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Skydive.Skydive;
 
 @Ignore
 @RunWith(RobolectricTestRunner.class)
@@ -23,7 +26,7 @@ public class BaseDBUnit extends BaseUnit {
 
     @Before
     public void setUp() {
-        if(_db == null) {
+        if (_db == null) {
             try {
                 this._db = new DatabaseHandler(RuntimeEnvironment.application, "test_database", null, VersionUtils.getVersionCode(RuntimeEnvironment.application));
             } catch (PackageManager.NameNotFoundException e) {

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="4dp">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dip">
+
+        <TextView
+            android:id="@+id/dropzone_list_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Dropzone"
+            android:textColor="#040404"
+            android:textSize="15dip"
+            android:textStyle="bold"
+            android:typeface="sans" />
+
+        <TextView
+            android:id="@+id/dropzone_list_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dropzone_list_name"
+            android:padding="5dp"
+            android:text="Country"
+            android:textSize="15dp" />
+
+        <!-- Rightend Duration -->
+
+        <TextView
+            android:id="@+id/dropzone_list_aircraft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/dropzone_list_name"
+            android:gravity="right"
+            android:padding="5dp"
+            android:text="Aircraft"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
