@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import mavonie.subterminal.Forms.BaseForm;

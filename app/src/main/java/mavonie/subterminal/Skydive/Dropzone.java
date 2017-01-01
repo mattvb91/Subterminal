@@ -23,11 +23,9 @@ import java.util.List;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Skydive.ViewAdapters.DropzoneRecycler;
 import mavonie.subterminal.Utils.BaseFragment;
-import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 
 /**

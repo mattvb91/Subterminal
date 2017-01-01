@@ -13,7 +13,6 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 import mavonie.subterminal.SignatureActivity;
-import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;

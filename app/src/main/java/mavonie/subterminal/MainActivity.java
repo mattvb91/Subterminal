@@ -1,13 +1,10 @@
 package mavonie.subterminal;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,12 +13,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.PopupWindow;
-import android.widget.Spinner;
 
 import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 import com.kbeanie.multipicker.api.ImagePicker;
@@ -39,9 +30,6 @@ import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Payment;
-import mavonie.subterminal.Models.Skydive.Aircraft;
-import mavonie.subterminal.Models.Skydive.Dropzone;
-import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Views.Premium.PremiumPay;
