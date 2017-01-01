@@ -4,18 +4,24 @@
 
     <item
         android:id="@+id/action_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:onClick="deleteDialog"
         android:title="Delete"
         android:visible="false"
-        app:showAsAction="ifRoom"
-        android:onClick="deleteDialog"
-        android:icon="@android:drawable/ic_menu_delete" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_edit"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:onClick="editItem"
         android:title="Edit"
         android:visible="false"
-        app:showAsAction="ifRoom"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_filter"
+        android:icon="@android:drawable/ic_menu_search"
         android:onClick="editItem"
-        android:icon="@android:drawable/ic_menu_edit" />
+        android:title="Filter" />
 
 </menu>

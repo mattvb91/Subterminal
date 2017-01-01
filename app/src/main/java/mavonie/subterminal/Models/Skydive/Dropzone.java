@@ -2,14 +2,17 @@ package mavonie.subterminal.Models.Skydive;
 
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Synchronizable;
 
 /**
  * Dropzone Model
@@ -300,5 +303,49 @@ public class Dropzone extends Model {
     protected void populateContentValues(ContentValues contentValues) {
         contentValues.put(_ID, this.id);
         super.populateContentValues(contentValues);
+    }
+
+    public static ArrayList<String> getCountriesForSelect() {
+        ArrayList<String> itemsForSelect = new ArrayList<String>();
+
+        String query = "SELECT " + _ID + ", country FROM " + TABLE_NAME;
+
+        query += " GROUP BY country ORDER BY country ASC";
+
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            while (cursor.isAfterLast() == false) {
+                String string = cursor.getString(1);
+                itemsForSelect.add(string);
+                cursor.moveToNext();
+            }
+        }
+
+        cursor.close();
+
+        return itemsForSelect;
+    }
+
+    public static ArrayList<String> getCountiesForSelect(String country) {
+        ArrayList<String> itemsForSelect = new ArrayList<String>();
+
+        String query = "SELECT " + _ID + ", local FROM " + TABLE_NAME;
+
+        query += " WHERE country = '" + country + "' GROUP BY local ORDER BY local ASC";
+
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            while (cursor.isAfterLast() == false) {
+                String string = cursor.getString(1);
+                itemsForSelect.add(string);
+                cursor.moveToNext();
+            }
+        }
+
+        cursor.close();
+
+        return itemsForSelect;
     }
 }
