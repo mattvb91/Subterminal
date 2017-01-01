@@ -62,7 +62,7 @@ public class SkydiveTest extends BaseTest {
 //        textView.perform(click());
 
         ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.skydive_edit_date), withText("2016-12-30")));
+                allOf(withId(R.id.skydive_edit_date)));
         appCompatEditText.perform(scrollTo(), click());
 
         confirmCalendar();

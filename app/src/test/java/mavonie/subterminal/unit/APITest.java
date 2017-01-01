@@ -82,7 +82,8 @@ public class APITest extends BaseDBUnit {
         List<Exit> exits = (List) response.body();
 
         for (Exit exit : exits) {
-            assertTrue(exit.save());
+            Exit.createOrUpdatePublicExit(exit);
+            assertTrue(exit.exists());
             assertNotNull(exit.getDetails().getExitId());
             assertTrue(exit.getDetails().exists());
         }

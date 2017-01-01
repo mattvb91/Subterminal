@@ -57,7 +57,16 @@ public class ExitTest extends BaseDBUnit {
 
     @Test
     public void testExitDetails() {
-        Exit exit = this.createExit();
+        Exit exit = new Exit();
+
+        exit.setName("Test exit");
+        exit.setRockdropDistance(200);
+        exit.setAltitudeToLanding(200);
+        exit.setDescription("Test Description");
+        exit.setLatitude(59.02342);
+        exit.setLongtitude(24.30456);
+        exit.setGlobalId("testing");
+        exit.setObjectType(Exit.TYPE_EARTH);
 
         ExitDetails details = new ExitDetails();
         details.setExitId(exit.getId());
@@ -73,8 +82,7 @@ public class ExitTest extends BaseDBUnit {
 
         exit.setDetails(details);
         //Set the global_id so the details get saved
-        exit.setGlobalId("testing");
-        exit.save();
+        Exit.createOrUpdatePublicExit(exit);
 
         Exit exit2 = (Exit) new Exit().getOneById(exit.getId());
         assertNotNull(exit2.getDetails());
