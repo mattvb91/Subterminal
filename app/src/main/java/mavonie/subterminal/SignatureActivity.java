@@ -19,6 +19,8 @@ import java.io.OutputStream;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
+import mavonie.subterminal.Views.JumpView;
 
 /**
  * Signature activity
@@ -71,6 +73,8 @@ public class SignatureActivity extends Activity {
 
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
                 addJpgSignatureToGallery(signatureBitmap);
+
+                UIHelper.openFragmentForEntity(Subterminal.getActiveModel());
             }
         });
     }
