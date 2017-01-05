@@ -178,10 +178,36 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/dropzone_weather_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue_gray"
+            android:layout_below="@+id/jump_view_detail_card"
+            android:layout_margin="10dp">
+
+            <com.github.ahmadnemati.wind.WindView
+                android:id="@+id/windview"
+                android:layout_width="match_parent"
+                android:layout_height="106dp"
+                app:barometerTickSpacing="9dp"
+                app:bigPoleX="38dp"
+                app:labelFontSize="12sp"
+                app:numericFontSize="25sp"
+                app:poleBottomY="98dp"
+                app:pressureLineY="73dp"
+                app:pressureTextX="12dp"
+                app:pressureTextY="4dp"
+                app:smallPoleX="75dp"
+                app:windTextX="10dp"
+                app:windTextY="29dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/jump_view_add_banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/jump_view_detail_card"
+            android:layout_below="@+id/dropzone_weather_card"
             android:layout_marginTop="10dp">
 
             <com.google.android.gms.ads.AdView

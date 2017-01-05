@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.ahmadnemati.wind.WindView;
+import com.github.ahmadnemati.wind.enums.TrendType;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -62,6 +64,14 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
 
         TextView aircraft = (TextView) view.findViewById(R.id.dropzone_view_aircraft);
         aircraft.setText(getItem().getFormattedAircraft());
+
+        WindView windView = (WindView) view.findViewById(R.id.windview);
+        windView.setPressure(20);
+        windView.setPressureUnit("in Hg");
+        windView.setWindSpeed(1);
+        windView.setWindSpeedUnit(" km/h");
+        windView.setTrendType(TrendType.UP);
+        windView.start();
 
         if (getItem().isMapActive()) {
             mMapView = (MapView) view.findViewById(R.id.dropzone_view_map);
