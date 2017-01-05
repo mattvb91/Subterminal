@@ -134,13 +134,8 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
 
     @Override
     public int getItemCount() {
-        if (!Subterminal.getUser().isPremium() & !Subterminal.isTesting()) {
-            return mValues.size() + (mValues.size() / ITEMS_PER_AD);
-        }
-
         return mValues.size();
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;

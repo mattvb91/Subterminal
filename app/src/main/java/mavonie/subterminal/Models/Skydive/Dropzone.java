@@ -336,6 +336,9 @@ public class Dropzone extends Model {
 
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
+        //Add empty selection
+        itemsForSelect.add(EMPTY_LIST_ITEM);
+
         if (cursor.moveToFirst()) {
             while (cursor.isAfterLast() == false) {
                 String string = cursor.getString(1);
