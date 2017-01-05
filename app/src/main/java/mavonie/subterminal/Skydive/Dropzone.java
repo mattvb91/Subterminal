@@ -66,7 +66,7 @@ public class Dropzone extends BaseFragment {
                     wheres.put(wheres.size(), whereCountry);
                 }
 
-                if (local != null) {
+                if (local != null && local != Model.EMPTY_LIST_ITEM) {
                     HashMap<String, Object> whereLocal = new HashMap<>();
                     whereLocal.put(Model.FILTER_WHERE_FIELD, mavonie.subterminal.Models.Skydive.Dropzone.COLUMN_NAME_ADDRESS_LEVEL_1);
                     whereLocal.put(Model.FILTER_WHERE_VALUE, "'" + local.toString() + "'");

@@ -102,11 +102,7 @@ public class DropzoneRecycler extends RecyclerView.Adapter<DropzoneRecycler.View
 
     @Override
     public int getItemCount() {
-        if (!Subterminal.getUser().isPremium() & !Subterminal.isTesting()) {
-            return mValues.size() + (mValues.size() / ITEMS_PER_AD);
-        }
-
-        return mValues.size();
+         return mValues.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

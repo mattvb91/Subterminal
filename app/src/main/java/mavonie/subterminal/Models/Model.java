@@ -27,6 +27,8 @@ import mavonie.subterminal.MainActivity;
  */
 abstract public class Model implements BaseColumns, Serializable {
 
+    public static String EMPTY_LIST_ITEM = " - ";
+
     /**
      * dbColumns data types
      */
