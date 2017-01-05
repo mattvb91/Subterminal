@@ -65,6 +65,9 @@
             android:name="mavonie.subterminal.ADMOB_APP_ID"
             android:value="@string/admob_app_id" />
 
+        <meta-data
+            android:name="mavonie.subterminal.OPENWEATHER_API_KEY"
+            android:value="@string/openweather_api_key"/>
         <service
             android:name=".Utils.Api.FirebaseInstanceService">
             <intent-filter>

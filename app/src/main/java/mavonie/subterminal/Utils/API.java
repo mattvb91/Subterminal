@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
+import az.openweatherapi.OWService;
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
@@ -49,6 +50,7 @@ public class API {
     private retrofit2.Retrofit retrofit;
     private Gson gson;
     private Context context;
+    private OWService openWeather;
 
     public API(Context context) {
         this.context = context;
@@ -128,6 +130,19 @@ public class API {
 
     public EndpointInterface getEndpoints() {
         return this.getClient().create(EndpointInterface.class);
+    }
+
+    /**
+     * Get an instance of the open weather service
+     *
+     * @return
+     */
+    public OWService getOpenWeatherClient() {
+        if (this.openWeather == null) {
+            this.openWeather = new OWService(Subterminal.getMetaData(this.context, "mavonie.subterminal.OPENWEATHER_API_KEY"));
+        }
+
+        return openWeather;
     }
 
     /**

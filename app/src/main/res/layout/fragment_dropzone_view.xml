@@ -177,31 +177,37 @@
             </android.support.v7.widget.CardView>
         </RelativeLayout>
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
             android:id="@+id/dropzone_weather_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/blue_gray"
+            android:layout_height="match_parent"
             android:layout_below="@+id/jump_view_detail_card"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardUseCompatPadding="true">
 
-            <com.github.ahmadnemati.wind.WindView
-                android:id="@+id/windview"
+            <RelativeLayout
+                android:id="@+id/windview_layout"
                 android:layout_width="match_parent"
-                android:layout_height="106dp"
-                app:barometerTickSpacing="9dp"
-                app:bigPoleX="38dp"
-                app:labelFontSize="12sp"
-                app:numericFontSize="25sp"
-                app:poleBottomY="98dp"
-                app:pressureLineY="73dp"
-                app:pressureTextX="12dp"
-                app:pressureTextY="4dp"
-                app:smallPoleX="75dp"
-                app:windTextX="10dp"
-                app:windTextY="29dp" />
+                android:layout_height="wrap_content"
+                android:background="@color/blue_gray">
 
-        </RelativeLayout>
+                <com.github.ahmadnemati.wind.WindView
+                    android:id="@+id/windview"
+                    android:layout_width="match_parent"
+                    android:layout_height="106dp"
+                    app:barometerTickSpacing="9dp"
+                    app:bigPoleX="38dp"
+                    app:labelFontSize="12sp"
+                    app:numericFontSize="25sp"
+                    app:poleBottomY="98dp"
+                    app:pressureLineY="73dp"
+                    app:pressureTextX="12dp"
+                    app:pressureTextY="4dp"
+                    app:smallPoleX="75dp"
+                    app:windTextX="10dp"
+                    app:windTextY="29dp" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
 
         <RelativeLayout
             android:id="@+id/jump_view_add_banner"

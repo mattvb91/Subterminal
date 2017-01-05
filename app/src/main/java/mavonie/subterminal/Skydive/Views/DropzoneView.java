@@ -18,11 +18,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import az.openweatherapi.listener.OWRequestListener;
+import az.openweatherapi.model.OWResponse;
+import az.openweatherapi.model.gson.common.Coord;
+import az.openweatherapi.model.gson.five_day.ExtendedWeather;
+import az.openweatherapi.model.gson.five_day.WeatherForecastElement;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.API;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Utils.Views.MapView;
 
 /**
@@ -65,13 +72,33 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
         TextView aircraft = (TextView) view.findViewById(R.id.dropzone_view_aircraft);
         aircraft.setText(getItem().getFormattedAircraft());
 
-        WindView windView = (WindView) view.findViewById(R.id.windview);
-        windView.setPressure(20);
-        windView.setPressureUnit("in Hg");
-        windView.setWindSpeed(1);
-        windView.setWindSpeedUnit(" km/h");
-        windView.setTrendType(TrendType.UP);
-        windView.start();
+        Coord coordinate = new Coord();
+        coordinate.setLat(getItem().getLatitude());
+        coordinate.setLon(getItem().getLongtitude());
+
+        final WindView windView = (WindView) view.findViewById(R.id.windview);
+
+        Subterminal.getApi().getOpenWeatherClient().getFiveDayForecast(coordinate, new OWRequestListener<ExtendedWeather>() {
+            @Override
+            public void onResponse(OWResponse<ExtendedWeather> response) {
+                ExtendedWeather extendedWeather = response.body();
+                WeatherForecastElement element = extendedWeather.getList().get(0);
+
+                windView.setPressure(element.getMain().getPressure().intValue());
+                windView.setPressureUnit("in hPa");
+                windView.setWindSpeed(element.getWind().getSpeed().intValue());
+                windView.setWindSpeedUnit(" km/h");
+                windView.setTrendType(TrendType.UP);
+                windView.animateBaroMeter();
+                windView.start();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e("TAG", "Five Day Forecast request failed: " + t.getMessage());
+                windView.setVisibility(View.GONE);
+            }
+        });
 
         if (getItem().isMapActive()) {
             mMapView = (MapView) view.findViewById(R.id.dropzone_view_map);
