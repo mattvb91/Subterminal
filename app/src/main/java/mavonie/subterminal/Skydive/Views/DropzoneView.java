@@ -77,13 +77,13 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
         TextView aircraft = (TextView) view.findViewById(R.id.dropzone_view_aircraft);
         aircraft.setText(getItem().getFormattedAircraft());
 
-        Coord coordinate = new Coord();
-        coordinate.setLat(getItem().getLatitude());
-        coordinate.setLon(getItem().getLongtitude());
-
-        UIHelper.initWeatherView(view, coordinate);
 
         if (getItem().isMapActive()) {
+            Coord coordinate = new Coord();
+            coordinate.setLat(getItem().getLatitude());
+            coordinate.setLon(getItem().getLongtitude());
+            UIHelper.initWeatherView(view, coordinate);
+
             mMapView = (MapView) view.findViewById(R.id.dropzone_view_map);
             mMapView.setVisibility(View.VISIBLE);
             mMapView.getMapAsync(this);

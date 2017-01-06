@@ -194,61 +194,19 @@
                 ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
         </RelativeLayout>
 
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/dropzone_weather_card"
+        <RelativeLayout
+            android:id="@+id/weather_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/jump_view_add_banner"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:cardUseCompatPadding="true">
-
-            <RelativeLayout
-                android:id="@+id/windview_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/blue_gray">
-
-                <com.github.ahmadnemati.wind.WindView
-                    android:id="@+id/windview"
-                    android:layout_width="match_parent"
-                    android:layout_height="106dp"
-                    app:barometerTickSpacing="9dp"
-                    app:bigPoleX="38dp"
-                    app:labelFontSize="12sp"
-                    app:numericFontSize="25sp"
-                    app:poleBottomY="98dp"
-                    app:pressureLineY="73dp"
-                    app:pressureTextX="12dp"
-                    app:pressureTextY="4dp"
-                    app:smallPoleX="75dp"
-                    app:windTextX="10dp"
-                    app:windTextY="29dp" />
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/weather_5_day"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/dropzone_weather_card"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:cardUseCompatPadding="true">
-
-            <TableLayout
-                android:id="@+id/forecast_table"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></TableLayout>
-        </android.support.v7.widget.CardView>
-
+            android:layout_below="@id/jump_view_add_banner">
+            <include layout="@layout/weather_card" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/dropzone_view_map_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/weather_5_day"
+            android:layout_below="@+id/weather_layout"
             android:layout_margin="10dp">
 
             <android.support.v7.widget.CardView

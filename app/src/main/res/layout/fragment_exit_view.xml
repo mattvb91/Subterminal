@@ -136,7 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/exit_view_detail_card"
-            android:layout_marginTop="10dp">
+            android:layout_margin="5dp">
 
             <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
@@ -148,10 +148,19 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/weather_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/exit_view_add_banner">
+
+            <include layout="@layout/weather_card" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/exit_view_images_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/exit_view_add_banner">
+            android:layout_below="@+id/weather_layout">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
