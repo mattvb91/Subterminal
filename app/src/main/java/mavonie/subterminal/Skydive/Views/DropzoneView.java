@@ -1,10 +1,15 @@
 package mavonie.subterminal.Skydive.Views;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.github.ahmadnemati.wind.WindView;
@@ -52,7 +57,7 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_dropzone_view, container, false);
+        final View view = inflater.inflate(R.layout.fragment_dropzone_view, container, false);
 
         TextView name = (TextView) view.findViewById(R.id.dropzone_view_name);
         name.setText(getItem().getName());
@@ -76,29 +81,7 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
         coordinate.setLat(getItem().getLatitude());
         coordinate.setLon(getItem().getLongtitude());
 
-        final WindView windView = (WindView) view.findViewById(R.id.windview);
-
-        Subterminal.getApi().getOpenWeatherClient().getFiveDayForecast(coordinate, new OWRequestListener<ExtendedWeather>() {
-            @Override
-            public void onResponse(OWResponse<ExtendedWeather> response) {
-                ExtendedWeather extendedWeather = response.body();
-                WeatherForecastElement element = extendedWeather.getList().get(0);
-
-                windView.setPressure(element.getMain().getPressure().intValue());
-                windView.setPressureUnit("in hPa");
-                windView.setWindSpeed(element.getWind().getSpeed().intValue());
-                windView.setWindSpeedUnit(" km/h");
-                windView.setTrendType(TrendType.UP);
-                windView.animateBaroMeter();
-                windView.start();
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e("TAG", "Five Day Forecast request failed: " + t.getMessage());
-                windView.setVisibility(View.GONE);
-            }
-        });
+        UIHelper.initWeatherView(view, coordinate);
 
         if (getItem().isMapActive()) {
             mMapView = (MapView) view.findViewById(R.id.dropzone_view_map);
