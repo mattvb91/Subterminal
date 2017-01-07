@@ -1,6 +1,7 @@
 package mavonie.subterminal.Models.Skydive;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import mavonie.subterminal.Jobs.Skydive.SyncRig;
@@ -270,5 +271,13 @@ public class Rig extends Synchronizable {
      */
     public String getDisplayName() {
         return container_manufacturer + " - " + main_manufacturer + " " + main_model;
+    }
+
+    public static List<Rig> getRigsForSync() {
+        return new Rig().getItems(getSyncRequiredParams());
+    }
+
+    public static List<Rig> getRigsForDelete() {
+        return new Rig().getItems(getDeleteRequiredParams());
     }
 }

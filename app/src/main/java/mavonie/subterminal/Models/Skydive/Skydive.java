@@ -13,6 +13,7 @@ import java.util.Map;
 import mavonie.subterminal.Jobs.Skydive.SyncRig;
 import mavonie.subterminal.Jobs.Skydive.SyncSkydive;
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Synchronizable;
@@ -366,4 +367,11 @@ public class Skydive extends Synchronizable {
         this.row_id = row_id;
     }
 
+    public static List<Skydive> getSkydivesForSync() {
+        return new Skydive().getItems(getSyncRequiredParams());
+    }
+
+    public static List<Skydive> getSkydivesForDelete() {
+        return new Skydive().getItems(getDeleteRequiredParams());
+    }
 }
