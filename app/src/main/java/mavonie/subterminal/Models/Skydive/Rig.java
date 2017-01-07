@@ -3,7 +3,10 @@ package mavonie.subterminal.Models.Skydive;
 import java.util.HashMap;
 import java.util.Map;
 
+import mavonie.subterminal.Jobs.Skydive.SyncRig;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Synchronizable;
+import mavonie.subterminal.Utils.Subterminal;
 
 
 /**
@@ -50,7 +53,8 @@ public class Rig extends Synchronizable {
 
     @Override
     public void addSyncJob() {
-
+        Subterminal.getJobManager(MainActivity.getActivity())
+                .addJobInBackground(new SyncRig(this));
     }
 
     private static Map<String, Integer> dbColumns = null;

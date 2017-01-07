@@ -30,6 +30,7 @@ import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Models.User;
@@ -665,6 +666,49 @@ public class API {
                 if (response.isSuccessful() || response.code() == 403) {
                     suit.delete();
                 }
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void deleteRig(final Rig rig) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call deleteRig = this.getEndpoints().deleteRig(rig.getId());
+        deleteRig.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful() || response.code() == 403) {
+                    rig.delete();
+                }
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void syncRig(final Rig rig) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call syncRig = this.getEndpoints().syncRig(rig);
+        syncRig.enqueue(new Callback<Jump>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    rig.markSynced();
+
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG);
+                }
+
                 UIHelper.setProgressBarVisibility(View.GONE);
             }
 

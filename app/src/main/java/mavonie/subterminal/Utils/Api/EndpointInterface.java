@@ -12,6 +12,7 @@ import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.User;
 import retrofit2.Call;
@@ -94,6 +95,17 @@ public interface EndpointInterface {
 
     @GET("user/suits")
     Call<List<Suit>> downloadSuits(
+            @Query("last_sync") String lastSync);
+
+    //Rig requests
+    @POST("rig")
+    Call<Rig> syncRig(@Body Rig rig);
+
+    @DELETE("user/rig/{id}")
+    Call<Void> deleteRig(@Path("id") Integer id);
+
+    @GET("user/rigs")
+    Call<List<Rig>> downloadRigs(
             @Query("last_sync") String lastSync);
 
 }
