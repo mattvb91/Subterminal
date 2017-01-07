@@ -6,6 +6,8 @@ import java.util.Map;
 
 import mavonie.subterminal.Jobs.Skydive.SyncRig;
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Jump;
+import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.Subterminal;
 
@@ -279,5 +281,28 @@ public class Rig extends Synchronizable {
 
     public static List<Rig> getRigsForDelete() {
         return new Rig().getItems(getDeleteRequiredParams());
+    }
+
+    @Override
+    public boolean delete() {
+        for (Skydive skydive : this.getSkydives()) {
+            skydive.setRigId(null);
+            skydive.save();
+        }
+
+        return super.delete();
+    }
+
+    /**
+     * Get all jumps associated with this piece of gear
+     *
+     * @return List
+     */
+    public List<Skydive> getSkydives() {
+        HashMap<String, Object> whereRigId = new HashMap<>();
+        whereRigId.put(Model.FILTER_WHERE_FIELD, Skydive.COLUMN_NAME_JUMP_RIG_ID);
+        whereRigId.put(Model.FILTER_WHERE_VALUE, Integer.toString(this.getId()));
+
+        return new Skydive().getItems(whereRigId);
     }
 }
