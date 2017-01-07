@@ -81,8 +81,7 @@ public class GearTabs extends BaseFragment {
     public void onResume() {
         super.onResume();
         // Set title
-        String title = getString(R.string.title_gear) + " (" + new mavonie.subterminal.Models.Gear().count() + ")";
-        MainActivity.getActivity().setTitle(title);
+        MainActivity.getActivity().setTitle(getString(R.string.title_gear));
 
         //We want to replace the add button with our arc menu
         UIHelper.getAddButton().setVisibility(View.GONE);

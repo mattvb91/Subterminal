@@ -56,12 +56,8 @@ public class Skydive extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Set title
-        HashMap<String, Object> whereNotDeleted = new HashMap<>();
-        whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
-        whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
 
-        String title = getString(R.string.title_skydives) + " (" + new mavonie.subterminal.Models.Skydive.Skydive().count(whereNotDeleted) + ")";
+        String title = getString(R.string.title_skydives) + " (" + new mavonie.subterminal.Models.Skydive.Skydive().count(Synchronizable.getActiveParams()) + ")";
         MainActivity.getActivity().setTitle(title);
     }
 

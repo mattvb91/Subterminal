@@ -200,10 +200,14 @@ public abstract class Synchronizable extends Model {
      * @return List
      */
     public List<Model> getActiveItems() {
+        return super.getItems(getActiveParams());
+    }
+
+    public static HashMap<String, Object> getActiveParams() {
         HashMap<String, Object> whereNotDeleted = new HashMap<>();
         whereNotDeleted.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
         whereNotDeleted.put(Model.FILTER_WHERE_VALUE, DELETED_FALSE.toString());
 
-        return super.getItems(whereNotDeleted);
+        return whereNotDeleted;
     }
 }
