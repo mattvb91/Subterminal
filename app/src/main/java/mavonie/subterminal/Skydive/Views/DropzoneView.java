@@ -1,12 +1,19 @@
 package mavonie.subterminal.Skydive.Views;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.github.ahmadnemati.wind.WindView;
+import com.github.ahmadnemati.wind.enums.TrendType;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -16,11 +23,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import az.openweatherapi.listener.OWRequestListener;
+import az.openweatherapi.model.OWResponse;
+import az.openweatherapi.model.gson.common.Coord;
+import az.openweatherapi.model.gson.five_day.ExtendedWeather;
+import az.openweatherapi.model.gson.five_day.WeatherForecastElement;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.API;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Utils.Views.MapView;
 
 /**
@@ -43,7 +57,7 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_dropzone_view, container, false);
+        final View view = inflater.inflate(R.layout.fragment_dropzone_view, container, false);
 
         TextView name = (TextView) view.findViewById(R.id.dropzone_view_name);
         name.setText(getItem().getName());
@@ -63,7 +77,13 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
         TextView aircraft = (TextView) view.findViewById(R.id.dropzone_view_aircraft);
         aircraft.setText(getItem().getFormattedAircraft());
 
+
         if (getItem().isMapActive()) {
+            Coord coordinate = new Coord();
+            coordinate.setLat(getItem().getLatitude());
+            coordinate.setLon(getItem().getLongtitude());
+            UIHelper.initWeatherView(view, coordinate);
+
             mMapView = (MapView) view.findViewById(R.id.dropzone_view_map);
             mMapView.setVisibility(View.VISIBLE);
             mMapView.getMapAsync(this);

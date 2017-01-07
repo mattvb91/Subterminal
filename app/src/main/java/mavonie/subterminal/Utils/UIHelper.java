@@ -3,17 +3,22 @@ package mavonie.subterminal.Utils;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +27,18 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.ProfilePictureView;
+import com.github.ahmadnemati.wind.WindView;
+import com.github.ahmadnemati.wind.enums.TrendType;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.Arrays;
 import java.util.List;
 
+import az.openweatherapi.listener.OWRequestListener;
+import az.openweatherapi.model.OWResponse;
+import az.openweatherapi.model.gson.common.Coord;
+import az.openweatherapi.model.gson.five_day.ExtendedWeather;
+import az.openweatherapi.model.gson.five_day.WeatherForecastElement;
 import mavonie.subterminal.Exit;
 import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
@@ -441,5 +453,87 @@ public class UIHelper {
         };
         mainHandler.post(uiRunnable);
 
+    }
+
+    public static void initWeatherView(final View view, Coord coordinate) {
+        final WindView windView = (WindView) view.findViewById(R.id.windview);
+
+        Subterminal.getApi().getOpenWeatherClient().getFiveDayForecast(coordinate, new OWRequestListener<ExtendedWeather>() {
+            @Override
+            public void onResponse(OWResponse<ExtendedWeather> response) {
+                ExtendedWeather extendedWeather = response.body();
+                WeatherForecastElement element = extendedWeather.getList().get(0);
+
+                windView.setPressure(element.getMain().getPressure().intValue());
+                windView.setPressureUnit("in hPa");
+                windView.setWindSpeed(element.getWind().getSpeed().intValue());
+                windView.setWindSpeedUnit(" km/h");
+                windView.setTrendType(TrendType.UP);
+                windView.animateBaroMeter();
+                windView.start();
+
+                TableLayout forecastTable = (TableLayout) view.findViewById(R.id.forecast_table);
+
+                TableRow titleRow = new TableRow(MainActivity.getActivity());
+                titleRow.setGravity(Gravity.CENTER_HORIZONTAL);
+
+                TextView timeTitle = new TextView(MainActivity.getActivity());
+                timeTitle.setText(" Time (Hours) ");
+                timeTitle.setTextColor(Color.BLACK);
+                timeTitle.setTypeface(null, Typeface.BOLD);
+                timeTitle.setGravity(Gravity.CENTER);
+                titleRow.addView(timeTitle);
+
+                TextView windTitle = new TextView(MainActivity.getActivity());
+                windTitle.setText(" Wind (km/h) ");
+                windTitle.setTextColor(Color.BLACK);
+                windTitle.setTypeface(null, Typeface.BOLD);
+                windTitle.setGravity(Gravity.CENTER);
+                titleRow.addView(windTitle);
+
+                TextView pressureTitle = new TextView(MainActivity.getActivity());
+                pressureTitle.setText(" Pressure (hPa) ");
+                pressureTitle.setTextColor(Color.BLACK);
+                pressureTitle.setGravity(Gravity.CENTER);
+                pressureTitle.setTypeface(null, Typeface.BOLD);
+                titleRow.addView(pressureTitle);
+
+                forecastTable.addView(titleRow);
+
+                for (int i = 1; i < 5; i++) {
+                    element = extendedWeather.getList().get(i);
+
+                    TableRow weatherRow = new TableRow(MainActivity.getActivity());
+                    weatherRow.setGravity(Gravity.CENTER_HORIZONTAL);
+
+                    TextView timeColumn = new TextView(MainActivity.getActivity());
+                    timeColumn.setText("+" + (i * 3));
+                    timeColumn.setTextColor(Color.BLACK);
+                    timeColumn.setGravity(Gravity.CENTER);
+                    weatherRow.addView(timeColumn);
+
+                    TextView windColumn = new TextView(MainActivity.getActivity());
+                    windColumn.setText(element.getWind().getSpeed().toString());
+                    windColumn.setTextColor(Color.BLACK);
+                    windColumn.setGravity(Gravity.CENTER);
+                    weatherRow.addView(windColumn);
+
+                    TextView pressureColumn = new TextView(MainActivity.getActivity());
+                    pressureColumn.setText(element.getMain().getPressure().toString());
+                    pressureColumn.setTextColor(Color.BLACK);
+                    pressureColumn.setGravity(Gravity.CENTER);
+                    weatherRow.addView(pressureColumn);
+
+                    forecastTable.addView(weatherRow);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e("TAG", "Five Day Forecast request failed: " + t.getMessage());
+                windView.setVisibility(View.GONE);
+            }
+        });
     }
 }

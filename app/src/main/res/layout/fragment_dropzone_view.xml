@@ -182,7 +182,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/jump_view_detail_card"
-            android:layout_marginTop="10dp">
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
 
             <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
@@ -194,10 +195,18 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/weather_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/jump_view_add_banner">
+            <include layout="@layout/weather_card" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/dropzone_view_map_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/jump_view_add_banner"
+            android:layout_below="@+id/weather_layout"
             android:layout_margin="10dp">
 
             <android.support.v7.widget.CardView
@@ -236,39 +245,5 @@
             </android.support.v7.widget.CardView>
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/dropzone_weather_map_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/dropzone_view_map_card"
-            android:layout_margin="10dp">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="1dp"
-                app:cardUseCompatPadding="true">
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp">
-
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_span="2"
-                            android:layout_weight="1"
-                            android:paddingBottom="10dp"
-                            android:text="Current Weather - Coming soon"
-                            android:textSize="20dp" />
-                    </TableRow>
-
-
-                </TableLayout>
-            </android.support.v7.widget.CardView>
-        </RelativeLayout>
     </RelativeLayout>
 </ScrollView>
