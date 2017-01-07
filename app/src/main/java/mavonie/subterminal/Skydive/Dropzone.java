@@ -169,7 +169,6 @@ public class Dropzone extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        _mListener = null;
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_filter).setVisible(false);
     }
 }
