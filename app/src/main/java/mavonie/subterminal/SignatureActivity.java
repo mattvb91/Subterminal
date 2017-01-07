@@ -20,7 +20,6 @@ import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
-import mavonie.subterminal.Views.JumpView;
 
 /**
  * Signature activity

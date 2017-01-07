@@ -10,10 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Jobs.Skydive.SyncRig;
 import mavonie.subterminal.Jobs.Skydive.SyncSkydive;
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Synchronizable;

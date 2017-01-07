@@ -6,7 +6,6 @@ import java.util.Map;
 
 import mavonie.subterminal.Jobs.Skydive.SyncRig;
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.Subterminal;

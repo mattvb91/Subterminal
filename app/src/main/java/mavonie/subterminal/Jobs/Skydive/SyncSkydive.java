@@ -9,7 +9,6 @@ import com.birbit.android.jobqueue.RetryConstraint;
 import com.birbit.android.jobqueue.TagConstraint;
 
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.Subterminal;
