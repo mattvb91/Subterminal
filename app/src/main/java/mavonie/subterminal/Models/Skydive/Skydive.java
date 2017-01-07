@@ -10,10 +10,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import mavonie.subterminal.Jobs.Skydive.SyncRig;
+import mavonie.subterminal.Jobs.Skydive.SyncSkydive;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Preference;
+import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Skydive Model
@@ -50,7 +54,8 @@ public class Skydive extends Synchronizable {
 
     @Override
     public void addSyncJob() {
-
+        Subterminal.getJobManager(MainActivity.getActivity())
+                .addJobInBackground(new SyncSkydive(this));
     }
 
     private static Map<String, Integer> dbColumns = null;

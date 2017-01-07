@@ -31,6 +31,7 @@ import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Rig;
+import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Models.User;
@@ -707,6 +708,49 @@ public class API {
                     rig.markSynced();
 
                     Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG);
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void deleteSkydive(final Skydive skydive) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call deleteSkydive = this.getEndpoints().deleteSkydive(skydive.getId());
+        deleteSkydive.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful() || response.code() == 403) {
+                    skydive.delete();
+                }
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void syncSkydive(final Skydive skydive) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call syncSkydive = this.getEndpoints().syncSkydive(skydive);
+        syncSkydive.enqueue(new Callback<Jump>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    skydive.markSynced();
+
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE);
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
