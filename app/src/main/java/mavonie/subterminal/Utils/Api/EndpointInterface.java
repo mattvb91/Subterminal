@@ -117,6 +117,6 @@ public interface EndpointInterface {
     Call<Void> deleteSkydive(@Path("id") Integer id);
 
     @GET("user/skydives")
-    Call<Skydive.SynchronizableResponse> downloadSkydives(
+    Call<List<Skydive>> downloadSkydives(
             @Query("last_sync") String lastSync);
 }

@@ -268,17 +268,4 @@ public abstract class Synchronizable extends Model {
 
         return params;
     }
-
-    /**
-     * Standard response we expect from the server for synchronizable models.
-     */
-    protected abstract static class SynchronizableResponse {
-        String server_time;
-
-        public String getServerTime() {
-            return server_time;
-        }
-
-        public abstract List<? extends Synchronizable> getItems();
-    }
 }

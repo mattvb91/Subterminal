@@ -234,7 +234,7 @@ public class API {
                                 Dropzone.createOrUpdate(dropzone);
                             }
 
-                            Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_DROPZONES);
+                            Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_DROPZONES, response.headers().get("server_time"));
                             Once.markDone(CALLS_LIST_DROPZONES);
                         }
                     });
@@ -266,7 +266,7 @@ public class API {
                         suit.markSynced();
                     }
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT, response.headers().get("server_time"));
                 }
             }
 
@@ -291,7 +291,7 @@ public class API {
                         jump.markSynced();
                     }
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP, response.headers().get("server_time"));
                 }
             }
 
@@ -316,7 +316,7 @@ public class API {
                         exit.markSynced();
                     }
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS, response.headers().get("server_time"));
                 }
             }
 
@@ -342,7 +342,7 @@ public class API {
                     for (Gear gear : gears) {
                         gear.markSynced();
                     }
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR, response.headers().get("server_time"));
                 }
             }
 
@@ -515,7 +515,7 @@ public class API {
                 if (response.isSuccessful()) {
                     exit.markSynced();
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS, response.headers().get("server_time"));
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -579,7 +579,7 @@ public class API {
                 if (response.isSuccessful()) {
                     gear.markSynced();
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR, response.headers().get("server_time"));
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -623,7 +623,7 @@ public class API {
                 if (response.isSuccessful()) {
                     jump.markSynced();
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP, response.headers().get("server_time"));
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -646,7 +646,7 @@ public class API {
                 if (response.isSuccessful()) {
                     suit.markSynced();
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT, response.headers().get("server_time"));
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -709,7 +709,7 @@ public class API {
                 if (response.isSuccessful()) {
                     rig.markSynced();
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG, response.headers().get("server_time"));
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -752,7 +752,7 @@ public class API {
                 if (response.isSuccessful()) {
                     skydive.markSynced();
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE, response.headers().get("server_time"));
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -770,17 +770,16 @@ public class API {
         UIHelper.setProgressBarVisibility(View.VISIBLE);
         Call mySkydives = this.getEndpoints().downloadSkydives(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE));
 
-        mySkydives.enqueue(new Callback<Skydive.SynchronizableResponse>() {
+        mySkydives.enqueue(new Callback<List<Skydive>>() {
             @Override
             public void onResponse(Call call, Response response) {
                 UIHelper.setProgressBarVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    Skydive.SynchronizableResponse syncResponse = (Skydive.SynchronizableResponse) response.body();
-                    for (Skydive skydive : syncResponse.getItems()) {
+                    for (Skydive skydive : (List<Skydive>) response.body()) {
                         skydive.markSynced();
                     }
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE, syncResponse.getServerTime());
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE, response.headers().get("server_time"));
                 }
             }
 
@@ -805,7 +804,7 @@ public class API {
                         rig.markSynced();
                     }
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG, response.headers().get("server_time"));
                 }
             }
 
