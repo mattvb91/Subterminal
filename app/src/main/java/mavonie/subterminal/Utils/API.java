@@ -177,6 +177,8 @@ public class API {
                 downloadGear();
                 downloadSuits();
                 downloadJumps();
+                downloadSkydives();
+                downloadRigs();
 
                 Synchronizable.syncEntities();
             }
@@ -754,6 +756,57 @@ public class API {
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+
+    private void downloadSkydives() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+        Call mySkydives = this.getEndpoints().downloadSkydives(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE));
+
+        mySkydives.enqueue(new Callback<Skydive.SynchronizableResponse>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    Skydive.SynchronizableResponse syncResponse = (Skydive.SynchronizableResponse) response.body();
+                    for (Skydive skydive : syncResponse.getItems()) {
+                        skydive.markSynced();
+                    }
+
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE, syncResponse.getServerTime());
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void downloadRigs() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+        Call myRigs = this.getEndpoints().downloadRigs(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG));
+
+        myRigs.enqueue(new Callback<List<Rig>>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    List<Rig> rigs = (List) response.body();
+                    for (Rig rig : rigs) {
+                        rig.markSynced();
+                    }
+
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG);
+                }
             }
 
             @Override

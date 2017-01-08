@@ -22,6 +22,10 @@ public abstract class Synchronized {
         Prefs.putString(pref, DateFormat.dateTimeNow());
     }
 
+    public static void setLastSyncPref(String pref, String serverTime) {
+        Prefs.putString(pref, serverTime);
+    }
+
     public static String getLastSyncPref(String pref) {
         return Prefs.getString(pref, "2000-01-01 00:00:00");
     }

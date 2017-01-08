@@ -91,6 +91,10 @@ public abstract class Synchronizable extends Model {
         //Check if this was a remote call and associate it with its original id
         if (this.remote_id != null) {
             contentValues.put(_ID, this.remote_id);
+
+            if (this._id == 0) {
+                this._id = this.remote_id;
+            }
         }
 
         super.populateContentValues(contentValues);
@@ -263,5 +267,18 @@ public abstract class Synchronizable extends Model {
         params.put(Model.FILTER_WHERE, wheres);
 
         return params;
+    }
+
+    /**
+     * Standard response we expect from the server for synchronizable models.
+     */
+    protected abstract static class SynchronizableResponse {
+        String server_time;
+
+        public String getServerTime() {
+            return server_time;
+        }
+
+        public abstract List<? extends Synchronizable> getItems();
     }
 }

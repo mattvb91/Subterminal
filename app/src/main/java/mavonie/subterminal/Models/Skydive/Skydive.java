@@ -372,4 +372,13 @@ public class Skydive extends Synchronizable {
     public static List<Skydive> getSkydivesForDelete() {
         return new Skydive().getItems(getDeleteRequiredParams());
     }
+
+    public class SynchronizableResponse extends Synchronizable.SynchronizableResponse {
+        List<Skydive> items;
+
+        @Override
+        public List<Skydive> getItems() {
+            return items;
+        }
+    }
 }
