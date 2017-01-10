@@ -59,11 +59,15 @@ abstract public class Model implements BaseColumns, Serializable {
         String query = "SELECT " + _ID + " FROM " + getTableName() + " WHERE " + _ID + " = " + this.getId();
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
-        if (cursor.moveToFirst()) {
-            return true;
-        }
+        try {
+            if (cursor.moveToFirst()) {
+                return true;
+            }
 
-        return false;
+            return false;
+        } finally {
+            cursor.close();
+        }
     }
 
     protected static DatabaseHandler _db;
