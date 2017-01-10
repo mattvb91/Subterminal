@@ -39,6 +39,10 @@
     <item android:title="Account">
         <menu>
             <item
+                android:id="@+id/nav_dashboard"
+                android:title="Dashboard"
+                android:icon="@android:drawable/ic_dialog_dialer" />
+            <item
                 android:id="@+id/nav_premium"
                 android:icon="@android:drawable/star_off"
                 android:title="@string/get_premium" />

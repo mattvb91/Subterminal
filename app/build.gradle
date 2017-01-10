@@ -76,6 +76,7 @@ dependencies {
     compile 'com.birbit:android-priority-jobqueue:2.0.1'
     compile 'com.github.AhmadNemati:WindView:1.1.1'
     compile 'com.github.zurche:open-weather-map-android-wrapper:v0.1'
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'org.robolectric:robolectric:3.1.2'
     testCompile 'junit:junit:4.12'

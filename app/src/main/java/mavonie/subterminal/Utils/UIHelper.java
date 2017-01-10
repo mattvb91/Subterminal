@@ -39,6 +39,7 @@ import az.openweatherapi.model.OWResponse;
 import az.openweatherapi.model.gson.common.Coord;
 import az.openweatherapi.model.gson.five_day.ExtendedWeather;
 import az.openweatherapi.model.gson.five_day.WeatherForecastElement;
+import mavonie.subterminal.Dashboard;
 import mavonie.subterminal.Exit;
 import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
@@ -193,6 +194,9 @@ public class UIHelper {
                 fragmentClass = new mavonie.subterminal.Skydive.Gear();
                 getAddButton().show();
                 break;
+            case R.id.nav_dashboard:
+                fragmentClass = new Dashboard();
+                getAddButton().hide();
         }
 
         Subterminal.setActiveFragment(id);
