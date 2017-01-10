@@ -7,17 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import mavonie.subterminal.Models.Suit;
+import mavonie.subterminal.Models.Synchronizable;
+
+
 /**
  * Gear list fragment
  */
 public class Gear extends Fragment {
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public Gear() {
-    }
 
     private FragmentTabHost mTabHost;
 
@@ -38,9 +35,9 @@ public class Gear extends Fragment {
         Bundle args = new Bundle();
         args.putInt(TAB, TAB_RIGS);
 
-        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_RIGS)).setIndicator("Rigs"),
+        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_RIGS)).setIndicator("Rigs (" + new mavonie.subterminal.Models.Gear().count(Synchronizable.getActiveParams()) + ")"),
                 GearTabs.class, args);
-        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_SUITS)).setIndicator("Suits"),
+        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_SUITS)).setIndicator("Suits (" + new Suit().count(Synchronizable.getActiveParams()) + ")"),
                 GearTabs.class, null);
 
         return rootView;

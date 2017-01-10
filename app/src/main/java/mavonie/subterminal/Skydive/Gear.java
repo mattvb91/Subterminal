@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import mavonie.subterminal.Models.Skydive.Rig;
+import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.R;
 
 /**
@@ -33,9 +35,9 @@ public class Gear extends Fragment {
         Bundle args = new Bundle();
         args.putInt(TAB, TAB_RIGS);
 
-        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_RIGS)).setIndicator("Rigs"),
+        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_RIGS)).setIndicator("Rigs (" + new Rig().count(Rig.getActiveParams()) + ")"),
                 mavonie.subterminal.Skydive.GearTabs.class, args);
-        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_SUITS)).setIndicator("Suits"),
+        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_SUITS)).setIndicator("Suits (" + new Suit().count(Suit.getActiveParams()) + ")"),
                 mavonie.subterminal.Skydive.GearTabs.class, null);
 
         return rootView;

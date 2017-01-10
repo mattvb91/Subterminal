@@ -64,12 +64,8 @@ public class ExitTabs extends BaseFragment {
     public void onResume() {
         super.onResume();
 
-        HashMap<String, Object> whereNotDeleted = new HashMap<>();
-        whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
-        whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
-
         // Set title
-        String title = getString(R.string.title_exit) + " (" + new mavonie.subterminal.Models.Exit().count(whereNotDeleted) + ")";
+        String title = getString(R.string.title_exit) + " (" + new mavonie.subterminal.Models.Exit().count(Synchronizable.getActiveParams()) + ")";
         MainActivity.getActivity().setTitle(title);
     }
 

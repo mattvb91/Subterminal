@@ -9,6 +9,8 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.junit.Before;
 import org.junit.Test;
 
+import mavonie.subterminal.Models.Suit;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.Subterminal;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -123,7 +125,7 @@ public class GearTest extends BaseTest {
         navigateToGear();
 
         ViewInteraction appCompatTextView = onView(
-                allOf(withId(android.R.id.title), withText("Suits"), isDisplayed()));
+                allOf(withId(android.R.id.title), withText("Suits (" + new Suit().count(Synchronizable.getActiveParams()) + ")"), isDisplayed()));
         appCompatTextView.perform(click());
 
         ViewInteraction floatingActionButton = onView(
@@ -173,7 +175,7 @@ public class GearTest extends BaseTest {
         navigateToGear();
 
         ViewInteraction appCompatTextView2 = onView(
-                allOf(withId(android.R.id.title), withText("Suits"), isDisplayed()));
+                allOf(withId(android.R.id.title), withText("Suits (" + new Suit().count(Synchronizable.getActiveParams()) + ")"), isDisplayed()));
         appCompatTextView2.perform(click());
 
     }
@@ -184,7 +186,7 @@ public class GearTest extends BaseTest {
         addSuitTest();
 
         ViewInteraction appCompatTextView = onView(
-                allOf(withId(android.R.id.title), withText("Suits"), isDisplayed()));
+                allOf(withId(android.R.id.title), withText("Suits (" + new Suit().count(Synchronizable.getActiveParams()) + ")"), isDisplayed()));
         appCompatTextView.perform(click());
 
         clickRandomItemTest();

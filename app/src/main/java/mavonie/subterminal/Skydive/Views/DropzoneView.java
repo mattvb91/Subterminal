@@ -16,11 +16,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import az.openweatherapi.model.gson.common.Coord;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Utils.Views.MapView;
 
 /**
@@ -43,7 +45,7 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_dropzone_view, container, false);
+        final View view = inflater.inflate(R.layout.fragment_dropzone_view, container, false);
 
         TextView name = (TextView) view.findViewById(R.id.dropzone_view_name);
         name.setText(getItem().getName());
@@ -63,7 +65,13 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
         TextView aircraft = (TextView) view.findViewById(R.id.dropzone_view_aircraft);
         aircraft.setText(getItem().getFormattedAircraft());
 
+
         if (getItem().isMapActive()) {
+            Coord coordinate = new Coord();
+            coordinate.setLat(getItem().getLatitude());
+            coordinate.setLon(getItem().getLongtitude());
+            UIHelper.initWeatherView(view, coordinate);
+
             mMapView = (MapView) view.findViewById(R.id.dropzone_view_map);
             mMapView.setVisibility(View.VISIBLE);
             mMapView.getMapAsync(this);

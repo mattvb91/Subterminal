@@ -2,11 +2,14 @@ package mavonie.subterminal.Models;
 
 
 import android.content.ContentValues;
+import android.os.AsyncTask;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mavonie.subterminal.Models.Skydive.Rig;
+import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**
@@ -88,6 +91,10 @@ public abstract class Synchronizable extends Model {
         //Check if this was a remote call and associate it with its original id
         if (this.remote_id != null) {
             contentValues.put(_ID, this.remote_id);
+
+            if (this._id == 0) {
+                this._id = this.remote_id;
+            }
         }
 
         super.populateContentValues(contentValues);
@@ -156,42 +163,63 @@ public abstract class Synchronizable extends Model {
     }
 
     /**
-     * Sync at startup. Make sure the sync order is
+     * Sync at startup. Make sure the sync order is. Do this on a seperate thread
      * Exits -> Gear -> Jump
      */
     public static void syncEntities() {
-        for (Exit exit : Exit.getExitsForSync()) {
-            exit.addSyncJob();
-        }
 
-        for (Exit exit : Exit.getExitsForDelete()) {
-            exit.addSyncJob();
-        }
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                for (Exit exit : Exit.getExitsForSync()) {
+                    exit.addSyncJob();
+                }
 
-        for (Gear gear : Gear.getGearForSync()) {
-            gear.addSyncJob();
-        }
+                for (Exit exit : Exit.getExitsForDelete()) {
+                    exit.addSyncJob();
+                }
 
-        for (Gear gear : Gear.getGearForDelete()) {
-            gear.addSyncJob();
-        }
+                for (Gear gear : Gear.getGearForSync()) {
+                    gear.addSyncJob();
+                }
 
-        for (Suit suit : Suit.getSuitsForSync()) {
-            suit.addSyncJob();
-        }
+                for (Gear gear : Gear.getGearForDelete()) {
+                    gear.addSyncJob();
+                }
 
-        for (Suit suit : Suit.getSuitsForDelete()) {
-            suit.addSyncJob();
-        }
+                for (Suit suit : Suit.getSuitsForSync()) {
+                    suit.addSyncJob();
+                }
 
+                for (Suit suit : Suit.getSuitsForDelete()) {
+                    suit.addSyncJob();
+                }
 
-        for (Jump jump : Jump.getJumpsForSync()) {
-            jump.addSyncJob();
-        }
+                for (Jump jump : Jump.getJumpsForSync()) {
+                    jump.addSyncJob();
+                }
 
-        for (Jump jump : Jump.getJumpsForDelete()) {
-            jump.addSyncJob();
-        }
+                for (Jump jump : Jump.getJumpsForDelete()) {
+                    jump.addSyncJob();
+                }
+
+                for (Rig rig : Rig.getRigsForSync()) {
+                    rig.addSyncJob();
+                }
+
+                for (Rig rig : Rig.getRigsForDelete()) {
+                    rig.addSyncJob();
+                }
+
+                for (Skydive skydive : Skydive.getSkydivesForSync()) {
+                    skydive.addSyncJob();
+                }
+
+                for (Skydive skydive : Skydive.getSkydivesForDelete()) {
+                    skydive.addSyncJob();
+                }
+            }
+        });
     }
 
     /**
@@ -200,10 +228,44 @@ public abstract class Synchronizable extends Model {
      * @return List
      */
     public List<Model> getActiveItems() {
+        return super.getItems(getActiveParams());
+    }
+
+    public static HashMap<String, Object> getActiveParams() {
         HashMap<String, Object> whereNotDeleted = new HashMap<>();
         whereNotDeleted.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
         whereNotDeleted.put(Model.FILTER_WHERE_VALUE, DELETED_FALSE.toString());
 
-        return super.getItems(whereNotDeleted);
+        return whereNotDeleted;
+    }
+
+    public static HashMap<String, Object> getSyncRequiredParams() {
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereSyncRequired = new HashMap<>();
+        whereSyncRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_SYNCED);
+        whereSyncRequired.put(Model.FILTER_WHERE_VALUE, SYNC_REQUIRED);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereSyncRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return params;
+    }
+
+    public static HashMap<String, Object> getDeleteRequiredParams() {
+        HashMap<String, Object> params = new HashMap<>();
+
+        HashMap<String, Object> whereDeleteRequired = new HashMap<>();
+        whereDeleteRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
+        whereDeleteRequired.put(Model.FILTER_WHERE_VALUE, DELETED_TRUE);
+
+        HashMap<Integer, HashMap> wheres = new HashMap<>();
+        wheres.put(wheres.size(), whereDeleteRequired);
+
+        params.put(Model.FILTER_WHERE, wheres);
+
+        return params;
     }
 }

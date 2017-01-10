@@ -321,35 +321,11 @@ public class Jump extends Synchronizable {
     }
 
     public static List<Jump> getJumpsForSync() {
-
-        HashMap<String, Object> params = new HashMap<>();
-
-        HashMap<String, Object> whereSyncRequired = new HashMap<>();
-        whereSyncRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_SYNCED);
-        whereSyncRequired.put(Model.FILTER_WHERE_VALUE, SYNC_REQUIRED);
-
-        HashMap<Integer, HashMap> wheres = new HashMap<>();
-        wheres.put(wheres.size(), whereSyncRequired);
-
-        params.put(Model.FILTER_WHERE, wheres);
-
-        return new Jump().getItems(params);
+        return new Jump().getItems(getSyncRequiredParams());
     }
 
-    //TODO these 2 methods should be merged
     public static List<Jump> getJumpsForDelete() {
-        HashMap<String, Object> params = new HashMap<>();
-
-        HashMap<String, Object> whereDeleteRequired = new HashMap<>();
-        whereDeleteRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
-        whereDeleteRequired.put(Model.FILTER_WHERE_VALUE, DELETED_TRUE);
-
-        HashMap<Integer, HashMap> wheres = new HashMap<>();
-        wheres.put(wheres.size(), whereDeleteRequired);
-
-        params.put(Model.FILTER_WHERE, wheres);
-
-        return new Jump().getItems(params);
+        return new Jump().getItems(getDeleteRequiredParams());
     }
 
     /**

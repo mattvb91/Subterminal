@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
+import az.openweatherapi.OWService;
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
@@ -29,6 +30,8 @@ import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.Rig;
+import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Models.User;
@@ -49,6 +52,7 @@ public class API {
     private retrofit2.Retrofit retrofit;
     private Gson gson;
     private Context context;
+    private OWService openWeather;
 
     public API(Context context) {
         this.context = context;
@@ -131,6 +135,19 @@ public class API {
     }
 
     /**
+     * Get an instance of the open weather service
+     *
+     * @return
+     */
+    public OWService getOpenWeatherClient() {
+        if (this.openWeather == null) {
+            this.openWeather = new OWService(Subterminal.getMetaData(this.context, "mavonie.subterminal.OPENWEATHER_API_KEY"));
+        }
+
+        return openWeather;
+    }
+
+    /**
      * Calls for startup
      */
     public void init() {
@@ -160,6 +177,8 @@ public class API {
                 downloadGear();
                 downloadSuits();
                 downloadJumps();
+                downloadSkydives();
+                downloadRigs();
 
                 Synchronizable.syncEntities();
             }
@@ -215,7 +234,7 @@ public class API {
                                 Dropzone.createOrUpdate(dropzone);
                             }
 
-                            Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_DROPZONES);
+                            Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_DROPZONES, response.headers().get("server_time"));
                             Once.markDone(CALLS_LIST_DROPZONES);
                         }
                     });
@@ -247,7 +266,7 @@ public class API {
                         suit.markSynced();
                     }
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT, response.headers().get("server_time"));
                 }
             }
 
@@ -272,7 +291,7 @@ public class API {
                         jump.markSynced();
                     }
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP, response.headers().get("server_time"));
                 }
             }
 
@@ -297,7 +316,7 @@ public class API {
                         exit.markSynced();
                     }
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS, response.headers().get("server_time"));
                 }
             }
 
@@ -323,7 +342,7 @@ public class API {
                     for (Gear gear : gears) {
                         gear.markSynced();
                     }
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR, response.headers().get("server_time"));
                 }
             }
 
@@ -496,7 +515,7 @@ public class API {
                 if (response.isSuccessful()) {
                     exit.markSynced();
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS, response.headers().get("server_time"));
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -560,7 +579,7 @@ public class API {
                 if (response.isSuccessful()) {
                     gear.markSynced();
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR, response.headers().get("server_time"));
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -604,7 +623,7 @@ public class API {
                 if (response.isSuccessful()) {
                     jump.markSynced();
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP, response.headers().get("server_time"));
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -627,7 +646,7 @@ public class API {
                 if (response.isSuccessful()) {
                     suit.markSynced();
 
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT);
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT, response.headers().get("server_time"));
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -651,6 +670,142 @@ public class API {
                     suit.delete();
                 }
                 UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void deleteRig(final Rig rig) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call deleteRig = this.getEndpoints().deleteRig(rig.getId());
+        deleteRig.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful() || response.code() == 403) {
+                    rig.delete();
+                }
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void syncRig(final Rig rig) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call syncRig = this.getEndpoints().syncRig(rig);
+        syncRig.enqueue(new Callback<Jump>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    rig.markSynced();
+
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG, response.headers().get("server_time"));
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void deleteSkydive(final Skydive skydive) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call deleteSkydive = this.getEndpoints().deleteSkydive(skydive.getId());
+        deleteSkydive.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful() || response.code() == 403) {
+                    skydive.delete();
+                }
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void syncSkydive(final Skydive skydive) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call syncSkydive = this.getEndpoints().syncSkydive(skydive);
+        syncSkydive.enqueue(new Callback<Jump>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    skydive.markSynced();
+
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE, response.headers().get("server_time"));
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+
+    private void downloadSkydives() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+        Call mySkydives = this.getEndpoints().downloadSkydives(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE));
+
+        mySkydives.enqueue(new Callback<List<Skydive>>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    for (Skydive skydive : (List<Skydive>) response.body()) {
+                        skydive.markSynced();
+                    }
+
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE, response.headers().get("server_time"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void downloadRigs() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+        Call myRigs = this.getEndpoints().downloadRigs(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG));
+
+        myRigs.enqueue(new Callback<List<Rig>>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    List<Rig> rigs = (List) response.body();
+                    for (Rig rig : rigs) {
+                        rig.markSynced();
+                    }
+
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG, response.headers().get("server_time"));
+                }
             }
 
             @Override

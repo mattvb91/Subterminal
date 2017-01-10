@@ -1,9 +1,14 @@
 package mavonie.subterminal.Models.Skydive;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import mavonie.subterminal.Jobs.Skydive.SyncRig;
+import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Synchronizable;
+import mavonie.subterminal.Utils.Subterminal;
 
 
 /**
@@ -50,7 +55,8 @@ public class Rig extends Synchronizable {
 
     @Override
     public void addSyncJob() {
-
+        Subterminal.getJobManager(MainActivity.getActivity())
+                .addJobInBackground(new SyncRig(this));
     }
 
     private static Map<String, Integer> dbColumns = null;
@@ -266,5 +272,36 @@ public class Rig extends Synchronizable {
      */
     public String getDisplayName() {
         return container_manufacturer + " - " + main_manufacturer + " " + main_model;
+    }
+
+    public static List<Rig> getRigsForSync() {
+        return new Rig().getItems(getSyncRequiredParams());
+    }
+
+    public static List<Rig> getRigsForDelete() {
+        return new Rig().getItems(getDeleteRequiredParams());
+    }
+
+    @Override
+    public boolean delete() {
+        for (Skydive skydive : this.getSkydives()) {
+            skydive.setRigId(null);
+            skydive.save();
+        }
+
+        return super.delete();
+    }
+
+    /**
+     * Get all jumps associated with this piece of gear
+     *
+     * @return List
+     */
+    public List<Skydive> getSkydives() {
+        HashMap<String, Object> whereRigId = new HashMap<>();
+        whereRigId.put(Model.FILTER_WHERE_FIELD, Skydive.COLUMN_NAME_JUMP_RIG_ID);
+        whereRigId.put(Model.FILTER_WHERE_VALUE, Integer.toString(this.getId()));
+
+        return new Skydive().getItems(whereRigId);
     }
 }

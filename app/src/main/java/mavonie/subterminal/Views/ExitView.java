@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import az.openweatherapi.model.gson.common.Coord;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.R;
@@ -136,6 +137,11 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         });
 
         if (getItem().isMapActive()) {
+            Coord coordinate = new Coord();
+            coordinate.setLat(getItem().getLatitude());
+            coordinate.setLon(getItem().getLongtitude());
+            UIHelper.initWeatherView(view, coordinate);
+
             mMapView = (MapView) view.findViewById(R.id.exit_view_map);
             mMapView.setVisibility(View.VISIBLE);
             mMapView.getMapAsync(this);
