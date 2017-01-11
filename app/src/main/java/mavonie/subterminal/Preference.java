@@ -30,7 +30,9 @@ import java.util.concurrent.TimeUnit;
 import de.cketti.library.changelog.ChangeLog;
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Jump;
+import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Synchronizable;
+import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
@@ -46,6 +48,7 @@ public class Preference extends BaseFragment {
     public static final String PREFS_DEFAULT_SLIDER = "PREFS_DEFAULT_SLIDER";
     public static final String PREFS_DEFAULT_PC = "PREFS_DEFAULT_PC";
     public static final String PREFS_DEFAULT_JUMP_TYPE = "PREFS_DEFAULT_JUMP_TYPE";
+    public static final String PREFS_DEFAULT_AIRCRAFT = "PREFS_DEFAULT_AIRCRAFT";
     public static final String PREFS_MODE = "PREFS_MODE";
 
     public static final String PREFS_SKYDIVE_START_COUNT = "PREFS_SKYDIVE_START_COUNT";
@@ -264,6 +267,31 @@ public class Preference extends BaseFragment {
         });
         /**
          * End PC Size Spinner
+         */
+
+        /**
+         * Aircraft Spinner
+         */
+        final Spinner aircraftSpinner = (Spinner) view.findViewById(R.id.preference_default_aircraft_value);
+
+        final LinkedHashMapAdapter aircraftAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
+        aircraftAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        aircraftSpinner.setAdapter(aircraftAdapter);
+        aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Prefs.getInt(PREFS_DEFAULT_AIRCRAFT, 1)), false);
+        aircraftSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Prefs.putInt(PREFS_DEFAULT_AIRCRAFT, Integer.parseInt(aircraftAdapter.getItem(i).getKey().toString()));
+                UIHelper.toast(getString(R.string.settings_updated));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        /**
+         * End Aircraft Spinner
          */
 
         return view;
