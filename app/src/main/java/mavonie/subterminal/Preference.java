@@ -33,6 +33,7 @@ import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.BaseFragment;
@@ -52,6 +53,7 @@ public class Preference extends BaseFragment {
     public static final String PREFS_DEFAULT_JUMP_TYPE = "PREFS_DEFAULT_JUMP_TYPE";
     public static final String PREFS_DEFAULT_AIRCRAFT = "PREFS_DEFAULT_AIRCRAFT";
     public static final String PREFS_DEFAULT_DROPZONE = "PREFS_DEFAULT_DROPZONE";
+    public static final String PREFS_DEFAULT_SKYDIVE_TYPE = "PREFS_DEFAULT_SKYDIVE_TYPE";
     public static final String PREFS_MODE = "PREFS_MODE";
 
     public static final String PREFS_SKYDIVE_START_COUNT = "PREFS_SKYDIVE_START_COUNT";
@@ -311,9 +313,6 @@ public class Preference extends BaseFragment {
                 Prefs.putInt(PREFS_DEFAULT_DROPZONE, Integer.parseInt(dropzoneAdapter.getItem(position).getKey().toString()));
                 UIHelper.toast(getString(R.string.settings_updated));
                 dropzone.setText(dropzoneAdapter.getItem(position).getValue().toString());
-
-                InputMethodManager imm = (InputMethodManager) MainActivity.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         });
 
@@ -323,6 +322,32 @@ public class Preference extends BaseFragment {
         }
         /**
          * End Dropzone AutoCompleteTextView
+         */
+
+
+        /**
+         * Jump type Spinner
+         */
+        Spinner jumpType = (Spinner) view.findViewById(R.id.preference_default_skydive_type_value);
+        final LinkedHashMapAdapter jumpTypesAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Skydive.getJumpTypes());
+        jumpTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jumpType.setAdapter(jumpTypesAdapter);
+
+        jumpType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Prefs.putInt(PREFS_DEFAULT_SKYDIVE_TYPE, (int) jumpTypesAdapter.getItem(position).getKey());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(Prefs.getInt(PREFS_DEFAULT_SKYDIVE_TYPE, Skydive.SKYDIVE_TYPE_BELLY)));
+        /**
+         * Jump type Spinner
          */
 
         return view;
