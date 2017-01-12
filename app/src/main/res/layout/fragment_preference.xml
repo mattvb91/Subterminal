@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Skydive" />
+                android:text="Skydive Defaults" />
 
             <TableRow android:paddingTop="10dp">
 
@@ -85,12 +85,38 @@
                 android:paddingTop="10dp">
 
                 <TextView
+                    android:id="@+id/preference_default_dz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:text="Home DZ"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/preference_default_dz_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="3"
+                    android:imeOptions="actionNext"
+                    android:lines="1" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp">
+
+                <TextView
                     android:id="@+id/preference_default_aircraft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:ellipsize="marquee"
-                    android:text="Default Aircraft"
+                    android:text="Aircraft"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <Spinner
@@ -114,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="B.A.S.E" />
+                android:text="B.A.S.E Defaults" />
 
             <TableRow
                 android:layout_width="match_parent"
@@ -181,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:ellipsize="marquee"
-                    android:text="Default jump type"
+                    android:text="Jump type"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <Spinner

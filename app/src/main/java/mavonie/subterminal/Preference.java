@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -31,6 +32,7 @@ import de.cketti.library.changelog.ChangeLog;
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Skydive.Aircraft;
+import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.BaseFragment;
@@ -49,6 +51,7 @@ public class Preference extends BaseFragment {
     public static final String PREFS_DEFAULT_PC = "PREFS_DEFAULT_PC";
     public static final String PREFS_DEFAULT_JUMP_TYPE = "PREFS_DEFAULT_JUMP_TYPE";
     public static final String PREFS_DEFAULT_AIRCRAFT = "PREFS_DEFAULT_AIRCRAFT";
+    public static final String PREFS_DEFAULT_DROPZONE = "PREFS_DEFAULT_DROPZONE";
     public static final String PREFS_MODE = "PREFS_MODE";
 
     public static final String PREFS_SKYDIVE_START_COUNT = "PREFS_SKYDIVE_START_COUNT";
@@ -292,6 +295,34 @@ public class Preference extends BaseFragment {
         });
         /**
          * End Aircraft Spinner
+         */
+
+        /**
+         * Dropzone AutoCompleteTextView
+         */
+        final AutoCompleteTextView dropzone = (AutoCompleteTextView) view.findViewById(R.id.preference_default_dz_value);
+        final LinkedHashMapAdapter dropzoneAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity().getApplicationContext(), R.layout.item_simple, new Dropzone().getItemsForSelect("name"), LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE);
+        dropzoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropzone.setAdapter(dropzoneAdapter);
+        dropzone.setThreshold(2);
+        dropzone.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Prefs.putInt(PREFS_DEFAULT_DROPZONE, Integer.parseInt(dropzoneAdapter.getItem(position).getKey().toString()));
+                UIHelper.toast(getString(R.string.settings_updated));
+                dropzone.setText(dropzoneAdapter.getItem(position).getValue().toString());
+
+                InputMethodManager imm = (InputMethodManager) MainActivity.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        });
+
+        if (Prefs.getInt(PREFS_DEFAULT_DROPZONE, 0) != 0) {
+            Dropzone dbDropzone = (Dropzone) new Dropzone().getOneById(Prefs.getInt(PREFS_DEFAULT_DROPZONE, 0));
+            dropzone.setText(dbDropzone.getName());
+        }
+        /**
+         * End Dropzone AutoCompleteTextView
          */
 
         return view;
