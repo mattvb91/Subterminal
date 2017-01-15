@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.1.5"
+        versioncode="21">
+        <change>Updated SSL cert to fix server contact issues.</change>
+        <change>Added Skydive preference defaults</change>
+    </release>
+    <release
         version="1.1.4"
         versioncode="20">
         <change>Hotfix: Prevent crash on initial startup</change>

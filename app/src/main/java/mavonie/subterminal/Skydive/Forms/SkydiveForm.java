@@ -87,6 +87,12 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         dropzone.setThreshold(2);
         dropzone.setOnItemClickListener(this);
 
+        if (Prefs.getInt(Preference.PREFS_DEFAULT_DROPZONE, 0) != 0) {
+            Dropzone dz = (Dropzone) new Dropzone().getOneById(Prefs.getInt(Preference.PREFS_DEFAULT_DROPZONE, 0));
+            this.dropzone.setText(dz.getName());
+            this.dropzoneEntry = this.dropzonesAdapter.getItem(this.dropzonesAdapter.findPositionFromKey(dz.getId()));
+        }
+
         DateFormat df = new DateFormat();
         date.setText(df.format(calendar.getTime()));
 
@@ -139,7 +145,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         aircraftAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
         aircraftAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         aircraftSpinner.setAdapter(aircraftAdapter);
-        aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_AIRCRAFT, 1)), false);
+        aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_AIRCRAFT, 1)));
         aircraftSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -156,7 +162,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         jumpTypesAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Skydive.getJumpTypes());
         jumpTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpType.setAdapter(jumpTypesAdapter);
-
+        jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_SKYDIVE_TYPE, Skydive.SKYDIVE_TYPE_BELLY)));
         jumpType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
