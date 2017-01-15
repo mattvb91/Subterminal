@@ -4,7 +4,8 @@
         version="1.1.5"
         versioncode="21">
         <change>Updated SSL cert to fix server contact issues.</change>
-        <change>Added Skydive preference defaults</change>
+        <change>Added DZ, Aircraft, Jump Type preference defaults</change>
+        <change>Preperation for height unit selection (m/ft) (Next update will allow changing units)</change>
     </release>
     <release
         version="1.1.4"
