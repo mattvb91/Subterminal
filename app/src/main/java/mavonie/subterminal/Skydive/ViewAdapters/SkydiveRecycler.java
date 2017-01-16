@@ -95,7 +95,9 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
                 holder.mView.findViewById(R.id.skydive_list_thumb_layout).setVisibility(View.GONE);
             }
 
-            holder.listAircraft.setText("Aircraft: " + holder.mItem.getAircraft().getName());
+            if(holder.mItem.getAircraft() != null) {
+                holder.listAircraft.setText("Aircraft: " + holder.mItem.getAircraft().getName());
+            }
 
             if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced())) {
                 int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
