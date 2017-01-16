@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/image_bg"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/thumbnail"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:gravity="center" />
+
+
+    <ImageView
+        android:id="@+id/skydive_list_synchronized"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/thumbnail"
+        android:layout_gravity="right"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="-10dp"
+        android:src="@drawable/synchronized_circle" />
+
+</LinearLayout>

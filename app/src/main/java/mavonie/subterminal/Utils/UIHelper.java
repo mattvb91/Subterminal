@@ -44,6 +44,7 @@ import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.JumpForm;
 import mavonie.subterminal.Forms.SuitForm;
+import mavonie.subterminal.Gallery;
 import mavonie.subterminal.Gear;
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
@@ -72,6 +73,7 @@ public class UIHelper {
     private static final int FRAGMENT_GEAR = R.id.nav_gear;
     private static final int FRAGMENT_EXIT = R.id.nav_exits;
     private static final int FRAGMENT_SKYDIVES = R.id.skydiving_nav_jumps;
+    private static final int FRAGMENT_GALLERY = R.id.nav_gallery;
 
     private static FloatingActionButton addButton;
 
@@ -192,6 +194,10 @@ public class UIHelper {
             case R.id.skydiving_nav_gear:
                 fragmentClass = new mavonie.subterminal.Skydive.Gear();
                 getAddButton().show();
+                break;
+            case R.id.nav_gallery:
+                fragmentClass = new Gallery();
+                getAddButton().hide();
                 break;
         }
 
