@@ -14,7 +14,7 @@
 
 
     <ImageView
-        android:id="@+id/skydive_list_synchronized"
+        android:id="@+id/synchronized_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

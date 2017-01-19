@@ -22,9 +22,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import mavonie.subterminal.Jobs.SyncImage;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.Subterminal;
 
 
 /**
@@ -283,7 +285,8 @@ public class Image extends Synchronizable {
 
     @Override
     public void addSyncJob() {
-
+        Subterminal.getJobManager(MainActivity.getActivity())
+                .addJobInBackground(new SyncImage(this));
     }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -307,5 +310,9 @@ public class Image extends Synchronizable {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    public static List<Image> getImagesForSync() {
+        return new Image().getItems(getSyncRequiredParams());
     }
 }

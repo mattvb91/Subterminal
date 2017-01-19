@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.stripe.android.model.Token;
 import com.stripe.model.Charge;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -26,6 +27,7 @@ import az.openweatherapi.OWService;
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.Skydive.Aircraft;
@@ -38,7 +40,10 @@ import mavonie.subterminal.Models.User;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
 import mavonie.subterminal.Utils.Api.Intercepter;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -805,6 +810,33 @@ public class API {
                     }
 
                     Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG, response.headers().get("server_time"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void deleteImage(Image image) {
+    }
+
+    public void syncImage(final Image image) {
+        File file = new File(image.getFullPath());
+        MultipartBody.Part test = MultipartBody.Part.createFormData("image", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+
+        Call call = Subterminal.getApi().getEndpoints().uploadImage(test, image.getEntityId(), image.getEntityType());
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+
+                if (response.isSuccessful()) {
+                    image.markSynced();
+
+                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_IMAGE, response.headers().get("server_time"));
                 }
             }
 

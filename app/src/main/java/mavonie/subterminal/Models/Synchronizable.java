@@ -218,6 +218,10 @@ public abstract class Synchronizable extends Model {
                 for (Skydive skydive : Skydive.getSkydivesForDelete()) {
                     skydive.addSyncJob();
                 }
+
+                for (Image image : Image.getImagesForSync()) {
+                    image.addSyncJob();
+                }
             }
         });
     }
