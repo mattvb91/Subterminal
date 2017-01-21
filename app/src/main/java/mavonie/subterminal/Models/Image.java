@@ -20,6 +20,7 @@ import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import mavonie.subterminal.Jobs.DownloadImage;
 import mavonie.subterminal.Jobs.SyncImage;
@@ -256,7 +257,7 @@ public class Image extends Synchronizable {
 
     @NonNull
     public static String generateFilename() {
-        return "Image_" + new Image().getNextAutoIncrement() + ".jpg";
+        return "Image_" + new Random().nextInt(10000) + new Image().getNextAutoIncrement() + ".jpg";
     }
 
     private static void copy(File src, File dst) throws IOException {
@@ -342,7 +343,7 @@ public class Image extends Synchronizable {
 
         @Override
         public void run() {
-            for (final Image image : this.images) {
+            for (Image image : this.images) {
                 Subterminal.getJobManager(MainActivity.getActivity()).addJobInBackground(new DownloadImage(image));
             }
 

@@ -32,12 +32,12 @@ public class DownloadImage extends Job {
     private Image image;
 
     public DownloadImage(Image image) {
-        super(new Params(1).requireNetwork().persist().addTags(image.getJobTag() + "_DOWNLOAD"));
+        super(new Params(1).requireNetwork().persist().addTags(image.getFilename() + "_DOWNLOAD"));
         this.image = image;
 
         //Cancel previous
         Subterminal.getJobManager(MainActivity.getActivity())
-                .cancelJobsInBackground(null, TagConstraint.ANY, this.image.getJobTag() + "_DOWNLOAD");
+                .cancelJobsInBackground(null, TagConstraint.ANY, this.image.getFilename() + "_DOWNLOAD");
     }
 
     @Override
