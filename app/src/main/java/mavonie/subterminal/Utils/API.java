@@ -55,6 +55,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class API {
 
     private retrofit2.Retrofit retrofit;
+    private OkHttpClient okHttpClient;
     private Gson gson;
     private Context context;
     private OWService openWeather;
@@ -78,7 +79,7 @@ public class API {
     private retrofit2.Retrofit getClient() {
 
         if (this.retrofit == null) {
-            OkHttpClient okHttpClient = null;
+            this.okHttpClient = null;
             String apiUrl = null;
 
             try {
@@ -99,7 +100,7 @@ public class API {
                 SSLContext sslContext = SSLContext.getInstance("TLS");
                 sslContext.init(null, tmf.getTrustManagers(), null);
 
-                okHttpClient = new OkHttpClient.Builder().addInterceptor(new Intercepter(this.context))
+                this.okHttpClient = new OkHttpClient.Builder().addInterceptor(new Intercepter(this.context))
                         .sslSocketFactory(sslContext.getSocketFactory())
                         .build();
 
@@ -112,7 +113,7 @@ public class API {
             // creating a RestAdapter using the custom client
             this.retrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(apiUrl).addConverterFactory(GsonConverterFactory.create(this.getGson()))
-                    .client(okHttpClient)
+                    .client(this.okHttpClient)
                     .build();
         }
 
@@ -186,6 +187,7 @@ public class API {
                 downloadRigs();
 
                 Synchronizable.syncEntities();
+                downloadImages();
             }
         }
     }
@@ -820,14 +822,35 @@ public class API {
         });
     }
 
+    private void downloadImages() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+        Call myImages = this.getEndpoints().downloadImages(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_IMAGE));
+
+        myImages.enqueue(new Callback<List<Rig>>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    List<Image> images = (List) response.body();
+                    Image.downloadImages(images, response.headers().get("server_time"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
     public void deleteImage(Image image) {
     }
 
     public void syncImage(final Image image) {
         File file = new File(image.getFullPath());
-        MultipartBody.Part test = MultipartBody.Part.createFormData("image", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
 
-        Call call = Subterminal.getApi().getEndpoints().uploadImage(test, image.getEntityId(), image.getEntityType());
+        Call call = Subterminal.getApi().getEndpoints().uploadImage(imagePart, image.getEntityType(), image.getEntityId());
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -845,5 +868,9 @@ public class API {
                 UIHelper.setProgressBarVisibility(View.GONE);
             }
         });
+    }
+
+    public OkHttpClient getOkHttpClient() {
+        return this.okHttpClient;
     }
 }

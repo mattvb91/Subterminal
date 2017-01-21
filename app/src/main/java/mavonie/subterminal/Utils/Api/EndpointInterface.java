@@ -8,6 +8,7 @@ import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.Skydive.Aircraft;
@@ -124,5 +125,9 @@ public interface EndpointInterface {
 
     @GET("user/skydives")
     Call<List<Skydive>> downloadSkydives(
+            @Query("last_sync") String lastSync);
+
+    @GET("user/images")
+    Call<List<Image>> downloadImages(
             @Query("last_sync") String lastSync);
 }
