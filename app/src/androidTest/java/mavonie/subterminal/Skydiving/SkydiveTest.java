@@ -16,10 +16,15 @@ import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
 import mavonie.subterminal.BaseTest;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.MainActivityTest;
+import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Subterminal;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -71,8 +76,11 @@ public class SkydiveTest extends BaseTest {
                 withId(R.id.skydive_edit_aircraft));
         appCompatSpinner.perform(scrollTo(), click());
 
+        LinkedHashMapAdapter aircraftAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
+        Map.Entry AircraftEntry = aircraftAdapter.getItem(aircraftAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_AIRCRAFT, 1)));
+
         ViewInteraction appCompatCheckedTextView2 = onView(
-                allOf(withId(android.R.id.text1), withText("Atlas Angel"), isDisplayed()));
+                allOf(withId(android.R.id.text1), withText(AircraftEntry.getValue().toString()), isDisplayed()));
         appCompatCheckedTextView2.perform(click());
 
         ViewInteraction appCompatSpinner2 = onView(
@@ -130,14 +138,14 @@ public class SkydiveTest extends BaseTest {
 //        textView3.check(matches(withText("Irish Parachute Club")));
 
         ViewInteraction textView4 = onView(
-                allOf(withId(R.id.skydive_view_aircraft), withText("Atlas Angel"),
+                allOf(withId(R.id.skydive_view_aircraft), withText(AircraftEntry.getValue().toString()),
                         childAtPosition(
                                 childAtPosition(
                                         IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class),
                                         2),
                                 1),
                         isDisplayed()));
-        textView4.check(matches(withText("Atlas Angel")));
+        textView4.check(matches(withText(AircraftEntry.getValue().toString())));
 
         ViewInteraction textView5 = onView(
                 allOf(withId(R.id.skydive_view_jump_type), withText("Tracking"),

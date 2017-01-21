@@ -147,7 +147,7 @@ public class SettingsTest extends BaseTest {
     }
 
     @Test
-    public void defaultSliderTest() {
+    public void testBaseDefaults() {
 
         MainActivityTest.testBaseMode();
 
