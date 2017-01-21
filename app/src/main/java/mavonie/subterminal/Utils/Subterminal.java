@@ -144,7 +144,9 @@ public class Subterminal {
 
         Once.initialise(activity);
 
-        Fresco.initialize(activity);
+        if (!Fresco.hasBeenInitialized()) {
+            Fresco.initialize(activity);
+        }
 
         getUser().init();
 
