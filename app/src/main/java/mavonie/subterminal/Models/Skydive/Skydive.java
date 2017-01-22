@@ -33,7 +33,8 @@ public class Skydive extends Synchronizable {
             jump_type,
             aircraft_id,
             rig_id,
-            height_unit;
+            height_unit,
+            suit_id;
 
     //use this to get the current position from the query
     private int row_id;
@@ -51,6 +52,7 @@ public class Skydive extends Synchronizable {
     public static final String COLUMN_NAME_JUMP_TYPE = "jump_type";
     public static final String COLUMN_NAME_JUMP_RIG_ID = "rig_id";
     public static final String COLUMN_NAME_JUMP_HEIGHT_UNIT = "height_unit";
+    public static final String COLUMN_NAME_SUIT_ID = "suit_id";
     /* END DB DEFINITIONS*/
 
     @Override
@@ -77,6 +79,7 @@ public class Skydive extends Synchronizable {
             dbColumns.put(COLUMN_NAME_JUMP_RIG_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_AIRCRAFT_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_JUMP_HEIGHT_UNIT, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_SUIT_ID, TYPE_INTEGER);
             dbColumns.put("row_id", TYPE_OTHER);
 
             Synchronizable.setDBColumns(dbColumns);
@@ -275,6 +278,14 @@ public class Skydive extends Synchronizable {
         this.aircraft_id = aircraft_id;
     }
 
+    public Integer getSuitId() {
+        return suit_id;
+    }
+
+    public void setSuitId(Integer suit_id) {
+        this.suit_id = suit_id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -294,6 +305,8 @@ public class Skydive extends Synchronizable {
         if (aircraft_id != null ? !aircraft_id.equals(skydive.aircraft_id) : skydive.aircraft_id != null)
             return false;
         if (height_unit != null ? !height_unit.equals(skydive.height_unit) : skydive.height_unit != null)
+            return false;
+        if (suit_id != null ? !suit_id.equals(skydive.suit_id) : skydive.suit_id != null)
             return false;
         return jump_type != null ? jump_type.equals(skydive.jump_type) : skydive.jump_type == null;
 

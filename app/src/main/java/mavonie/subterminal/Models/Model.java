@@ -334,6 +334,8 @@ abstract public class Model implements BaseColumns, Serializable {
                             contentValues.put(entry.getKey(), (String) obj);
                             break;
                     }
+                } else {
+                    contentValues.putNull(entry.getKey());
                 }
             } catch (IllegalAccessException | InvocationTargetException | NullPointerException e) {
                 e.printStackTrace();

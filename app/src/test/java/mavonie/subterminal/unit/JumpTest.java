@@ -1,5 +1,6 @@
 package mavonie.subterminal.unit;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.List;
 
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static junit.framework.Assert.assertEquals;
@@ -88,5 +90,21 @@ public class JumpTest extends BaseDBUnit {
         jump.save();
 
         return jump;
+    }
+
+    @Test
+    public void addRemoveSuitTest() {
+        Jump jump = createJump();
+
+        Suit suit = GearTest.createSuit();
+        jump.setSuitId(suit.getId());
+        jump.save();
+
+        Assert.assertTrue(jump.equals(new Jump().getOneById(jump.getId())));
+
+        jump.setSuitId(null);
+        jump.save();
+
+        Assert.assertTrue(jump.equals(new Jump().getOneById(jump.getId())));
     }
 }

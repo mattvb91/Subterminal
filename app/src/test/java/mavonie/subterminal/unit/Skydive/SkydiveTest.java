@@ -13,8 +13,10 @@ import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.DropzoneAircraft;
 import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
+import mavonie.subterminal.unit.GearTest;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -45,6 +47,25 @@ public class SkydiveTest extends BaseDBUnit {
         List skydives = new Skydive().getItems(params);
 
         assertNotNull(skydives);
+    }
+
+    @Test
+    public void addRemoveSuitTest() {
+        Skydive skydive = createSkydive();
+        assertTrue(skydive.exists());
+
+        Assert.assertTrue(skydive.equals(new Skydive().getOneById(skydive.getId())));
+
+        Suit suit = GearTest.createSuit();
+        skydive.setSuitId(suit.getId());
+        skydive.save();
+
+        Assert.assertTrue(skydive.equals(new Skydive().getOneById(skydive.getId())));
+
+        skydive.setSuitId(null);
+        skydive.save();
+
+        Assert.assertTrue(skydive.equals(new Skydive().getOneById(skydive.getId())));
     }
 
 
