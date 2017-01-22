@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -62,6 +63,8 @@ import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
 import mavonie.subterminal.Views.Premium.PremiumView;
 import uk.me.lewisdeane.ldialogs.CustomListDialog;
+
+import static mavonie.subterminal.Preference.PREFS_DEFAULT_HEIGHT_UNIT;
 
 /**
  * Class to deal with UI/Fragment navigation components
@@ -541,5 +544,15 @@ public class UIHelper {
                 windView.setVisibility(View.GONE);
             }
         });
+    }
+
+    public static void prefillHeightUnit(RadioGroup heightUnit) {
+        heightUnit.setOnCheckedChangeListener(null);
+
+        if (Prefs.getInt(PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+            heightUnit.check(R.id.radio_imperial);
+        } else {
+            heightUnit.check(R.id.radio_metric);
+        }
     }
 }

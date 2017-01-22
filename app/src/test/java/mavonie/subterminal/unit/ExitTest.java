@@ -13,6 +13,7 @@ import mavonie.subterminal.Models.ExitDetails;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -67,6 +68,7 @@ public class ExitTest extends BaseDBUnit {
         exit.setLongtitude(24.30456);
         exit.setGlobalId("testing");
         exit.setObjectType(Exit.TYPE_EARTH);
+        exit.setHeightUnit(Subterminal.HEIGHT_UNIT_IMPERIAL);
 
         ExitDetails details = new ExitDetails();
         details.setExitId(exit.getId());
@@ -99,6 +101,7 @@ public class ExitTest extends BaseDBUnit {
         exit.setLatitude(59.02342);
         exit.setLongtitude(24.30456);
         exit.setObjectType(Exit.TYPE_EARTH);
+        exit.setHeightUnit(Subterminal.HEIGHT_UNIT_IMPERIAL);
         exit.save();
 
         return exit;

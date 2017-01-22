@@ -38,8 +38,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="3"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -112,6 +112,35 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent" />
 
+
+        <TextView
+            android:id="@+id/skydive_edit_height_unit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Height Unit"
+            android:textSize="7pt"></TextView>
+
+
+        <RadioGroup
+            android:id="@+id/height_unit_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_metric"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Metric (m)" />
+
+            <RadioButton
+                android:id="@+id/radio_imperial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Imperial (ft)" />
+        </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"

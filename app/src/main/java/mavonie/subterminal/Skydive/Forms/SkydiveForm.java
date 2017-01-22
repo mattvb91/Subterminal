@@ -7,6 +7,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 
 
 /**
@@ -44,6 +47,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             date,
             exit_altitude,
             deploy_altitude;
+
+    private RadioGroup heightUnit;
 
     private LinkedHashMap<String, String> dropzoneNames;
     LinkedHashMapAdapter<String, String> dropzonesAdapter;
@@ -175,6 +180,9 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             }
         });
 
+        heightUnit = (RadioGroup) view.findViewById(R.id.height_unit_radio_group);
+        UIHelper.prefillHeightUnit(heightUnit);
+
         Button button = (Button) view.findViewById(R.id.skydive_save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -206,6 +214,14 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
             if (jumpTypeEntry != null) {
                 getItem().setJumpType(jumpTypeEntry.getKey());
+            }
+
+            //Height unit check
+            RadioButton radioButton = (RadioButton) getView().findViewById(R.id.radio_metric);
+            if (radioButton.isChecked()) {
+                getItem().setHeightUnit(Subterminal.HEIGHT_UNIT_METRIC);
+            } else {
+                getItem().setHeightUnit(Subterminal.HEIGHT_UNIT_IMPERIAL);
             }
 
             String delayString = delay.getText().toString();
@@ -255,6 +271,12 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             }
 
             description.setText(getItem().getDescription());
+
+            if (getItem().getHeightUnit() == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                heightUnit.check(R.id.radio_imperial);
+            } else {
+                heightUnit.check(R.id.radio_metric);
+            }
 
             if (getItem().getExitAltitude() != null) {
                 exit_altitude.setText(Integer.toString(getItem().getExitAltitude()));

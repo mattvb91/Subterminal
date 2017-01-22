@@ -356,13 +356,7 @@ public class Preference extends BaseFragment {
 
 
         RadioGroup heightUnit = (RadioGroup) view.findViewById(R.id.height_unit_radio_group);
-
-        heightUnit.setOnCheckedChangeListener(null);
-        if (Prefs.getInt(PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
-            heightUnit.check(R.id.radio_imperial);
-        } else {
-            heightUnit.check(R.id.radio_metric);
-        }
+        UIHelper.prefillHeightUnit(heightUnit);
 
         heightUnit.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

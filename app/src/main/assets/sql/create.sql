@@ -24,6 +24,7 @@ CREATE TABLE exit (
     latitude DOUBLE,
     longtitude DOUBLE,
     object_type INTEGER,
+    height_unit INTEGER DEFAULT 0,
     synced INTEGER DEFAULT 0,
     deleted INTEGER DEFAULT 0);
 
@@ -100,6 +101,7 @@ CREATE TABLE skydive (
         delay INTEGER,
         description TEXT,
         jump_type INTEGER,
+        height_unit INTEGER DEFAULT 1,
         synced INTEGER DEFAULT 0,
         deleted INTEGER DEFAULT 0
 );
