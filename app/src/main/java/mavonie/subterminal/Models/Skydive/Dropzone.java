@@ -169,6 +169,10 @@ public class Dropzone extends Model {
         this.country = country;
     }
 
+    public void setDropzoneAircraft(List<DropzoneAircraft> dropzone_aircraft) {
+        this.dropzone_aircraft = dropzone_aircraft;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
