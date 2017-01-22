@@ -233,11 +233,8 @@ public class Exit extends Synchronizable {
      * @return boolean
      */
     public boolean isMapActive() {
-        if (this.getLatitude() != 0.00 && this.getLongtitude() != 0.00) {
-            return true;
-        }
+        return this.getLatitude() != 0.00 && this.getLongtitude() != 0.00;
 
-        return false;
     }
 
     /**

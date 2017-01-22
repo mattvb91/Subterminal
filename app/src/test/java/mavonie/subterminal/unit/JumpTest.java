@@ -36,7 +36,7 @@ public class JumpTest extends BaseDBUnit {
         Jump jump = createJump();
 
         assertEquals(jump.getFormattedSlider(), "Down");
-        jump.setSlider(jump.SLIDER_UP);
+        jump.setSlider(Jump.SLIDER_UP);
         assertEquals(jump.getFormattedSlider(), "Up");
     }
 

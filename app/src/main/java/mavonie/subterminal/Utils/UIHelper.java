@@ -339,7 +339,7 @@ public class UIHelper {
      * Update layout for logged in user
      */
     public static void userLoggedIn() {
-        MenuItem item = (MenuItem) MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
+        MenuItem item = MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
         item.setVisible(false);
 
         NavigationView nav = MainActivity.getActivity().getNavigationView();
@@ -440,7 +440,7 @@ public class UIHelper {
     }
 
     public static void userPremium() {
-        MenuItem item = (MenuItem) MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_premium);
+        MenuItem item = MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_premium);
         item.setVisible(false);
     }
 

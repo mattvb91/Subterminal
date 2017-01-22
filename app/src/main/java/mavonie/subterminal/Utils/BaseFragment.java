@@ -61,7 +61,7 @@ public abstract class BaseFragment extends Fragment {
                 try {
                     Class<?> clazz = Class.forName(this.getItemClass());
                     Constructor<?> ctor = clazz.getConstructor();
-                    Object object = ctor.newInstance(new Object[]{});
+                    Object object = ctor.newInstance();
 
                     this._item = (Model) object;
 

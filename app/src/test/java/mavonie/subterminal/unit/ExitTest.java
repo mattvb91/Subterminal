@@ -73,14 +73,14 @@ public class ExitTest extends BaseDBUnit {
         ExitDetails details = new ExitDetails();
         details.setExitId(exit.getId());
         details.setRules("Test rules");
-        details.setDifficultyTrackingExit(exit.DIFFICULTY_BEGINNER);
-        details.setDifficultyTrackingFreefall(exit.DIFFICULTY_INTERMEDIATE);
-        details.setDifficultyTrackingLanding(exit.DIFFICULTY_ADVANCED);
-        details.setDifficultyTrackingOverall(exit.DIFFICULTY_EXPERT);
-        details.setDifficultyWingsuitExit(exit.DIFFICULTY_BEGINNER);
-        details.setDifficultyWingsuitFreefall(exit.DIFFICULTY_INTERMEDIATE);
-        details.setDifficultyWingsuitLanding(exit.DIFFICULTY_ADVANCED);
-        details.setDifficultyWingsuitOverall(exit.DIFFICULTY_EXPERT);
+        details.setDifficultyTrackingExit(Exit.DIFFICULTY_BEGINNER);
+        details.setDifficultyTrackingFreefall(Exit.DIFFICULTY_INTERMEDIATE);
+        details.setDifficultyTrackingLanding(Exit.DIFFICULTY_ADVANCED);
+        details.setDifficultyTrackingOverall(Exit.DIFFICULTY_EXPERT);
+        details.setDifficultyWingsuitExit(Exit.DIFFICULTY_BEGINNER);
+        details.setDifficultyWingsuitFreefall(Exit.DIFFICULTY_INTERMEDIATE);
+        details.setDifficultyWingsuitLanding(Exit.DIFFICULTY_ADVANCED);
+        details.setDifficultyWingsuitOverall(Exit.DIFFICULTY_EXPERT);
 
         exit.setDetails(details);
         //Set the global_id so the details get saved
@@ -127,8 +127,8 @@ public class ExitTest extends BaseDBUnit {
     public void testGetExitsForSync() {
         this.setUp();
 
-        Exit exit1 = this.createExit();
-        Exit exit2 = this.createExit();
+        Exit exit1 = createExit();
+        Exit exit2 = createExit();
 
         List<Exit> list = Exit.getExitsForSync();
         assertEquals(2, list.size());

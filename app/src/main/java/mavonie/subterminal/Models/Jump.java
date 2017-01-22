@@ -262,7 +262,7 @@ public class Jump extends Synchronizable {
      * @return String
      */
     public String getFormattedSlider() {
-        return this.getSliderConfigArray()[this.getSlider()];
+        return getSliderConfigArray()[this.getSlider()];
     }
 
     @Override
@@ -283,9 +283,8 @@ public class Jump extends Synchronizable {
         if (!date.equals(jump.date)) return false;
         if (_gear != null ? !_gear.equals(jump._gear) : jump._gear != null) return false;
         if (type != jump.type) return false;
-        if (suit_id != jump.suit_id) return false;
+        return suit_id == jump.suit_id;
 
-        return true;
     }
 
     public int getRowId() {
