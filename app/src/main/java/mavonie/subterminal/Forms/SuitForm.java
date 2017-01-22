@@ -18,11 +18,12 @@ import mavonie.subterminal.Utils.Subterminal;
 
 public class SuitForm extends BaseForm {
 
-    private EditText suitManufacturer;
     private Spinner suitType;
-    private EditText suitModel;
-    private EditText suitSerial;
-    private EditText suitDateInUse;
+
+    private EditText suitModel,
+            suitSerial,
+            suitDateInUse,
+            suitManufacturer;
 
     @Override
     protected Suit getItem() {

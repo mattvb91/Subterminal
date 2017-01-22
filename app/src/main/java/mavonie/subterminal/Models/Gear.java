@@ -13,14 +13,14 @@ import mavonie.subterminal.Utils.Subterminal;
  */
 public class Gear extends Synchronizable {
 
-    private String container_manufacturer;
-    private String container_type;
-    private String container_serial;
-    private String container_date_in_use;
-    private String canopy_manufacturer;
-    private String canopy_type;
-    private String canopy_serial;
-    private String canopy_date_in_use;
+    private String container_manufacturer,
+            container_type,
+            container_serial,
+            container_date_in_use,
+            canopy_manufacturer,
+            canopy_type,
+            canopy_serial,
+            canopy_date_in_use;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "gear";
@@ -196,7 +196,7 @@ public class Gear extends Synchronizable {
     /**
      * Get all jumps associated with this piece of gear
      *
-     * @return List
+     * @return List<Jump>
      */
     public List<Jump> getJumps() {
         HashMap<String, Object> whereGearID = new HashMap<>();

@@ -21,16 +21,16 @@ import mavonie.subterminal.Utils.Subterminal;
  */
 public class Jump extends Synchronizable {
 
-    private String description;
-    private String date;
+    private String description,
+            date;
 
-    private Integer gear_id;
-    private Integer exit_id;
-    private Integer type;
-    private Integer suit_id;
-    private int pc_size;
-    private int slider;
-    private int delay;
+    private Integer gear_id,
+            exit_id,
+            type,
+            suit_id,
+            pc_size,
+            slider,
+            delay;
 
     //use this to get the current position from the query
     private int row_id;

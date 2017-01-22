@@ -15,14 +15,14 @@ import mavonie.subterminal.Utils.Subterminal;
 
 public class GearForm extends BaseForm {
 
-    private EditText containerManufacturer;
-    private EditText containerType;
-    private EditText containerSerial;
-    private EditText containerDateInUse;
-    private EditText canopyManufacturer;
-    private EditText canopyType;
-    private EditText canopySerial;
-    private EditText canopyDateInUse;
+    private EditText containerManufacturer,
+            containerType,
+            containerSerial,
+            containerDateInUse,
+            canopyManufacturer,
+            canopyType,
+            canopySerial,
+            canopyDateInUse;
 
     @Override
     protected Gear getItem() {
