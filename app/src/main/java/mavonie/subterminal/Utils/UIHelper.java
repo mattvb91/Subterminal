@@ -475,8 +475,14 @@ public class UIHelper {
 
                 windView.setPressure(element.getMain().getPressure().intValue());
                 windView.setPressureUnit("in hPa");
-                windView.setWindSpeed(element.getWind().getSpeed().intValue());
-                windView.setWindSpeedUnit(" km/h");
+
+                if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                    windView.setWindSpeedUnit(" mph");
+                    windView.setWindSpeed((float) new UnitConverter().lengthConvert(element.getWind().getSpeed().doubleValue(), "kilometers", "miles"));
+                } else {
+                    windView.setWindSpeedUnit(" km/h");
+                    windView.setWindSpeed(element.getWind().getSpeed().intValue());
+                }
                 windView.setTrendType(TrendType.UP);
                 windView.animateBaroMeter();
                 windView.start();
@@ -494,7 +500,12 @@ public class UIHelper {
                 titleRow.addView(timeTitle);
 
                 TextView windTitle = new TextView(MainActivity.getActivity());
-                windTitle.setText(" Wind (km/h) ");
+
+                if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                    windTitle.setText(" Wind (mph) ");
+                } else {
+                    windTitle.setText(" Wind (km/h) ");
+                }
                 windTitle.setTextColor(Color.BLACK);
                 windTitle.setTypeface(null, Typeface.BOLD);
                 windTitle.setGravity(Gravity.CENTER);
@@ -522,7 +533,14 @@ public class UIHelper {
                     weatherRow.addView(timeColumn);
 
                     TextView windColumn = new TextView(MainActivity.getActivity());
+
                     windColumn.setText(element.getWind().getSpeed().toString());
+                    if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                        windColumn.setText(String.format("%.1f", new UnitConverter().lengthConvert(element.getWind().getSpeed().doubleValue(), "kilometers", "miles")));
+                    } else {
+                        windColumn.setText(element.getWind().getSpeed().toString());
+                    }
+
                     windColumn.setTextColor(Color.BLACK);
                     windColumn.setGravity(Gravity.CENTER);
                     weatherRow.addView(windColumn);
