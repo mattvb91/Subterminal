@@ -21,6 +21,7 @@ import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UnitConverter;
 
 
 /**
@@ -74,7 +75,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
         if (getItemViewType(position) == ITEM_TYPE_MODEL) {
             holder.mItem = (Exit) mValues.get(position);
 
-            holder.mHeight.setText(holder.mItem.getFormattedDistance(holder.mItem.getRockdropDistance()));
+            holder.mHeight.setText(UnitConverter.getFormattedDistance(holder.mItem.getRockdropDistance(), holder.mItem.getHeightUnit()));
             holder.mName.setText(holder.mItem.getName());
             holder.mObjectType.setText(holder.mItem.getFormattedObjectType());
 
@@ -142,6 +143,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
             mListSynchronized = (ImageView) view.findViewById(R.id.exit_list_synchronized);
 
             mThumb = (SimpleDraweeView) view.findViewById(R.id.exit_list_thumb);
+
             if (mThumb != null) {
                 mThumb.getLayoutParams().width = THUMB_SIZE;
                 mThumb.setAdjustViewBounds(true);

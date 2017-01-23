@@ -1,6 +1,11 @@
 package mavonie.subterminal.Utils;
 
-import java.math.*;
+import com.pixplicity.easyprefs.library.Prefs;
+
+import java.text.NumberFormat;
+import java.util.Locale;
+
+import mavonie.subterminal.Preference;
 
 /**
  * https://github.com/MarcKuniansky/UnitConverter
@@ -796,5 +801,30 @@ public class UnitConverter {
         return finalNum;
     } //End allExponents
 
+    public static String getFormattedDistance(Integer distance, Integer inHeightUnit) {
+        if (distance == null) {
+            return "";
+        }
+
+        String originalUnit, desiredUnit, append;
+
+        if (inHeightUnit == Subterminal.HEIGHT_UNIT_METRIC) {
+            originalUnit = "meters";
+        } else {
+            originalUnit = "feet";
+        }
+
+        if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_METRIC) {
+            desiredUnit = "meters";
+            append = "m";
+        } else {
+            desiredUnit = "feet";
+            append = "ft";
+        }
+
+        String value = NumberFormat.getNumberInstance(Locale.US).format(Math.round(new UnitConverter().lengthConvert(distance, originalUnit, desiredUnit)));
+
+        return value + append;
+    }
 
 } //End converter class
