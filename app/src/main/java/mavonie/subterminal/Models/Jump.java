@@ -217,11 +217,11 @@ public class Jump extends Synchronizable {
         this.slider = slider;
     }
 
-    public int getDelay() {
+    public Integer getDelay() {
         return delay;
     }
 
-    public void setDelay(int delay) {
+    public void setDelay(Integer delay) {
         this.delay = delay;
     }
 
@@ -302,6 +302,10 @@ public class Jump extends Synchronizable {
     }
 
     public String getFormattedDelay() {
+        if (this.getDelay() == null) {
+            return "";
+        }
+
         return this.getDelay() + "s";
     }
 

@@ -237,6 +237,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
                 if (exit == null) {
                     exit = new Exit();
                     exit.setName(exitName);
+                    exit.setHeightUnit(Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL));
                     exit.save();
                 }
 
