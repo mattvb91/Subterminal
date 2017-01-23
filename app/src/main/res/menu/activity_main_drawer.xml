@@ -43,6 +43,10 @@
                 android:icon="@android:drawable/star_off"
                 android:title="@string/get_premium" />
             <item
+                android:id="@+id/nav_gallery"
+                android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/gallery" />
+            <item
                 android:id="@+id/nav_settings"
                 android:icon="@android:drawable/ic_menu_zoom"
                 android:title="Settings" />

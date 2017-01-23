@@ -37,14 +37,16 @@ import mavonie.subterminal.Utils.Subterminal;
 public class JumpForm extends BaseForm implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     private AutoCompleteTextView exitNameAutoComplete;
-    private Spinner rig;
-    private Spinner pilotChute;
-    private Spinner sliderConfig;
-    private Spinner jumpTypeSpinner;
-    private Spinner suitSpinner;
-    private TextView delay;
-    private TextView description;
-    private TextView date;
+
+    private Spinner rig,
+            pilotChute,
+            sliderConfig,
+            jumpTypeSpinner,
+            suitSpinner;
+
+    private TextView delay,
+            description,
+            date;
 
     private LinkedHashMap<String, String> exitNames;
     LinkedHashMapAdapter<String, String> exitsAdapter;
@@ -235,6 +237,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
                 if (exit == null) {
                     exit = new Exit();
                     exit.setName(exitName);
+                    exit.setHeightUnit(Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL));
                     exit.save();
                 }
 

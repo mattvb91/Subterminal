@@ -8,7 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -89,13 +94,15 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
             Image thumb = Image.loadThumbForEntity(holder.mItem);
 
             if (thumb != null) {
-                holder.mThumb.setImageURI(thumb.getUri().toString());
+                ImageRequest request = ImageRequestBuilder.newBuilderWithSource(thumb.getUri()).setResizeOptions(new ResizeOptions(50, 50)).build();
+                PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder().setOldController(holder.mThumb.getController()).setImageRequest(request).build();
+                holder.mThumb.setController(controller);
             } else {
                 holder.mThumb.setVisibility(View.GONE);
                 holder.mView.findViewById(R.id.skydive_list_thumb_layout).setVisibility(View.GONE);
             }
 
-            if(holder.mItem.getAircraft() != null) {
+            if (holder.mItem.getAircraft() != null) {
                 holder.listAircraft.setText("Aircraft: " + holder.mItem.getAircraft().getName());
             }
 

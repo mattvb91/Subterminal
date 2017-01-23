@@ -169,6 +169,10 @@ public class Dropzone extends Model {
         this.country = country;
     }
 
+    public void setDropzoneAircraft(List<DropzoneAircraft> dropzone_aircraft) {
+        this.dropzone_aircraft = dropzone_aircraft;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -200,11 +204,8 @@ public class Dropzone extends Model {
      * @return boolean
      */
     public boolean isMapActive() {
-        if (this.getLatitude() != 0.00 && this.getLongtitude() != 0.00) {
-            return true;
-        }
+        return this.getLatitude() != 0.00 && this.getLongtitude() != 0.00;
 
-        return false;
     }
 
     public static void createOrUpdate(Dropzone dropzone) {

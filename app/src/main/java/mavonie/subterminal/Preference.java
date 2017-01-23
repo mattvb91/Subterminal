@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -54,6 +56,7 @@ public class Preference extends BaseFragment {
     public static final String PREFS_DEFAULT_AIRCRAFT = "PREFS_DEFAULT_AIRCRAFT";
     public static final String PREFS_DEFAULT_DROPZONE = "PREFS_DEFAULT_DROPZONE";
     public static final String PREFS_DEFAULT_SKYDIVE_TYPE = "PREFS_DEFAULT_SKYDIVE_TYPE";
+    public static final String PREFS_DEFAULT_HEIGHT_UNIT = "PREFS_DEFAULT_HEIGHT_UNIT";
     public static final String PREFS_MODE = "PREFS_MODE";
 
     public static final String PREFS_SKYDIVE_START_COUNT = "PREFS_SKYDIVE_START_COUNT";
@@ -332,11 +335,13 @@ public class Preference extends BaseFragment {
         final LinkedHashMapAdapter jumpTypesAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Skydive.getJumpTypes());
         jumpTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpType.setAdapter(jumpTypesAdapter);
+        jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(Prefs.getInt(PREFS_DEFAULT_SKYDIVE_TYPE, Skydive.SKYDIVE_TYPE_BELLY)), false);
 
         jumpType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Prefs.putInt(PREFS_DEFAULT_SKYDIVE_TYPE, (int) jumpTypesAdapter.getItem(position).getKey());
+                UIHelper.toast(getString(R.string.settings_updated));
             }
 
             @Override
@@ -345,10 +350,31 @@ public class Preference extends BaseFragment {
             }
         });
 
-        jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(Prefs.getInt(PREFS_DEFAULT_SKYDIVE_TYPE, Skydive.SKYDIVE_TYPE_BELLY)));
         /**
          * Jump type Spinner
          */
+
+
+        RadioGroup heightUnit = (RadioGroup) view.findViewById(R.id.height_unit_radio_group);
+        UIHelper.prefillHeightUnit(heightUnit);
+
+        heightUnit.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                // This will get the radiobutton that has changed in its check state
+                RadioButton radioButton = (RadioButton) group.findViewById(R.id.radio_metric);
+
+                // If the radiobutton that has changed in check state is now checked...
+                if (radioButton.isChecked()) {
+                    Prefs.putInt(PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_METRIC);
+                } else {
+                    Prefs.putInt(PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL);
+                }
+
+                UIHelper.toast(getString(R.string.settings_updated));
+            }
+        });
 
         return view;
     }

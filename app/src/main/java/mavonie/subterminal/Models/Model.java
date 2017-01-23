@@ -60,11 +60,8 @@ abstract public class Model implements BaseColumns, Serializable {
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
         try {
-            if (cursor.moveToFirst()) {
-                return true;
-            }
+            return cursor.moveToFirst();
 
-            return false;
         } finally {
             cursor.close();
         }
@@ -334,6 +331,8 @@ abstract public class Model implements BaseColumns, Serializable {
                             contentValues.put(entry.getKey(), (String) obj);
                             break;
                     }
+                } else {
+                    contentValues.putNull(entry.getKey());
                 }
             } catch (IllegalAccessException | InvocationTargetException | NullPointerException e) {
                 e.printStackTrace();

@@ -33,6 +33,35 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"/>
 
+        <TextView
+            android:id="@+id/skydive_edit_height_unit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Height Unit"
+            android:textSize="7pt"></TextView>
+
+
+        <RadioGroup
+            android:id="@+id/height_unit_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_metric"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Metric (m)" />
+
+            <RadioButton
+                android:id="@+id/radio_imperial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Imperial (ft)" />
+        </RadioGroup>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -48,7 +77,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Rockdrop (Meters)"/>
+                    android:text="Rockdrop Distance"/>
 
                 <EditText
                     android:id="@+id/exit_edit_rockdrop_distance"
@@ -68,7 +97,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Altitude to landing (Meters)"/>
+                    android:text="Altitude to landing"/>
 
                 <EditText
                     android:id="@+id/exit_edit_distance_to_landing"

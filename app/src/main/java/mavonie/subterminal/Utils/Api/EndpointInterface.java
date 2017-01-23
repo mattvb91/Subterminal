@@ -8,6 +8,7 @@ import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.Skydive.Aircraft;
@@ -16,11 +17,14 @@ import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.User;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -53,6 +57,9 @@ public interface EndpointInterface {
     @POST("payment")
     Call<Charge> sendPaymentToken(@Body Token token);
 
+    @Multipart
+    @POST("user/image")
+    Call<Void> uploadImage(@Part MultipartBody.Part filePart, @Query("entity_type") Integer entity_type, @Query("entity_id") Integer entity_id);
 
     //Exit requests
     @POST("exit")
@@ -118,5 +125,9 @@ public interface EndpointInterface {
 
     @GET("user/skydives")
     Call<List<Skydive>> downloadSkydives(
+            @Query("last_sync") String lastSync);
+
+    @GET("user/images")
+    Call<List<Image>> downloadImages(
             @Query("last_sync") String lastSync);
 }
