@@ -74,7 +74,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
         if (getItemViewType(position) == ITEM_TYPE_MODEL) {
             holder.mItem = (Exit) mValues.get(position);
 
-            holder.mHeight.setText(holder.mItem.getFormatedRockdrop());
+            holder.mHeight.setText(holder.mItem.getFormattedDistance(holder.mItem.getRockdropDistance()));
             holder.mName.setText(holder.mItem.getName());
             holder.mObjectType.setText(holder.mItem.getFormattedObjectType());
 

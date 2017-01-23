@@ -70,13 +70,13 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
         TextView rockdropDistance = (TextView) view.findViewById(R.id.exit_view_rockdrop_distance);
-        rockdropDistance.setText(getItem().getFormatedRockdrop());
+        rockdropDistance.setText(getItem().getFormattedDistance(getItem().getRockdropDistance()));
 
         TextView rockdropTime = (TextView) view.findViewById(R.id.exit_view_rockdrop_time);
         rockdropTime.setText(getItem().getFormattedRockdropTime());
 
         TextView altitudeToLanding = (TextView) view.findViewById(R.id.exit_view_altitude_to_landing);
-        altitudeToLanding.setText(getItem().getFormatedAltitudeToLanding());
+        altitudeToLanding.setText(getItem().getFormattedDistance(getItem().getAltitudeToLanding()));
 
         if (getItem().getDetails() != null) {
 

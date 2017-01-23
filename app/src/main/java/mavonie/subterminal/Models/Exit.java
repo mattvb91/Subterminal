@@ -1,8 +1,11 @@
 package mavonie.subterminal.Models;
 
 import android.content.ContentValues;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Pair;
+
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -12,7 +15,9 @@ import java.util.Map;
 
 import mavonie.subterminal.Jobs.SyncExit;
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Preference;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UnitConverter;
 
 
 /**
@@ -183,20 +188,31 @@ public class Exit extends Synchronizable {
         return TABLE_NAME;
     }
 
-    public String getFormatedAltitudeToLanding() {
-        if (this.getAltitudeToLanding() == null) {
+    @NonNull
+    public String getFormattedDistance(Integer distance) {
+        if(distance == null) {
             return "";
         }
 
-        return this.getAltitudeToLanding() + "m (" + Math.round(this.getAltitudeToLanding() * 3.28) + "ft)";
-    }
+        String originalUnit, desiredUnit, append;
 
-    public String getFormatedRockdrop() {
-        if (this.getRockdropDistance() == null) {
-            return "";
+        if (this.getHeightUnit() == Subterminal.HEIGHT_UNIT_METRIC) {
+            originalUnit = "meters";
+        } else {
+            originalUnit = "feet";
         }
 
-        return this.getRockdropDistance() + "m (" + Math.round(this.getRockdropDistance() * 3.28) + "ft)";
+        if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_METRIC) {
+            desiredUnit = "meters";
+            append = "m";
+        } else {
+            desiredUnit = "feet";
+            append = "ft";
+        }
+
+        int value = (int) Math.round(new UnitConverter().lengthConvert(distance, originalUnit, desiredUnit));
+
+        return value + append;
     }
 
     public static String getDifficultyColor(int difficulty) {
