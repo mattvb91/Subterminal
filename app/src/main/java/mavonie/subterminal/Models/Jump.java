@@ -29,8 +29,9 @@ public class Jump extends Synchronizable {
             type,
             suit_id,
             pc_size,
-            slider,
-            delay;
+            slider;
+
+    private Integer delay = 0;
 
     //use this to get the current position from the query
     private int row_id;
