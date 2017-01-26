@@ -46,5 +46,6 @@
     <string name="title_dropzones">Dropzones</string>
     <string name="title_skydives">Skydives</string>
     <string name="gallery">Gallery</string>
+    <string name="title_dashboard">Dashboard</string>
 
 </resources>
