@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -45,6 +46,7 @@ import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.JumpForm;
 import mavonie.subterminal.Forms.SuitForm;
+import mavonie.subterminal.Gallery;
 import mavonie.subterminal.Gear;
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
@@ -63,6 +65,8 @@ import mavonie.subterminal.Views.JumpView;
 import mavonie.subterminal.Views.Premium.PremiumView;
 import uk.me.lewisdeane.ldialogs.CustomListDialog;
 
+import static mavonie.subterminal.Preference.PREFS_DEFAULT_HEIGHT_UNIT;
+
 /**
  * Class to deal with UI/Fragment navigation components
  * Make sure all changes are made on the UI thread
@@ -73,6 +77,7 @@ public class UIHelper {
     private static final int FRAGMENT_GEAR = R.id.nav_gear;
     private static final int FRAGMENT_EXIT = R.id.nav_exits;
     private static final int FRAGMENT_SKYDIVES = R.id.skydiving_nav_jumps;
+    private static final int FRAGMENT_GALLERY = R.id.nav_gallery;
 
     private static FloatingActionButton addButton;
 
@@ -197,6 +202,11 @@ public class UIHelper {
             case R.id.nav_dashboard:
                 fragmentClass = new Dashboard();
                 getAddButton().hide();
+                break;
+            case R.id.nav_gallery:
+                fragmentClass = new Gallery();
+                getAddButton().hide();
+                break;
         }
 
         Subterminal.setActiveFragment(id);
@@ -334,7 +344,7 @@ public class UIHelper {
      * Update layout for logged in user
      */
     public static void userLoggedIn() {
-        MenuItem item = (MenuItem) MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
+        MenuItem item = MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_login);
         item.setVisible(false);
 
         NavigationView nav = MainActivity.getActivity().getNavigationView();
@@ -435,7 +445,7 @@ public class UIHelper {
     }
 
     public static void userPremium() {
-        MenuItem item = (MenuItem) MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_premium);
+        MenuItem item = MainActivity.getActivity().getNavigationView().getMenu().findItem(R.id.nav_premium);
         item.setVisible(false);
     }
 
@@ -470,8 +480,14 @@ public class UIHelper {
 
                 windView.setPressure(element.getMain().getPressure().intValue());
                 windView.setPressureUnit("in hPa");
-                windView.setWindSpeed(element.getWind().getSpeed().intValue());
-                windView.setWindSpeedUnit(" km/h");
+
+                if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                    windView.setWindSpeedUnit(" mph");
+                    windView.setWindSpeed((float) new UnitConverter().lengthConvert(element.getWind().getSpeed().doubleValue(), "kilometers", "miles"));
+                } else {
+                    windView.setWindSpeedUnit(" km/h");
+                    windView.setWindSpeed(element.getWind().getSpeed().intValue());
+                }
                 windView.setTrendType(TrendType.UP);
                 windView.animateBaroMeter();
                 windView.start();
@@ -489,7 +505,12 @@ public class UIHelper {
                 titleRow.addView(timeTitle);
 
                 TextView windTitle = new TextView(MainActivity.getActivity());
-                windTitle.setText(" Wind (km/h) ");
+
+                if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                    windTitle.setText(" Wind (mph) ");
+                } else {
+                    windTitle.setText(" Wind (km/h) ");
+                }
                 windTitle.setTextColor(Color.BLACK);
                 windTitle.setTypeface(null, Typeface.BOLD);
                 windTitle.setGravity(Gravity.CENTER);
@@ -517,7 +538,14 @@ public class UIHelper {
                     weatherRow.addView(timeColumn);
 
                     TextView windColumn = new TextView(MainActivity.getActivity());
+
                     windColumn.setText(element.getWind().getSpeed().toString());
+                    if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                        windColumn.setText(String.format("%.1f", new UnitConverter().lengthConvert(element.getWind().getSpeed().doubleValue(), "kilometers", "miles")));
+                    } else {
+                        windColumn.setText(element.getWind().getSpeed().toString());
+                    }
+
                     windColumn.setTextColor(Color.BLACK);
                     windColumn.setGravity(Gravity.CENTER);
                     weatherRow.addView(windColumn);
@@ -539,5 +567,15 @@ public class UIHelper {
                 windView.setVisibility(View.GONE);
             }
         });
+    }
+
+    public static void prefillHeightUnit(RadioGroup heightUnit) {
+        heightUnit.setOnCheckedChangeListener(null);
+
+        if (Prefs.getInt(PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+            heightUnit.check(R.id.radio_imperial);
+        } else {
+            heightUnit.check(R.id.radio_metric);
+        }
     }
 }

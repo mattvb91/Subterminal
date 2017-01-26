@@ -98,7 +98,7 @@ public class GearTest extends BaseDBUnit {
         return gear;
     }
 
-    private Suit createSuit() {
+    public static Suit createSuit() {
         Suit suit = new Suit();
 
         suit.setManufacturer("Manufacturer");

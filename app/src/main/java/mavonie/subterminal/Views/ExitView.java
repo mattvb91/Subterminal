@@ -28,6 +28,7 @@ import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
+import mavonie.subterminal.Utils.UnitConverter;
 import mavonie.subterminal.Utils.Views.MapView;
 
 /**
@@ -70,13 +71,13 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
         TextView rockdropDistance = (TextView) view.findViewById(R.id.exit_view_rockdrop_distance);
-        rockdropDistance.setText(getItem().getFormatedRockdrop());
+        rockdropDistance.setText(UnitConverter.getFormattedDistance(getItem().getRockdropDistance(), getItem().getHeightUnit()));
 
         TextView rockdropTime = (TextView) view.findViewById(R.id.exit_view_rockdrop_time);
         rockdropTime.setText(getItem().getFormattedRockdropTime());
 
         TextView altitudeToLanding = (TextView) view.findViewById(R.id.exit_view_altitude_to_landing);
-        altitudeToLanding.setText(getItem().getFormatedAltitudeToLanding());
+        altitudeToLanding.setText(UnitConverter.getFormattedDistance(getItem().getAltitudeToLanding(), getItem().getHeightUnit()));
 
         if (getItem().getDetails() != null) {
 

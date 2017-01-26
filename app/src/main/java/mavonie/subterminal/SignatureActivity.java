@@ -15,7 +15,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.concurrent.TimeUnit;
 
+import jonathanfinerty.once.Once;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Utils.Subterminal;
@@ -68,12 +70,16 @@ public class SignatureActivity extends Activity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
 
-                Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
-                addJpgSignatureToGallery(signatureBitmap);
+                //Prevent from accidentally clicking twice
+                if (!Once.beenDone(TimeUnit.SECONDS, 5, "add_signature")) {
+                    finish();
 
-                UIHelper.openFragmentForEntity(Subterminal.getActiveModel());
+                    Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
+                    addJpgSignatureToGallery(signatureBitmap);
+
+                    UIHelper.openFragmentForEntity(Subterminal.getActiveModel());
+                }
             }
         });
     }

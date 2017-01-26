@@ -7,8 +7,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -20,10 +24,13 @@ import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Models.Suit;
+import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 
 
 /**
@@ -34,13 +41,16 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
     private AutoCompleteTextView dropzone;
     private Spinner rigSpinner,
             jumpType,
-            aircraftSpinner;
+            aircraftSpinner,
+            suitSpinner;
 
     private TextView delay,
             description,
             date,
             exit_altitude,
             deploy_altitude;
+
+    private RadioGroup heightUnit;
 
     private LinkedHashMap<String, String> dropzoneNames;
     LinkedHashMapAdapter<String, String> dropzonesAdapter;
@@ -83,6 +93,12 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         dropzone.setAdapter(dropzonesAdapter);
         dropzone.setThreshold(2);
         dropzone.setOnItemClickListener(this);
+
+        if (Prefs.getInt(Preference.PREFS_DEFAULT_DROPZONE, 0) != 0) {
+            Dropzone dz = (Dropzone) new Dropzone().getOneById(Prefs.getInt(Preference.PREFS_DEFAULT_DROPZONE, 0));
+            this.dropzone.setText(dz.getName());
+            this.dropzoneEntry = this.dropzonesAdapter.getItem(this.dropzonesAdapter.findPositionFromKey(dz.getId()));
+        }
 
         DateFormat df = new DateFormat();
         date.setText(df.format(calendar.getTime()));
@@ -136,6 +152,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         aircraftAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
         aircraftAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         aircraftSpinner.setAdapter(aircraftAdapter);
+        aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_AIRCRAFT, 1)));
         aircraftSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -152,11 +169,40 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         jumpTypesAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Skydive.getJumpTypes());
         jumpTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpType.setAdapter(jumpTypesAdapter);
-
+        jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_SKYDIVE_TYPE, Skydive.SKYDIVE_TYPE_BELLY)));
         jumpType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 jumpTypeEntry = jumpTypesAdapter.getItem(position);
+
+                Integer type = convertTypes(jumpTypesAdapter.getItem(position).getKey());
+
+                if (type != null) {
+                    suits.clear();
+                    suits.putAll(new Suit().getItemsForSpinner(type));
+
+                    if (suits.size() > 0) {
+                        suitSpinner.setVisibility(View.VISIBLE);
+                        suitsAdapter.notifyDataSetChanged();
+                        suitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                suitEntry = suitsAdapter.getItem(i);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
+                    } else {
+                        suitSpinner.setVisibility(View.GONE);
+                        suitEntry = null;
+                    }
+                } else {
+                    suitSpinner.setVisibility(View.GONE);
+                    suitEntry = null;
+                }
             }
 
             @Override
@@ -165,12 +211,35 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             }
         });
 
+        //SUIT SPINNER
+        this.suitSpinner = (Spinner) view.findViewById(R.id.skydive_edit_suit);
+        this.suitsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.suitSpinner.setAdapter(suitsAdapter);
+
+        if (this.suits.size() == 0) {
+            this.suitSpinner.setVisibility(View.GONE);
+        }
+        //END SUIT SPINNER
+
+        heightUnit = (RadioGroup) view.findViewById(R.id.height_unit_radio_group);
+        UIHelper.prefillHeightUnit(heightUnit);
+
         Button button = (Button) view.findViewById(R.id.skydive_save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 save();
             }
         });
+    }
+
+    private Integer convertTypes(int i) {
+        Integer type = null;
+        if (i == Skydive.SKYDIVE_TYPE_TRACKING) {
+            type = Suit.TYPE_TRACKING;
+        } else if (i == Skydive.SKYDIVE_TYPE_WINGSUIT) {
+            type = Suit.TYPE_WINGSUIT;
+        }
+        return type;
     }
 
     private void updateDate() {
@@ -198,12 +267,26 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
                 getItem().setJumpType(jumpTypeEntry.getKey());
             }
 
+            //Height unit check
+            RadioButton radioButton = (RadioButton) getView().findViewById(R.id.radio_metric);
+            if (radioButton.isChecked()) {
+                getItem().setHeightUnit(Subterminal.HEIGHT_UNIT_METRIC);
+            } else {
+                getItem().setHeightUnit(Subterminal.HEIGHT_UNIT_IMPERIAL);
+            }
+
             String delayString = delay.getText().toString();
             String descriptionString = description.getText().toString();
             String exitAltitude = exit_altitude.getText().toString();
             String deployAltitude = deploy_altitude.getText().toString();
 
             getItem().setDate(date.getText().toString());
+
+            if (suitSpinner.getVisibility() == View.VISIBLE) {
+                getItem().setSuitId(Integer.parseInt(this.suitEntry.getKey()));
+            } else {
+                getItem().setSuitId(null);
+            }
 
             if (exitAltitude.length() > 0) {
                 getItem().setExitAltitude(Integer.parseInt(exit_altitude.getText().toString()));
@@ -246,12 +329,30 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
             description.setText(getItem().getDescription());
 
+            if (getItem().getHeightUnit() == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                heightUnit.check(R.id.radio_imperial);
+            } else {
+                heightUnit.check(R.id.radio_metric);
+            }
+
             if (getItem().getExitAltitude() != null) {
                 exit_altitude.setText(Integer.toString(getItem().getExitAltitude()));
             }
 
             if (getItem().getJumpType() != null) {
                 jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(getItem().getJumpType()));
+            }
+
+            this.suits.clear();
+
+            if (getItem().getJumpType() != null) {
+                this.suits.putAll(new Suit().getItemsForSpinner(convertTypes(getItem().getJumpType())));
+                this.suitsAdapter.notifyDataSetChanged();
+            }
+            suitSpinner.setAdapter(this.suitsAdapter);
+            if (getItem().getSuitId() != null) {
+                suitEntry = suitsAdapter.getItem(this.suitsAdapter.findPositionFromKey(getItem().getSuitId()));
+                suitSpinner.setSelection(this.suitsAdapter.findPositionFromKey(getItem().getSuitId()), false);
             }
 
             if (getItem().getDeployAltitude() != null) {
@@ -287,6 +388,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
     private Map.Entry<String, String> rigEntry;
     private Map.Entry<String, String> aircraftEntry;
     private Map.Entry<Integer, String> jumpTypeEntry;
+    private Map.Entry<String, String> suitEntry;
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

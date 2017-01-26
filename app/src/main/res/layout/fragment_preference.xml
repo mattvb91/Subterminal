@@ -1,286 +1,418 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true"
-    android:gravity="center_vertical"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:paddingRight="?android:attr/scrollbarSize">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TableLayout
-        android:layout_width="match_parent"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dip"
-        android:layout_marginLeft="15dip"
-        android:layout_marginRight="6dip"
-        android:layout_marginTop="6dip"
-        android:stretchColumns="1">
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:paddingRight="?android:attr/scrollbarSize">
 
-        <TableRow
+        <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:id="@+id/preference_pin_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:text="Enable PIN"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <Switch
-                android:id="@+id/settings_pin_switch"
-                android:layout_width="match_parent"
-                android:layout_column="1"
-                android:layout_gravity="right" />
-        </TableRow>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/lighter_gray" />
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Skydive" />
+            android:layout_marginBottom="6dip"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="6dip"
+            android:layout_marginTop="6dip">
 
-        <TableRow android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:text="Start jump #"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-
-            <EditText
-                android:id="@+id/preference_skydive_start_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="4"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxEms="4"
-                android:text="0"
-                android:textAlignment="textEnd"
-                android:textColorHint="#00FFFFFF" />
-        </TableRow>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/lighter_gray" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="B.A.S.E" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:id="@+id/preference_start_count_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="marquee"
-                android:text="Start jump #"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <EditText
-                android:id="@+id/preference_start_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="4"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxEms="4"
-                android:nextFocusLeft="@id/preference_start_count"
-                android:nextFocusUp="@id/preference_start_count"
-                android:text="0"
-                android:textAlignment="textEnd"
-                android:textColorHint="#00FFFFFF" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:id="@+id/preference_default_slider_config"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="marquee"
-                android:text="@string/default_slider_config"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <Spinner
-                android:id="@+id/preference_default_slider_config_value"
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textAlignment="textEnd" />
+                android:paddingTop="10dp">
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/preference_pin_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="Enable PIN"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp">
+                <Switch
+                    android:id="@+id/settings_pin_switch"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/preference_default_jump_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="marquee"
-                android:text="Default jump type"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <Spinner
-                android:id="@+id/preference_default_jump_type_value"
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textAlignment="textEnd" />
+                android:paddingTop="10dp">
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/preference_height_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="Height Unit"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="10dp">
+                <RadioGroup
+                    android:id="@+id/height_unit_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_metric"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Metric (m)" />
+
+                    <RadioButton
+                        android:id="@+id/radio_imperial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Imperial (ft)" />
+                </RadioGroup>
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/lighter_gray" />
 
             <TextView
-                android:id="@+id/preference_default_pc_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="marquee"
-                android:text="@string/default_pc_size"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_marginTop="10dp"
+                android:text="Skydive Defaults" />
 
-            <Spinner
-                android:id="@+id/preference_default_pc_size_value"
-                android:layout_width="match_parent"
+            <TableRow android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="Start jump #"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+                <EditText
+                    android:id="@+id/preference_skydive_start_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="4"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxEms="4"
+                    android:text="0"
+                    android:textAlignment="textEnd"
+                    android:textColorHint="#00FFFFFF" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textAlignment="textEnd" />
+                android:paddingTop="10dp">
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/preference_default_dz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:text="Home DZ"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/preference_default_dz_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="3"
+                    android:imeOptions="actionNext"
+                    android:lines="1" />
+
+            </TableRow>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/lighter_gray" />
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp">
 
-        <TableRow android:paddingTop="10dp">
+                <TextView
+                    android:id="@+id/preference_default_aircraft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:text="Aircraft"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Spinner
+                    android:id="@+id/preference_default_aircraft_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:dropDownWidth="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:textAlignment="textEnd" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/preference_default_skydive_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:text="Jump type"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Spinner
+                    android:id="@+id/preference_default_skydive_type_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:dropDownWidth="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:textAlignment="textEnd" />
+
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/lighter_gray" />
 
             <TextView
-                android:id="@+id/preference_account_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:text="Account:"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_marginTop="10dp"
+                android:text="B.A.S.E Defaults" />
 
-            <TextView
-                android:id="@+id/preference_account"
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center_vertical"
-                android:text="TextView" />
-        </TableRow>
+                android:paddingTop="10dp">
 
-        <TableRow android:paddingTop="10dp">
+                <TextView
+                    android:id="@+id/preference_start_count_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:text="Start jump #"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/preference_account_premium_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:text="Premium:"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                <EditText
+                    android:id="@+id/preference_start_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="4"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxEms="4"
+                    android:nextFocusLeft="@id/preference_start_count"
+                    android:nextFocusUp="@id/preference_start_count"
+                    android:text="0"
+                    android:textAlignment="textEnd"
+                    android:textColorHint="#00FFFFFF" />
 
-            <TextView
-                android:id="@+id/preference_account_premium_value"
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center_vertical"
-                android:text="TextView" />
-        </TableRow>
+                android:paddingTop="10dp">
 
+                <TextView
+                    android:id="@+id/preference_default_slider_config"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:text="@string/default_slider_config"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TableRow android:paddingTop="10dp">
+                <Spinner
+                    android:id="@+id/preference_default_slider_config_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd" />
 
-            <TextView
-                android:id="@+id/preference_account_sync_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:text="Data Sync:"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/preference_account_sync_value"
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center_vertical"
-                android:text="Premium Required" />
-        </TableRow>
+                android:paddingTop="10dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/lighter_gray" />
+                <TextView
+                    android:id="@+id/preference_default_jump_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:text="Jump type"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TableRow android:paddingTop="10dp">
+                <Spinner
+                    android:id="@+id/preference_default_jump_type_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd" />
 
-            <TextView
-                android:id="@+id/preference_version_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:text="Version:"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+            </TableRow>
 
-            <TextView
-                android:id="@+id/preference_version"
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center_vertical"
-                android:text="TextView" />
-        </TableRow>
-    </TableLayout>
+                android:paddingTop="10dp">
 
-</LinearLayout>
+                <TextView
+                    android:id="@+id/preference_default_pc_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:text="@string/default_pc_size"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Spinner
+                    android:id="@+id/preference_default_pc_size_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd" />
+
+            </TableRow>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/lighter_gray" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/preference_account_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="Account:"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/preference_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="TextView" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/preference_account_premium_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="Premium:"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/preference_account_premium_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="TextView" />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/preference_account_sync_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="Data Sync:"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/preference_account_sync_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="Premium Required" />
+            </TableRow>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/lighter_gray" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/preference_version_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="Version:"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/preference_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="TextView" />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -9,7 +9,12 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -56,7 +61,7 @@ public abstract class BaseFragment extends Fragment {
                 try {
                     Class<?> clazz = Class.forName(this.getItemClass());
                     Constructor<?> ctor = clazz.getConstructor();
-                    Object object = ctor.newInstance(new Object[]{});
+                    Object object = ctor.newInstance();
 
                     this._item = (Model) object;
 
@@ -128,9 +133,13 @@ public abstract class BaseFragment extends Fragment {
         for (Image current : images) {
 
             SimpleDraweeView image = new SimpleDraweeView(MainActivity.getActivity().getApplicationContext());
-            image.setImageURI(current.getUri().toString());
+
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(current.getUri()).setResizeOptions(new ResizeOptions(150, 150)).build();
+            PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder().setOldController(image.getController()).setImageRequest(request).build();
+
             image.setMinimumWidth(150);
             image.setMinimumHeight(150);
+            image.setController(controller);
 
             image.setOnClickListener(new ImageListener(current));
 

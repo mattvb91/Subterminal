@@ -21,16 +21,17 @@ import mavonie.subterminal.Utils.Subterminal;
  */
 public class Jump extends Synchronizable {
 
-    private String description;
-    private String date;
+    private String description,
+            date;
 
-    private Integer gear_id;
-    private Integer exit_id;
-    private Integer type;
-    private Integer suit_id;
-    private int pc_size;
-    private int slider;
-    private int delay;
+    private Integer gear_id,
+            exit_id,
+            type,
+            suit_id,
+            pc_size,
+            slider;
+
+    private Integer delay = 0;
 
     //use this to get the current position from the query
     private int row_id;
@@ -217,11 +218,11 @@ public class Jump extends Synchronizable {
         this.slider = slider;
     }
 
-    public int getDelay() {
+    public Integer getDelay() {
         return delay;
     }
 
-    public void setDelay(int delay) {
+    public void setDelay(Integer delay) {
         this.delay = delay;
     }
 
@@ -262,7 +263,7 @@ public class Jump extends Synchronizable {
      * @return String
      */
     public String getFormattedSlider() {
-        return this.getSliderConfigArray()[this.getSlider()];
+        return getSliderConfigArray()[this.getSlider()];
     }
 
     @Override
@@ -283,9 +284,8 @@ public class Jump extends Synchronizable {
         if (!date.equals(jump.date)) return false;
         if (_gear != null ? !_gear.equals(jump._gear) : jump._gear != null) return false;
         if (type != jump.type) return false;
-        if (suit_id != jump.suit_id) return false;
+        return suit_id == jump.suit_id;
 
-        return true;
     }
 
     public int getRowId() {
@@ -303,6 +303,10 @@ public class Jump extends Synchronizable {
     }
 
     public String getFormattedDelay() {
+        if (this.getDelay() == null) {
+            return "";
+        }
+
         return this.getDelay() + "s";
     }
 

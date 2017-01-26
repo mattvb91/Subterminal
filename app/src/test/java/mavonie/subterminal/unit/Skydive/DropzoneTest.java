@@ -5,6 +5,7 @@ import android.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -87,5 +88,38 @@ public class DropzoneTest extends BaseDBUnit {
         for (Aircraft aircraft1 : dropzone.getAircraft()) {
             aircraft1.equals(aircraft);
         }
+    }
+
+    @Test
+    public void updateAircrafts() {
+
+        Aircraft aircraft = new Aircraft();
+        aircraft.setId(1);
+        aircraft.setName("Test Aircraft");
+        aircraft.save();
+
+        Aircraft aircraft2 = new Aircraft();
+        aircraft2.setId(2);
+        aircraft2.setName("Test Aircraft2");
+        aircraft2.save();
+
+        Dropzone dz = createDropzone();
+
+        Assert.assertTrue(dz.getAircraft().size() == 0);
+
+        DropzoneAircraft dzAircraft = new DropzoneAircraft();
+        dzAircraft.setAircraftId(aircraft.getId());
+
+        DropzoneAircraft dzAircraft2 = new DropzoneAircraft();
+        dzAircraft2.setAircraftId(aircraft2.getId());
+
+        List<DropzoneAircraft> list = new ArrayList<DropzoneAircraft>();
+        list.add(dzAircraft);
+        list.add(dzAircraft2);
+
+        dz.setDropzoneAircraft(list);
+        Dropzone.createOrUpdate(dz);
+
+        Assert.assertTrue(dz.getAircraft().size() == 2);
     }
 }

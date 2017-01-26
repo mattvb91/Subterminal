@@ -31,8 +31,11 @@ import mavonie.subterminal.Preference;
  */
 public class Subterminal {
 
-    public static String MODE_BASE = "B.A.S.E";
-    public static String MODE_SKYDIVING = "Skydiving";
+    public static final String MODE_BASE = "B.A.S.E";
+    public static final String MODE_SKYDIVING = "Skydiving";
+
+    public static final int HEIGHT_UNIT_METRIC = 0;
+    public static final int HEIGHT_UNIT_IMPERIAL = 1;
 
     private static Model activeModel;
     private static int activeFragment;
@@ -144,7 +147,9 @@ public class Subterminal {
 
         Once.initialise(activity);
 
-        Fresco.initialize(activity);
+        if (!Fresco.hasBeenInitialized()) {
+            Fresco.initialize(activity);
+        }
 
         getUser().init();
 

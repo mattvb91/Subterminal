@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.1.6"
+        versioncode="22">
+        <change>Added image gallery</change>
+        <change>Image synchronization for Premium members</change>
+        <change>Specify height unit in settings and log entries</change>
+        <change>Select suit on Tracking/Wingsuit skydive</change>
+    </release>
+    <release
+        version="1.1.5"
+        versioncode="21">
+        <change>Updated SSL cert to fix server contact issues.</change>
+        <change>Added DZ, Aircraft, Jump Type preference defaults</change>
+        <change>Preperation for height unit selection (m/ft) (Next update will allow changing
+            units)
+        </change>
+    </release>
+    <release
         version="1.1.4"
         versioncode="20">
         <change>Hotfix: Prevent crash on initial startup</change>
@@ -33,105 +50,5 @@
         <change>Added signatures to jumps</change>
         <change>Fixed Exitpoints duplicating</change>
         <change>General improvements</change>
-    </release>
-    <release
-        version="1.0.4"
-        versioncode="15">
-        <change>Updated forms for Jump, Gear, Exit</change>
-    </release>
-    <release
-        version="1.0.3"
-        versioncode="14">
-        <change>Bugfix - Adding images/requesting GPS now waits for permissions</change>
-    </release>
-    <release
-        version="1.0.2"
-        versioncode="13">
-        <change>Set default slider config/PC Size through settings</change>
-        <change>Jump type (Slick/Track/Wingsuit)</change>
-        <change>Add Track/Wingsuit</change>
-    </release>
-    <release
-        version="1.0.1"
-        versioncode="12">
-        <change>Sign in with Facebook</change>
-        <change>Change starting jump # through settings</change>
-        <change>Premium now available. Store your jump data in the cloud!</change>
-    </release>
-    <release
-        version="1.0.0"
-        versioncode="11">
-        <change>Official Release!</change>
-        <change>Changelog accessible through settings</change>
-    </release>
-    <release
-        version="0.9.3-beta"
-        versioncode="10">
-        <change>Notifications now enabled</change>
-        <change>Added tabs in exit view</change>
-    </release>
-    <release
-        version="0.9.2-beta"
-        versioncode="9">
-        <change>Added settings and PIN option</change>
-    </release>
-    <release
-        version="0.9.1-beta"
-        versioncode="8">
-        <change>Fullscreen support for images</change>
-        <change>Improved jump detail view</change>
-    </release>
-    <release
-        version="0.9.0-beta"
-        versioncode="7">
-        <change>fixed exit difficulties not saving on first load</change>
-        <change>fixed exit view map position when no difficulties exist</change>
-        <change>added image placeholder on lists</change>
-    </release>
-    <release
-        version="0.8.5-alpha"
-        versioncode="6">
-        <change>Fixed images not showing up after adding</change>
-        <change>Updated gear list view</change>
-        <change>App now downloads global public exits</change>
-    </release>
-    <release
-        version="0.8.4-alpha"
-        versioncode="5">
-        <change>Improved navigation/page loading</change>
-        <change>Optimized image loading</change>
-        <change>Edit exits</change>
-        <change>Jump count displayed on list view</change>
-    </release>
-    <release
-        version="0.8.3-alpha"
-        versioncode="4">
-        <change>Updated exit list/detail view</change>
-        <change>Delete associated images when an exit/jump is removed</change>
-        <change>Improved changelog</change>
-    </release>
-    <release
-        version="0.8.2-alpha"
-        versioncode="3">
-        <change>add images to exit, jump</change>
-        <change>Thumbnails on lists pages (exit, jump)</change>
-        <change>Performance improvements</change>
-    </release>
-    <release
-        version="0.8.1-alpha"
-        versioncode="2">
-        <change>Added changelog dialog</change>
-        <change>Fixed bug when adding jump without gear</change>
-        <change>Jump only saved when an exit is provided</change>
-        <change>Updated list design</change>
-        <change>Sort exits by name</change>
-        <change>fetch GPS coordinates button on exit edit</change>
-        <change>bugfix - add button disapearing on back navigation</change>
-        <change>added basic jump detail view</change>
-    </release>
-    <release
-        version="0.8.0-alpha"
-        versioncode="1">
-        <change>Basic feature set (Add exit, jump, gear)</change>
     </release>
 </changelog>

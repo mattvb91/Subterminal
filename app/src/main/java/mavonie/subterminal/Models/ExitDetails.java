@@ -5,16 +5,17 @@ import java.util.Map;
 
 public class ExitDetails extends Model {
 
-    private int exit_id;
     private String rules;
-    private int difficulty_tracking_exit;
-    private int difficulty_tracking_freefall;
-    private int difficulty_tracking_landing;
-    private int difficulty_tracking_overall;
-    private int difficulty_wingsuit_exit;
-    private int difficulty_wingsuit_freefall;
-    private int difficulty_wingsuit_landing;
-    private int difficulty_wingsuit_overall;
+
+    private int exit_id,
+            difficulty_tracking_exit,
+            difficulty_tracking_freefall,
+            difficulty_tracking_landing,
+            difficulty_tracking_overall,
+            difficulty_wingsuit_exit,
+            difficulty_wingsuit_freefall,
+            difficulty_wingsuit_landing,
+            difficulty_wingsuit_overall;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "exit_details";

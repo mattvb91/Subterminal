@@ -12,8 +12,9 @@ android {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 20
-        versionName "1.1.4"
+        versionCode 22
+        versionName "1.1.6"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -65,6 +66,7 @@ dependencies {
     compile 'com.android.support:design:24+'
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.github.gcacace:signature-pad:1.2.0'
+    compile 'com.android.support:multidex:1.0.1'
     compile('com.github.orangegangsters:lollipin:2.0.0@aar') {
         transitive = true
     }

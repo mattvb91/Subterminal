@@ -22,9 +22,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import mavonie.subterminal.Jobs.DownloadImage;
+import mavonie.subterminal.Jobs.SyncImage;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.Synchronized;
 
 
 /**
@@ -232,10 +236,7 @@ public class Image extends Synchronizable {
         File myDir = new File(root + IMAGE_PATH);
         myDir.mkdirs();
 
-        Random generator = new Random();
-        int n = 10000;
-        n = generator.nextInt(n);
-        String fname = "Image-" + n + ".jpg";
+        String fname = generateFilename();
 
         try {
             copy(new File(originalPath), new File(myDir, fname));
@@ -252,6 +253,11 @@ public class Image extends Synchronizable {
         }
 
         return null;
+    }
+
+    @NonNull
+    public static String generateFilename() {
+        return "Image_" + new Random().nextInt(10000) + new Image().getNextAutoIncrement() + ".jpg";
     }
 
     private static void copy(File src, File dst) throws IOException {
@@ -283,7 +289,8 @@ public class Image extends Synchronizable {
 
     @Override
     public void addSyncJob() {
-
+        Subterminal.getJobManager(MainActivity.getActivity())
+                .addJobInBackground(new SyncImage(this));
     }
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -306,6 +313,42 @@ public class Image extends Synchronizable {
                     PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE
             );
+        }
+    }
+
+    public static List<Image> getImagesForSync() {
+        return new Image().getItems(getSyncRequiredParams());
+    }
+
+    /**
+     * Create a new ImageRunnable thread.
+     */
+    public static void downloadImages(List<Image> images, String server_time) {
+        ImageRunnable downloadThread = new ImageRunnable(images, server_time);
+        downloadThread.run();
+    }
+
+    /**
+     * Runnable for downloading remote images on a seperate thread
+     */
+    public static class ImageRunnable implements Runnable {
+
+        private List<Image> images;
+        private String server_time;
+
+        public ImageRunnable(List<Image> images, String server_time) {
+            this.images = images;
+            this.server_time = server_time;
+        }
+
+        @Override
+        public void run() {
+            for (Image image : this.images) {
+                Subterminal.getJobManager(MainActivity.getActivity()).addJobInBackground(new DownloadImage(image));
+            }
+
+            //Make sure we only set the sync time once every download has completed
+            Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_IMAGE, this.server_time);
         }
     }
 }

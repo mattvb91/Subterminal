@@ -14,11 +14,12 @@ import mavonie.subterminal.Utils.Subterminal;
  */
 public class Suit extends Synchronizable {
 
-    private String manufacturer;
+    private String manufacturer,
+            model,
+            serial,
+            date_in_use;
+
     private int type;
-    private String model;
-    private String serial;
-    private String date_in_use;
 
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "suits";
@@ -191,6 +192,11 @@ public class Suit extends Synchronizable {
 
     private List<Jump> _jumps;
 
+    /**
+     * All the jumps associated with this suit
+     *
+     * @return List<Jump>
+     */
     public List<Jump> getJumps() {
 
         if (this._jumps == null) {

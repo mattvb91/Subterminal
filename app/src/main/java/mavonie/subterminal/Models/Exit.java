@@ -56,14 +56,17 @@ public class Exit extends Synchronizable {
         difficulty_color.put(DIFFICULTY_EXPERT, "#4f4f4f");
     }
 
-    private String name;
-    private String global_id;
-    private Integer rockdrop_distance;
-    private Integer altitude_to_landing;
-    private String description;
-    private double latitude;
-    private double longtitude;
-    private Integer object_type;
+    private String name,
+            global_id,
+            description;
+
+    private Integer rockdrop_distance,
+            altitude_to_landing,
+            object_type,
+            height_unit;
+
+    private double latitude,
+            longtitude;
 
     private ExitDetails details;
 
@@ -78,6 +81,7 @@ public class Exit extends Synchronizable {
     public static final String COLUMN_NAME_LONGTITUDE = "longtitude";
     public static final String COLUMN_NAME_OBJECT_TYPE = "object_type";
     public static final String COLUMN_NAME_GLOBAL_ID = "global_id";
+    public static final String COLUMN_NAME_HEIGHT_UNIT = "height_unit";
 
     private static Map<String, Integer> dbColumns = null;
 
@@ -94,6 +98,7 @@ public class Exit extends Synchronizable {
             dbColumns.put(COLUMN_NAME_LONGTITUDE, TYPE_DOUBLE);
             dbColumns.put(COLUMN_NAME_OBJECT_TYPE, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_GLOBAL_ID, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_HEIGHT_UNIT, TYPE_INTEGER);
 
             Synchronizable.setDBColumns(dbColumns);
         }
@@ -165,25 +170,17 @@ public class Exit extends Synchronizable {
         return object_types;
     }
 
+    public Integer getHeightUnit() {
+        return height_unit;
+    }
+
+    public void setHeightUnit(Integer heightUnit) {
+        this.height_unit = heightUnit;
+    }
+
     @Override
     protected String getTableName() {
         return TABLE_NAME;
-    }
-
-    public String getFormatedAltitudeToLanding() {
-        if (this.getAltitudeToLanding() == null) {
-            return "";
-        }
-
-        return this.getAltitudeToLanding() + "m (" + Math.round(this.getAltitudeToLanding() * 3.28) + "ft)";
-    }
-
-    public String getFormatedRockdrop() {
-        if (this.getRockdropDistance() == null) {
-            return "";
-        }
-
-        return this.getRockdropDistance() + "m (" + Math.round(this.getRockdropDistance() * 3.28) + "ft)";
     }
 
     public static String getDifficultyColor(int difficulty) {
@@ -220,11 +217,8 @@ public class Exit extends Synchronizable {
      * @return boolean
      */
     public boolean isMapActive() {
-        if (this.getLatitude() != 0.00 && this.getLongtitude() != 0.00) {
-            return true;
-        }
+        return this.getLatitude() != 0.00 && this.getLongtitude() != 0.00;
 
-        return false;
     }
 
     /**
@@ -252,6 +246,8 @@ public class Exit extends Synchronizable {
         if (global_id != null ? !global_id.equals(exit.global_id) : exit.global_id != null)
             return false;
         if (description != null ? !description.equals(exit.description) : exit.description != null)
+            return false;
+        if (height_unit != null ? !height_unit.equals(exit.height_unit) : exit.height_unit != null)
             return false;
         return details != null ? details.equals(exit.details) : exit.details == null;
 

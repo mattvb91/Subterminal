@@ -40,10 +40,11 @@
     <string name="settings_updated">Settings updated</string>
     <string name="force_sync">Force Sync</string>
     <string name="must_be_logged_in_action">You must be logged in to perform this action</string>
-    <string name="default_slider_config">Default Slider</string>
-    <string name="default_pc_size">Default PC Size</string>
+    <string name="default_slider_config">Slider</string>
+    <string name="default_pc_size">PC Size</string>
     <string name="mode">Mode</string>
     <string name="title_dropzones">Dropzones</string>
     <string name="title_skydives">Skydives</string>
+    <string name="gallery">Gallery</string>
 
 </resources>

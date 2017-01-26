@@ -16,6 +16,7 @@ import mavonie.subterminal.SignatureActivity;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
+import mavonie.subterminal.Utils.UnitConverter;
 
 /**
  * Skydive View
@@ -44,12 +45,12 @@ public class SkydiveView extends BaseFragment {
 
         if (getItem().getExitAltitude() != null) {
             TextView altitude = (TextView) view.findViewById(R.id.skydive_view_altitude);
-            altitude.setText(Integer.toString(getItem().getExitAltitude()));
+            altitude.setText(UnitConverter.getFormattedDistance(getItem().getExitAltitude(), getItem().getHeightUnit()));
         }
 
         if (getItem().getDeployAltitude() != null) {
             TextView deployAlitude = (TextView) view.findViewById(R.id.skydive_view_deplpoy_altitude);
-            deployAlitude.setText(Integer.toString(getItem().getDeployAltitude()));
+            deployAlitude.setText(UnitConverter.getFormattedDistance(getItem().getDeployAltitude(), getItem().getHeightUnit()));
         }
 
         if (getItem().getDelay() != null) {

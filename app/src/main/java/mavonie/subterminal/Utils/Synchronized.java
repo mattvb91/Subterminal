@@ -2,8 +2,6 @@ package mavonie.subterminal.Utils;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
-import mavonie.subterminal.Utils.Date.DateFormat;
-
 /**
  * Storing synchronization times
  */
@@ -16,11 +14,7 @@ public abstract class Synchronized {
     public static final String PREF_LAST_SYNC_DROPZONES = "LAST_SYNC_DROPZONES";
     public static final String PREF_LAST_SYNC_RIG = "LAST_SYNC_RIG";
     public static final String PREF_LAST_SYNC_SKYDIVE = "LAST_SYNC_SKYDIVE";
-
-
-    public static void setLastSyncPref(String pref) {
-        Prefs.putString(pref, DateFormat.dateTimeNow());
-    }
+    public static final String PREF_LAST_SYNC_IMAGE = "LAST_SYNC_IMAGE";
 
     public static void setLastSyncPref(String pref, String serverTime) {
         Prefs.putString(pref, serverTime);
