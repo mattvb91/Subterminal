@@ -29,6 +29,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.tomer.fadingtextview.FadingTextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +44,8 @@ import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Synchronizable;
+import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.UIHelper;
 
 
 /**
@@ -74,6 +77,19 @@ public class Dashboard extends Fragment {
         baseCount = (TextView) view.findViewById(R.id.dashboard_base_count);
         dropzoneCount = (TextView) view.findViewById(R.id.dashboard_dropzone_count);
         exitsCount = (TextView) view.findViewById(R.id.dashboard_exits_count);
+
+        FadingTextView premiumAdd = (FadingTextView) view.findViewById(R.id.premium_ad);
+        if (Subterminal.getUser().isPremium()) {
+            premiumAdd.setVisibility(View.GONE);
+        } else {
+            premiumAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UIHelper.goToFragment(R.id.nav_premium);
+                }
+            });
+        }
+
 
         HashMap<String, Object> whereNotGlobal = new HashMap<>();
         whereNotGlobal.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
@@ -351,4 +367,10 @@ public class Dashboard extends Fragment {
         MainActivity.getActivity().setTitle(title);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        this.getView().findViewById(R.id.premium_ad).setVisibility(View.GONE);
+    }
 }

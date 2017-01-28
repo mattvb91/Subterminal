@@ -280,9 +280,8 @@ public class UIHelper {
      */
     public static void initAddButton() {
 
-        Subterminal.setActiveFragment(R.id.nav_jumps);
-
         addButton = (FloatingActionButton) MainActivity.getActivity().findViewById(R.id.fab);
+        addButton.hide();
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -403,12 +402,7 @@ public class UIHelper {
     public static void init() {
         UIHelper.switchMode(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING));
 
-        //Check which mode we are in and instantiate the correct list view
-        if (Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING).equals(Subterminal.MODE_BASE)) {
-            UIHelper.replaceFragment(new Jump());
-        } else {
-            UIHelper.replaceFragment(new mavonie.subterminal.Skydive.Skydive());
-        }
+        UIHelper.replaceFragment(new Dashboard());
 
         UIHelper.initAddButton();
 

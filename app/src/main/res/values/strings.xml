@@ -48,4 +48,10 @@
     <string name="gallery">Gallery</string>
     <string name="title_dashboard">Dashboard</string>
 
+    <string-array name="premium_ad_text">
+        <item>GET PREMIUM</item>
+        <item>Remove Ads</item>
+        <item>Backup your jump data</item>
+        <item>Support development</item>
+    </string-array>
 </resources>

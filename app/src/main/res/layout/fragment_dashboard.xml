@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:htext="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,11 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.tomer.fadingtextview.FadingTextView
+            android:id="@+id/premium_ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:height="64dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:texts="@array/premium_ad_text"
+            app:timeout="1500" />
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/dashboard_totals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/premium_ad"
             android:layout_weight="2"
             android:orientation="horizontal">
 
@@ -147,11 +160,11 @@
         </LinearLayout>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/dashboard_skydive_pull_height"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/dashboard_totals"
             android:layout_margin="5dp"
-            android:id="@+id/dashboard_skydive_pull_height"
             android:layout_weight="1"
             app:cardUseCompatPadding="true">
 
@@ -162,11 +175,11 @@
         </android.support.v7.widget.CardView>
 
         <LinearLayout
+            android:id="@+id/dashboard_legend_base"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/dashboard_legend_base"
             android:layout_below="@id/dashboard_skydive_pull_height"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <View
                 android:id="@+id/lineLeft"

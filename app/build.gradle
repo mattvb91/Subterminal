@@ -66,6 +66,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.sa90.materialarcmenu:library:1.4.1'
+    compile 'com.tomer:fadingtextview:1.2'
     compile 'com.android.support:design:24+'
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.github.gcacace:signature-pad:1.2.0'
