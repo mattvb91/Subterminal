@@ -354,4 +354,24 @@ public class Dropzone extends Model {
 
         return itemsForSelect;
     }
+
+    /**
+     * Count how many dropzones a user has visited
+     *
+     * @return int
+     */
+    public static int getDropzonesVisitedCount() {
+        String query = "SELECT count(DISTINCT " + Skydive.COLUMN_NAME_DROPZONE_ID + ") FROM " + Skydive.TABLE_NAME;
+
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
+
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+
+        cursor.close();
+
+        return count;
+    }
 }

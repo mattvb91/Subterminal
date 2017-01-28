@@ -1,23 +1,43 @@
 package mavonie.subterminal;
 
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-
-import lecho.lib.hellocharts.model.PieChartData;
-import lecho.lib.hellocharts.model.SliceValue;
-import lecho.lib.hellocharts.util.ChartUtils;
-import lecho.lib.hellocharts.view.PieChartView;
-import mavonie.subterminal.Models.*;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Jump;
+import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Models.Synchronizable;
 
 
 /**
@@ -25,28 +45,175 @@ import mavonie.subterminal.Models.Exit;
  */
 public class Dashboard extends Fragment {
 
+    private static final int ANIMATION_SPEED = 2000;
+
+    PieChart mChart;
+    BarChart favouriteExits;
+    LineChart pullLineChart;
+
+    TextView skydiveCount;
+    TextView baseCount;
+    TextView dropzoneCount;
+    TextView exitsCount;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        PieChartView chart = (PieChartView) view.findViewById(R.id.dashboard_base_objects_pie);
+        mChart = (PieChart) view.findViewById(R.id.dashboard_base_objects_pie);
+        favouriteExits = (BarChart) view.findViewById(R.id.dashboard_base_fav_exits);
+        pullLineChart = (LineChart) view.findViewById(R.id.dashboard_pull_height_linechart);
 
-        PieChartData data = new PieChartData(getObjectsValues());
-        data.setHasLabels(true);
-        data.setHasLabelsOnlyForSelected(false);
-        data.setHasLabelsOutside(true);
-        data.setHasCenterCircle(true);
+        skydiveCount = (TextView) view.findViewById(R.id.dashboard_skydive_count);
+        baseCount = (TextView) view.findViewById(R.id.dashboard_base_count);
+        dropzoneCount = (TextView) view.findViewById(R.id.dashboard_dropzone_count);
+        exitsCount = (TextView) view.findViewById(R.id.dashboard_exits_count);
 
-        data.setCenterText1("Objects");
-        data.setCenterText1FontSize(20);
-        chart.setPieChartData(data);
-        chart.animate();
+        HashMap<String, Object> whereNotGlobal = new HashMap<>();
+        whereNotGlobal.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
+        whereNotGlobal.put(Model.FILTER_WHERE_VALUE, null);
+
+        skydiveCount.setText(Integer.toString(new Skydive().count(Synchronizable.getActiveParams())));
+        baseCount.setText(Integer.toString(new Jump().count(Synchronizable.getActiveParams())));
+        dropzoneCount.setText(Integer.toString(Dropzone.getDropzonesVisitedCount()));
+        exitsCount.setText(Integer.toString(new Exit().count(whereNotGlobal)));
+
+        setPieChartData();
+        setBarChartData();
+        setLineChartData();
 
         return view;
     }
 
-    private List<SliceValue> getObjectsValues() {
+    private void setLineChartData() {
+
+        ArrayList<Entry> values = new ArrayList<Entry>();
+
+        values.add(new Entry(1, 2700));
+        values.add(new Entry(2, 3000));
+        values.add(new Entry(3, 3200));
+        values.add(new Entry(4, 3000));
+        values.add(new Entry(5, 2300));
+        values.add(new Entry(6, 3200));
+        values.add(new Entry(7, 3120));
+        values.add(new Entry(8, 3600));
+        values.add(new Entry(9, 3000));
+        values.add(new Entry(10, 3220));
+
+        LineDataSet set1;
+
+
+        // create a dataset and give it a type
+        set1 = new LineDataSet(values, "Pull height (Last 10 Skydives)");
+
+        // set the line to be drawn like this "- - - - - -"
+        set1.enableDashedLine(10f, 5f, 0f);
+        set1.enableDashedHighlightLine(10f, 5f, 0f);
+        set1.setColor(Color.BLACK);
+        set1.setCircleColor(Color.BLACK);
+        set1.setLineWidth(1f);
+        set1.setCircleRadius(3f);
+        set1.setDrawCircleHole(false);
+        set1.setValueTextSize(9f);
+        set1.setDrawFilled(true);
+        set1.setFormLineWidth(1f);
+        set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+        set1.setFormSize(15.f);
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(set1); // add the datasets
+
+        // create a data object with the datasets
+        LineData data = new LineData(dataSets);
+
+        pullLineChart.getXAxis().setDrawLabels(false);
+        pullLineChart.getAxisRight().setDrawLabels(false);
+        pullLineChart.getXAxis().setDrawGridLines(false);
+
+        // set data
+        pullLineChart.setData(data);
+        pullLineChart.getDescription().setEnabled(false);
+        pullLineChart.animateX(ANIMATION_SPEED, Easing.EasingOption.Linear);
+
+    }
+
+    private void setBarChartData() {
+
+        favouriteExits.getDescription().setEnabled(false);
+
+        favouriteExits.getXAxis().setEnabled(false);
+        favouriteExits.getAxisLeft().setEnabled(true);
+        favouriteExits.getAxisRight().setEnabled(false);
+
+        Legend l = favouriteExits.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+        l.setForm(Legend.LegendForm.NONE);
+        l.setFormSize(9f);
+        l.setTextSize(11f);
+        l.setXEntrySpace(4f);
+
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+
+        yVals1.add(new BarEntry(1, 23, "High Nose"));
+        yVals1.add(new BarEntry(2, 15, "Brento"));
+        yVals1.add(new BarEntry(3, 8, "Yellow Ocean"));
+
+        BarDataSet set;
+
+        set = new BarDataSet(yVals1, "Favourite Exits");
+        set.setColors(ColorTemplate.MATERIAL_COLORS);
+        set.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return entry.getData().toString();
+            }
+        });
+        set.setDrawValues(true);
+
+        ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+        dataSets.add(set);
+
+        BarData data = new BarData(dataSets);
+        data.setValueTextSize(14f);
+        data.setBarWidth(0.9f);
+
+        favouriteExits.setData(data);
+        favouriteExits.setVisibleXRange(1, 3);
+        favouriteExits.animateXY(ANIMATION_SPEED, ANIMATION_SPEED, Easing.EasingOption.Linear, Easing.EasingOption.Linear);
+    }
+
+    private void setPieChartData() {
+
+        mChart.setUsePercentValues(false);
+        mChart.getDescription().setEnabled(false);
+        mChart.setExtraOffsets(5, 10, 5, 5);
+
+        mChart.setDragDecelerationFrictionCoef(0.95f);
+
+        mChart.setCenterText("Objects");
+
+        mChart.setDrawHoleEnabled(true);
+        mChart.setHoleColor(Color.WHITE);
+
+        mChart.setTransparentCircleColor(Color.WHITE);
+        mChart.setTransparentCircleAlpha(110);
+
+        mChart.setHoleRadius(58f);
+        mChart.setTransparentCircleRadius(61f);
+
+        mChart.setDrawCenterText(true);
+
+        mChart.setRotationAngle(0);
+
+        // enable rotation of the chart by touch
+        mChart.setRotationEnabled(true);
+        mChart.setHighlightPerTapEnabled(true);
+
+
         HashMap<String, Object> whereBuilding = new HashMap<>();
         whereBuilding.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_OBJECT_TYPE);
         whereBuilding.put(Model.FILTER_WHERE_VALUE, Integer.toString(Exit.TYPE_BUILDING));
@@ -56,8 +223,8 @@ public class Dashboard extends Fragment {
         whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
 
         HashMap<String, Object> whereNotGlobal = new HashMap<>();
-        whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
-        whereNotDeleted.put(Model.FILTER_WHERE_VALUE, null);
+        whereNotGlobal.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
+        whereNotGlobal.put(Model.FILTER_WHERE_VALUE, null);
 
         HashMap<Integer, HashMap> buildingWheres = new HashMap<>();
         buildingWheres.put(buildingWheres.size(), whereNotDeleted);
@@ -121,18 +288,40 @@ public class Dashboard extends Fragment {
         int earth = new Exit().count(earthParams);
         int other = new Exit().count(otherParams);
 
-        List<SliceValue> values = new ArrayList<>();
+        ArrayList<PieEntry> values = new ArrayList<>();
         if (buildings > 0)
-            values.add(new SliceValue(buildings, ChartUtils.COLOR_BLUE).setLabel("Buildings (" + buildings + ")"));
+            values.add(new PieEntry(buildings, "Buildings"));
         if (antennas > 0)
-            values.add(new SliceValue(antennas, ChartUtils.COLOR_GREEN).setLabel("Antennas (" + antennas + ")"));
+            values.add(new PieEntry(antennas, "Antennas"));
         if (spans > 0)
-            values.add(new SliceValue(spans, ChartUtils.COLOR_ORANGE).setLabel("Spans (" + spans + ")"));
+            values.add(new PieEntry(spans, "Spans"));
         if (earth > 0)
-            values.add(new SliceValue(earth, ChartUtils.COLOR_RED).setLabel("Earth (" + earth + ")"));
+            values.add(new PieEntry(earth, "Earth"));
         if (other > 0)
-            values.add(new SliceValue(other, ChartUtils.COLOR_VIOLET).setLabel("Other (" + other + ")"));
-        return values;
+            values.add(new PieEntry(other, "Other"));
+
+        PieDataSet dataSet = new PieDataSet(values, "Objects");
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+
+        for (int c : ColorTemplate.MATERIAL_COLORS)
+            colors.add(c);
+
+        colors.add(ColorTemplate.getHoloBlue());
+        dataSet.setColors(colors);
+        dataSet.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return Integer.toString(Math.round(value));
+            }
+        });
+        PieData data = new PieData(dataSet);
+        mChart.setData(data);
+        mChart.animateXY(ANIMATION_SPEED, ANIMATION_SPEED, Easing.EasingOption.Linear, Easing.EasingOption.Linear);
+        mChart.getLegend().setEnabled(false);
+        mChart.setEntryLabelColor(Color.BLACK);
     }
 
     @Override
