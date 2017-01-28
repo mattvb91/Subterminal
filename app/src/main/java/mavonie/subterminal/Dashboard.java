@@ -32,7 +32,9 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Jump;
@@ -151,50 +153,54 @@ public class Dashboard extends Fragment {
 
     private void setBarChartData() {
 
-        favouriteExits.getDescription().setEnabled(false);
+        LinkedHashMap<Exit, Integer> top3 = Exit.getTop3Exits();
 
-        favouriteExits.getXAxis().setEnabled(false);
-        favouriteExits.getAxisLeft().setEnabled(true);
-        favouriteExits.getAxisRight().setEnabled(false);
+        if (top3.size() > 0) {
+            favouriteExits.getDescription().setEnabled(false);
+            favouriteExits.getXAxis().setEnabled(false);
+            favouriteExits.getAxisLeft().setEnabled(true);
+            favouriteExits.getAxisRight().setEnabled(false);
 
-        Legend l = favouriteExits.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-        l.setForm(Legend.LegendForm.NONE);
-        l.setFormSize(9f);
-        l.setTextSize(11f);
-        l.setXEntrySpace(4f);
+            Legend l = favouriteExits.getLegend();
+            l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+            l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+            l.setDrawInside(false);
+            l.setForm(Legend.LegendForm.NONE);
+            l.setFormSize(9f);
+            l.setTextSize(11f);
+            l.setXEntrySpace(4f);
 
-        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+            ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
-        yVals1.add(new BarEntry(1, 23, "High Nose"));
-        yVals1.add(new BarEntry(2, 15, "Brento"));
-        yVals1.add(new BarEntry(3, 8, "Yellow Ocean"));
-
-        BarDataSet set;
-
-        set = new BarDataSet(yVals1, "Favourite Exits");
-        set.setColors(ColorTemplate.MATERIAL_COLORS);
-        set.setValueFormatter(new IValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return entry.getData().toString();
+            int i = 0;
+            for (Map.Entry<Exit, Integer> entry : top3.entrySet()) {
+                yVals1.add(new BarEntry(i++, entry.getValue(), entry.getKey().getName()));
             }
-        });
-        set.setDrawValues(true);
 
-        ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-        dataSets.add(set);
+            BarDataSet set;
 
-        BarData data = new BarData(dataSets);
-        data.setValueTextSize(14f);
-        data.setBarWidth(0.9f);
+            set = new BarDataSet(yVals1, "Favourite Exits");
+            set.setColors(ColorTemplate.MATERIAL_COLORS);
+            set.setValueFormatter(new IValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    return entry.getData().toString();
+                }
+            });
+            set.setDrawValues(true);
 
-        favouriteExits.setData(data);
-        favouriteExits.setVisibleXRange(1, 3);
-        favouriteExits.animateXY(ANIMATION_SPEED, ANIMATION_SPEED, Easing.EasingOption.Linear, Easing.EasingOption.Linear);
+            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+            dataSets.add(set);
+
+            BarData data = new BarData(dataSets);
+            data.setValueTextSize(14f);
+            data.setBarWidth(0.9f);
+
+            favouriteExits.setData(data);
+            favouriteExits.setVisibleXRange(1, 3);
+            favouriteExits.animateXY(ANIMATION_SPEED, ANIMATION_SPEED, Easing.EasingOption.Linear, Easing.EasingOption.Linear);
+        }
     }
 
     private void setPieChartData() {
