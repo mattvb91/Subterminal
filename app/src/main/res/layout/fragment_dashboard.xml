@@ -146,12 +146,60 @@
 
         </LinearLayout>
 
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dashboard_totals"
+            android:layout_margin="5dp"
+            android:id="@+id/dashboard_skydive_pull_height"
+            android:layout_weight="1"
+            app:cardUseCompatPadding="true">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/dashboard_pull_height_linechart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"></com.github.mikephil.charting.charts.LineChart>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dashboard_legend_base"
+            android:layout_below="@id/dashboard_skydive_pull_height"
+            android:orientation="horizontal" >
+
+            <View
+                android:id="@+id/lineLeft"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="#b8b8b8" />
+
+            <TextView
+                android:id="@+id/link_to_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="B.A.S.E"
+                android:textColor="#525252"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/lineRight"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="#b8b8b8" />
+        </LinearLayout>
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/base_overview_charts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dashboard_totals"
+            android:layout_below="@id/dashboard_legend_base"
             android:layout_weight="2"
             android:orientation="horizontal">
 
@@ -187,19 +235,5 @@
                     android:layout_height="200dp"></com.github.mikephil.charting.charts.BarChart>
             </android.support.v7.widget.CardView>
         </LinearLayout>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/base_overview_charts"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            app:cardUseCompatPadding="true">
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/dashboard_pull_height_linechart"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"></com.github.mikephil.charting.charts.LineChart>
-        </android.support.v7.widget.CardView>
     </RelativeLayout>
 </ScrollView>

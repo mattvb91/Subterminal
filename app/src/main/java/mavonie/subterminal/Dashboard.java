@@ -28,6 +28,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +50,7 @@ import mavonie.subterminal.Models.Synchronizable;
  */
 public class Dashboard extends Fragment {
 
-    private static final int ANIMATION_SPEED = 2000;
+    private static final int ANIMATION_SPEED = 1000;
 
     PieChart mChart;
     BarChart favouriteExits;
@@ -78,8 +79,8 @@ public class Dashboard extends Fragment {
         whereNotGlobal.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
         whereNotGlobal.put(Model.FILTER_WHERE_VALUE, null);
 
-        skydiveCount.setText(Integer.toString(new Skydive().count(Synchronizable.getActiveParams())));
-        baseCount.setText(Integer.toString(new Jump().count(Synchronizable.getActiveParams())));
+        skydiveCount.setText(Integer.toString(Prefs.getInt(Preference.PREFS_SKYDIVE_START_COUNT, 0) + new Skydive().count(Synchronizable.getActiveParams())));
+        baseCount.setText(Integer.toString(Prefs.getInt(Preference.PREFS_JUMP_START_COUNT, 0) + new Jump().count(Synchronizable.getActiveParams())));
         dropzoneCount.setText(Integer.toString(Dropzone.getDropzonesVisitedCount()));
         exitsCount.setText(Integer.toString(new Exit().count(whereNotGlobal)));
 
@@ -147,6 +148,7 @@ public class Dashboard extends Fragment {
             // set data
             pullLineChart.setData(data);
             pullLineChart.getDescription().setEnabled(false);
+            pullLineChart.getLegend().setTextSize(11f);
             pullLineChart.animateX(ANIMATION_SPEED, Easing.EasingOption.Linear);
         }
     }
