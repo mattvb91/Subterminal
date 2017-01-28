@@ -30,7 +30,9 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Jump;
@@ -90,52 +92,61 @@ public class Dashboard extends Fragment {
 
         ArrayList<Entry> values = new ArrayList<Entry>();
 
-        values.add(new Entry(1, 2700));
-        values.add(new Entry(2, 3000));
-        values.add(new Entry(3, 3200));
-        values.add(new Entry(4, 3000));
-        values.add(new Entry(5, 2300));
-        values.add(new Entry(6, 3200));
-        values.add(new Entry(7, 3120));
-        values.add(new Entry(8, 3600));
-        values.add(new Entry(9, 3000));
-        values.add(new Entry(10, 3220));
+        HashMap<Integer, HashMap> skydiveWheres = new HashMap<>();
+        skydiveWheres.put(skydiveWheres.size(), Skydive.getActiveParams());
 
-        LineDataSet set1;
+        HashMap<String, Object> skydiveParams = new HashMap<>();
+        skydiveParams.put(Model.FILTER_WHERE, skydiveWheres);
+        skydiveParams.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_DESC);
+        skydiveParams.put(Model.FILTER_ORDER_FIELD, Skydive.COLUMN_NAME_DATE);
+        skydiveParams.put(Model.FILTER_LIMIT, 10);
 
+        List<Skydive> skydives = new Skydive().getItems(skydiveParams);
+        Collections.reverse(skydives);
 
-        // create a dataset and give it a type
-        set1 = new LineDataSet(values, "Pull height (Last 10 Skydives)");
+        int i = 1;
 
-        // set the line to be drawn like this "- - - - - -"
-        set1.enableDashedLine(10f, 5f, 0f);
-        set1.enableDashedHighlightLine(10f, 5f, 0f);
-        set1.setColor(Color.BLACK);
-        set1.setCircleColor(Color.BLACK);
-        set1.setLineWidth(1f);
-        set1.setCircleRadius(3f);
-        set1.setDrawCircleHole(false);
-        set1.setValueTextSize(9f);
-        set1.setDrawFilled(true);
-        set1.setFormLineWidth(1f);
-        set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-        set1.setFormSize(15.f);
+        for (Skydive skydive : skydives) {
+            if (skydive.getDeployAltitude() != null) {
+                values.add(new Entry(i++, skydive.getDeployAltitude()));
+            }
+        }
 
-        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(set1); // add the datasets
+        if (values.size() > 0) {
+            LineDataSet set1;
 
-        // create a data object with the datasets
-        LineData data = new LineData(dataSets);
+            // create a dataset and give it a type
+            set1 = new LineDataSet(values, "Pull height (Last 10 Skydives)");
 
-        pullLineChart.getXAxis().setDrawLabels(false);
-        pullLineChart.getAxisRight().setDrawLabels(false);
-        pullLineChart.getXAxis().setDrawGridLines(false);
+            // set the line to be drawn like this "- - - - - -"
+            set1.enableDashedLine(10f, 5f, 0f);
+            set1.enableDashedHighlightLine(10f, 5f, 0f);
+            set1.setColor(Color.BLUE);
+            set1.setCircleColor(Color.BLUE);
+            set1.setLineWidth(1f);
+            set1.setCircleRadius(3f);
+            set1.setDrawCircleHole(false);
+            set1.setValueTextSize(9f);
+            set1.setDrawFilled(true);
+            set1.setFormLineWidth(1f);
+            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+            set1.setFormSize(15.f);
 
-        // set data
-        pullLineChart.setData(data);
-        pullLineChart.getDescription().setEnabled(false);
-        pullLineChart.animateX(ANIMATION_SPEED, Easing.EasingOption.Linear);
+            ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+            dataSets.add(set1); // add the datasets
 
+            // create a data object with the datasets
+            LineData data = new LineData(dataSets);
+
+            pullLineChart.getXAxis().setDrawLabels(false);
+            pullLineChart.getAxisRight().setDrawLabels(false);
+            pullLineChart.getXAxis().setDrawGridLines(false);
+
+            // set data
+            pullLineChart.setData(data);
+            pullLineChart.getDescription().setEnabled(false);
+            pullLineChart.animateX(ANIMATION_SPEED, Easing.EasingOption.Linear);
+        }
     }
 
     private void setBarChartData() {
