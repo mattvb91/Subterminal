@@ -124,9 +124,9 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         });
 
         Spinner rigSpinner = (Spinner) view.findViewById(R.id.skydive_edit_rig);
-        this.rigs = new Rig().getItemsForSelect("container_manufacturer");
+        this.rigs = new Rig().getItemsForSelect("container_manufacturer", true);
 
-        if (this.rigs.size() > 0) {
+        if (this.rigs.size() > 1) {
             this.rigAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.rigs);
             this.rigAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             rigSpinner.setAdapter(this.rigAdapter);
@@ -134,7 +134,11 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             rigSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    rigEntry = rigAdapter.getItem(i);
+                    if (rigAdapter.getItem(i).getKey() != null) {
+                        rigEntry = rigAdapter.getItem(i);
+                    } else {
+                        rigEntry = null;
+                    }
                 }
 
                 @Override
@@ -260,6 +264,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
             if (rigEntry != null) {
                 getItem().setRigId(Integer.parseInt(rigEntry.getKey()));
+            } else {
+                getItem().setRigId(null);
             }
 
             if (aircraftEntry != null) {

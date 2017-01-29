@@ -405,7 +405,7 @@ public class LinkedHashMapAdapter<K, V> extends BaseAdapter implements Filterabl
     public Integer findPositionFromKey(int key) {
         int i = 0;
         for (Entry<K, V> entry : mMapData.entrySet()) {
-            if (Integer.parseInt(String.valueOf(entry.getKey())) == key) {
+            if (entry.getKey() != null && Integer.parseInt(String.valueOf(entry.getKey())) == key) {
                 return i;
             }
             i++;
