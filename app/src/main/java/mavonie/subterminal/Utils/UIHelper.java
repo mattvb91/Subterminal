@@ -81,13 +81,17 @@ public class UIHelper {
     private static final int FRAGMENT_GALLERY = R.id.nav_gallery;
 
     private static FloatingActionButton addButton;
-    private static ArcMenu arcMenu;
+    private static ArcMenu arcButton;
 
     /**
      * @return FloatingActionButton
      */
     public static FloatingActionButton getAddButton() {
         return addButton;
+    }
+
+    public static ArcMenu getArcMenu() {
+        return arcButton;
     }
 
     /**
@@ -174,7 +178,6 @@ public class UIHelper {
 
             case R.id.nav_gear:
                 fragmentClass = new Gear();
-                getArcMenu().setVisibility(View.VISIBLE);
                 break;
 
             case R.id.nav_exits:
@@ -201,7 +204,6 @@ public class UIHelper {
 
             case R.id.skydiving_nav_gear:
                 fragmentClass = new mavonie.subterminal.Skydive.Gear();
-                getArcMenu().setVisibility(View.VISIBLE);
                 break;
             case R.id.nav_dashboard:
                 fragmentClass = new Dashboard();
@@ -304,6 +306,9 @@ public class UIHelper {
                 }
             }
         });
+
+        arcButton = (ArcMenu) MainActivity.getActivity().findViewById(R.id.arcMenu);
+        arcButton.setVisibility(View.GONE);
     }
 
     public static void facebookDialog() {
@@ -400,9 +405,8 @@ public class UIHelper {
     public static void init() {
         UIHelper.switchMode(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING));
 
-        UIHelper.replaceFragment(new Dashboard());
-
         UIHelper.initAddButton();
+        UIHelper.replaceFragment(new Dashboard());
 
         if (!Subterminal.getUser().isLoggedIn()) {
             userLoggedOut();
@@ -569,13 +573,5 @@ public class UIHelper {
         } else {
             heightUnit.check(R.id.radio_metric);
         }
-    }
-
-    public static ArcMenu getArcMenu() {
-        if (arcMenu == null) {
-            arcMenu = (ArcMenu) MainActivity.getActivity().findViewById(R.id.arcMenu);
-        }
-
-        return arcMenu;
     }
 }

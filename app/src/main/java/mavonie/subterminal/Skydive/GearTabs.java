@@ -70,6 +70,7 @@ public class GearTabs extends BaseFragment {
         if (UIHelper.getArcMenu().isMenuOpened()) {
             UIHelper.getArcMenu().toggleMenu();
         }
+
     }
 
     @Override

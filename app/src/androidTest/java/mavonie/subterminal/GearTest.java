@@ -112,6 +112,8 @@ public class GearTest extends BaseTest {
     @Test
     public void clickRandomItemTest() {
 
+        navigateToGear();
+
         //Magic happening
         int x = getRandomRecyclerPosition(R.id.list);
 
