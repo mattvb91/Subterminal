@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sa90.materialarcmenu.ArcMenu;
-
 import java.util.HashMap;
 
 import mavonie.subterminal.Forms.GearForm;
@@ -66,11 +64,8 @@ public class GearTabs extends BaseFragment {
     public void onPause() {
         super.onPause();
 
-        ArcMenu arc = (ArcMenu) MainActivity.getActivity().findViewById(R.id.arcMenu);
-        arc.setVisibility(View.GONE);
-
-        if (arc.isMenuOpened()) {
-            arc.toggleMenu();
+        if (UIHelper.getArcMenu().isMenuOpened()) {
+            UIHelper.getArcMenu().toggleMenu();
         }
     }
 
@@ -82,15 +77,14 @@ public class GearTabs extends BaseFragment {
 
         //We want to replace the add button with our arc menu
         UIHelper.getAddButton().setVisibility(View.GONE);
-        final ArcMenu arc = (ArcMenu) MainActivity.getActivity().findViewById(R.id.arcMenu);
-        arc.setVisibility(View.VISIBLE);
+        UIHelper.getArcMenu().setVisibility(View.VISIBLE);
 
         FloatingActionButton rig = (FloatingActionButton) MainActivity.getActivity().findViewById(R.id.gear_menu_rig);
         rig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UIHelper.replaceFragment(new GearForm());
-                arc.toggleMenu();
+                UIHelper.getArcMenu().toggleMenu();
             }
         });
 
@@ -99,7 +93,7 @@ public class GearTabs extends BaseFragment {
             @Override
             public void onClick(View view) {
                 UIHelper.replaceFragment(new SuitForm());
-                arc.toggleMenu();
+                UIHelper.getArcMenu().toggleMenu();
             }
         });
 

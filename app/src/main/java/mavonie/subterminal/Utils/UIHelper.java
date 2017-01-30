@@ -31,6 +31,7 @@ import com.facebook.login.widget.ProfilePictureView;
 import com.github.ahmadnemati.wind.WindView;
 import com.github.ahmadnemati.wind.enums.TrendType;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.sa90.materialarcmenu.ArcMenu;
 
 import java.util.Arrays;
 import java.util.List;
@@ -80,6 +81,7 @@ public class UIHelper {
     private static final int FRAGMENT_GALLERY = R.id.nav_gallery;
 
     private static FloatingActionButton addButton;
+    private static ArcMenu arcMenu;
 
     /**
      * @return FloatingActionButton
@@ -160,6 +162,10 @@ public class UIHelper {
     public static void goToFragment(int id) {
         Fragment fragmentClass = null;
 
+        //Disable add buttons here and enable manually below
+        getArcMenu().setVisibility(View.GONE);
+        getAddButton().hide();
+
         switch (id) {
             case R.id.nav_jumps:
                 fragmentClass = new Jump();
@@ -168,7 +174,7 @@ public class UIHelper {
 
             case R.id.nav_gear:
                 fragmentClass = new Gear();
-                getAddButton().show();
+                getArcMenu().setVisibility(View.VISIBLE);
                 break;
 
             case R.id.nav_exits:
@@ -178,7 +184,6 @@ public class UIHelper {
 
             case R.id.nav_settings:
                 fragmentClass = new Preference();
-                getAddButton().hide();
                 break;
 
             case R.id.nav_premium:
@@ -192,20 +197,17 @@ public class UIHelper {
 
             case R.id.skydiving_nav_dropzones:
                 fragmentClass = new Dropzone();
-                getAddButton().hide();
                 break;
 
             case R.id.skydiving_nav_gear:
                 fragmentClass = new mavonie.subterminal.Skydive.Gear();
-                getAddButton().show();
+                getArcMenu().setVisibility(View.VISIBLE);
                 break;
             case R.id.nav_dashboard:
                 fragmentClass = new Dashboard();
-                getAddButton().hide();
                 break;
             case R.id.nav_gallery:
                 fragmentClass = new Gallery();
-                getAddButton().hide();
                 break;
         }
 
@@ -287,10 +289,6 @@ public class UIHelper {
             @Override
             public void onClick(View view) {
                 switch (Subterminal.getActiveFragment()) {
-                    case FRAGMENT_GEAR:
-                        UIHelper.replaceFragment(new GearForm());
-                        addButton.hide();
-                        break;
                     case FRAGMENT_EXIT:
                         UIHelper.replaceFragment(new ExitForm());
                         addButton.hide();
@@ -571,5 +569,13 @@ public class UIHelper {
         } else {
             heightUnit.check(R.id.radio_metric);
         }
+    }
+
+    public static ArcMenu getArcMenu() {
+        if (arcMenu == null) {
+            arcMenu = (ArcMenu) MainActivity.getActivity().findViewById(R.id.arcMenu);
+        }
+
+        return arcMenu;
     }
 }

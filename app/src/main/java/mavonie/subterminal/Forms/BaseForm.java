@@ -21,6 +21,8 @@ import mavonie.subterminal.Utils.UIHelper;
 
 public abstract class BaseForm extends BaseFragment {
 
+    public static boolean arcMenu = false;
+
     public static Calendar calendar = Calendar.getInstance();
 
     protected abstract int getParentFragmentId();
@@ -51,6 +53,12 @@ public abstract class BaseForm extends BaseFragment {
             MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
         }
 
+        if (arcMenu) {
+            UIHelper.getArcMenu().setVisibility(View.GONE);
+        } else {
+            UIHelper.getAddButton().hide();
+        }
+
         return view;
     }
 
@@ -58,7 +66,13 @@ public abstract class BaseForm extends BaseFragment {
     public void onPause() {
         super.onPause();
         _mListener = null;
-        UIHelper.getAddButton().show();
+
+        if (arcMenu) {
+            UIHelper.getArcMenu().setVisibility(View.VISIBLE);
+        } else {
+            UIHelper.getAddButton().show();
+        }
+
         MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(false);
     }
 
