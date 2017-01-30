@@ -46,6 +46,7 @@ import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
+import mavonie.subterminal.Utils.UnitConverter;
 
 
 /**
@@ -127,7 +128,7 @@ public class Dashboard extends Fragment {
 
         for (Skydive skydive : skydives) {
             if (skydive.getDeployAltitude() != null) {
-                values.add(new Entry(i++, skydive.getDeployAltitude()));
+                values.add(new Entry(i++, UnitConverter.getConvertedInteger(skydive.getDeployAltitude(), skydive.getHeightUnit())));
             }
         }
 
