@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -50,6 +51,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             exit_altitude,
             deploy_altitude;
 
+    private CheckBox cutaway;
+
     private RadioGroup heightUnit;
 
     private LinkedHashMap<String, String> dropzoneNames;
@@ -86,6 +89,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         deploy_altitude = (TextView) view.findViewById(R.id.skydive_edit_deploy_altitude);
         date = (EditText) view.findViewById(R.id.skydive_edit_date);
         rigSpinner = (Spinner) view.findViewById(R.id.skydive_edit_rig);
+        cutaway = (CheckBox) view.findViewById(R.id.skydive_edit_cutaway_checkbox);
 
         dropzoneNames = new Dropzone().getItemsForSelect("name");
         dropzonesAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity().getApplicationContext(), R.layout.item_simple, dropzoneNames, LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE);
@@ -284,6 +288,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
                 getItem().setHeightUnit(Subterminal.HEIGHT_UNIT_IMPERIAL);
             }
 
+            getItem().setCutaway(cutaway.isChecked() ? Skydive.CUTAWAY_YES : Skydive.CUTAWAY_NO);
+
             String delayString = delay.getText().toString();
             String descriptionString = description.getText().toString();
             String exitAltitude = exit_altitude.getText().toString();
@@ -342,6 +348,10 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
                 heightUnit.check(R.id.radio_imperial);
             } else {
                 heightUnit.check(R.id.radio_metric);
+            }
+
+            if (getItem().getCutaway() == Skydive.CUTAWAY_YES) {
+                cutaway.setChecked(true);
             }
 
             if (getItem().getExitAltitude() != null) {

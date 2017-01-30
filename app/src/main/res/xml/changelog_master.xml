@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.1.7"
+        versioncode="23">
+        <change>Added dashboard with basic jump stats</change>
+        <change>Added cutaway checkbox on skydive</change>
+        <change>Allow empty rig selection on skydive</change>
+        <change>Fixed Premium authentication issue</change>
+    </release>
+    <release
         version="1.1.6"
         versioncode="22">
         <change>Added image gallery</change>
