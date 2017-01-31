@@ -17,15 +17,11 @@ public class WebClient extends WebViewClient {
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         if (Uri.parse(url).toString().contains("?payment=true")) {
 
-            UIHelper.loadSpinner();
-
             //Make sure user is authenticated before we allow further
             Call updateUser = Subterminal.getApi().getEndpoints().getUser();
             updateUser.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call call, Response response) {
-                    UIHelper.removeLoadSpinner();
-
                     if (response.isSuccessful()) {
                         Intent scanIntent = new Intent(MainActivity.getActivity(), CardIOActivity.class);
 
@@ -45,7 +41,6 @@ public class WebClient extends WebViewClient {
                 @Override
                 public void onFailure(Call call, Throwable t) {
                     UIHelper.toast("There was an issue contacting the server");
-                    UIHelper.removeLoadSpinner();
                 }
             });
         }
