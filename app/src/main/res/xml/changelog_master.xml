@@ -7,6 +7,7 @@
         <change>Added cutaway checkbox on skydive</change>
         <change>Allow empty rig selection on skydive</change>
         <change>Fixed Premium authentication issue</change>
+        <change>Data backup improvements</change>
     </release>
     <release
         version="1.1.6"
