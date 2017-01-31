@@ -827,4 +827,22 @@ public class UnitConverter {
         return value + append;
     }
 
+    public static int getConvertedInteger(Integer distance, Integer inHeightUnit) {
+        String originalUnit, desiredUnit;
+
+        if (inHeightUnit == Subterminal.HEIGHT_UNIT_METRIC) {
+            originalUnit = "meters";
+        } else {
+            originalUnit = "feet";
+        }
+
+        if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_METRIC) {
+            desiredUnit = "meters";
+        } else {
+            desiredUnit = "feet";
+        }
+
+        return Integer.parseInt(Long.toString(Math.round(new UnitConverter().lengthConvert(distance, originalUnit, desiredUnit))));
+    }
+
 } //End converter class

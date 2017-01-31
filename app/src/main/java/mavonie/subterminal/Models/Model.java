@@ -418,6 +418,25 @@ abstract public class Model implements BaseColumns, Serializable {
     }
 
     /**
+     * If this is an optional select box we include an empty option at the top
+     *
+     * @param fieldName
+     * @param optional
+     * @return
+     */
+    public LinkedHashMap<String, String> getItemsForSelect(String fieldName, boolean optional) {
+        if (this.itemsForSelect == null) {
+            this.itemsForSelect = new LinkedHashMap<String, String>();
+
+            if (optional) {
+                this.itemsForSelect.put(null, " - ");
+            }
+        }
+
+        return getItemsForSelect(fieldName);
+    }
+
+    /**
      * Get items for a select spinner.
      *
      * @param fieldName to select

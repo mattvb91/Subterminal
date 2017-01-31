@@ -31,6 +31,7 @@ import com.facebook.login.widget.ProfilePictureView;
 import com.github.ahmadnemati.wind.WindView;
 import com.github.ahmadnemati.wind.enums.TrendType;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.sa90.materialarcmenu.ArcMenu;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +41,7 @@ import az.openweatherapi.model.OWResponse;
 import az.openweatherapi.model.gson.common.Coord;
 import az.openweatherapi.model.gson.five_day.ExtendedWeather;
 import az.openweatherapi.model.gson.five_day.WeatherForecastElement;
+import mavonie.subterminal.Dashboard;
 import mavonie.subterminal.Exit;
 import mavonie.subterminal.Forms.ExitForm;
 import mavonie.subterminal.Forms.GearForm;
@@ -79,12 +81,17 @@ public class UIHelper {
     private static final int FRAGMENT_GALLERY = R.id.nav_gallery;
 
     private static FloatingActionButton addButton;
+    private static ArcMenu arcButton;
 
     /**
      * @return FloatingActionButton
      */
     public static FloatingActionButton getAddButton() {
         return addButton;
+    }
+
+    public static ArcMenu getArcMenu() {
+        return arcButton;
     }
 
     /**
@@ -159,6 +166,10 @@ public class UIHelper {
     public static void goToFragment(int id) {
         Fragment fragmentClass = null;
 
+        //Disable add buttons here and enable manually below
+        getArcMenu().setVisibility(View.GONE);
+        getAddButton().hide();
+
         switch (id) {
             case R.id.nav_jumps:
                 fragmentClass = new Jump();
@@ -167,7 +178,6 @@ public class UIHelper {
 
             case R.id.nav_gear:
                 fragmentClass = new Gear();
-                getAddButton().show();
                 break;
 
             case R.id.nav_exits:
@@ -177,7 +187,6 @@ public class UIHelper {
 
             case R.id.nav_settings:
                 fragmentClass = new Preference();
-                getAddButton().hide();
                 break;
 
             case R.id.nav_premium:
@@ -191,16 +200,16 @@ public class UIHelper {
 
             case R.id.skydiving_nav_dropzones:
                 fragmentClass = new Dropzone();
-                getAddButton().hide();
                 break;
 
             case R.id.skydiving_nav_gear:
                 fragmentClass = new mavonie.subterminal.Skydive.Gear();
-                getAddButton().show();
+                break;
+            case R.id.nav_dashboard:
+                fragmentClass = new Dashboard();
                 break;
             case R.id.nav_gallery:
                 fragmentClass = new Gallery();
-                getAddButton().hide();
                 break;
         }
 
@@ -275,18 +284,13 @@ public class UIHelper {
      */
     public static void initAddButton() {
 
-        Subterminal.setActiveFragment(R.id.nav_jumps);
-
         addButton = (FloatingActionButton) MainActivity.getActivity().findViewById(R.id.fab);
+        addButton.hide();
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (Subterminal.getActiveFragment()) {
-                    case FRAGMENT_GEAR:
-                        UIHelper.replaceFragment(new GearForm());
-                        addButton.hide();
-                        break;
                     case FRAGMENT_EXIT:
                         UIHelper.replaceFragment(new ExitForm());
                         addButton.hide();
@@ -302,6 +306,9 @@ public class UIHelper {
                 }
             }
         });
+
+        arcButton = (ArcMenu) MainActivity.getActivity().findViewById(R.id.arcMenu);
+        arcButton.setVisibility(View.GONE);
     }
 
     public static void facebookDialog() {
@@ -398,14 +405,8 @@ public class UIHelper {
     public static void init() {
         UIHelper.switchMode(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING));
 
-        //Check which mode we are in and instantiate the correct list view
-        if (Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING).equals(Subterminal.MODE_BASE)) {
-            UIHelper.replaceFragment(new Jump());
-        } else {
-            UIHelper.replaceFragment(new mavonie.subterminal.Skydive.Skydive());
-        }
-
         UIHelper.initAddButton();
+        UIHelper.replaceFragment(new Dashboard());
 
         if (!Subterminal.getUser().isLoggedIn()) {
             userLoggedOut();

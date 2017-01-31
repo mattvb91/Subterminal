@@ -68,6 +68,19 @@ public class SkydiveTest extends BaseDBUnit {
         Assert.assertTrue(skydive.equals(new Skydive().getOneById(skydive.getId())));
     }
 
+    @Test
+    public void testCutaway() {
+        Skydive skydive = createSkydive();
+
+        Assert.assertTrue(skydive.getCutaway().equals(Skydive.CUTAWAY_NO));
+
+        skydive.setCutaway(Skydive.CUTAWAY_YES);
+        skydive.save();
+
+        Skydive dbSkydive = (Skydive) new Skydive().getOneById(skydive.getId());
+
+        assertTrue(dbSkydive.getCutaway().equals(Skydive.CUTAWAY_YES));
+    }
 
     /**
      * TODO update with dynamic aircrafts/dropzones/gear

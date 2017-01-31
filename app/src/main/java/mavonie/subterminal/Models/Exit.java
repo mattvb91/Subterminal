@@ -1,6 +1,7 @@
 package mavonie.subterminal.Models;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
@@ -440,5 +441,28 @@ public class Exit extends Synchronizable {
                 globalExit.delete();
             }
         }
+    }
+
+    /**
+     * Get the top jumped exits
+     *
+     * @return int
+     */
+    public static LinkedHashMap<Exit, Integer> getTop3Exits() {
+        String query = "SELECT exit_id, count(exit_id) as total_count FROM " + Jump.TABLE_NAME + " GROUP BY exit_id ORDER BY total_count DESC LIMIT 3";
+
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
+        LinkedHashMap<Exit, Integer> results = new LinkedHashMap<>();
+
+        if (cursor.moveToFirst()) {
+            while (cursor.isAfterLast() == false) {
+                results.put((Exit) new Exit().getOneById(cursor.getInt(0)), cursor.getInt(1));
+                cursor.moveToNext();
+            }
+        }
+
+        cursor.close();
+
+        return results;
     }
 }

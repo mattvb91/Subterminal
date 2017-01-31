@@ -428,9 +428,6 @@ public class API {
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
                     Subterminal.getApi().updateLocalUser();
-
-                    //Init again as we are now logged in
-                    Subterminal.getApi().init();
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -484,6 +481,9 @@ public class API {
                 if (response.isSuccessful()) {
                     Subterminal.getUser().update((User) response.body());
                     Once.markDone(CALLS_UPDATE_USER);
+
+                    //Init again as we are now logged in
+                    Subterminal.getApi().init();
                 }
             }
 

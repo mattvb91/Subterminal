@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -50,6 +51,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             exit_altitude,
             deploy_altitude;
 
+    private CheckBox cutaway;
+
     private RadioGroup heightUnit;
 
     private LinkedHashMap<String, String> dropzoneNames;
@@ -86,6 +89,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         deploy_altitude = (TextView) view.findViewById(R.id.skydive_edit_deploy_altitude);
         date = (EditText) view.findViewById(R.id.skydive_edit_date);
         rigSpinner = (Spinner) view.findViewById(R.id.skydive_edit_rig);
+        cutaway = (CheckBox) view.findViewById(R.id.skydive_edit_cutaway_checkbox);
 
         dropzoneNames = new Dropzone().getItemsForSelect("name");
         dropzonesAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity().getApplicationContext(), R.layout.item_simple, dropzoneNames, LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE);
@@ -124,9 +128,9 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         });
 
         Spinner rigSpinner = (Spinner) view.findViewById(R.id.skydive_edit_rig);
-        this.rigs = new Rig().getItemsForSelect("container_manufacturer");
+        this.rigs = new Rig().getItemsForSelect("container_manufacturer", true);
 
-        if (this.rigs.size() > 0) {
+        if (this.rigs.size() > 1) {
             this.rigAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.rigs);
             this.rigAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             rigSpinner.setAdapter(this.rigAdapter);
@@ -134,7 +138,11 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             rigSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    rigEntry = rigAdapter.getItem(i);
+                    if (rigAdapter.getItem(i).getKey() != null) {
+                        rigEntry = rigAdapter.getItem(i);
+                    } else {
+                        rigEntry = null;
+                    }
                 }
 
                 @Override
@@ -152,7 +160,10 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         aircraftAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
         aircraftAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         aircraftSpinner.setAdapter(aircraftAdapter);
-        aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_AIRCRAFT, 1)));
+
+        if (aircraftAdapter.getCount() > 0)
+            aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_AIRCRAFT, 1)));
+
         aircraftSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -257,6 +268,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
             if (rigEntry != null) {
                 getItem().setRigId(Integer.parseInt(rigEntry.getKey()));
+            } else {
+                getItem().setRigId(null);
             }
 
             if (aircraftEntry != null) {
@@ -274,6 +287,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
             } else {
                 getItem().setHeightUnit(Subterminal.HEIGHT_UNIT_IMPERIAL);
             }
+
+            getItem().setCutaway(cutaway.isChecked() ? Skydive.CUTAWAY_YES : Skydive.CUTAWAY_NO);
 
             String delayString = delay.getText().toString();
             String descriptionString = description.getText().toString();
@@ -333,6 +348,10 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
                 heightUnit.check(R.id.radio_imperial);
             } else {
                 heightUnit.check(R.id.radio_metric);
+            }
+
+            if (getItem().getCutaway() == Skydive.CUTAWAY_YES) {
+                cutaway.setChecked(true);
             }
 
             if (getItem().getExitAltitude() != null) {
@@ -395,11 +414,19 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
         dropzoneEntry = this.dropzonesAdapter.getItem(position);
         dropzone.setText(dropzoneEntry.getValue());
+
+        //Check if the dropzone has associated aircrafts
+        //If it has then prefil the aircraft for us
+        Dropzone dropzone = (Dropzone) new Dropzone().getOneById(Integer.parseInt(dropzoneEntry.getKey()));
+        if (dropzone.getAircraft().size() > 0) {
+            aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(dropzone.getAircraft().get(0).getId()));
+        }
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         dropzoneEntry = this.dropzonesAdapter.getItem(position);
+
     }
 
     @Override

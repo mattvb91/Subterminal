@@ -102,6 +102,7 @@ CREATE TABLE skydive (
         description TEXT,
         jump_type INTEGER,
         suit_id INTEGER,
+        cutaway INTEGER DEFAULT 0,
         height_unit INTEGER DEFAULT 1,
         synced INTEGER DEFAULT 0,
         deleted INTEGER DEFAULT 0

@@ -24,6 +24,10 @@ public class GearForm extends BaseForm {
             canopySerial,
             canopyDateInUse;
 
+    public GearForm() {
+        this.arcMenu = true;
+    }
+
     @Override
     protected Gear getItem() {
         return (Gear) super.getItem();

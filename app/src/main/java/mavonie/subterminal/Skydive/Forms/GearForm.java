@@ -33,6 +33,10 @@ public class GearForm extends BaseForm {
             aadSerial,
             aadDateInUse;
 
+    public GearForm() {
+        this.arcMenu = true;
+    }
+
     @Override
     protected Rig getItem() {
         return (Rig) super.getItem();

@@ -36,6 +36,8 @@ public class Skydive extends Synchronizable {
             height_unit,
             suit_id;
 
+    private Integer cutaway = CUTAWAY_NO;
+
     //use this to get the current position from the query
     private int row_id;
 
@@ -53,6 +55,7 @@ public class Skydive extends Synchronizable {
     public static final String COLUMN_NAME_JUMP_RIG_ID = "rig_id";
     public static final String COLUMN_NAME_JUMP_HEIGHT_UNIT = "height_unit";
     public static final String COLUMN_NAME_SUIT_ID = "suit_id";
+    public static final String COLUMN_NAME_CUTAWAY = "cutaway";
     /* END DB DEFINITIONS*/
 
     @Override
@@ -80,6 +83,7 @@ public class Skydive extends Synchronizable {
             dbColumns.put(COLUMN_NAME_AIRCRAFT_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_JUMP_HEIGHT_UNIT, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_SUIT_ID, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_CUTAWAY, TYPE_INTEGER);
             dbColumns.put("row_id", TYPE_OTHER);
 
             Synchronizable.setDBColumns(dbColumns);
@@ -96,6 +100,9 @@ public class Skydive extends Synchronizable {
                 break;
         }
     }
+
+    public static final int CUTAWAY_YES = 1;
+    public static final int CUTAWAY_NO = 0;
 
     public static final int SKYDIVE_TYPE_BELLY = 1;
     public static final int SKYDIVE_TYPE_FREEFLY = 2;
@@ -286,6 +293,14 @@ public class Skydive extends Synchronizable {
         this.suit_id = suit_id;
     }
 
+    public Integer getCutaway() {
+        return cutaway;
+    }
+
+    public void setCutaway(Integer cutaway) {
+        this.cutaway = cutaway;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -307,6 +322,8 @@ public class Skydive extends Synchronizable {
         if (height_unit != null ? !height_unit.equals(skydive.height_unit) : skydive.height_unit != null)
             return false;
         if (suit_id != null ? !suit_id.equals(skydive.suit_id) : skydive.suit_id != null)
+            return false;
+        if (cutaway != null ? !cutaway.equals(skydive.cutaway) : skydive.cutaway != null)
             return false;
         return jump_type != null ? jump_type.equals(skydive.jump_type) : skydive.jump_type == null;
 
