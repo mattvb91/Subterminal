@@ -414,11 +414,19 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
 
         dropzoneEntry = this.dropzonesAdapter.getItem(position);
         dropzone.setText(dropzoneEntry.getValue());
+
+        //Check if the dropzone has associated aircrafts
+        //If it has then prefil the aircraft for us
+        Dropzone dropzone = (Dropzone) new Dropzone().getOneById(Integer.parseInt(dropzoneEntry.getKey()));
+        if (dropzone.getAircraft().size() > 0) {
+            aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(dropzone.getAircraft().get(0).getId()));
+        }
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         dropzoneEntry = this.dropzonesAdapter.getItem(position);
+
     }
 
     @Override

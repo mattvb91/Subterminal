@@ -323,6 +323,8 @@ public class Skydive extends Synchronizable {
             return false;
         if (suit_id != null ? !suit_id.equals(skydive.suit_id) : skydive.suit_id != null)
             return false;
+        if (cutaway != null ? !cutaway.equals(skydive.cutaway) : skydive.cutaway != null)
+            return false;
         return jump_type != null ? jump_type.equals(skydive.jump_type) : skydive.jump_type == null;
 
     }
