@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.1.8"
+        versioncode="24">
+        <change>Improved image view on Dropzones/Jump entries with attached images</change>
+    </release>
+    <release
         version="1.1.7"
         versioncode="23">
         <change>Added dashboard with basic jump stats</change>

@@ -130,4 +130,7 @@ public interface EndpointInterface {
     @GET("user/images")
     Call<List<Image>> downloadImages(
             @Query("last_sync") String lastSync);
+
+    @GET("dropzone/{id}/images")
+    Call<List<Image>> getDropzoneImages(@Path("id") Integer id);
 }

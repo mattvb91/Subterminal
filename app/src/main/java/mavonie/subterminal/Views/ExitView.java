@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -22,8 +23,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import az.openweatherapi.model.gson.common.Coord;
+import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
@@ -69,6 +72,14 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         }
 
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
+
+        if (Image.loadThumbForEntity(getItem()) != null) {
+            CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
+            crescento.setVisibility(View.VISIBLE);
+
+            KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
+            top.setImageURI((Image.loadThumbForEntity(getItem()).getUri()));
+        }
 
         TextView rockdropDistance = (TextView) view.findViewById(R.id.exit_view_rockdrop_distance);
         rockdropDistance.setText(UnitConverter.getFormattedDistance(getItem().getRockdropDistance(), getItem().getHeightUnit()));
