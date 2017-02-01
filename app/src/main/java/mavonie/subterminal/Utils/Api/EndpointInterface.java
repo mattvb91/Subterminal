@@ -133,4 +133,7 @@ public interface EndpointInterface {
 
     @GET("dropzone/{id}/images")
     Call<List<Image>> getDropzoneImages(@Path("id") Integer id);
+
+    @GET("dropzone/{id}/services")
+    Call<List<String>> getDropzoneServices(@Path("id") Integer id);
 }

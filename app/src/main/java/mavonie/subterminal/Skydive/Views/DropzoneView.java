@@ -26,6 +26,7 @@ import java.net.URL;
 import java.util.List;
 
 import az.openweatherapi.model.gson.common.Coord;
+import co.lujun.androidtagview.TagContainerLayout;
 import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
@@ -61,9 +62,6 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
 
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_dropzone_view, container, false);
-
-        TextView name = (TextView) view.findViewById(R.id.dropzone_view_name);
-        name.setText(getItem().getName());
 
         TextView email = (TextView) view.findViewById(R.id.dropzone_view_email);
         email.setText(getItem().getEmail());
@@ -116,6 +114,22 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
                             }
                         });
                     }
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+            }
+        });
+
+        //Check for remote images
+        Call services = Subterminal.getApi().getEndpoints().getDropzoneServices(getItem().getId());
+        services.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call call, final Response response) {
+                if (response.isSuccessful()) {
+                    TagContainerLayout servicesView = (TagContainerLayout) view.findViewById(R.id.dropzone_services);
+                    servicesView.setTags((List<String>) response.body());
                 }
             }
 

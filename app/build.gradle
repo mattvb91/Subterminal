@@ -52,6 +52,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.8.0'
     compile 'com.google.firebase:firebase-ads:9.8.0'
 
+    compile 'co.lujun:androidtagview:1.0.5'
     compile 'com.github.developer-shivam:crescento:1.1.0'
     compile 'com.flaviofaria:kenburnsview:1.0.7'
     compile 'com.android.support:appcompat-v7:24.2.1'
