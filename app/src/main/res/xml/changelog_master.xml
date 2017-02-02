@@ -3,7 +3,7 @@
     <release
         version="1.1.8"
         versioncode="24">
-        <change>Improved image view on Dropzones/Jump entries with attached images</change>
+        <change>UI update on Dropzones/Jump entries with attached images</change>
         <change>Services displayed on Dropzones (Requires internet connection)</change>
     </release>
     <release
