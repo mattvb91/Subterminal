@@ -1,9 +1,11 @@
 package mavonie.subterminal.Models;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import mavonie.subterminal.Models.Skydive.Skydive;
+import retrofit2.Call;
 
 /**
  * Signature Model
@@ -117,5 +119,25 @@ public class Signature extends Synchronizable {
         }
 
         return _image;
+    }
+
+    @Override
+    public Call getSyncEndpoint() {
+        return null;
+    }
+
+    @Override
+    public Call<Void> getDeleteEndpoint() {
+        return null;
+    }
+
+    @Override
+    public Call<List> getDownloadEndpoint() {
+        return null;
+    }
+
+    @Override
+    public String getSyncIdentifier() {
+        return null;
     }
 }

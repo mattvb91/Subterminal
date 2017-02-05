@@ -29,6 +29,7 @@ import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.Synchronized;
+import retrofit2.Call;
 
 
 /**
@@ -326,6 +327,26 @@ public class Image extends Synchronizable {
     public static void downloadImages(List<Image> images, String server_time) {
         ImageRunnable downloadThread = new ImageRunnable(images, server_time);
         downloadThread.run();
+    }
+
+    @Override
+    public Call getSyncEndpoint() {
+        return null;
+    }
+
+    @Override
+    public Call<Void> getDeleteEndpoint() {
+        return null;
+    }
+
+    @Override
+    public Call<List> getDownloadEndpoint() {
+        return null;
+    }
+
+    @Override
+    public String getSyncIdentifier() {
+        return null;
     }
 
     /**

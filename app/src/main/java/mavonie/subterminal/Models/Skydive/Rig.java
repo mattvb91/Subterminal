@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Jobs.Skydive.SyncRig;
-import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.Synchronized;
+import retrofit2.Call;
 
 
 /**
@@ -52,12 +52,6 @@ public class Rig extends Synchronizable {
     public static final String COLUMN_NAME_AAD_MODEL = "aad_model";
     public static final String COLUMN_NAME_AAD_SERIAL = "aad_serial";
     public static final String COLUMN_NAME_AAD_DATE_IN_USE = "aad_date_in_use";
-
-    @Override
-    public void addSyncJob() {
-        Subterminal.getJobManager(MainActivity.getActivity())
-                .addJobInBackground(new SyncRig(this));
-    }
 
     private static Map<String, Integer> dbColumns = null;
 
@@ -303,5 +297,25 @@ public class Rig extends Synchronizable {
         whereRigId.put(Model.FILTER_WHERE_VALUE, Integer.toString(this.getId()));
 
         return new Skydive().getItems(whereRigId);
+    }
+
+    @Override
+    public Call getSyncEndpoint() {
+        return Subterminal.getApi().getEndpoints().syncRig(this);
+    }
+
+    @Override
+    public Call<Void> getDeleteEndpoint() {
+        return Subterminal.getApi().getEndpoints().deleteRig(this.getId());
+    }
+
+    @Override
+    public Call<List<Rig>> getDownloadEndpoint() {
+        return Subterminal.getApi().getEndpoints().downloadRigs(Synchronized.getLastSyncPref(this.getSyncIdentifier()));
+    }
+
+    @Override
+    public String getSyncIdentifier() {
+        return Synchronized.PREF_LAST_SYNC_RIG;
     }
 }

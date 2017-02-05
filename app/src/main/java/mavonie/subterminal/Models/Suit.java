@@ -5,9 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Jobs.SyncSuit;
-import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.Synchronized;
+import retrofit2.Call;
 
 /**
  * Suit model
@@ -116,12 +116,6 @@ public class Suit extends Synchronizable {
     }
 
     @Override
-    public void addSyncJob() {
-        Subterminal.getJobManager(MainActivity.getActivity())
-                .addJobInBackground(new SyncSuit(this));
-    }
-
-    @Override
     protected String getTableName() {
         return TABLE_NAME;
     }
@@ -215,5 +209,25 @@ public class Suit extends Synchronizable {
         }
 
         return this._jumps;
+    }
+
+    @Override
+    public Call getSyncEndpoint() {
+        return Subterminal.getApi().getEndpoints().syncSuit(this);
+    }
+
+    @Override
+    public Call<Void> getDeleteEndpoint() {
+        return Subterminal.getApi().getEndpoints().deleteSuit(this.getId());
+    }
+
+    @Override
+    public Call<List<Suit>> getDownloadEndpoint() {
+        return Subterminal.getApi().getEndpoints().downloadSuits(Synchronized.getLastSyncPref(this.getSyncIdentifier()));
+    }
+
+    @Override
+    public String getSyncIdentifier() {
+        return Synchronized.PREF_LAST_SYNC_SUIT;
     }
 }

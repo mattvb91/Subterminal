@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Jobs.SyncGear;
-import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.Synchronized;
+import retrofit2.Call;
 
 /**
  * Gear model
@@ -167,12 +167,6 @@ public class Gear extends Synchronizable {
 
     }
 
-    @Override
-    public void addSyncJob() {
-        Subterminal.getJobManager(MainActivity.getActivity())
-                .addJobInBackground(new SyncGear(this));
-    }
-
     public static List<Gear> getGearForSync() {
         return new Gear().getItems(getSyncRequiredParams());
     }
@@ -206,4 +200,23 @@ public class Gear extends Synchronizable {
         return new Jump().getItems(whereGearID);
     }
 
+    @Override
+    public Call getSyncEndpoint() {
+        return Subterminal.getApi().getEndpoints().syncGear(this);
+    }
+
+    @Override
+    public Call<Void> getDeleteEndpoint() {
+        return Subterminal.getApi().getEndpoints().deleteGear(this.getId());
+    }
+
+    @Override
+    public Call<List<Gear>> getDownloadEndpoint() {
+        return Subterminal.getApi().getEndpoints().downloadGear(Synchronized.getLastSyncPref(this.getSyncIdentifier()));
+    }
+
+    @Override
+    public String getSyncIdentifier() {
+        return Synchronized.PREF_LAST_SYNC_GEAR;
+    }
 }

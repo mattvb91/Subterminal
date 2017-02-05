@@ -512,267 +512,6 @@ public class API {
         return gson;
     }
 
-    public void syncExit(final Exit exit) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call syncExit = this.getEndpoints().syncExit(exit);
-        syncExit.enqueue(new Callback<Exit>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    exit.markSynced();
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS, response.headers().get("server_time"));
-                }
-
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void deleteExit(final Exit exit) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call deleteExit = this.getEndpoints().delete(exit.getId());
-        deleteExit.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful() || response.code() == 403) {
-                    exit.delete();
-                }
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void deleteGear(final Gear gear) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call deleteGear = this.getEndpoints().deleteGear(gear.getId());
-        deleteGear.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful() || response.code() == 403) {
-                    gear.delete();
-                }
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-
-    }
-
-    public void syncGear(final Gear gear) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call syncGear = this.getEndpoints().syncGear(gear);
-        syncGear.enqueue(new Callback<Gear>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    gear.markSynced();
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR, response.headers().get("server_time"));
-                }
-
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-
-    }
-
-    public void deleteJump(final Jump jump) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call deleteJump = this.getEndpoints().deleteJump(jump.getId());
-        deleteJump.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful() || response.code() == 403) {
-                    jump.delete();
-                }
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void syncJump(final Jump jump) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call syncJump = this.getEndpoints().syncJump(jump);
-        syncJump.enqueue(new Callback<Jump>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    jump.markSynced();
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP, response.headers().get("server_time"));
-                }
-
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void syncSuit(final Suit suit) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call syncSuit = this.getEndpoints().syncSuit(suit);
-        syncSuit.enqueue(new Callback<Jump>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    suit.markSynced();
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT, response.headers().get("server_time"));
-                }
-
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void deleteSuit(final Suit suit) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call deleteSuit = this.getEndpoints().deleteSuit(suit.getId());
-        deleteSuit.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful() || response.code() == 403) {
-                    suit.delete();
-                }
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void deleteRig(final Rig rig) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call deleteRig = this.getEndpoints().deleteRig(rig.getId());
-        deleteRig.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful() || response.code() == 403) {
-                    rig.delete();
-                }
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void syncRig(final Rig rig) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call syncRig = this.getEndpoints().syncRig(rig);
-        syncRig.enqueue(new Callback<Jump>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    rig.markSynced();
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG, response.headers().get("server_time"));
-                }
-
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void deleteSkydive(final Skydive skydive) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call deleteSkydive = this.getEndpoints().deleteSkydive(skydive.getId());
-        deleteSkydive.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful() || response.code() == 403) {
-                    skydive.delete();
-                }
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void syncSkydive(final Skydive skydive) {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call syncSkydive = this.getEndpoints().syncSkydive(skydive);
-        syncSkydive.enqueue(new Callback<Jump>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    skydive.markSynced();
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE, response.headers().get("server_time"));
-                }
-
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-
     private void downloadSkydives() {
         UIHelper.setProgressBarVisibility(View.VISIBLE);
         Call mySkydives = this.getEndpoints().downloadSkydives(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE));
@@ -872,5 +611,46 @@ public class API {
 
     public OkHttpClient getOkHttpClient() {
         return this.okHttpClient;
+    }
+
+    public void deleteModel(final Synchronizable model) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        model.getDeleteEndpoint().enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful() || response.code() == 403) {
+                    model.delete();
+                }
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void syncModel(final Synchronizable model) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        model.getSyncEndpoint().enqueue(new Callback<Synchronizable>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    model.markSynced();
+
+                    Synchronized.setLastSyncPref(model.getSyncIdentifier(), response.headers().get("server_time"));
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
     }
 }

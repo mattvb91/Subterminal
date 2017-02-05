@@ -66,7 +66,7 @@ public interface EndpointInterface {
     Call<Exit> syncExit(@Body Exit exit);
 
     @DELETE("user/exit/{id}")
-    Call<Void> delete(@Path("id") Integer id);
+    Call<Void> deleteExit(@Path("id") Integer id);
 
     @GET("user/exits")
     Call<List<Exit>> downloadExits(

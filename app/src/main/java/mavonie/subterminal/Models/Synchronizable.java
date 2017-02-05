@@ -8,14 +8,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mavonie.subterminal.Jobs.SyncModel;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Utils.Api.SyncEndpoints;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Synchronizable Model
  */
-public abstract class Synchronizable extends Model {
+public abstract class Synchronizable extends Model implements SyncEndpoints {
 
     public static final Integer SYNC_COMPLETED = 1;
     public static final Integer SYNC_REQUIRED = 0;
@@ -118,7 +121,12 @@ public abstract class Synchronizable extends Model {
         }
     }
 
-    public abstract void addSyncJob();
+    /**
+     * Add job to synchronize this model
+     */
+    public void addSyncJob() {
+        Subterminal.getJobManager(MainActivity.getActivity()).addJobInBackground(new SyncModel(this));
+    }
 
     /**
      * Used to identify in a job queue

@@ -10,13 +10,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Jobs.Skydive.SyncSkydive;
-import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Preference;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.Synchronized;
+import retrofit2.Call;
 
 /**
  * Skydive Model
@@ -57,12 +57,6 @@ public class Skydive extends Synchronizable {
     public static final String COLUMN_NAME_SUIT_ID = "suit_id";
     public static final String COLUMN_NAME_CUTAWAY = "cutaway";
     /* END DB DEFINITIONS*/
-
-    @Override
-    public void addSyncJob() {
-        Subterminal.getJobManager(MainActivity.getActivity())
-                .addJobInBackground(new SyncSkydive(this));
-    }
 
     private static Map<String, Integer> dbColumns = null;
 
@@ -414,5 +408,25 @@ public class Skydive extends Synchronizable {
 
     public static List<Skydive> getSkydivesForDelete() {
         return new Skydive().getItems(getDeleteRequiredParams());
+    }
+
+    @Override
+    public Call<Skydive> getSyncEndpoint() {
+        return Subterminal.getApi().getEndpoints().syncSkydive(this);
+    }
+
+    @Override
+    public Call<Void> getDeleteEndpoint() {
+        return Subterminal.getApi().getEndpoints().deleteSkydive(this.getId());
+    }
+
+    @Override
+    public Call<List<Skydive>> getDownloadEndpoint() {
+        return Subterminal.getApi().getEndpoints().downloadSkydives(Synchronized.getLastSyncPref(this.getSyncIdentifier()));
+    }
+
+    @Override
+    public String getSyncIdentifier() {
+        return Synchronized.PREF_LAST_SYNC_SKYDIVE;
     }
 }

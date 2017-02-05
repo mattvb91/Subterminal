@@ -9,24 +9,23 @@ import com.birbit.android.jobqueue.RetryConstraint;
 import com.birbit.android.jobqueue.TagConstraint;
 
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**
- * Synchronize Gear job
+ * Post exits job
  */
-public class SyncGear extends Job {
+public class SyncModel extends Job {
 
-    private Gear gear;
+    private Synchronizable model;
 
-    public SyncGear(Gear gear) {
-        super(new Params(1).requireNetwork().persist().addTags(gear.getJobTag()));
-        this.gear = gear;
+    public SyncModel(Synchronizable model) {
+        super(new Params(1).requireNetwork().persist().addTags(model.getJobTag()));
+        this.model = model;
 
         //Cancel previous edits
         Subterminal.getJobManager(MainActivity.getActivity())
-                .cancelJobsInBackground(null, TagConstraint.ANY, this.gear.getJobTag());
+                .cancelJobsInBackground(null, TagConstraint.ANY, this.model.getJobTag());
     }
 
     @Override
@@ -39,11 +38,12 @@ public class SyncGear extends Job {
 
         if (Subterminal.getUser().isLoggedIn()) {
 
-            if (this.gear.getDeleted().equals(Synchronizable.DELETED_TRUE)) {
-                Subterminal.getApi().deleteGear(this.gear);
-            } else if (this.gear.getSynced().equals(Synchronizable.SYNC_REQUIRED)) {
-                Subterminal.getApi().syncGear(this.gear);
+            if (this.model.getDeleted().equals(Synchronizable.DELETED_TRUE)) {
+                Subterminal.getApi().deleteModel(this.model);
+            } else if (this.model.getSynced().equals(Synchronizable.SYNC_REQUIRED)) {
+                Subterminal.getApi().syncModel(this.model);
             }
+
         }
     }
 
