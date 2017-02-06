@@ -140,13 +140,17 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         loadImages();
 
-        Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
-        pictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.getActivity().onPickImage(view);
-            }
-        });
+        if (!getItem().isGlobal()) {
+            Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
+            pictureButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity.getActivity().onPickImage(view);
+                }
+            });
+        } else {
+            view.findViewById(R.id.exit_view_images_card).setVisibility(View.GONE);
+        }
 
         if (getItem().isMapActive()) {
             Coord coordinate = new Coord();
