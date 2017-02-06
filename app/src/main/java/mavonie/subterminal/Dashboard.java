@@ -79,6 +79,12 @@ public class Dashboard extends Fragment {
         dropzoneCount = (TextView) view.findViewById(R.id.dashboard_dropzone_count);
         exitsCount = (TextView) view.findViewById(R.id.dashboard_exits_count);
 
+        TextView skydiveDelay = (TextView) view.findViewById(R.id.total_freefall_skydive);
+        skydiveDelay.setText("Total Freefall: " + timeConversion(new Skydive().sum(Skydive.COLUMN_NAME_DELAY)));
+
+        TextView baseDelay = (TextView) view.findViewById(R.id.total_freefall_base);
+        baseDelay.setText("Total Freefall: " + timeConversion(new Jump().sum(Jump.COLUMN_NAME_DELAY)));
+
         FadingTextView premiumAdd = (FadingTextView) view.findViewById(R.id.premium_ad);
         if (Subterminal.getUser().isPremium()) {
             premiumAdd.setVisibility(View.GONE);
@@ -373,5 +379,19 @@ public class Dashboard extends Fragment {
         super.onPause();
 
         this.getView().findViewById(R.id.premium_ad).setVisibility(View.GONE);
+    }
+
+    private static String timeConversion(int seconds) {
+
+        final int MINUTES_IN_AN_HOUR = 60;
+        final int SECONDS_IN_A_MINUTE = 60;
+
+        int minutes = seconds / SECONDS_IN_A_MINUTE;
+        seconds -= minutes * SECONDS_IN_A_MINUTE;
+
+        int hours = minutes / MINUTES_IN_AN_HOUR;
+        minutes -= hours * MINUTES_IN_AN_HOUR;
+
+        return hours + "h " + minutes + "m " + seconds + "s";
     }
 }

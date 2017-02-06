@@ -418,6 +418,26 @@ abstract public class Model implements BaseColumns, Serializable {
     }
 
     /**
+     * Sum of given field
+     *
+     * @return int
+     */
+    public int sum(String fieldName) {
+        String query = "SELECT sum(" + fieldName + ") FROM " + getTableName();
+
+        if (this instanceof Synchronizable) {
+            query += this.buildWhere(Synchronizable.getActiveParams());
+        }
+
+        Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
+        cursor.moveToFirst();
+        int sum = cursor.getInt(0);
+        cursor.close();
+
+        return sum;
+    }
+
+    /**
      * If this is an optional select box we include an empty option at the top
      *
      * @param fieldName
