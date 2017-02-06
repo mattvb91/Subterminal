@@ -23,12 +23,14 @@ import java.util.Map;
 import java.util.Random;
 
 import mavonie.subterminal.Jobs.DownloadImage;
-import mavonie.subterminal.Jobs.SyncImage;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.Synchronized;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 
 
@@ -288,12 +290,6 @@ public class Image extends Synchronizable {
                 .build();
     }
 
-    @Override
-    public void addSyncJob() {
-        Subterminal.getJobManager(MainActivity.getActivity())
-                .addJobInBackground(new SyncImage(this));
-    }
-
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
     private static String[] PERMISSIONS_STORAGE = {
@@ -331,7 +327,10 @@ public class Image extends Synchronizable {
 
     @Override
     public Call getSyncEndpoint() {
-        return null;
+        File file = new File(this.getFullPath());
+        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+
+        return Subterminal.getApi().getEndpoints().uploadImage(imagePart, this.getEntityType(), this.getEntityId());
     }
 
     @Override
@@ -346,7 +345,7 @@ public class Image extends Synchronizable {
 
     @Override
     public String getSyncIdentifier() {
-        return null;
+        return Synchronized.PREF_LAST_SYNC_IMAGE;
     }
 
     /**

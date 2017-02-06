@@ -1,7 +1,10 @@
 package mavonie.subterminal.Utils;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -12,10 +15,29 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Webclient
+ * Override to check if payment button has been hit and user is authenticated
+ */
 public class WebClient extends WebViewClient {
+
+    @SuppressWarnings("deprecation")
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        if (Uri.parse(url).toString().contains("?payment=true")) {
+        final Uri uri = Uri.parse(url);
+        return handleUri(uri);
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        final Uri uri = request.getUrl();
+        return handleUri(uri);
+    }
+
+
+    private boolean handleUri(final Uri uri) {
+        if (uri.toString().contains("?payment=true")) {
 
             //Make sure user is authenticated before we allow further
             Call updateUser = Subterminal.getApi().getEndpoints().getUser();

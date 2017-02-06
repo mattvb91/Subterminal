@@ -179,12 +179,12 @@ public class API {
             }
 
             if (Subterminal.getUser().isPremium()) {
-                downloadExits();
-                downloadGear();
-                downloadSuits();
-                downloadJumps();
-                downloadSkydives();
-                downloadRigs();
+                downloadModel(new Exit());
+                downloadModel(new Gear());
+                downloadModel(new Suit());
+                downloadModel(new Jump());
+                downloadModel(new Skydive());
+                downloadModel(new Rig());
 
                 Synchronizable.syncEntities();
                 downloadImages();
@@ -259,106 +259,6 @@ public class API {
         });
     }
 
-    private void downloadSuits() {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-        Call mySuits = this.getEndpoints().downloadSuits(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT));
-
-        mySuits.enqueue(new Callback<List<Suit>>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-                if (response.isSuccessful()) {
-                    List<Suit> suits = (List) response.body();
-                    for (Suit suit : suits) {
-                        suit.markSynced();
-                    }
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SUIT, response.headers().get("server_time"));
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void downloadJumps() {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-        Call myJumps = this.getEndpoints().downloadJumps(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP));
-
-        myJumps.enqueue(new Callback<List<Jump>>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-                if (response.isSuccessful()) {
-                    List<Jump> jumps = (List) response.body();
-                    for (Jump jump : jumps) {
-                        jump.markSynced();
-                    }
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_JUMP, response.headers().get("server_time"));
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void downloadExits() {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-        Call myExits = this.getEndpoints().downloadExits(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS));
-
-        myExits.enqueue(new Callback<List<Exit>>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-                if (response.isSuccessful()) {
-                    List<Exit> exits = (List) response.body();
-                    for (Exit exit : exits) {
-                        exit.markSynced();
-                    }
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_EXITS, response.headers().get("server_time"));
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void downloadGear() {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-        Call myGear = this.getEndpoints().downloadGear(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR));
-
-        myGear.enqueue(new Callback<List<Gear>>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-
-                if (response.isSuccessful()) {
-                    List<Gear> gears = (List) response.body();
-
-                    for (Gear gear : gears) {
-                        gear.markSynced();
-                    }
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_GEAR, response.headers().get("server_time"));
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
 
     /**
      * Update the global exits list
@@ -512,55 +412,6 @@ public class API {
         return gson;
     }
 
-    private void downloadSkydives() {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-        Call mySkydives = this.getEndpoints().downloadSkydives(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE));
-
-        mySkydives.enqueue(new Callback<List<Skydive>>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-                if (response.isSuccessful()) {
-                    for (Skydive skydive : (List<Skydive>) response.body()) {
-                        skydive.markSynced();
-                    }
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_SKYDIVE, response.headers().get("server_time"));
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void downloadRigs() {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-        Call myRigs = this.getEndpoints().downloadRigs(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG));
-
-        myRigs.enqueue(new Callback<List<Rig>>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-                if (response.isSuccessful()) {
-                    List<Rig> rigs = (List) response.body();
-                    for (Rig rig : rigs) {
-                        rig.markSynced();
-                    }
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_RIG, response.headers().get("server_time"));
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
     private void downloadImages() {
         UIHelper.setProgressBarVisibility(View.VISIBLE);
         Call myImages = this.getEndpoints().downloadImages(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_IMAGE));
@@ -583,30 +434,6 @@ public class API {
     }
 
     public void deleteImage(Image image) {
-    }
-
-    public void syncImage(final Image image) {
-        File file = new File(image.getFullPath());
-        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-
-        Call call = Subterminal.getApi().getEndpoints().uploadImage(imagePart, image.getEntityType(), image.getEntityId());
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-
-                if (response.isSuccessful()) {
-                    image.markSynced();
-
-                    Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_IMAGE, response.headers().get("server_time"));
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
     }
 
     public OkHttpClient getOkHttpClient() {
@@ -645,6 +472,34 @@ public class API {
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    /**
+     * Download remote instances of passed in model.
+     *
+     * @param model
+     */
+    private void downloadModel(final Synchronizable model) {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+        model.getDownloadEndpoint().enqueue(new Callback<List<Synchronizable>>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                UIHelper.setProgressBarVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    List<Synchronizable> models = (List) response.body();
+                    for (Synchronizable model : models) {
+                        model.markSynced();
+                    }
+
+                    Synchronized.setLastSyncPref(model.getSyncIdentifier(), response.headers().get("server_time"));
+                }
             }
 
             @Override
