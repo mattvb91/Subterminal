@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_delete"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@drawable/ic_delete"
         android:onClick="deleteDialog"
         android:title="Delete"
         android:visible="false"
@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/action_edit"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/ic_edit"
         android:onClick="editItem"
         android:title="Edit"
         android:visible="false"
@@ -20,9 +20,10 @@
 
     <item
         android:id="@+id/action_filter"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_filter"
         android:onClick="editItem"
+        android:title="Filter"
         android:visible="false"
-        android:title="Filter" />
+        app:showAsAction="ifRoom" />
 
 </menu>
