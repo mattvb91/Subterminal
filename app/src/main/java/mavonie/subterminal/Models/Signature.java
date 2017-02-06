@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.Synchronized;
 import retrofit2.Call;
 
 /**
@@ -27,11 +29,6 @@ public class Signature extends Synchronizable {
 
     public final static int TYPE_SKYDIVE = 1;
     public final static int TYPE_BASE = 2;
-
-    @Override
-    public void addSyncJob() {
-
-    }
 
     private static Map<String, Integer> dbColumns = null;
 
@@ -121,9 +118,13 @@ public class Signature extends Synchronizable {
         return _image;
     }
 
+    public static List<Signature> getSignaturesForSync() {
+        return new Signature().getItems(getSyncRequiredParams());
+    }
+
     @Override
     public Call getSyncEndpoint() {
-        return null;
+        return Subterminal.getApi().getEndpoints().syncSignature(this);
     }
 
     @Override
@@ -132,12 +133,12 @@ public class Signature extends Synchronizable {
     }
 
     @Override
-    public Call<List> getDownloadEndpoint() {
-        return null;
+    public Call<List<Signature>> getDownloadEndpoint() {
+        return Subterminal.getApi().getEndpoints().downloadSignatures(Synchronized.getLastSyncPref(this.getSyncIdentifier()));
     }
 
     @Override
     public String getSyncIdentifier() {
-        return null;
+        return Synchronized.PREF_LAST_SYNC_SIGNATURE;
     }
 }

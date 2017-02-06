@@ -10,7 +10,6 @@ import com.google.gson.GsonBuilder;
 import com.stripe.android.model.Token;
 import com.stripe.model.Charge;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -30,6 +29,7 @@ import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Rig;
@@ -40,10 +40,7 @@ import mavonie.subterminal.Models.User;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
 import mavonie.subterminal.Utils.Api.Intercepter;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -185,6 +182,7 @@ public class API {
                 downloadModel(new Jump());
                 downloadModel(new Skydive());
                 downloadModel(new Rig());
+                downloadModel(new Signature());
 
                 Synchronizable.syncEntities();
                 downloadImages();

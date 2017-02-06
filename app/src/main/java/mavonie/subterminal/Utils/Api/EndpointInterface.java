@@ -11,6 +11,7 @@ import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Rig;
@@ -125,6 +126,14 @@ public interface EndpointInterface {
 
     @GET("user/skydives")
     Call<List<Skydive>> downloadSkydives(
+            @Query("last_sync") String lastSync);
+
+    //Signature requests
+    @POST("signature")
+    Call<Signature> syncSignature(@Body Signature signature);
+
+    @GET("user/signatures")
+    Call<List<Signature>> downloadSignatures(
             @Query("last_sync") String lastSync);
 
     @GET("user/images")

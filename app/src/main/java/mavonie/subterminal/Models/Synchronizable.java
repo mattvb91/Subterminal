@@ -227,6 +227,10 @@ public abstract class Synchronizable extends Model implements SyncEndpoints {
                     skydive.addSyncJob();
                 }
 
+                for (Signature signature : Signature.getSignaturesForSync()) {
+                    signature.addSyncJob();
+                }
+
                 for (Image image : Image.getImagesForSync()) {
                     image.addSyncJob();
                 }
