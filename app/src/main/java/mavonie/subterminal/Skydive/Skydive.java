@@ -23,6 +23,7 @@ import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Skydive.ViewAdapters.SkydiveRecycler;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
+import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.FilterableFragment;
 import mavonie.subterminal.Utils.Listeners.DatePickerTextView;
 import mavonie.subterminal.Utils.UIHelper;
@@ -84,54 +85,28 @@ public class Skydive extends FilterableFragment {
     @Override
     protected HashMap<String, Object> buildFilterParams() {
 
-        HashMap<String, Object> params = new HashMap<>();
-
-        params.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_DESC);
-        params.put(Model.FILTER_ORDER_FIELD, mavonie.subterminal.Models.Jump.COLUMN_NAME_DATE);
-
-        HashMap<Integer, HashMap> wheres = new HashMap<>();
-        wheres.put(wheres.size(), Synchronizable.getActiveParams());
+        Query query = new Query();
+        query.orderDir(mavonie.subterminal.Models.Skydive.Skydive.COLUMN_NAME_DATE, Model.FILTER_ORDER_DIR_DESC);
+        query.getWheres().put(query.getWheres().size(), Synchronizable.getActiveParams());
 
         if (this.getArguments() != null) {
             Object jumpType = this.getArguments().get("jumpType");
-            if (jumpType != null) {
+            if (jumpType != null)
+                query.addWhere(mavonie.subterminal.Models.Skydive.Skydive.COLUMN_NAME_JUMP_TYPE, jumpType.toString());
 
-                HashMap<String, Object> whereJumpType = new HashMap<>();
-                whereJumpType.put(Model.FILTER_WHERE_FIELD, mavonie.subterminal.Models.Skydive.Skydive.COLUMN_NAME_JUMP_TYPE);
-                whereJumpType.put(Model.FILTER_WHERE_VALUE, "'" + jumpType.toString() + "'");
-                wheres.put(wheres.size(), whereJumpType);
-            }
-
-            Object cutaway = this.getArguments().get("cutaway");
-            if (cutaway != null) {
-                HashMap<String, Object> whereCutaway = new HashMap<>();
-                whereCutaway.put(Model.FILTER_WHERE_FIELD, mavonie.subterminal.Models.Skydive.Skydive.COLUMN_NAME_CUTAWAY);
-                whereCutaway.put(Model.FILTER_WHERE_VALUE, "'" + mavonie.subterminal.Models.Skydive.Skydive.CUTAWAY_YES + "'");
-                wheres.put(wheres.size(), whereCutaway);
-            }
+            if (this.getArguments().get("cutaway") != null)
+                query.addWhere(mavonie.subterminal.Models.Skydive.Skydive.COLUMN_NAME_CUTAWAY, mavonie.subterminal.Models.Skydive.Skydive.CUTAWAY_YES);
 
             Object dateFrom = this.getArguments().get("dateFrom");
-            if (dateFrom != null) {
-                HashMap<String, Object> whereDateFrom = new HashMap<>();
-                whereDateFrom.put(Model.FILTER_WHERE_FIELD, mavonie.subterminal.Models.Skydive.Skydive.COLUMN_NAME_DATE);
-                whereDateFrom.put(Model.FILTER_WHERE_VALUE, "'" + dateFrom.toString() + "'");
-                whereDateFrom.put(Model.FILTER_WHERE_OPERATOR, ">=");
-                wheres.put(wheres.size(), whereDateFrom);
-            }
+            if (dateFrom != null)
+                query.addWhere(mavonie.subterminal.Models.Skydive.Skydive.COLUMN_NAME_DATE, dateFrom.toString(), Model.OPERATOR_GTEQ);
 
             Object dateTo = this.getArguments().get("dateTo");
-            if (dateTo != null) {
-                HashMap<String, Object> whereDateTo = new HashMap<>();
-                whereDateTo.put(Model.FILTER_WHERE_FIELD, mavonie.subterminal.Models.Skydive.Skydive.COLUMN_NAME_DATE);
-                whereDateTo.put(Model.FILTER_WHERE_VALUE, "'" + dateTo.toString() + "'");
-                whereDateTo.put(Model.FILTER_WHERE_OPERATOR, "<=");
-                wheres.put(wheres.size(), whereDateTo);
-            }
+            if (dateTo != null)
+                query.addWhere(mavonie.subterminal.Models.Skydive.Skydive.COLUMN_NAME_DATE, dateTo.toString(), Model.OPERATOR_LTEQ);
         }
 
-        params.put(Model.FILTER_WHERE, wheres);
-
-        return params;
+        return query.getParams();
     }
 
     @Override

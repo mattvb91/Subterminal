@@ -123,6 +123,12 @@ abstract public class Model implements BaseColumns, Serializable {
     public static final String FILTER_WHERE_OPERATOR = "where_operator";
     public static final String FILTER_LIMIT = "LIMIT";
 
+    public static final String OPERATOR_EQUALS = "=";
+    public static final String OPERATOR_GT = ">";
+    public static final String OPERATOR_GTEQ = ">=";
+    public static final String OPERATOR_LT = "<";
+    public static final String OPERATOR_LTEQ = "<=";
+
     /**
      * Get models matching passed in filter.
      *

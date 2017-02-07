@@ -29,8 +29,16 @@ public class Query {
     public void addWhere(String field, String value) {
         HashMap<String, Object> param = new HashMap<>();
         param.put(Model.FILTER_WHERE_FIELD, field);
-        param.put(Model.FILTER_WHERE_VALUE, value);
+        param.put(Model.FILTER_WHERE_VALUE, "'" + value + "'");
         wheres.put(wheres.size(), param);
+    }
+
+    /**
+     * @param field
+     * @param value
+     */
+    public void addWhere(String field, int value) {
+        addWhere(field, Integer.toString(value));
     }
 
     /**
@@ -40,10 +48,10 @@ public class Query {
      * @param operator
      * @param value
      */
-    public void addWhere(String field, String operator, String value) {
+    public void addWhere(String field, String value, String operator) {
         HashMap<String, Object> param = new HashMap<>();
         param.put(Model.FILTER_WHERE_FIELD, field);
-        param.put(Model.FILTER_WHERE_VALUE, value);
+        param.put(Model.FILTER_WHERE_VALUE, "'" + value + "'");
         param.put(Model.FILTER_WHERE_OPERATOR, operator);
         wheres.put(wheres.size(), param);
     }
@@ -59,6 +67,10 @@ public class Query {
         }
 
         return params;
+    }
+
+    public HashMap<Integer, HashMap> getWheres() {
+        return wheres;
     }
 
     /**
