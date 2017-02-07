@@ -120,6 +120,7 @@ abstract public class Model implements BaseColumns, Serializable {
     public static final String FILTER_WHERE = "WHERE";
     public static final String FILTER_WHERE_FIELD = "where_field";
     public static final String FILTER_WHERE_VALUE = "where_value";
+    public static final String FILTER_WHERE_OPERATOR = "where_operator";
     public static final String FILTER_LIMIT = "LIMIT";
 
     /**
@@ -202,6 +203,7 @@ abstract public class Model implements BaseColumns, Serializable {
 
                 String whereField = (String) where.get(FILTER_WHERE_FIELD);
                 Object whereValue = where.get(FILTER_WHERE_VALUE);
+                String whereOperator = (String) where.get(FILTER_WHERE_OPERATOR);
 
                 if (i == 0) {
                     query += " WHERE ";
@@ -211,6 +213,8 @@ abstract public class Model implements BaseColumns, Serializable {
 
                 if (whereValue == null) {
                     query += whereField + " IS NULL";
+                } else if (whereOperator != null) {
+                    query += whereField + " " + whereOperator + " " + whereValue.toString();
                 } else {
                     query += whereField + " = " + whereValue.toString();
                 }

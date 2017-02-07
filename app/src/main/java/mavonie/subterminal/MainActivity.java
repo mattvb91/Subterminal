@@ -32,6 +32,7 @@ import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Payment;
+import mavonie.subterminal.Skydive.Skydive;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Views.Premium.PremiumPay;
@@ -184,7 +185,15 @@ public class MainActivity extends PinCompatActivity
 
     public void editItem(MenuItem item) {
         if (item.getItemId() == R.id.action_filter) {
-            mavonie.subterminal.Skydive.Dropzone.filterPopup();
+            switch (Subterminal.getActiveFragment()) {
+                case R.id.skydiving_nav_dropzones:
+                    mavonie.subterminal.Skydive.Dropzone.filterPopup();
+                    break;
+                case R.id.skydiving_nav_jumps:
+                    Skydive fragment = (Skydive) this.getSupportFragmentManager().findFragmentByTag(Skydive.class.getCanonicalName());
+                    fragment.populateFilter();
+                    break;
+            }
         } else {
             UIHelper.editEntity();
         }

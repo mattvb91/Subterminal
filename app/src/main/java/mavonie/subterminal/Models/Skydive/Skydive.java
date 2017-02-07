@@ -186,7 +186,7 @@ public class Skydive extends Synchronizable {
 
         jumpTypes.put(SKYDIVE_TYPE_STUDENT_AFF, "Student - AFF");
         jumpTypes.put(SKYDIVE_TYPE_STUDENT_STATICLINE, "Student - Static Line");
-        jumpTypes.put(SKYDIVE_TYPE_STUDENT_TANDEM, "Student - Tanden");
+        jumpTypes.put(SKYDIVE_TYPE_STUDENT_TANDEM, "Student - Tandem");
         jumpTypes.put(SKYDIVE_TYPE_STUDENT_CONSOLE, "Student - Console");
     }
 
