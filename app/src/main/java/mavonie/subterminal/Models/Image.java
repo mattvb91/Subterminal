@@ -330,7 +330,7 @@ public class Image extends Synchronizable {
         File file = new File(this.getFullPath());
         MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
 
-        return Subterminal.getApi().getEndpoints().uploadImage(imagePart, this.getEntityType(), this.getEntityId());
+        return Subterminal.getApi().getEndpoints().uploadImage(imagePart, this.getEntityType(), this.getEntityId(), this.getId());
     }
 
     @Override

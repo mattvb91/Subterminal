@@ -60,7 +60,7 @@ public interface EndpointInterface {
 
     @Multipart
     @POST("user/image")
-    Call<Void> uploadImage(@Part MultipartBody.Part filePart, @Query("entity_type") Integer entity_type, @Query("entity_id") Integer entity_id);
+    Call<Void> uploadImage(@Part MultipartBody.Part filePart, @Query("entity_type") Integer entity_type, @Query("entity_id") Integer entity_id, @Query("id") Integer id);
 
     //Exit requests
     @POST("exit")
