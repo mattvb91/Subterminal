@@ -14,6 +14,7 @@ import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Preference;
+import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.Synchronized;
 import retrofit2.Call;
@@ -359,23 +360,10 @@ public class Skydive extends Synchronizable {
      * @return
      */
     public List<Signature> getSignatures() {
-        HashMap<String, Object> params = new HashMap<>();
+        Query query = new Query(Signature.COLUMN_NAME_ENTITY_TYPE, Signature.getEntityTypeFromModel(this));
+        query.addWhere(Signature.COLUMN_NAME_ENTITY_ID, this.getId());
 
-        HashMap<String, Object> whereEntityType = new HashMap<>();
-        whereEntityType.put(Model.FILTER_WHERE_FIELD, Signature.COLUMN_NAME_ENTITY_TYPE);
-        whereEntityType.put(Model.FILTER_WHERE_VALUE, Signature.getEntityTypeFromModel(this));
-
-        HashMap<String, Object> whereId = new HashMap<>();
-        whereId.put(Model.FILTER_WHERE_FIELD, Signature.COLUMN_NAME_ENTITY_ID);
-        whereId.put(Model.FILTER_WHERE_VALUE, this.getId());
-
-        HashMap<Integer, HashMap> wheres = new HashMap<>();
-        wheres.put(wheres.size(), whereId);
-        wheres.put(wheres.size(), whereEntityType);
-
-        params.put(Model.FILTER_WHERE, wheres);
-
-        return new Signature().getItems(params);
+        return new Signature().getItems(query.getParams());
     }
 
     private Aircraft _aircraft;

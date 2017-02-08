@@ -24,6 +24,10 @@ public class Query {
         addWhere(field, value);
     }
 
+    public Query(String field, int value, String operator) {
+        addWhere(field, Integer.toString(value), operator);
+    }
+
     /**
      * Basic where operation
      *

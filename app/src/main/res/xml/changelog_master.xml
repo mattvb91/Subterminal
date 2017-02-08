@@ -3,6 +3,7 @@
     <release
         version="1.1.9"
         versioncode="25">
+        <change>Basic filters on Skydive, BASE jump, Gallery</change>
         <change>General Premium data backup improvements</change>
         <change>Total freefall times on dashboard</change>
     </release>
