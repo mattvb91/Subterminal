@@ -33,7 +33,6 @@ import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Payment;
 import mavonie.subterminal.Skydive.Dropzone;
-import mavonie.subterminal.Skydive.Skydive;
 import mavonie.subterminal.Utils.FilterableFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
@@ -138,6 +137,9 @@ public class MainActivity extends PinCompatActivity
                         break;
                     case R.id.skydiving_nav_jumps:
                         fragment = (mavonie.subterminal.Skydive.Skydive) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Skydive.Skydive.class.getCanonicalName());
+                        break;
+                    case R.id.nav_jumps:
+                        fragment = (mavonie.subterminal.Jump) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Jump.class.getCanonicalName());
                         break;
                 }
                 fragment.populateFilter();

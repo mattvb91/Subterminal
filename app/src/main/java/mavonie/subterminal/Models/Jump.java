@@ -77,6 +77,10 @@ public class Jump extends Synchronizable {
         return pc_sizes;
     }
 
+    public static HashMap<Integer, String> getTypes() {
+        return jump_type;
+    }
+
     /* DB DEFINITIONS */
     public static final String TABLE_NAME = "jump";
 

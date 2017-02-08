@@ -102,6 +102,7 @@ public class UIHelper {
     public static void openFragmentForEntity(Model entity) {
 
         getAddButton().hide();
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_filter).setVisible(false);
 
         Bundle args = new Bundle();
         args.putSerializable("item", entity);
