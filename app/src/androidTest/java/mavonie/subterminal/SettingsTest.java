@@ -21,6 +21,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -163,6 +164,9 @@ public class SettingsTest extends BaseTest {
         ViewInteraction appCompatCheckedTextView2 = onView(
                 allOf(withId(android.R.id.text1), withText(sliderSelect), isDisplayed()));
         appCompatCheckedTextView2.perform(click());
+
+
+        onView(allOf(withId(R.id.preference_default_pc_size_value))).perform(scrollTo());
 
         ViewInteraction appCompatSpinner2 = onView(
                 allOf(withId(R.id.preference_default_pc_size_value), isDisplayed()));

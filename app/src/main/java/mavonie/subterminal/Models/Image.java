@@ -363,12 +363,16 @@ public class Image extends Synchronizable {
 
         @Override
         public void run() {
-            for (Image image : this.images) {
-                Subterminal.getJobManager(MainActivity.getActivity()).addJobInBackground(new DownloadImage(image));
-            }
+            if (PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(MainActivity.getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                for (Image image : this.images) {
+                    Subterminal.getJobManager(MainActivity.getActivity()).addJobInBackground(new DownloadImage(image));
+                }
 
-            //Make sure we only set the sync time once every download has completed
-            Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_IMAGE, this.server_time);
+                //Make sure we only set the sync time once every download has completed
+                Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_IMAGE, this.server_time);
+            } else {
+                verifyStoragePermissions(MainActivity.getActivity());
+            }
         }
     }
 }

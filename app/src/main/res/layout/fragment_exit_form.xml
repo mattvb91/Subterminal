@@ -155,7 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="0.0000"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberSigned"/>
             </LinearLayout>
 
 
@@ -175,7 +175,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="0.0000"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberSigned"/>
             </LinearLayout>
         </LinearLayout>
 
