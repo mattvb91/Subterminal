@@ -82,6 +82,21 @@ public class SkydiveTest extends BaseDBUnit {
         assertTrue(dbSkydive.getCutaway().equals(Skydive.CUTAWAY_YES));
     }
 
+    @Test
+    public void testDelaySum() {
+        Skydive skydive = createSkydive();
+        skydive.setDelay(12);
+        skydive.save();
+
+        assertEquals(12, new Skydive().sum(Skydive.COLUMN_NAME_DELAY));
+
+        Skydive skydive2 = createSkydive();
+        skydive2.setDelay(12);
+        skydive2.save();
+
+        assertEquals(24, new Skydive().sum(Skydive.COLUMN_NAME_DELAY));
+    }
+
     /**
      * TODO update with dynamic aircrafts/dropzones/gear
      *

@@ -24,6 +24,7 @@ import mavonie.subterminal.Utils.Subterminal;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -52,6 +53,8 @@ public class DropzoneTest extends BaseTest {
                         isDisplayed()));
         recyclerView.perform(actionOnItemAtPosition(3, click()));
 
+        onView(allOf(withId(R.id.contact_layout_website))).perform(scrollTo());
+
         ViewInteraction textView = onView(
                 allOf(withText("Website"),
                         childAtPosition(
@@ -72,6 +75,8 @@ public class DropzoneTest extends BaseTest {
                                 0),
                         isDisplayed()));
         textView2.check(matches(withText("Email")));
+
+        onView(allOf(withId(R.id.dropzone_view_map))).perform(scrollTo());
 
         ViewInteraction textView3 = onView(
                 allOf(withText("Map"),

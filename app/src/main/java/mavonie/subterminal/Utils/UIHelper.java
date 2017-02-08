@@ -102,6 +102,7 @@ public class UIHelper {
     public static void openFragmentForEntity(Model entity) {
 
         getAddButton().hide();
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_filter).setVisible(false);
 
         Bundle args = new Bundle();
         args.putSerializable("item", entity);
@@ -169,6 +170,7 @@ public class UIHelper {
         //Disable add buttons here and enable manually below
         getArcMenu().setVisibility(View.GONE);
         getAddButton().hide();
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_filter).setVisible(false);
 
         switch (id) {
             case R.id.nav_jumps:

@@ -44,6 +44,7 @@ import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Synchronizable;
+import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Utils.UnitConverter;
@@ -79,6 +80,12 @@ public class Dashboard extends Fragment {
         dropzoneCount = (TextView) view.findViewById(R.id.dashboard_dropzone_count);
         exitsCount = (TextView) view.findViewById(R.id.dashboard_exits_count);
 
+        TextView skydiveDelay = (TextView) view.findViewById(R.id.total_freefall_skydive);
+        skydiveDelay.setText("Total Freefall: " + timeConversion(new Skydive().sum(Skydive.COLUMN_NAME_DELAY)));
+
+        TextView baseDelay = (TextView) view.findViewById(R.id.total_freefall_base);
+        baseDelay.setText("Total Freefall: " + timeConversion(new Jump().sum(Jump.COLUMN_NAME_DELAY)));
+
         FadingTextView premiumAdd = (FadingTextView) view.findViewById(R.id.premium_ad);
         if (Subterminal.getUser().isPremium()) {
             premiumAdd.setVisibility(View.GONE);
@@ -90,7 +97,6 @@ public class Dashboard extends Fragment {
                 }
             });
         }
-
 
         HashMap<String, Object> whereNotGlobal = new HashMap<>();
         whereNotGlobal.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
@@ -112,16 +118,12 @@ public class Dashboard extends Fragment {
 
         ArrayList<Entry> values = new ArrayList<Entry>();
 
-        HashMap<Integer, HashMap> skydiveWheres = new HashMap<>();
-        skydiveWheres.put(skydiveWheres.size(), Skydive.getActiveParams());
+        Query query = new Query();
+        query.getWheres().put(query.getWheres().size(), Skydive.getActiveParams());
+        query.orderDir(Skydive.COLUMN_NAME_DATE, Model.FILTER_ORDER_DIR_DESC);
+        query.getParams().put(Model.FILTER_LIMIT, 10);
 
-        HashMap<String, Object> skydiveParams = new HashMap<>();
-        skydiveParams.put(Model.FILTER_WHERE, skydiveWheres);
-        skydiveParams.put(Model.FILTER_ORDER_DIR, Model.FILTER_ORDER_DIR_DESC);
-        skydiveParams.put(Model.FILTER_ORDER_FIELD, Skydive.COLUMN_NAME_DATE);
-        skydiveParams.put(Model.FILTER_LIMIT, 10);
-
-        List<Skydive> skydives = new Skydive().getItems(skydiveParams);
+        List<Skydive> skydives = new Skydive().getItems(query.getParams());
         Collections.reverse(skydives);
 
         int i = 1;
@@ -250,79 +252,31 @@ public class Dashboard extends Fragment {
         mChart.setHighlightPerTapEnabled(true);
 
 
-        HashMap<String, Object> whereBuilding = new HashMap<>();
-        whereBuilding.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_OBJECT_TYPE);
-        whereBuilding.put(Model.FILTER_WHERE_VALUE, Integer.toString(Exit.TYPE_BUILDING));
+        Query buildingQuery = new Query(Exit.COLUMN_NAME_OBJECT_TYPE, Exit.TYPE_BUILDING);
+        buildingQuery.getWheres().put(buildingQuery.getWheres().size(), Synchronizable.getActiveParams());
+        buildingQuery.addWhere(Exit.COLUMN_NAME_GLOBAL_ID, null);
 
-        HashMap<String, Object> whereNotDeleted = new HashMap<>();
-        whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
-        whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
+        Query antennaQuery = new Query(Exit.COLUMN_NAME_OBJECT_TYPE, Exit.TYPE_ANTENNA);
+        antennaQuery.getWheres().put(antennaQuery.getWheres().size(), Synchronizable.getActiveParams());
+        antennaQuery.addWhere(Exit.COLUMN_NAME_GLOBAL_ID, null);
 
-        HashMap<String, Object> whereNotGlobal = new HashMap<>();
-        whereNotGlobal.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
-        whereNotGlobal.put(Model.FILTER_WHERE_VALUE, null);
+        Query spanQuery = new Query(Exit.COLUMN_NAME_OBJECT_TYPE, Exit.TYPE_SPAN);
+        spanQuery.getWheres().put(spanQuery.getWheres().size(), Synchronizable.getActiveParams());
+        spanQuery.addWhere(Exit.COLUMN_NAME_GLOBAL_ID, null);
 
-        HashMap<Integer, HashMap> buildingWheres = new HashMap<>();
-        buildingWheres.put(buildingWheres.size(), whereNotDeleted);
-        buildingWheres.put(buildingWheres.size(), whereBuilding);
-        buildingWheres.put(buildingWheres.size(), whereNotGlobal);
+        Query earthQuery = new Query(Exit.COLUMN_NAME_OBJECT_TYPE, Exit.TYPE_EARTH);
+        earthQuery.getWheres().put(earthQuery.getWheres().size(), Synchronizable.getActiveParams());
+        earthQuery.addWhere(Exit.COLUMN_NAME_GLOBAL_ID, null);
 
-        HashMap<String, Object> buildingParams = new HashMap<>();
-        buildingParams.put(Model.FILTER_WHERE, buildingWheres);
+        Query otherQuery = new Query(Exit.COLUMN_NAME_OBJECT_TYPE, Exit.TYPE_OTHER);
+        otherQuery.getWheres().put(otherQuery.getWheres().size(), Synchronizable.getActiveParams());
+        otherQuery.addWhere(Exit.COLUMN_NAME_GLOBAL_ID, null);
 
-        HashMap<String, Object> whereAntenna = new HashMap<>();
-        whereAntenna.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_OBJECT_TYPE);
-        whereAntenna.put(Model.FILTER_WHERE_VALUE, Integer.toString(Exit.TYPE_ANTENNA));
-
-        HashMap<Integer, HashMap> antennaWheres = new HashMap<>();
-        antennaWheres.put(antennaWheres.size(), whereNotDeleted);
-        antennaWheres.put(antennaWheres.size(), whereAntenna);
-        antennaWheres.put(antennaWheres.size(), whereNotGlobal);
-
-        HashMap<String, Object> antennaParams = new HashMap<>();
-        antennaParams.put(Model.FILTER_WHERE, antennaWheres);
-
-        HashMap<String, Object> whereSpan = new HashMap<>();
-        whereSpan.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_OBJECT_TYPE);
-        whereSpan.put(Model.FILTER_WHERE_VALUE, Integer.toString(Exit.TYPE_SPAN));
-
-        HashMap<Integer, HashMap> spanWheres = new HashMap<>();
-        spanWheres.put(spanWheres.size(), whereNotDeleted);
-        spanWheres.put(spanWheres.size(), whereSpan);
-        spanWheres.put(spanWheres.size(), whereNotGlobal);
-
-        HashMap<String, Object> spanParams = new HashMap<>();
-        spanParams.put(Model.FILTER_WHERE, spanWheres);
-
-        HashMap<String, Object> whereEarth = new HashMap<>();
-        whereEarth.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_OBJECT_TYPE);
-        whereEarth.put(Model.FILTER_WHERE_VALUE, Integer.toString(Exit.TYPE_EARTH));
-
-        HashMap<Integer, HashMap> earthWheres = new HashMap<>();
-        earthWheres.put(earthWheres.size(), whereNotDeleted);
-        earthWheres.put(earthWheres.size(), whereEarth);
-        earthWheres.put(earthWheres.size(), whereNotGlobal);
-
-        HashMap<String, Object> earthParams = new HashMap<>();
-        earthParams.put(Model.FILTER_WHERE, earthWheres);
-
-        HashMap<String, Object> whereOther = new HashMap<>();
-        whereOther.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_OBJECT_TYPE);
-        whereOther.put(Model.FILTER_WHERE_VALUE, Integer.toString(Exit.TYPE_OTHER));
-
-        HashMap<Integer, HashMap> otherWheres = new HashMap<>();
-        otherWheres.put(otherWheres.size(), whereNotDeleted);
-        otherWheres.put(otherWheres.size(), whereOther);
-        otherWheres.put(otherWheres.size(), whereNotGlobal);
-
-        HashMap<String, Object> otherParams = new HashMap<>();
-        otherParams.put(Model.FILTER_WHERE, otherWheres);
-
-        int buildings = new Exit().count(buildingParams);
-        int antennas = new Exit().count(antennaParams);
-        int spans = new Exit().count(spanParams);
-        int earth = new Exit().count(earthParams);
-        int other = new Exit().count(otherParams);
+        int buildings = new Exit().count(buildingQuery.getParams());
+        int antennas = new Exit().count(antennaQuery.getParams());
+        int spans = new Exit().count(spanQuery.getParams());
+        int earth = new Exit().count(earthQuery.getParams());
+        int other = new Exit().count(otherQuery.getParams());
 
         ArrayList<PieEntry> values = new ArrayList<>();
         if (buildings > 0)
@@ -373,5 +327,19 @@ public class Dashboard extends Fragment {
         super.onPause();
 
         this.getView().findViewById(R.id.premium_ad).setVisibility(View.GONE);
+    }
+
+    private static String timeConversion(int seconds) {
+
+        final int MINUTES_IN_AN_HOUR = 60;
+        final int SECONDS_IN_A_MINUTE = 60;
+
+        int minutes = seconds / SECONDS_IN_A_MINUTE;
+        seconds -= minutes * SECONDS_IN_A_MINUTE;
+
+        int hours = minutes / MINUTES_IN_AN_HOUR;
+        minutes -= hours * MINUTES_IN_AN_HOUR;
+
+        return hours + "h " + minutes + "m " + seconds + "s";
     }
 }

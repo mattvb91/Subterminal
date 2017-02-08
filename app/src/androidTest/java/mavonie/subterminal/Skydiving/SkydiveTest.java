@@ -158,24 +158,24 @@ public class SkydiveTest extends BaseTest {
         textView5.check(matches(withText("Tracking")));
 
         ViewInteraction textView6 = onView(
-                allOf(withId(R.id.skydive_view_altitude), withText("12345"),
+                allOf(withId(R.id.skydive_view_altitude), withText("12,345ft"),
                         childAtPosition(
                                 childAtPosition(
                                         IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class),
                                         6),
                                 0),
                         isDisplayed()));
-        textView6.check(matches(withText("12345")));
+        textView6.check(matches(withText("12,345ft")));
 
         ViewInteraction textView7 = onView(
-                allOf(withId(R.id.skydive_view_deplpoy_altitude), withText("3214"),
+                allOf(withId(R.id.skydive_view_deplpoy_altitude), withText("3,214ft"),
                         childAtPosition(
                                 childAtPosition(
                                         IsInstanceOf.<View>instanceOf(android.widget.TableLayout.class),
                                         6),
                                 1),
                         isDisplayed()));
-        textView7.check(matches(withText("3214")));
+        textView7.check(matches(withText("3,214ft")));
 
         ViewInteraction textView8 = onView(
                 allOf(withId(R.id.skydive_view_delay), withText("54s"),

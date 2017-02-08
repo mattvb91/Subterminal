@@ -159,11 +159,63 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/dashboard_legend_skydive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dashboard_totals"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="#b8b8b8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Skydive"
+                android:textColor="#525252"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="#b8b8b8" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/dashboard_legend_skydive_totals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dashboard_legend_skydive"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/total_freefall_skydive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="Total Freefall: 0h 0m 0s"
+                android:textColor="#525252"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+
         <android.support.v7.widget.CardView
             android:id="@+id/dashboard_skydive_pull_height"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dashboard_totals"
+            android:layout_below="@id/dashboard_legend_skydive_totals"
             android:layout_margin="5dp"
             android:layout_weight="1"
             app:cardUseCompatPadding="true">
@@ -207,12 +259,33 @@
                 android:background="#b8b8b8" />
         </LinearLayout>
 
+
+        <LinearLayout
+            android:id="@+id/dashboard_legend_base_totals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dashboard_legend_base"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/total_freefall_base"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="Total Freefall: 0h 0m 0s"
+                android:textColor="#525252"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/base_overview_charts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dashboard_legend_base"
+            android:layout_below="@id/dashboard_legend_base_totals"
             android:layout_weight="2"
             android:orientation="horizontal">
 

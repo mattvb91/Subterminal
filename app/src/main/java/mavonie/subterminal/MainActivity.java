@@ -32,6 +32,8 @@ import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Payment;
+import mavonie.subterminal.Skydive.Dropzone;
+import mavonie.subterminal.Utils.FilterableFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Views.Premium.PremiumPay;
@@ -122,6 +124,32 @@ public class MainActivity extends PinCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         this.optionsMenu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem item = menu.findItem(R.id.action_filter);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                FilterableFragment fragment = null;
+
+                switch (Subterminal.getActiveFragment()) {
+                    case R.id.skydiving_nav_dropzones:
+                        fragment = (Dropzone) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(Dropzone.class.getCanonicalName());
+                        break;
+                    case R.id.skydiving_nav_jumps:
+                        fragment = (mavonie.subterminal.Skydive.Skydive) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Skydive.Skydive.class.getCanonicalName());
+                        break;
+                    case R.id.nav_jumps:
+                        fragment = (mavonie.subterminal.Jump) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Jump.class.getCanonicalName());
+                        break;
+                    case R.id.nav_gallery:
+                        fragment = (mavonie.subterminal.Gallery) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Gallery.class.getCanonicalName());
+                        break;
+                }
+                fragment.populateFilter();
+                return true;
+            }
+        });
+
         return true;
     }
 
@@ -170,10 +198,6 @@ public class MainActivity extends PinCompatActivity
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-//
-//        if (this.getUser().getFacebookToken() != null && this.getUser().getFacebookToken().isExpired() == false) {
-//            this.getUser().init();
-//        }
 
         actionBarDrawerToggle.syncState();
     }
@@ -183,11 +207,7 @@ public class MainActivity extends PinCompatActivity
     }
 
     public void editItem(MenuItem item) {
-        if (item.getItemId() == R.id.action_filter) {
-            mavonie.subterminal.Skydive.Dropzone.filterPopup();
-        } else {
-            UIHelper.editEntity();
-        }
+        UIHelper.editEntity();
     }
 
     @Override

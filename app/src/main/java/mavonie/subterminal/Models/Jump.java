@@ -10,11 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Jobs.SyncJump;
-import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Preference;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.Synchronized;
+import retrofit2.Call;
 
 /**
  * Jump Model
@@ -75,6 +75,10 @@ public class Jump extends Synchronizable {
 
     public static Integer[] getPcSizeArray() {
         return pc_sizes;
+    }
+
+    public static HashMap<Integer, String> getTypes() {
+        return jump_type;
     }
 
     /* DB DEFINITIONS */
@@ -318,12 +322,6 @@ public class Jump extends Synchronizable {
         return null;
     }
 
-    @Override
-    public void addSyncJob() {
-        Subterminal.getJobManager(MainActivity.getActivity())
-                .addJobInBackground(new SyncJump(this));
-    }
-
     public static List<Jump> getJumpsForSync() {
         return new Jump().getItems(getSyncRequiredParams());
     }
@@ -357,4 +355,23 @@ public class Jump extends Synchronizable {
         return new Signature().getItems(params);
     }
 
+    @Override
+    public Call getSyncEndpoint() {
+        return Subterminal.getApi().getEndpoints().syncJump(this);
+    }
+
+    @Override
+    public Call<Void> getDeleteEndpoint() {
+        return Subterminal.getApi().getEndpoints().deleteJump(this.getId());
+    }
+
+    @Override
+    public Call<List<Jump>> getDownloadEndpoint() {
+        return Subterminal.getApi().getEndpoints().downloadJumps(Synchronized.getLastSyncPref(this.getSyncIdentifier()));
+    }
+
+    @Override
+    public String getSyncIdentifier() {
+        return Synchronized.PREF_LAST_SYNC_JUMP;
+    }
 }

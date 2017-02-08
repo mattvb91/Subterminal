@@ -202,6 +202,8 @@ public class RigTest extends BaseTest {
                         isDisplayed()));
         editText4.check(matches(withText(containerDate)));
 
+        onView(allOf(withId(R.id.edit_canopy_manufacturer))).perform(scrollTo());
+
         ViewInteraction editTextMain = onView(
                 allOf(withId(R.id.edit_canopy_manufacturer), withText(mainManufacturer),
                         childAtPosition(
@@ -241,6 +243,8 @@ public class RigTest extends BaseTest {
                                 1),
                         isDisplayed()));
         editText4Main.check(matches(withText(mainDate)));
+
+        onView(allOf(withId(R.id.edit_reserve_manufacturer))).perform(scrollTo());
 
         ViewInteraction editTextReserve = onView(
                 allOf(withId(R.id.edit_reserve_manufacturer), withText(reserveManufacturer),
@@ -283,6 +287,8 @@ public class RigTest extends BaseTest {
                                 1),
                         isDisplayed()));
         editText4Reserve.check(matches(withText(reserveDate)));
+
+        onView(allOf(withId(R.id.edit_aad_manufacturer))).perform(scrollTo());
 
         ViewInteraction editTextAad = onView(
                 allOf(withId(R.id.edit_aad_manufacturer), withText(aadManufacturer),

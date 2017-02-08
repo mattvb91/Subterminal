@@ -11,9 +11,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Jobs.SyncExit;
-import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.Synchronized;
+import retrofit2.Call;
 
 
 /**
@@ -320,11 +320,6 @@ public class Exit extends Synchronizable {
         this.details = details;
     }
 
-    @Override
-    public void addSyncJob() {
-        Subterminal.getJobManager(MainActivity.getActivity())
-                .addJobInBackground(new SyncExit(this));
-    }
 
     /**
      * Get all the jumps associated with this exit
@@ -464,5 +459,25 @@ public class Exit extends Synchronizable {
         cursor.close();
 
         return results;
+    }
+
+    @Override
+    public Call getSyncEndpoint() {
+        return Subterminal.getApi().getEndpoints().syncExit(this);
+    }
+
+    @Override
+    public Call<Void> getDeleteEndpoint() {
+        return Subterminal.getApi().getEndpoints().deleteExit(this.getId());
+    }
+
+    @Override
+    public Call<List<Exit>> getDownloadEndpoint() {
+        return Subterminal.getApi().getEndpoints().downloadExits(Synchronized.getLastSyncPref(this.getSyncIdentifier()));
+    }
+
+    @Override
+    public String getSyncIdentifier() {
+        return Synchronized.PREF_LAST_SYNC_EXITS;
     }
 }

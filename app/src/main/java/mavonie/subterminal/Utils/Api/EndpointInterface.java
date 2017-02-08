@@ -11,6 +11,7 @@ import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Preferences.Notification;
+import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Rig;
@@ -59,14 +60,14 @@ public interface EndpointInterface {
 
     @Multipart
     @POST("user/image")
-    Call<Void> uploadImage(@Part MultipartBody.Part filePart, @Query("entity_type") Integer entity_type, @Query("entity_id") Integer entity_id);
+    Call<Void> uploadImage(@Part MultipartBody.Part filePart, @Query("entity_type") Integer entity_type, @Query("entity_id") Integer entity_id, @Query("id") Integer id);
 
     //Exit requests
     @POST("exit")
     Call<Exit> syncExit(@Body Exit exit);
 
     @DELETE("user/exit/{id}")
-    Call<Void> delete(@Path("id") Integer id);
+    Call<Void> deleteExit(@Path("id") Integer id);
 
     @GET("user/exits")
     Call<List<Exit>> downloadExits(
@@ -127,7 +128,21 @@ public interface EndpointInterface {
     Call<List<Skydive>> downloadSkydives(
             @Query("last_sync") String lastSync);
 
+    //Signature requests
+    @POST("signature")
+    Call<Signature> syncSignature(@Body Signature signature);
+
+    @GET("user/signatures")
+    Call<List<Signature>> downloadSignatures(
+            @Query("last_sync") String lastSync);
+
     @GET("user/images")
     Call<List<Image>> downloadImages(
             @Query("last_sync") String lastSync);
+
+    @GET("dropzone/{id}/images")
+    Call<List<Image>> getDropzoneImages(@Path("id") Integer id);
+
+    @GET("dropzone/{id}/services")
+    Call<List<String>> getDropzoneServices(@Path("id") Integer id);
 }

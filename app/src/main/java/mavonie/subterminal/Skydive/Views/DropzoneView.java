@@ -1,12 +1,17 @@
 package mavonie.subterminal.Skydive.Views;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -16,14 +21,24 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+
 import az.openweatherapi.model.gson.common.Coord;
+import co.lujun.androidtagview.TagContainerLayout;
+import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Utils.Views.MapView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Dropzone View
@@ -31,6 +46,7 @@ import mavonie.subterminal.Utils.Views.MapView;
 public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
 
     protected MapView mMapView;
+    protected KenBurnsView top;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,9 +63,6 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_dropzone_view, container, false);
 
-        TextView name = (TextView) view.findViewById(R.id.dropzone_view_name);
-        name.setText(getItem().getName());
-
         TextView email = (TextView) view.findViewById(R.id.dropzone_view_email);
         email.setText(getItem().getEmail());
 
@@ -65,6 +78,65 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
         TextView aircraft = (TextView) view.findViewById(R.id.dropzone_view_aircraft);
         aircraft.setText(getItem().getFormattedAircraft());
 
+        top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
+
+        //Check for remote images
+        Call images = Subterminal.getApi().getEndpoints().getDropzoneImages(getItem().getId());
+        images.enqueue(new Callback<List<Image>>() {
+            @Override
+            public void onResponse(Call call, final Response response) {
+                if (response.isSuccessful()) {
+                    final List<Image> images = (List<Image>) response.body();
+
+                    if (images.size() > 0) {
+                        CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
+                        crescento.setVisibility(View.VISIBLE);
+
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    String url = "https://skydivelocations.com/image/" + images.get(0).getFilename() + "?full=true";
+                                    final Bitmap bm = BitmapFactory.decodeStream(new URL(url).openConnection().getInputStream());
+
+                                    Handler mainHandler = new Handler(MainActivity.getActivity().getMainLooper());
+                                    Runnable uiRunnable = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            top.setImageBitmap(bm);
+                                        }
+                                    };
+                                    mainHandler.post(uiRunnable);
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+            }
+        });
+
+        //Check for remote images
+        Call services = Subterminal.getApi().getEndpoints().getDropzoneServices(getItem().getId());
+        services.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call call, final Response response) {
+                if (response.isSuccessful()) {
+                    TagContainerLayout servicesView = (TagContainerLayout) view.findViewById(R.id.dropzone_services);
+                    servicesView.setTags((List<String>) response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+            }
+        });
 
         if (getItem().isMapActive()) {
             Coord coordinate = new Coord();

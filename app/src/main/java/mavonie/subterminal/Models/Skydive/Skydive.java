@@ -10,16 +10,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Jobs.Skydive.SyncSkydive;
-import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Preference;
+import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.Subterminal;
+import mavonie.subterminal.Utils.Synchronized;
+import retrofit2.Call;
 
 /**
  * Skydive Model
+ * TODO on delete remove all associated entries, images, signatures
  */
 public class Skydive extends Synchronizable {
 
@@ -57,12 +58,6 @@ public class Skydive extends Synchronizable {
     public static final String COLUMN_NAME_SUIT_ID = "suit_id";
     public static final String COLUMN_NAME_CUTAWAY = "cutaway";
     /* END DB DEFINITIONS*/
-
-    @Override
-    public void addSyncJob() {
-        Subterminal.getJobManager(MainActivity.getActivity())
-                .addJobInBackground(new SyncSkydive(this));
-    }
 
     private static Map<String, Integer> dbColumns = null;
 
@@ -192,7 +187,7 @@ public class Skydive extends Synchronizable {
 
         jumpTypes.put(SKYDIVE_TYPE_STUDENT_AFF, "Student - AFF");
         jumpTypes.put(SKYDIVE_TYPE_STUDENT_STATICLINE, "Student - Static Line");
-        jumpTypes.put(SKYDIVE_TYPE_STUDENT_TANDEM, "Student - Tanden");
+        jumpTypes.put(SKYDIVE_TYPE_STUDENT_TANDEM, "Student - Tandem");
         jumpTypes.put(SKYDIVE_TYPE_STUDENT_CONSOLE, "Student - Console");
     }
 
@@ -362,26 +357,13 @@ public class Skydive extends Synchronizable {
     /**
      * Get all signatures associated with this jump.
      *
-     * @return
+     * @return List
      */
     public List<Signature> getSignatures() {
-        HashMap<String, Object> params = new HashMap<>();
+        Query query = new Query(Signature.COLUMN_NAME_ENTITY_TYPE, Signature.getEntityTypeFromModel(this));
+        query.addWhere(Signature.COLUMN_NAME_ENTITY_ID, this.getId());
 
-        HashMap<String, Object> whereEntityType = new HashMap<>();
-        whereEntityType.put(Model.FILTER_WHERE_FIELD, Signature.COLUMN_NAME_ENTITY_TYPE);
-        whereEntityType.put(Model.FILTER_WHERE_VALUE, Signature.getEntityTypeFromModel(this));
-
-        HashMap<String, Object> whereId = new HashMap<>();
-        whereId.put(Model.FILTER_WHERE_FIELD, Signature.COLUMN_NAME_ENTITY_ID);
-        whereId.put(Model.FILTER_WHERE_VALUE, this.getId());
-
-        HashMap<Integer, HashMap> wheres = new HashMap<>();
-        wheres.put(wheres.size(), whereId);
-        wheres.put(wheres.size(), whereEntityType);
-
-        params.put(Model.FILTER_WHERE, wheres);
-
-        return new Signature().getItems(params);
+        return new Signature().getItems(query.getParams());
     }
 
     private Aircraft _aircraft;
@@ -414,5 +396,25 @@ public class Skydive extends Synchronizable {
 
     public static List<Skydive> getSkydivesForDelete() {
         return new Skydive().getItems(getDeleteRequiredParams());
+    }
+
+    @Override
+    public Call<Skydive> getSyncEndpoint() {
+        return Subterminal.getApi().getEndpoints().syncSkydive(this);
+    }
+
+    @Override
+    public Call<Void> getDeleteEndpoint() {
+        return Subterminal.getApi().getEndpoints().deleteSkydive(this.getId());
+    }
+
+    @Override
+    public Call<List<Skydive>> getDownloadEndpoint() {
+        return Subterminal.getApi().getEndpoints().downloadSkydives(Synchronized.getLastSyncPref(this.getSyncIdentifier()));
+    }
+
+    @Override
+    public String getSyncIdentifier() {
+        return Synchronized.PREF_LAST_SYNC_SKYDIVE;
     }
 }

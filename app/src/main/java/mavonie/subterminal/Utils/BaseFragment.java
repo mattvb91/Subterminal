@@ -164,14 +164,16 @@ public abstract class BaseFragment extends Fragment {
             LinearLayout sigs = (LinearLayout) view.findViewById(R.id.image_thumbs_sig);
 
             for (Signature signature : signatures) {
+                //Check that we actually have the correct image
+                if (signature.getImage() != null) {
+                    SimpleDraweeView image = new SimpleDraweeView(MainActivity.getActivity().getApplicationContext());
+                    image.setImageURI(signature.getImage().getUri().toString());
+                    image.setMinimumWidth(150);
+                    image.setMinimumHeight(150);
+                    image.setOnClickListener(new ImageListener(signature.getImage()));
 
-                SimpleDraweeView image = new SimpleDraweeView(MainActivity.getActivity().getApplicationContext());
-                image.setImageURI(signature.getImage().getUri().toString());
-                image.setMinimumWidth(150);
-                image.setMinimumHeight(150);
-                image.setOnClickListener(new ImageListener(signature.getImage()));
-
-                sigs.addView(image);
+                    sigs.addView(image);
+                }
             }
 
             sigs.invalidate();

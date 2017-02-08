@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:attribute="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,10 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include layout="@layout/crescento_container" />
+
         <RelativeLayout
             android:id="@+id/jump_view_detail_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/crescentoContainer">
 
             <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,21 +31,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingBottom="10dp">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/dropzone_view_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/text_margin"
-                            android:layout_span="1"
-                            android:text="Dropzone Name"
-                            android:textStyle="bold" />
-
-                    </TableRow>
 
                     <TableRow>
 
@@ -173,7 +162,36 @@
                             android:textAppearance="?attr/textAppearanceListItem" />
                     </TableRow>
 
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <co.lujun.androidtagview.TagContainerLayout
+                            android:id="@+id/dropzone_services"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_weight="1"
+                            android:padding="5dp"
+                            app:container_background_color="#00000000"
+                            app:container_border_color="#33666666"
+                            app:container_border_radius="0dp"
+                            app:container_border_width="0dp"
+                            app:container_gravity="left"
+                            app:tag_background_color="#00000000"
+                            app:tag_border_color="#330000ff"
+                            app:tag_border_width="1dp"
+                            app:tag_clickable="false"
+                            app:tag_corner_radius="1dp"
+                            app:tag_horizontal_padding="15dp"
+                            app:tag_ripple_duration="0"
+                            app:tag_text_color="#ff666666"
+                            app:tag_text_size="14sp"
+                            app:tag_theme="none" />
+                    </TableRow>
                 </TableLayout>
+
+
             </android.support.v7.widget.CardView>
         </RelativeLayout>
 
@@ -199,6 +217,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/jump_view_add_banner">
+
             <include layout="@layout/weather_card" />
         </RelativeLayout>
 
