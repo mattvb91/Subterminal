@@ -141,6 +141,9 @@ public class MainActivity extends PinCompatActivity
                     case R.id.nav_jumps:
                         fragment = (mavonie.subterminal.Jump) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Jump.class.getCanonicalName());
                         break;
+                    case R.id.nav_gallery:
+                        fragment = (mavonie.subterminal.Gallery) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Gallery.class.getCanonicalName());
+                        break;
                 }
                 fragment.populateFilter();
                 return true;
