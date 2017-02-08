@@ -8,14 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.HashMap;
-
 import mavonie.subterminal.Forms.GearForm;
 import mavonie.subterminal.Forms.SuitForm;
-import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.ViewAdapters.GearRecycler;
 import mavonie.subterminal.ViewAdapters.SuitRecycler;
@@ -28,24 +26,19 @@ public class GearTabs extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         RecyclerView.Adapter adapter;
-
-        HashMap<String, Object> whereNotDeleted = new HashMap<>();
-        whereNotDeleted.put(Model.FILTER_WHERE_FIELD, Synchronizable.COLUMN_DELETED);
-        whereNotDeleted.put(Model.FILTER_WHERE_VALUE, Synchronizable.DELETED_FALSE.toString());
-
         RecyclerView view;
 
+        Query query = new Query();
+        query.getParams().putAll(Synchronizable.getActiveParams());
+
         if (getArguments() != null && getArguments().getInt(Gear.TAB) == Gear.TAB_RIGS) {
-            mavonie.subterminal.Models.Gear gear = new mavonie.subterminal.Models.Gear();
-
             view = (RecyclerView) inflater.inflate(R.layout.fragment_gear_list, container, false);
-            adapter = new GearRecycler(gear.getItems(whereNotDeleted), getmListener());
+            adapter = new GearRecycler(new mavonie.subterminal.Models.Gear().getItems(query.getParams()), getmListener());
         } else {
-            Suit suit = new Suit();
-
             view = (RecyclerView) inflater.inflate(R.layout.fragment_suit_list, container, false);
-            adapter = new SuitRecycler(suit.getItems(whereNotDeleted), getmListener());
+            adapter = new SuitRecycler(new Suit().getItems(query.getParams()), getmListener());
         }
 
         view.setLayoutManager(new LinearLayoutManager(view.getContext()));

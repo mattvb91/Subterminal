@@ -1,6 +1,5 @@
 package mavonie.subterminal.Skydive;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,14 +33,9 @@ public class Dropzone extends FilterableFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dropzone_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-            recyclerView.setAdapter(new DropzoneRecycler(new mavonie.subterminal.Models.Skydive.Dropzone().getItems(buildFilterParams()), this.getmListener()));
-        }
+        RecyclerView recyclerView = (RecyclerView) view;
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(new DropzoneRecycler(new mavonie.subterminal.Models.Skydive.Dropzone().getItems(buildFilterParams()), this.getmListener()));
 
         return view;
     }
