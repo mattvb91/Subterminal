@@ -20,6 +20,10 @@ public class Query {
         addWhere(field, value);
     }
 
+    public Query(String field, int value) {
+        addWhere(field, value);
+    }
+
     /**
      * Basic where operation
      *
@@ -29,7 +33,7 @@ public class Query {
     public void addWhere(String field, String value) {
         HashMap<String, Object> param = new HashMap<>();
         param.put(Model.FILTER_WHERE_FIELD, field);
-        param.put(Model.FILTER_WHERE_VALUE, "'" + value + "'");
+        param.put(Model.FILTER_WHERE_VALUE, sanitizeValue(value));
         wheres.put(wheres.size(), param);
     }
 
@@ -51,7 +55,7 @@ public class Query {
     public void addWhere(String field, String value, String operator) {
         HashMap<String, Object> param = new HashMap<>();
         param.put(Model.FILTER_WHERE_FIELD, field);
-        param.put(Model.FILTER_WHERE_VALUE, "'" + value + "'");
+        param.put(Model.FILTER_WHERE_VALUE, sanitizeValue(value));
         param.put(Model.FILTER_WHERE_OPERATOR, operator);
         wheres.put(wheres.size(), param);
     }
@@ -82,5 +86,19 @@ public class Query {
     public void orderDir(String field, String direction) {
         params.put(Model.FILTER_ORDER_DIR, direction);
         params.put(Model.FILTER_ORDER_FIELD, field);
+    }
+
+    /**
+     * We want to still be able to use nulls
+     *
+     * @param value
+     * @return
+     */
+    private String sanitizeValue(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        return "'" + value + "'";
     }
 }

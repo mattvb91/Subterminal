@@ -173,10 +173,6 @@ public class MainActivity extends PinCompatActivity
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-//
-//        if (this.getUser().getFacebookToken() != null && this.getUser().getFacebookToken().isExpired() == false) {
-//            this.getUser().init();
-//        }
 
         actionBarDrawerToggle.syncState();
     }
