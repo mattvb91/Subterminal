@@ -21,7 +21,6 @@
     <item
         android:id="@+id/action_filter"
         android:icon="@drawable/ic_filter"
-        android:onClick="editItem"
         android:title="Filter"
         android:visible="false"
         app:showAsAction="ifRoom" />

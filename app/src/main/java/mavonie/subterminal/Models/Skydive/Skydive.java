@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Preference;
@@ -21,6 +20,7 @@ import retrofit2.Call;
 
 /**
  * Skydive Model
+ * TODO on delete remove all associated entries, images, signatures
  */
 public class Skydive extends Synchronizable {
 
@@ -357,7 +357,7 @@ public class Skydive extends Synchronizable {
     /**
      * Get all signatures associated with this jump.
      *
-     * @return
+     * @return List
      */
     public List<Signature> getSignatures() {
         Query query = new Query(Signature.COLUMN_NAME_ENTITY_TYPE, Signature.getEntityTypeFromModel(this));

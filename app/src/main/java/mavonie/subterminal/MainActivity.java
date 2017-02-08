@@ -125,6 +125,26 @@ public class MainActivity extends PinCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         this.optionsMenu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem item = menu.findItem(R.id.action_filter);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                FilterableFragment fragment = null;
+
+                switch (Subterminal.getActiveFragment()) {
+                    case R.id.skydiving_nav_dropzones:
+                        fragment = (Dropzone) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(Dropzone.class.getCanonicalName());
+                        break;
+                    case R.id.skydiving_nav_jumps:
+                        fragment = (mavonie.subterminal.Skydive.Skydive) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Skydive.Skydive.class.getCanonicalName());
+                        break;
+                }
+                fragment.populateFilter();
+                return true;
+            }
+        });
+
         return true;
     }
 
@@ -182,21 +202,7 @@ public class MainActivity extends PinCompatActivity
     }
 
     public void editItem(MenuItem item) {
-        if (item.getItemId() == R.id.action_filter) {
-            FilterableFragment fragment = null;
-
-            switch (Subterminal.getActiveFragment()) {
-                case R.id.skydiving_nav_dropzones:
-                    fragment = (Dropzone) this.getSupportFragmentManager().findFragmentByTag(Dropzone.class.getCanonicalName());
-                    break;
-                case R.id.skydiving_nav_jumps:
-                    fragment = (Skydive) this.getSupportFragmentManager().findFragmentByTag(Skydive.class.getCanonicalName());
-                    break;
-            }
-            fragment.populateFilter();
-        } else {
-            UIHelper.editEntity();
-        }
+        UIHelper.editEntity();
     }
 
     @Override
