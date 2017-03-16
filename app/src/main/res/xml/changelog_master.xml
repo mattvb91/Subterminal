@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.1.10"
+        versioncode="26">
+        <change>Hotfix - Updated SSL cert</change>
+        <change>Web dashboard now available at subterminal.eu</change>
+        <change>Full update coming next week</change>
+    </release>
+    <release
         version="1.1.9"
         versioncode="25">
         <change>Basic filters on Skydives, BASE jumps, Gallery</change>
