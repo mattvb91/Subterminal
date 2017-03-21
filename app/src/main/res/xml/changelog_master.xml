@@ -5,6 +5,7 @@
         versioncode="27">
         <change>Featured dropzones</change>
         <change>Dashboard summary stats clickable</change>
+        <change>Dropzone clickable on jump view</change>
     </release>
     <release
         version="1.1.10"

@@ -75,6 +75,19 @@ public class SkydiveView extends BaseFragment {
         if (getItem().getDropzone() != null) {
             TextView dropzone = (TextView) view.findViewById(R.id.skydive_view_dropzone_name);
             dropzone.setText(getItem().getDropzone().getName());
+
+            dropzone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DropzoneView dropzone = new DropzoneView();
+
+                    Bundle args = new Bundle();
+                    args.putSerializable("item", getItem().getDropzone());
+                    dropzone.setArguments(args);
+
+                    UIHelper.replaceFragment(dropzone);
+                }
+            });
         }
 
         if (getItem().getJumpType() != null) {
