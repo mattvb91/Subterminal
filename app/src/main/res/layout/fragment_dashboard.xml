@@ -30,6 +30,7 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.CardView
+                android:id="@+id/dashboard_skydive_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -62,6 +63,7 @@
 
 
             <android.support.v7.widget.CardView
+                android:id="@+id/dashboard_base_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
@@ -94,6 +96,7 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/dashboard_dropzone_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
@@ -127,6 +130,7 @@
 
 
             <android.support.v7.widget.CardView
+                android:id="@+id/dashboard_exits_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
