@@ -48,7 +48,7 @@ public class Dropzone extends FilterableFragment {
     @Override
     protected HashMap<String, Object> buildFilterParams() {
         Query query = new Query();
-        query.orderDir(mavonie.subterminal.Models.Skydive.Dropzone.COLUMN_NAME_NAME, Model.FILTER_ORDER_DIR_ASC);
+        query.orderDir(mavonie.subterminal.Models.Skydive.Dropzone.COLUMN_NAME_FEATURED, Model.FILTER_ORDER_DIR_DESC + ", name ASC");
 
         if (this.getArguments() != null) {
             Object country = this.getArguments().get("country");

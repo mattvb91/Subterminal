@@ -1,5 +1,8 @@
 package mavonie.subterminal.Skydive.ViewAdapters;
 
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +74,13 @@ public class DropzoneRecycler extends RecyclerView.Adapter<DropzoneRecycler.View
             holder.listName.setText(holder.mItem.getName());
             holder.listCountry.setText(holder.mItem.getCountry());
             holder.listAircraft.setText(new DropzoneAircraft().count(holder.mItem.aircraftParemeters()) + " Aircraft");
+            CardView card = (CardView) holder.mView.findViewById(R.id.card_view);
+
+            if (holder.mItem.getFeatured() == Dropzone.FEATURED_TRUE) {
+                card.setCardBackgroundColor(Color.parseColor("#DBF1FF"));
+            }else {
+                card.setCardBackgroundColor(Color.WHITE);
+            }
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

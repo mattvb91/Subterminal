@@ -29,6 +29,8 @@ public class Dropzone extends Model {
             local,
             country;
 
+    private Integer featured = 0;
+
     private double latitude,
             longtitude;
 
@@ -48,6 +50,7 @@ public class Dropzone extends Model {
     public static final String COLUMN_NAME_ADDRESS_FORMATTED_ADDRESS = "formatted_address";
     public static final String COLUMN_NAME_ADDRESS_LEVEL_1 = "local";
     public static final String COLUMN_NAME_ADDRESS_LINE_COUNTRY = "country";
+    public static final String COLUMN_NAME_FEATURED = "featured";
 
     /* END DB DEFINITIONS */
 
@@ -69,12 +72,16 @@ public class Dropzone extends Model {
             dbColumns.put(COLUMN_NAME_ADDRESS_FORMATTED_ADDRESS, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_ADDRESS_LEVEL_1, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_ADDRESS_LINE_COUNTRY, TYPE_TEXT);
+            dbColumns.put(COLUMN_NAME_FEATURED, TYPE_INTEGER);
 
             Model.setDBColumns(dbColumns);
         }
 
         return dbColumns;
     }
+
+    public static final int FEATURED_TRUE = 1;
+    public static final int FEATURED_FALSE = 0;
 
     @Override
     protected String getTableName() {
@@ -173,6 +180,14 @@ public class Dropzone extends Model {
         this.dropzone_aircraft = dropzone_aircraft;
     }
 
+    public int getFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(int featured) {
+        this.featured = featured;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -194,6 +209,8 @@ public class Dropzone extends Model {
         if (formatted_address != null ? !formatted_address.equals(dropzone.formatted_address) : dropzone.formatted_address != null)
             return false;
         if (local != null ? !local.equals(dropzone.local) : dropzone.local != null)
+            return false;
+        if (featured != null ? !featured.equals(dropzone.featured) : dropzone.featured != null)
             return false;
         return country != null ? country.equals(dropzone.country) : dropzone.country == null;
     }
