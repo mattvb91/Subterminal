@@ -101,7 +101,7 @@ public class Dropzone extends FilterableFragment {
 
     @Override
     public void populateFilter() {
-        final PopupWindow popupWindow = getFilterPopup();
+        final PopupWindow popupWindow = getFilterPopup(this);
 
         countrySpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.filter_country);
 

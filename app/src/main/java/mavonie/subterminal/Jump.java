@@ -65,7 +65,7 @@ public class Jump extends FilterableFragment {
 
     @Override
     public void populateFilter() {
-        final PopupWindow popupWindow = getFilterPopup();
+        final PopupWindow popupWindow = getFilterPopup(this);
 
         LinkedHashMap<Integer, String> types = new LinkedHashMap<>();
         types.put(null, " - ");
@@ -135,16 +135,6 @@ public class Jump extends FilterableFragment {
             if (dateToChoice != null)
                 dateTo.setText(dateToChoice.toString());
         }
-
-        final Button clearButton = (Button) popupWindow.getContentView().findViewById(R.id.filter_clear);
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-                UIHelper.replaceFragment(new Jump());
-            }
-        });
-
     }
 
     @Override

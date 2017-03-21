@@ -59,7 +59,7 @@ public class Gallery extends FilterableFragment {
 
     @Override
     public void populateFilter() {
-        PopupWindow popupWindow = getFilterPopup();
+        PopupWindow popupWindow = getFilterPopup(this);
 
         imageTypes = new LinkedHashMap<>();
         imageTypes.put(null, " - ");
@@ -71,6 +71,13 @@ public class Gallery extends FilterableFragment {
         imageTypeAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, imageTypes);
         imageTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         imageTypeSpinner.setAdapter(imageTypeAdapter);
+
+        //Prefil with previous selection
+        if (this.getArguments() != null) {
+            Object imageType = this.getArguments().get("imageType");
+            if (imageType != null)
+                imageTypeSpinner.setSelection(imageTypeAdapter.findPositionFromKey((Integer) imageType));
+        }
     }
 
     @Override
