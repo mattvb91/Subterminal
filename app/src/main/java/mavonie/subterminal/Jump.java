@@ -8,10 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -33,9 +36,14 @@ public class Jump extends FilterableFragment {
     /**
      * Filter fields
      */
-    private Spinner jumpTypeSpinner;
+    private Spinner jumpTypeSpinner,
+            pcSizeSpinner,
+            sliderSpinner;
+
     private EditText dateFrom, dateTo;
-    private LinkedHashMapAdapter<Integer, String> typeAdapter;
+    private LinkedHashMapAdapter<Integer, String> typeAdapter,
+            pcSizeAdapter,
+            sliderAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +65,7 @@ public class Jump extends FilterableFragment {
 
     @Override
     public void populateFilter() {
-        PopupWindow popupWindow = getFilterPopup();
+        final PopupWindow popupWindow = getFilterPopup();
 
         LinkedHashMap<Integer, String> types = new LinkedHashMap<>();
         types.put(null, " - ");
@@ -68,11 +76,75 @@ public class Jump extends FilterableFragment {
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpTypeSpinner.setAdapter(typeAdapter);
 
+        /**
+         * PC Sizes
+         */
+        LinkedHashMap<Integer, String> pcSizes = new LinkedHashMap<>();
+        pcSizes.put(null, " - ");
+        for (int value : mavonie.subterminal.Models.Jump.getPcSizeArray()) {
+            pcSizes.put(value, Integer.toString(value));
+        }
+        pcSizeSpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.base_filter_pc);
+        pcSizeAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, pcSizes);
+        pcSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pcSizeSpinner.setAdapter(pcSizeAdapter);
+        /**
+         * End PC Sizes
+         */
+
+        /**
+         * Slider
+         */
+        LinkedHashMap<Integer, String> slider = new LinkedHashMap<>();
+        slider.put(null, " - ");
+        slider.putAll(mavonie.subterminal.Models.Jump.slider_config);
+
+        sliderAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, slider);
+        sliderSpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.base_filter_slider);
+        sliderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sliderSpinner.setAdapter(sliderAdapter);
+        /**
+         * End Slider
+         */
+
         dateFrom = (EditText) popupWindow.getContentView().findViewById(R.id.skydive_filter_date_from);
         dateTo = (EditText) popupWindow.getContentView().findViewById(R.id.skydive_filter_date_to);
 
         new DatePickerTextView(dateFrom);
         new DatePickerTextView(dateTo);
+
+        //Prefil with previous selection
+        if (this.getArguments() != null) {
+            Object jumpType = this.getArguments().get("jumpType");
+            if (jumpType != null)
+                jumpTypeSpinner.setSelection(typeAdapter.findPositionFromKey((Integer) jumpType));
+
+            Object pcSize = this.getArguments().get("pcSize");
+            if (pcSize != null)
+                pcSizeSpinner.setSelection(pcSizeAdapter.findPositionFromKey((Integer) pcSize));
+
+            Object sliderChoice = this.getArguments().get("slider");
+            if (sliderChoice != null)
+                sliderSpinner.setSelection(sliderAdapter.findPositionFromKey((Integer) sliderChoice));
+
+            Object dateFromChoice = this.getArguments().get("dateFrom");
+            if (dateFromChoice != null)
+                dateFrom.setText(dateFromChoice.toString());
+
+            Object dateToChoice = this.getArguments().get("dateTo");
+            if (dateToChoice != null)
+                dateTo.setText(dateToChoice.toString());
+        }
+
+        final Button clearButton = (Button) popupWindow.getContentView().findViewById(R.id.filter_clear);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                UIHelper.replaceFragment(new Jump());
+            }
+        });
+
     }
 
     @Override
@@ -85,6 +157,14 @@ public class Jump extends FilterableFragment {
             Object jumpType = this.getArguments().get("jumpType");
             if (jumpType != null)
                 query.addWhere(mavonie.subterminal.Models.Jump.COLUMN_NAME_TYPE, jumpType.toString());
+
+            Object pcSize = this.getArguments().get("pcSize");
+            if (pcSize != null)
+                query.addWhere(mavonie.subterminal.Models.Jump.COLUMN_NAME_PC_SIZE, pcSize.toString());
+
+            Object slider = this.getArguments().get("slider");
+            if (slider != null)
+                query.addWhere(mavonie.subterminal.Models.Jump.COLUMN_NAME_SLIDER, slider.toString());
 
             Object dateFrom = this.getArguments().get("dateFrom");
             if (dateFrom != null)
@@ -108,6 +188,16 @@ public class Jump extends FilterableFragment {
         Map.Entry type = typeAdapter.getItem(jumpTypeSpinner.getSelectedItemPosition());
         if (type.getKey() != null) {
             filters.putInt("jumpType", Integer.parseInt(type.getKey().toString()));
+        }
+
+        Map.Entry pc = pcSizeAdapter.getItem(pcSizeSpinner.getSelectedItemPosition());
+        if (pc.getKey() != null) {
+            filters.putInt("pcSize", (Integer) pc.getKey());
+        }
+
+        Map.Entry slider = sliderAdapter.getItem(sliderSpinner.getSelectedItemPosition());
+        if (slider.getKey() != null) {
+            filters.putInt("slider", (Integer) slider.getKey());
         }
 
         if (dateFrom.getText().length() > 0) {
