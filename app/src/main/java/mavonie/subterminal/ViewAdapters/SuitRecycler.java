@@ -42,6 +42,7 @@ public class SuitRecycler extends RecyclerView.Adapter<SuitRecycler.ViewHolder> 
         holder.listManufacturer.setText(holder.mItem.getManufacturer());
         holder.listModel.setText(holder.mItem.getModel());
         holder.listType.setText(holder.mItem.getFormattedSuitType());
+        holder.listJumpCount.setText("Jumps: " + holder.mItem.getJumpCount());
 
         if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced())) {
             int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
@@ -71,6 +72,7 @@ public class SuitRecycler extends RecyclerView.Adapter<SuitRecycler.ViewHolder> 
         public final TextView listManufacturer;
         public final TextView listModel;
         public final TextView listType;
+        public final TextView listJumpCount;
         public final ImageView mListSynchronized;
         public Suit mItem;
 
@@ -80,6 +82,7 @@ public class SuitRecycler extends RecyclerView.Adapter<SuitRecycler.ViewHolder> 
             listManufacturer = (TextView) view.findViewById(R.id.suit_manufacturer);
             listModel = (TextView) view.findViewById(R.id.suit_model);
             listType = (TextView) view.findViewById(R.id.suit_type);
+            listJumpCount = (TextView) view.findViewById(R.id.suit_jump_count);
             mListSynchronized = (ImageView) view.findViewById(R.id.suit_list_synchronized);
         }
     }

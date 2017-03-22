@@ -3,11 +3,11 @@
     <release
         version="1.1.11"
         versioncode="27">
-        <change>Featured dropzones</change>
         <change>Dashboard summary stats clickable</change>
         <change>Dropzone clickable on jump view</change>
         <change>Jump count on exit list</change>
         <change>More filters &amp; filtering improvements</change>
+        <change>Jump count on gear</change>
         <change>Various fixes &amp; improvements</change>
     </release>
     <release

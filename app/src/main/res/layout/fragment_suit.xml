@@ -34,6 +34,17 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/suit_jump_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/suit_manufacturer"
+            android:paddingLeft="16dp"
+            android:layout_alignParentEnd="true"
+            android:text="Jumps: 0"
+            android:gravity="right"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <TextView
             android:id="@+id/suit_model"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
