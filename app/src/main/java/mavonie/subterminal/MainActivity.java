@@ -148,7 +148,11 @@ public class MainActivity extends PinCompatActivity
                         fragment = (mavonie.subterminal.Skydive.Tunnel) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Skydive.Tunnel.class.getCanonicalName());
                         break;
                 }
-                fragment.populateFilter();
+
+                if (fragment != null) {
+                    fragment.populateFilter();
+                }
+
                 return true;
             }
         });
