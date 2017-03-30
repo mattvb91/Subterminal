@@ -25,9 +25,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import az.openweatherapi.model.gson.common.Coord;
 import co.lujun.androidtagview.TagContainerLayout;
