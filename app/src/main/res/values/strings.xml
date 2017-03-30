@@ -47,6 +47,7 @@
     <string name="title_skydives">Skydives</string>
     <string name="gallery">Gallery</string>
     <string name="title_dashboard">Dashboard</string>
+    <string name="title_tunnels">Tunnels</string>
 
     <string-array name="premium_ad_text">
         <item>GET PREMIUM</item>

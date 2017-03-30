@@ -34,6 +34,7 @@ import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Models.Skydive.Tunnel;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Models.User;
@@ -63,6 +64,7 @@ public class API {
 
     public static final String CALLS_LIST_PUBLIC_EXITS = "LIST_PUBLIC_EXITS";
     public static final String CALLS_LIST_DROPZONES = "LIST_DROPZONES";
+    public static final String CALLS_LIST_TUNNELS = "LIST_TUNNELS";
     public static final String CALLS_UPDATE_NOTIFICATIONS = "UPDATE_NOTIFICATIONS";
     public static final String CALLS_UPDATE_USER = "UPDATE_USER";
     public static final String CALLS_LIST_AIRCRAFT = "LIST_AIRCRAFT";
@@ -166,6 +168,10 @@ public class API {
             updateDropzones();
         }
 
+        if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_TUNNELS)) {
+            updateTunnels();
+        }
+
         if (!Once.beenDone(TimeUnit.DAYS, 1, CALLS_UPDATE_NOTIFICATIONS)) {
             updateNotificationSettings();
         }
@@ -244,6 +250,46 @@ public class API {
                         }
                     });
 
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                API.issueContactingServer();
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+
+    /**
+     * Update the tunnels list on background runnable
+     */
+    private void updateTunnels() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call tunnels = this.getEndpoints().getTunnels(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_TUNNELS));
+        tunnels.enqueue(new Callback<List<Tunnel>>() {
+            @Override
+            public void onResponse(Call call, final Response response) {
+                if (response.isSuccessful()) {
+
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            List<Tunnel> tunnels = (List<Tunnel>) response.body();
+
+                            for (Tunnel tunnel: tunnels) {
+                                tunnel.setId(tunnel.id);
+                                tunnel.save();
+                            }
+
+                            Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_TUNNELS, response.headers().get("server_time"));
+                            Once.markDone(CALLS_LIST_TUNNELS);
+                        }
+                    });
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);

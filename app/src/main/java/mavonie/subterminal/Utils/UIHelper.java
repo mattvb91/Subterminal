@@ -59,8 +59,10 @@ import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Skydive.Dropzone;
 import mavonie.subterminal.Skydive.Forms.SkydiveForm;
+import mavonie.subterminal.Skydive.Tunnel;
 import mavonie.subterminal.Skydive.Views.DropzoneView;
 import mavonie.subterminal.Skydive.Views.SkydiveView;
+import mavonie.subterminal.Skydive.Views.TunnelView;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
 import mavonie.subterminal.Views.Premium.PremiumView;
@@ -123,6 +125,8 @@ public class UIHelper {
             fragment = new SkydiveView();
         } else if (entity instanceof Rig) {
             fragment = new mavonie.subterminal.Skydive.Forms.GearForm();
+        } else if (entity instanceof mavonie.subterminal.Models.Skydive.Tunnel) {
+            fragment = new TunnelView();
         }
 
         fragment.setArguments(args);
@@ -202,6 +206,10 @@ public class UIHelper {
 
             case R.id.skydiving_nav_dropzones:
                 fragmentClass = new Dropzone();
+                break;
+
+            case R.id.skydiving_nav_tunnels:
+                fragmentClass = new Tunnel();
                 break;
 
             case R.id.skydiving_nav_gear:

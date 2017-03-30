@@ -222,7 +222,6 @@ public class Dropzone extends Model {
      */
     public boolean isMapActive() {
         return this.getLatitude() != 0.00 && this.getLongtitude() != 0.00;
-
     }
 
     public static void createOrUpdate(Dropzone dropzone) {

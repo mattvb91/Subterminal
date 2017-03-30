@@ -16,6 +16,7 @@ public abstract class Synchronized {
     public static final String PREF_LAST_SYNC_SKYDIVE = "LAST_SYNC_SKYDIVE";
     public static final String PREF_LAST_SYNC_IMAGE = "LAST_SYNC_IMAGE";
     public static final String PREF_LAST_SYNC_SIGNATURE = "LAST_SYNC_SIGNATURE";
+    public static final String PREF_LAST_SYNC_TUNNELS = "LAST_SYNC_TUNNELS";
 
     public static void setLastSyncPref(String pref, String serverTime) {
         Prefs.putString(pref, serverTime);

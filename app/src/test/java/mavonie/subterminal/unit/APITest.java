@@ -10,6 +10,7 @@ import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.Tunnel;
 import mavonie.subterminal.Utils.API;
 import mavonie.subterminal.Utils.Synchronized;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
@@ -56,6 +57,19 @@ public class APITest extends BaseDBUnit {
 
         List<Dropzone> dropzones = (List) response.body();
         assertTrue(dropzones.get(0) instanceof Dropzone);
+    }
+
+    @Test
+    public void testTunnelsCall() throws IOException {
+        Call tunnelsCall = this.api.getEndpoints().getTunnels(Synchronized.getLastSyncPref(Synchronized.PREF_LAST_SYNC_TUNNELS));
+
+        Response response = tunnelsCall.execute();
+
+        assertTrue(response.isSuccessful());
+        assertTrue(response.body() instanceof List);
+
+        List<Tunnel> tunnels = (List) response.body();
+        assertTrue(tunnels.get(0) instanceof Tunnel);
     }
 
     //TODO test authorized method

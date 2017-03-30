@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.2"
+        versioncode="28">
+        <change>Added Tunnels. Tunnel session logging coming soon</change>
+    </release>
+    <release
         version="1.1.11"
         versioncode="27">
         <change>Dashboard summary stats clickable</change>
