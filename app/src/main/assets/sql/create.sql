@@ -120,7 +120,8 @@ CREATE TABLE skydive_dropzone (
         email TEXT,
         formatted_address TEXT,
         local TEXT,
-        country TEXT
+        country TEXT,
+        featured INTEGER DEFAULT 0
 );
 
 CREATE TABLE skydive_rig (

@@ -55,12 +55,7 @@
             android:layout_height="match_parent"
             android:spinnerMode="dialog" />
 
-        <Button
-            android:id="@+id/filter_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Filter" />
+        <include layout="@layout/filter_buttons" />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

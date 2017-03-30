@@ -52,8 +52,9 @@
                             android:layout_span="2"
                             android:layout_weight="2"
                             android:text="Not set"
+                            android:textStyle="bold"
+                            android:textColor="@color/light_blue_500"
                             android:textAppearance="?attr/textAppearanceListItem" />
-
                     </TableRow>
 
                     <TableRow

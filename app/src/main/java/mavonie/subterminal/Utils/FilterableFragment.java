@@ -45,7 +45,7 @@ public abstract class FilterableFragment extends BaseFragment {
      *
      * @return PopupWindow
      */
-    public PopupWindow getFilterPopup() {
+    public PopupWindow getFilterPopup(final BaseFragment fragment) {
 
         View popupView = this.getLayoutInflater(null).inflate(getPopupLayout(), null);
         popupWindow = new PopupWindow(popupView,
@@ -65,6 +65,21 @@ public abstract class FilterableFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 filterButtonPressed();
+            }
+        });
+
+        final Button clearButton = (Button) popupWindow.getContentView().findViewById(R.id.filter_clear);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                try {
+                    UIHelper.replaceFragment(fragment.getClass().newInstance());
+                } catch (java.lang.InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

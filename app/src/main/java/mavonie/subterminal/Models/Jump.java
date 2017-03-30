@@ -42,7 +42,7 @@ public class Jump extends Synchronizable {
 
     private static final Integer[] pc_sizes = {32, 36, 38, 40, 42, 46, 48};
 
-    private static final HashMap<Integer, String> slider_config;
+    public static final HashMap<Integer, String> slider_config;
 
     public static final int TYPE_SLICK = 0;
     public static final int TYPE_TRACKING = 1;

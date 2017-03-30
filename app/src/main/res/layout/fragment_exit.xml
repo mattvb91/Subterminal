@@ -55,6 +55,18 @@
             android:textColor="#343434"
             android:textSize="10dip"/>
 
+        <TextView
+            android:id="@+id/exit_list_jumps"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/exit_list_height"
+            android:layout_marginTop="1dip"
+            android:layout_toRightOf="@+id/exit_list_thumb_layout"
+            android:text="Jumps: 0"
+            android:visibility="gone"
+            android:textColor="#343434"
+            android:textSize="10dip"/>
+
         <!-- Rightend Duration -->
         <TextView
             android:id="@+id/exit_list_object_type"

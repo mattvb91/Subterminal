@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.Synchronized;
 import retrofit2.Call;
@@ -170,13 +172,15 @@ public class Suit extends Synchronizable {
 
     @Override
     public boolean delete() {
-
         if (this.getDeleted() == DELETED_FALSE) {
-            List<Jump> jumps = this.getJumps();
-
-            for (Jump jump : jumps) {
+            for (Jump jump : this.getJumps()) {
                 jump.setSuitId(null);
                 jump.save();
+            }
+
+            for (Skydive skydive : this.getSkydives()) {
+                skydive.setSuitId(null);
+                skydive.save();
             }
         }
 
@@ -194,21 +198,25 @@ public class Suit extends Synchronizable {
     public List<Jump> getJumps() {
 
         if (this._jumps == null) {
-            HashMap<String, Object> params = new HashMap<>();
-
-            HashMap<String, Object> whereSuitID = new HashMap<>();
-            whereSuitID.put(Model.FILTER_WHERE_FIELD, Jump.COLUMN_NAME_SUIT_ID);
-            whereSuitID.put(Model.FILTER_WHERE_VALUE, Integer.toString(this.getId()));
-
-            HashMap<Integer, HashMap> wheres = new HashMap<>();
-            wheres.put(wheres.size(), whereSuitID);
-
-            params.put(Model.FILTER_WHERE, wheres);
-
-            this._jumps = new Jump().getItems(params);
+            this._jumps = new Jump().getItems(new Query(Jump.COLUMN_NAME_SUIT_ID, this.getId()).getParams());
         }
 
         return this._jumps;
+    }
+
+    private List<Skydive> _skydives;
+
+    /**
+     * All the skydives associated with this suit
+     *
+     * @return List<Skydive>
+     */
+    public List<Skydive> getSkydives() {
+        if (this._skydives == null) {
+            this._skydives = new Skydive().getItems(new Query(Skydive.COLUMN_NAME_SUIT_ID, this.getId()).getParams());
+        }
+
+        return this._skydives;
     }
 
     @Override
@@ -229,5 +237,17 @@ public class Suit extends Synchronizable {
     @Override
     public String getSyncIdentifier() {
         return Synchronized.PREF_LAST_SYNC_SUIT;
+    }
+
+    /**
+     * Get the number of jumps associated with this suit.
+     *
+     * @return int
+     */
+    public int getJumpCount() {
+        int base = new Jump().count(new Query(Jump.COLUMN_NAME_SUIT_ID, this.getId()).getParams());
+        int skydive = new Skydive().count(new Query(Skydive.COLUMN_NAME_SUIT_ID, this.getId()).getParams());
+
+        return base + skydive;
     }
 }

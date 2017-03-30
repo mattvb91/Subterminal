@@ -122,4 +122,16 @@ public class DropzoneTest extends BaseDBUnit {
 
         Assert.assertTrue(dz.getAircraft().size() == 2);
     }
+
+    @Test
+    public void testSetFeatured() {
+        Dropzone dz = createDropzone();
+        dz.setFeatured(Dropzone.FEATURED_TRUE);
+        dz.save();
+
+        Dropzone dz2 = (Dropzone) new Dropzone().getOneById(dz.getId());
+
+        Assert.assertTrue(dz.equals(dz2));
+        Assert.assertEquals(dz2.getFeatured(), Dropzone.FEATURED_TRUE);
+    }
 }

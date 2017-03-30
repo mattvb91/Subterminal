@@ -18,8 +18,10 @@ import java.util.List;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Image;
+import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UnitConverter;
 
@@ -92,6 +94,15 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
                 holder.mListSynchronized.setColorFilter(color);
             }
 
+            int jumpCount = new Jump().count(new Query(Jump.COLUMN_NAME_EXIT_ID, holder.mItem.getId()).getParams());
+
+            if (jumpCount > 0) {
+                holder.mJumpCount.setVisibility(View.VISIBLE);
+                holder.mJumpCount.setText("Jumps: " + jumpCount);
+            } else {
+                holder.mJumpCount.setVisibility(View.GONE);
+            }
+
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -130,6 +141,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
         public final TextView mHeight;
         public final TextView mName;
         public final TextView mObjectType;
+        public final TextView mJumpCount;
         public final SimpleDraweeView mThumb;
         public final ImageView mListSynchronized;
         public mavonie.subterminal.Models.Exit mItem;
@@ -140,6 +152,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
             mHeight = (TextView) view.findViewById(R.id.exit_list_height);
             mName = (TextView) view.findViewById(R.id.exit_list_name);
             mObjectType = (TextView) view.findViewById(R.id.exit_list_object_type);
+            mJumpCount = (TextView) view.findViewById(R.id.exit_list_jumps);
             mListSynchronized = (ImageView) view.findViewById(R.id.exit_list_synchronized);
 
             mThumb = (SimpleDraweeView) view.findViewById(R.id.exit_list_thumb);

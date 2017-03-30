@@ -34,6 +34,17 @@
             android:textAppearance="?attr/textAppearanceListItem"/>
 
         <TextView
+            android:id="@+id/gear_jump_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/gear_container_type"
+            android:paddingLeft="16dp"
+            android:layout_alignParentEnd="true"
+            android:text="Jumps: 0"
+            android:gravity="right"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <TextView
             android:id="@+id/gear_canopy_manufacturer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

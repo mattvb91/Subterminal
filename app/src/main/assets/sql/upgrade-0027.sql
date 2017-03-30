@@ -1,0 +1,1 @@
+ALTER TABLE skydive_dropzone ADD COLUMN featured INTEGER DEFAULT 0;

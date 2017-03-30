@@ -12,8 +12,10 @@ import java.util.List;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Rig;
+import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**
@@ -43,12 +45,12 @@ public class RigRecycler extends RecyclerView.Adapter<RigRecycler.ViewHolder> {
         holder.listContainerType.setText(holder.mItem.getContainerModel());
         holder.listCanopyType.setText(holder.mItem.getMainModel());
         holder.listCanopyManufacturer.setText(holder.mItem.getMainManufacturer());
+        holder.listJumpCount.setText("Jumps: " + new Skydive().count(new Query(Skydive.COLUMN_NAME_JUMP_RIG_ID, holder.mItem.getId()).getParams()));
 
         if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced())) {
             int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
             holder.mListSynchronized.setColorFilter(color);
         }
-
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +75,7 @@ public class RigRecycler extends RecyclerView.Adapter<RigRecycler.ViewHolder> {
         public final TextView listContainerType;
         public final TextView listCanopyType;
         public final TextView listCanopyManufacturer;
+        public final TextView listJumpCount;
         public final ImageView mListSynchronized;
         public Rig mItem;
 
@@ -83,6 +86,7 @@ public class RigRecycler extends RecyclerView.Adapter<RigRecycler.ViewHolder> {
             listContainerType = (TextView) view.findViewById(R.id.gear_container_type);
             listCanopyType = (TextView) view.findViewById(R.id.gear_canopy_type);
             listCanopyManufacturer = (TextView) view.findViewById(R.id.gear_canopy_manufacturer);
+            listJumpCount = (TextView) view.findViewById(R.id.gear_jump_count);
             mListSynchronized = (ImageView) view.findViewById(R.id.gear_list_synchronized);
         }
     }
