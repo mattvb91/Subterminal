@@ -2,8 +2,7 @@ package mavonie.subterminal.Skydive;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,27 +16,45 @@ import java.util.HashMap;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Skydive.Rig;
+import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.R;
-import mavonie.subterminal.Skydive.ViewAdapters.TunnelRecycler;
 import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.FilterableFragment;
 import mavonie.subterminal.Utils.UIHelper;
 
 /**
- * Tunnel listings
+ * Tunnel Tabs
  */
 public class Tunnel extends FilterableFragment {
 
-    @Override
+    private FragmentTabHost mTabHost;
+
+    public static final String TAB = "TAB";
+    public static final String FILTER = "FILTERS";
+
+    public static final int TAB_TUNNELS = 0;
+    public static final int TAB_SESSIONS = 1;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dropzone_list, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) view;
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(new TunnelRecycler(new mavonie.subterminal.Models.Skydive.Tunnel().getItems(buildFilterParams()), this.getmListener()));
+        View rootView = inflater.inflate(R.layout.fragment_tabs, container, false);
 
-        return view;
+
+        mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
+        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
+
+        Bundle args = new Bundle();
+        args.putInt(TAB, TAB_TUNNELS);
+        args.putSerializable(FILTER, buildFilterParams());
+
+        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_TUNNELS)).setIndicator("Tunnels (" + new mavonie.subterminal.Models.Skydive.Tunnel().count(buildFilterParams()) + ")"),
+                TunnelTabs.class, args);
+        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_SESSIONS)).setIndicator("Sessions (" + new Suit().count(Suit.getActiveParams()) + ")"),
+                TunnelTabs.class, null);
+
+        return rootView;
     }
 
     @Override
@@ -83,20 +100,6 @@ public class Tunnel extends FilterableFragment {
         UIHelper.replaceFragment(dropzones);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Set title
-        String title = getString(R.string.title_tunnels) + " (" + new mavonie.subterminal.Models.Skydive.Tunnel().count(buildFilterParams()) + ")";
-        MainActivity.getActivity().setTitle(title);
-        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_filter).setVisible(true);
-    }
-
-    @Override
-    protected String getItemClass() {
-        return mavonie.subterminal.Models.Skydive.Dropzone.class.getCanonicalName();
-    }
-
     Spinner localSpinner, countrySpinner;
 
     @Override
@@ -133,10 +136,8 @@ public class Tunnel extends FilterableFragment {
         });
     }
 
-
     @Override
-    public void onPause() {
-        super.onPause();
-        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_filter).setVisible(false);
+    protected String getItemClass() {
+        return mavonie.subterminal.Models.Skydive.Tunnel.class.getCanonicalName();
     }
 }

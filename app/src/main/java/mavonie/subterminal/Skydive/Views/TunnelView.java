@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import az.openweatherapi.model.gson.common.Coord;
@@ -48,6 +49,28 @@ public class TunnelView extends BaseFragment implements OnMapReadyCallback {
 
     protected MapView mMapView;
     protected KenBurnsView top;
+
+    final List<Bitmap> bitmaps = new ArrayList<Bitmap>();
+    int currentIndex = 0;
+
+    Handler mainHandler = new Handler(MainActivity.getActivity().getMainLooper());
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!bitmaps.isEmpty()) {
+                top.setImageBitmap(bitmaps.get(currentIndex));
+
+                if (bitmaps.size() > 1) {
+                    currentIndex++;
+                    if (currentIndex == bitmaps.size()) {
+                        currentIndex = 0;
+                    }
+
+                    mainHandler.postDelayed(this, 5000);
+                }
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,31 +109,27 @@ public class TunnelView extends BaseFragment implements OnMapReadyCallback {
                 if (response.isSuccessful()) {
                     final List<Image> images = (List<Image>) response.body();
 
-                    if (images.size() > 0) {
-                        CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
-                        crescento.setVisibility(View.VISIBLE);
-
+                    if (!images.isEmpty()) {
                         AsyncTask.execute(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    String url = "https://skydivelocations.com/image/" + images.get(0).getFilename() + "?full=true";
-                                    final Bitmap bm = BitmapFactory.decodeStream(new URL(url).openConnection().getInputStream());
 
-                                    Handler mainHandler = new Handler(MainActivity.getActivity().getMainLooper());
-                                    Runnable uiRunnable = new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            top.setImageBitmap(bm);
-                                        }
-                                    };
-                                    mainHandler.post(uiRunnable);
+                                    for (Image image : images) {
+                                        String url = "https://skydivelocations.com/image/" + image.getFilename() + "?full=true";
+                                        bitmaps.add(BitmapFactory.decodeStream(new URL(url).openConnection().getInputStream()));
+                                    }
+
+                                    mainHandler.post(runnable);
 
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             }
                         });
+
+                        CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
+                        crescento.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -194,6 +213,8 @@ public class TunnelView extends BaseFragment implements OnMapReadyCallback {
             }
         }
 
+        this.bitmaps.clear();
+
         super.onDestroy();
     }
 
@@ -203,6 +224,8 @@ public class TunnelView extends BaseFragment implements OnMapReadyCallback {
         if (mMapView != null) {
             mMapView.onLowMemory();
         }
+
+        this.bitmaps.clear();
     }
 
     @Override
