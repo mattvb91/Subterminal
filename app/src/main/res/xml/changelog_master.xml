@@ -3,7 +3,9 @@
     <release
         version="1.2"
         versioncode="28">
-        <change>Added Tunnels. Tunnel session logging coming soon</change>
+        <change>Added Tunnels &amp; Session logging</change>
+        <change>All dropzone images now displayed in rotation</change>
+        <change>Various fixes &amp; Improvements</change>
     </release>
     <release
         version="1.1.11"

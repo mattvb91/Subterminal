@@ -18,6 +18,7 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Suit;
+import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.FilterableFragment;
@@ -51,7 +52,8 @@ public class Tunnel extends FilterableFragment {
 
         mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_TUNNELS)).setIndicator("Tunnels (" + new mavonie.subterminal.Models.Skydive.Tunnel().count(buildFilterParams()) + ")"),
                 TunnelTabs.class, args);
-        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_SESSIONS)).setIndicator("Sessions (" + new Suit().count(Suit.getActiveParams()) + ")"),
+        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_SESSIONS)).setIndicator("Sessions (" +
+                        new mavonie.subterminal.Models.Skydive.TunnelSession().count(Synchronizable.getActiveParams()) + ")"),
                 TunnelTabs.class, null);
 
         return rootView;

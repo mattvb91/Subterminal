@@ -20,6 +20,7 @@ import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Skydive.ViewAdapters.TunnelRecycler;
+import mavonie.subterminal.Skydive.ViewAdapters.TunnelSessionRecycler;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.FilterableFragment;
@@ -44,8 +45,13 @@ public class TunnelTabs extends BaseFragment {
             adapter = new TunnelRecycler(new mavonie.subterminal.Models.Skydive.Tunnel().getItems((HashMap<String, Object>) this.getArguments().get(Tunnel.FILTER)), getmListener());
             UIHelper.getAddButton().hide();
         } else {
+
+            Query query = new Query();
+            query.orderDir(mavonie.subterminal.Models.Skydive.TunnelSession.COLUMN_NAME_DATE, Model.FILTER_ORDER_DIR_DESC);
+            query.getWheres().put(query.getWheres().size(), Synchronizable.getActiveParams());
+
             view = (RecyclerView) inflater.inflate(R.layout.fragment_suit_list, container, false);
-//            adapter = new SuitRecycler(new Suit().getItems(query.getParams()), getmListener());
+            adapter = new TunnelSessionRecycler(new mavonie.subterminal.Models.Skydive.TunnelSession().getItems(query.getParams()), getmListener());
             UIHelper.getAddButton().show();
         }
 
@@ -66,7 +72,7 @@ public class TunnelTabs extends BaseFragment {
 
     @Override
     protected String getItemClass() {
-        return mavonie.subterminal.Models.Skydive.Dropzone.class.getCanonicalName();
+        return mavonie.subterminal.Models.Skydive.TunnelSession.class.getCanonicalName();
     }
 
     @Override

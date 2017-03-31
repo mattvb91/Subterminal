@@ -1,24 +1,11 @@
 package mavonie.subterminal.unit.Skydive;
 
-import android.util.Pair;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.List;
-
-import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.Models.Skydive.Aircraft;
-import mavonie.subterminal.Models.Skydive.Dropzone;
-import mavonie.subterminal.Models.Skydive.DropzoneAircraft;
 import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
-
-import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 /**
  * Dropzone unit tests

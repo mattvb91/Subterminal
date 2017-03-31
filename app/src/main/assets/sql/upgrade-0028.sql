@@ -14,3 +14,13 @@ CREATE TABLE skydive_tunnel (
         tunnel_height,
         featured INTEGER DEFAULT 0
 );
+
+CREATE TABLE skydive_tunnel_session (
+        _id INTEGER PRIMARY KEY,
+        date DATE,
+        description TEXT,
+        length INTEGER,
+        tunnel_id INTEGER,
+        synced INTEGER DEFAULT 0,
+        deleted INTEGER DEFAULT 0
+);

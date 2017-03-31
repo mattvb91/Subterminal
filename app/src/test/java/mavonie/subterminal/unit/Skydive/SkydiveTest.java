@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.Models.Skydive.Aircraft;
-import mavonie.subterminal.Models.Skydive.Dropzone;
-import mavonie.subterminal.Models.Skydive.DropzoneAircraft;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Utils.Subterminal;

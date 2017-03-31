@@ -141,6 +141,16 @@ CREATE TABLE skydive_tunnel (
         featured INTEGER DEFAULT 0
 );
 
+CREATE TABLE skydive_tunnel_session (
+        _id INTEGER PRIMARY KEY,
+        date DATE,
+        description TEXT,
+        length INTEGER,
+        tunnel_id INTEGER,
+        synced INTEGER DEFAULT 0,
+        deleted INTEGER DEFAULT 0
+);
+
 CREATE TABLE skydive_rig (
     _id INTEGER PRIMARY KEY,
     container_manufacturer TEXT,

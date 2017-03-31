@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dip">
+
+        <LinearLayout
+            android:id="@+id/row_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/session_list_row_id"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:text="#1"
+                android:textSize="30dp" />
+
+        </LinearLayout>
+        <!--  ListRow Left sied Thumbnail image -->
+
+        <TextView
+            android:id="@+id/session_tunnel_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Tunnel"
+            android:textColor="#040404"
+            android:layout_toRightOf="@id/row_id"
+            android:textSize="15dip"
+            android:textStyle="bold"
+            android:typeface="sans" />
+
+        <TextView
+            android:id="@+id/session_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/session_tunnel_name"
+            android:padding="5dp"
+            android:layout_toRightOf="@id/row_id"
+            android:text="Length:"
+            android:textSize="15dp" />
+
+        <!-- Rightend Duration -->
+        <TextView
+            android:id="@+id/session_list_ago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/session_tunnel_name"
+            android:layout_marginRight="5dip"
+            android:gravity="right"
+            android:text="Ago"
+            android:textColor="#343434"
+            android:textSize="10dip"
+            android:textStyle="bold" />
+
+        <!-- Rightend Arrow -->
+        <ImageView
+            android:id="@+id/session_list_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/arrow_down_float" />
+
+        <ImageView
+            android:id="@+id/session_list_synchronized"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/session_list_arrow"
+            android:layout_marginTop="35dp"
+            android:src="@drawable/synchronized_circle" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

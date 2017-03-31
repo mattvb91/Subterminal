@@ -54,11 +54,13 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Models.Skydive.TunnelSession;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Skydive.Dropzone;
 import mavonie.subterminal.Skydive.Forms.SkydiveForm;
+import mavonie.subterminal.Skydive.Forms.TunnelSessionForm;
 import mavonie.subterminal.Skydive.Tunnel;
 import mavonie.subterminal.Skydive.Views.DropzoneView;
 import mavonie.subterminal.Skydive.Views.SkydiveView;
@@ -81,6 +83,7 @@ public class UIHelper {
     private static final int FRAGMENT_EXIT = R.id.nav_exits;
     private static final int FRAGMENT_SKYDIVES = R.id.skydiving_nav_jumps;
     private static final int FRAGMENT_GALLERY = R.id.nav_gallery;
+    private static final int FRAGMENT_TUNNEL_SESSION = R.id.skydiving_nav_tunnels;
 
     private static FloatingActionButton addButton;
     private static ArcMenu arcButton;
@@ -127,6 +130,8 @@ public class UIHelper {
             fragment = new mavonie.subterminal.Skydive.Forms.GearForm();
         } else if (entity instanceof mavonie.subterminal.Models.Skydive.Tunnel) {
             fragment = new TunnelView();
+        } else if (entity instanceof TunnelSession) {
+            fragment = new TunnelSessionForm();
         }
 
         fragment.setArguments(args);
@@ -311,6 +316,10 @@ public class UIHelper {
                         break;
                     case FRAGMENT_SKYDIVES:
                         UIHelper.replaceFragment(new SkydiveForm());
+                        addButton.hide();
+                        break;
+                    case FRAGMENT_TUNNEL_SESSION:
+                        UIHelper.replaceFragment(new TunnelSessionForm());
                         addButton.hide();
                         break;
                 }

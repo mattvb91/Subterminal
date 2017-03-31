@@ -5,15 +5,13 @@ import android.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
-import mavonie.subterminal.Models.Skydive.DropzoneAircraft;
 import mavonie.subterminal.Models.Skydive.Tunnel;
+import mavonie.subterminal.Models.Skydive.TunnelSession;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static junit.framework.Assert.assertTrue;
@@ -67,6 +65,18 @@ public class TunnelTest extends BaseDBUnit {
         return tunnel;
     }
 
+    public static TunnelSession createSession() {
+        TunnelSession session = new TunnelSession();
+
+        session.setTunnelId(createTunnel().getId());
+        session.setLength(12);
+        session.setDescription("Session description");
+        session.setDate("2000-01-01");
+
+        session.save();
+
+        return session;
+    }
 
     @Test
     public void testSetFeatured() {
@@ -78,5 +88,18 @@ public class TunnelTest extends BaseDBUnit {
 
         Assert.assertTrue(tunnelDB.equals(tunnel));
         Assert.assertEquals(tunnelDB.getFeatured(), (Integer) Dropzone.FEATURED_TRUE);
+    }
+
+    @Test
+    public void testCreateSession() {
+        TunnelSession session = createSession();
+
+        assertNotNull(session.getId());
+        assertTrue(session.exists());
+
+        TunnelSession dbSession = (TunnelSession) new TunnelSession().getOneById(session.getId());
+        assertEquals(dbSession, session);
+
+        assertEquals(dbSession.getTunnel(), session.getTunnel());
     }
 }
