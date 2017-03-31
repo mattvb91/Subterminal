@@ -100,7 +100,7 @@ public class TunnelSession extends Synchronizable {
      * @return Tunnel
      */
     public Tunnel getTunnel() {
-        if (_tunnel == null) {
+        if (_tunnel == null && this.getTunnelId() != null) {
             _tunnel = (Tunnel) new Tunnel().getOneById(this.getTunnelId());
         }
 

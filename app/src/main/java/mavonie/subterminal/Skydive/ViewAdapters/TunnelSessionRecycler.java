@@ -73,7 +73,11 @@ public class TunnelSessionRecycler extends RecyclerView.Adapter<TunnelSessionRec
         if (getItemViewType(position) == ITEM_TYPE_MODEL) {
             holder.mItem = (TunnelSession) mValues.get(position);
             holder.listRow.setText("#" + holder.mItem.getRowId());
-            holder.listTunnel.setText(holder.mItem.getTunnel().getName());
+
+            if(holder.mItem.getTunnel() != null) {
+                holder.listTunnel.setText(holder.mItem.getTunnel().getName());
+            }
+
             holder.listLength.setText("Length: " + holder.mItem.getLength().toString() + "s");
 
             holder.listAgo.setText(TimeAgo.sinceToday(holder.mItem.getDate()));
