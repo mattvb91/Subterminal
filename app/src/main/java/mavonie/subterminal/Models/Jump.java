@@ -292,14 +292,19 @@ public class Jump extends Synchronizable {
 
     }
 
+    /**
+     * @return int
+     */
     public int getRowId() {
         int startJump = Prefs.getInt(Preference.PREFS_JUMP_START_COUNT, 0);
 
+        int res = this.row_id;
+
         if (startJump > 0) {
-            this.row_id += (startJump - 1);
+            res += (startJump - 1);
         }
 
-        return this.row_id;
+        return res;
     }
 
     public void setRowId(int row_id) {
