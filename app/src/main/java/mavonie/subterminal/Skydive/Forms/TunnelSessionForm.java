@@ -4,20 +4,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import mavonie.subterminal.Forms.BaseForm;
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Skydive.Tunnel;
 import mavonie.subterminal.Models.Skydive.TunnelSession;
 import mavonie.subterminal.R;
-
-import mavonie.subterminal.Forms.BaseForm;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Listeners.DatePickerTextView;

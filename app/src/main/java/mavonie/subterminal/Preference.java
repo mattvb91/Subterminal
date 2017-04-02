@@ -152,19 +152,17 @@ public class Preference extends BaseFragment {
         });
 
         final EditText startCount = (EditText) view.findViewById(R.id.preference_start_count);
-        startCount.setText(Integer.toString(Prefs.getInt(PREFS_JUMP_START_COUNT, 0)));
+        startCount.setText(Integer.toString(Subterminal.getUser().getSettings().getBaseStartJumpNo()));
 
         startCount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    Prefs.putInt(PREFS_JUMP_START_COUNT, Integer.parseInt(String.valueOf(startCount.getText())));
-                    UIHelper.toast(getString(R.string.settings_updated));
+                    Subterminal.getUser().getSettings().setBaseStartJumpNo(Integer.parseInt(String.valueOf(startCount.getText())));
 
-                    InputMethodManager imm = (InputMethodManager) MainActivity.getActivity()
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-
+                    InputMethodManager imm = (InputMethodManager) MainActivity.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
                     return true;
                 }
                 return false;
@@ -172,18 +170,15 @@ public class Preference extends BaseFragment {
         });
 
         final EditText skydiveStartCount = (EditText) view.findViewById(R.id.preference_skydive_start_count);
-        skydiveStartCount.setText(Integer.toString(Prefs.getInt(PREFS_SKYDIVE_START_COUNT, 0)));
+        skydiveStartCount.setText(Integer.toString(Subterminal.getUser().getSettings().getSkydiveStartJumpNo()));
 
         skydiveStartCount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    Prefs.putInt(PREFS_SKYDIVE_START_COUNT, Integer.parseInt(String.valueOf(skydiveStartCount.getText())));
-                    UIHelper.toast(getString(R.string.settings_updated));
+                    Subterminal.getUser().getSettings().setSkydiveStartJumpNo(Integer.parseInt(String.valueOf(skydiveStartCount.getText())));
 
-                    InputMethodManager imm = (InputMethodManager) MainActivity.getActivity()
-                            .getSystemService(Context.INPUT_METHOD_SERVICE);
-
+                    InputMethodManager imm = (InputMethodManager) MainActivity.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     return true;
                 }
@@ -202,12 +197,11 @@ public class Preference extends BaseFragment {
 
         sliderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sliderConfigSpinner.setAdapter(sliderAdapter);
-        sliderConfigSpinner.setSelection(Prefs.getInt(PREFS_DEFAULT_SLIDER, Jump.SLIDER_DOWN), false);
+        sliderConfigSpinner.setSelection(Subterminal.getUser().getSettings().getBaseDefaultSliderConfig(), false);
         sliderConfigSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Prefs.putInt(PREFS_DEFAULT_SLIDER, sliderConfigSpinner.getSelectedItemPosition());
-                UIHelper.toast(getString(R.string.settings_updated));
+                Subterminal.getUser().getSettings().setBaseDefaultSliderConfig(sliderConfigSpinner.getSelectedItemPosition());
             }
 
             @Override
@@ -230,12 +224,11 @@ public class Preference extends BaseFragment {
 
         jumpTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpTypeSpinner.setAdapter(jumpTypeAdapter);
-        jumpTypeSpinner.setSelection(Prefs.getInt(PREFS_DEFAULT_JUMP_TYPE, Jump.TYPE_SLICK), false);
+        jumpTypeSpinner.setSelection(Subterminal.getUser().getSettings().getBaseDefaultJumpType(), false);
         jumpTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Prefs.putInt(PREFS_DEFAULT_JUMP_TYPE, jumpTypeSpinner.getSelectedItemPosition());
-                UIHelper.toast(getString(R.string.settings_updated));
+                Subterminal.getUser().getSettings().setBaseDefaultJumpType(jumpTypeSpinner.getSelectedItemPosition());
             }
 
             @Override
@@ -260,12 +253,11 @@ public class Preference extends BaseFragment {
 
         pcApter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pcSize.setAdapter(pcApter);
-        pcSize.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(Prefs.getInt(PREFS_DEFAULT_PC, 32)), false);
+        pcSize.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(Subterminal.getUser().getSettings().getBaseDefaultPcSize()), false);
         pcSize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Prefs.putInt(PREFS_DEFAULT_PC, Integer.parseInt(pcSize.getSelectedItem().toString()));
-                UIHelper.toast(getString(R.string.settings_updated));
+                Subterminal.getUser().getSettings().setBaseDefaultPcSize(Integer.parseInt(pcSize.getSelectedItem().toString()));
             }
 
             @Override
@@ -285,12 +277,11 @@ public class Preference extends BaseFragment {
         final LinkedHashMapAdapter aircraftAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
         aircraftAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         aircraftSpinner.setAdapter(aircraftAdapter);
-        aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Prefs.getInt(PREFS_DEFAULT_AIRCRAFT, 1)), false);
+        aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Subterminal.getUser().getSettings().getSkydiveDefaultAircraftId()), false);
         aircraftSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Prefs.putInt(PREFS_DEFAULT_AIRCRAFT, Integer.parseInt(aircraftAdapter.getItem(i).getKey().toString()));
-                UIHelper.toast(getString(R.string.settings_updated));
+                Subterminal.getUser().getSettings().setSkydiveDefaultAircraftId(Integer.parseInt(aircraftAdapter.getItem(i).getKey().toString()));
             }
 
             @Override
@@ -313,14 +304,13 @@ public class Preference extends BaseFragment {
         dropzone.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Prefs.putInt(PREFS_DEFAULT_DROPZONE, Integer.parseInt(dropzoneAdapter.getItem(position).getKey().toString()));
-                UIHelper.toast(getString(R.string.settings_updated));
+                Subterminal.getUser().getSettings().setSkydiveHomeDzId(Integer.parseInt(dropzoneAdapter.getItem(position).getKey().toString()));
                 dropzone.setText(dropzoneAdapter.getItem(position).getValue().toString());
             }
         });
 
-        if (Prefs.getInt(PREFS_DEFAULT_DROPZONE, 0) != 0) {
-            Dropzone dbDropzone = (Dropzone) new Dropzone().getOneById(Prefs.getInt(PREFS_DEFAULT_DROPZONE, 0));
+        if (Subterminal.getUser().getSettings().getSkydiveHomeDzId() != null) {
+            Dropzone dbDropzone = (Dropzone) new Dropzone().getOneById(Subterminal.getUser().getSettings().getSkydiveHomeDzId());
             dropzone.setText(dbDropzone.getName());
         }
         /**
@@ -335,13 +325,12 @@ public class Preference extends BaseFragment {
         final LinkedHashMapAdapter jumpTypesAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Skydive.getJumpTypes());
         jumpTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpType.setAdapter(jumpTypesAdapter);
-        jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(Prefs.getInt(PREFS_DEFAULT_SKYDIVE_TYPE, Skydive.SKYDIVE_TYPE_BELLY)), false);
+        jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(Subterminal.getUser().getSettings().getSkydiveDefaultJumpType()), false);
 
         jumpType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Prefs.putInt(PREFS_DEFAULT_SKYDIVE_TYPE, (int) jumpTypesAdapter.getItem(position).getKey());
-                UIHelper.toast(getString(R.string.settings_updated));
+                Subterminal.getUser().getSettings().setSkydiveDefaultJumpType((Integer) jumpTypesAdapter.getItem(position).getKey());
             }
 
             @Override
@@ -361,18 +350,8 @@ public class Preference extends BaseFragment {
         heightUnit.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                // This will get the radiobutton that has changed in its check state
                 RadioButton radioButton = (RadioButton) group.findViewById(R.id.radio_metric);
-
-                // If the radiobutton that has changed in check state is now checked...
-                if (radioButton.isChecked()) {
-                    Prefs.putInt(PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_METRIC);
-                } else {
-                    Prefs.putInt(PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL);
-                }
-
-                UIHelper.toast(getString(R.string.settings_updated));
+                Subterminal.getUser().getSettings().setDefaultHeightUnit(radioButton.isChecked() ? Subterminal.HEIGHT_UNIT_METRIC : Subterminal.HEIGHT_UNIT_IMPERIAL);
             }
         });
 

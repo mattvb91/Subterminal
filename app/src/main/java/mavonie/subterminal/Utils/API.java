@@ -7,6 +7,7 @@ import android.view.View;
 import com.facebook.AccessToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.stripe.android.model.Token;
 import com.stripe.model.Charge;
 
@@ -192,6 +193,10 @@ public class API {
 
                 Synchronizable.syncEntities();
                 downloadImages();
+
+                if (Subterminal.getUser().getSettings().requiresSync()) {
+                    updateUserSettings();
+                }
             }
         }
     }
@@ -281,7 +286,7 @@ public class API {
                         public void run() {
                             List<Tunnel> tunnels = (List<Tunnel>) response.body();
 
-                            for (Tunnel tunnel: tunnels) {
+                            for (Tunnel tunnel : tunnels) {
                                 tunnel.setId(tunnel.id);
                                 tunnel.save();
                             }
@@ -372,6 +377,31 @@ public class API {
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()) {
                     Subterminal.getApi().updateLocalUser();
+                }
+
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                API.issueContactingServer();
+                UIHelper.setProgressBarVisibility(View.GONE);
+            }
+        });
+    }
+
+    /**
+     * Sync the current user settings to the server
+     */
+    public void updateUserSettings() {
+        UIHelper.setProgressBarVisibility(View.VISIBLE);
+
+        Call updateSettings = this.getEndpoints().updateSettings(Subterminal.getUser().getSettings());
+        updateSettings.enqueue(new Callback<Settings>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.code() == 204) {
+                    Prefs.putBoolean(Settings.SETTINGS_REQUIRES_SYNC, false);
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);

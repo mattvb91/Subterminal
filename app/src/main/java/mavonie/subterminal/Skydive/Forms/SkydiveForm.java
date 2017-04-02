@@ -13,8 +13,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,7 +24,6 @@ import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Suit;
-import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Date.DateFormat;
@@ -98,8 +95,8 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         dropzone.setThreshold(2);
         dropzone.setOnItemClickListener(this);
 
-        if (Prefs.getInt(Preference.PREFS_DEFAULT_DROPZONE, 0) != 0) {
-            Dropzone dz = (Dropzone) new Dropzone().getOneById(Prefs.getInt(Preference.PREFS_DEFAULT_DROPZONE, 0));
+        if (Subterminal.getUser().getSettings().getSkydiveHomeDzId() != null) {
+            Dropzone dz = (Dropzone) new Dropzone().getOneById(Subterminal.getUser().getSettings().getSkydiveHomeDzId());
             this.dropzone.setText(dz.getName());
             this.dropzoneEntry = this.dropzonesAdapter.getItem(this.dropzonesAdapter.findPositionFromKey(dz.getId()));
         }
@@ -162,7 +159,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         aircraftSpinner.setAdapter(aircraftAdapter);
 
         if (aircraftAdapter.getCount() > 0)
-            aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_AIRCRAFT, 1)));
+            aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Subterminal.getUser().getSettings().getSkydiveDefaultAircraftId()));
 
         aircraftSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -180,7 +177,7 @@ public class SkydiveForm extends BaseForm implements AdapterView.OnItemClickList
         jumpTypesAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Skydive.getJumpTypes());
         jumpTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpType.setAdapter(jumpTypesAdapter);
-        jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_SKYDIVE_TYPE, Skydive.SKYDIVE_TYPE_BELLY)));
+        jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(Subterminal.getUser().getSettings().getSkydiveDefaultJumpType()));
         jumpType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

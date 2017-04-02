@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -24,7 +22,6 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Suit;
-import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Date.DateFormat;
@@ -111,7 +108,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
         ArrayAdapter<Integer> pcSizeAdapter = new ArrayAdapter<Integer>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Jump.getPcSizeArray());
         pcSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pcSizeSpinner.setAdapter(pcSizeAdapter);
-        pcSizeSpinner.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(Prefs.getInt(Preference.PREFS_DEFAULT_PC, 32)), false);
+        pcSizeSpinner.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(Subterminal.getUser().getSettings().getBaseDefaultPcSize()), false);
 
 
         Spinner sliderConfigSpinner = (Spinner) view.findViewById(R.id.jump_edit_slider);
@@ -122,7 +119,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
         sliderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sliderConfigSpinner.setAdapter(sliderAdapter);
-        sliderConfigSpinner.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_SLIDER, Jump.SLIDER_DOWN), false);
+        sliderConfigSpinner.setSelection(Subterminal.getUser().getSettings().getBaseDefaultSliderConfig(), false);
 
         jumpTypeSpinner = (Spinner) view.findViewById(R.id.jump_edit_type);
         ArrayAdapter<String> typeAdapter =
@@ -170,7 +167,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
             }
         });
-        jumpTypeSpinner.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_JUMP_TYPE, Jump.TYPE_SLICK));
+        jumpTypeSpinner.setSelection(Subterminal.getUser().getSettings().getBaseDefaultJumpType());
 
         this.date = (EditText) view.findViewById(R.id.jump_edit_date);
         DateFormat df = new DateFormat();
@@ -237,7 +234,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
                 if (exit == null) {
                     exit = new Exit();
                     exit.setName(exitName);
-                    exit.setHeightUnit(Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL));
+                    exit.setHeightUnit(Subterminal.getUser().getSettings().getDefaultHeightUnit());
                     exit.save();
                 }
 

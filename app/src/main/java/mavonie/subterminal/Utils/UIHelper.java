@@ -70,8 +70,6 @@ import mavonie.subterminal.Views.JumpView;
 import mavonie.subterminal.Views.Premium.PremiumView;
 import uk.me.lewisdeane.ldialogs.CustomListDialog;
 
-import static mavonie.subterminal.Preference.PREFS_DEFAULT_HEIGHT_UNIT;
-
 /**
  * Class to deal with UI/Fragment navigation components
  * Make sure all changes are made on the UI thread
@@ -496,7 +494,7 @@ public class UIHelper {
                 windView.setPressure(element.getMain().getPressure().intValue());
                 windView.setPressureUnit("in hPa");
 
-                if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                if (Subterminal.getUser().getSettings().getDefaultHeightUnit() == Subterminal.HEIGHT_UNIT_IMPERIAL) {
                     windView.setWindSpeedUnit(" mph");
                     windView.setWindSpeed((float) new UnitConverter().lengthConvert(element.getWind().getSpeed().doubleValue(), "kilometers", "miles"));
                 } else {
@@ -521,7 +519,7 @@ public class UIHelper {
 
                 TextView windTitle = new TextView(MainActivity.getActivity());
 
-                if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                if (Subterminal.getUser().getSettings().getDefaultHeightUnit() == Subterminal.HEIGHT_UNIT_IMPERIAL) {
                     windTitle.setText(" Wind (mph) ");
                 } else {
                     windTitle.setText(" Wind (km/h) ");
@@ -555,7 +553,7 @@ public class UIHelper {
                     TextView windColumn = new TextView(MainActivity.getActivity());
 
                     windColumn.setText(element.getWind().getSpeed().toString());
-                    if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                    if (Subterminal.getUser().getSettings().getDefaultHeightUnit() == Subterminal.HEIGHT_UNIT_IMPERIAL) {
                         windColumn.setText(String.format("%.1f", new UnitConverter().lengthConvert(element.getWind().getSpeed().doubleValue(), "kilometers", "miles")));
                     } else {
                         windColumn.setText(element.getWind().getSpeed().toString());
@@ -587,7 +585,7 @@ public class UIHelper {
     public static void prefillHeightUnit(RadioGroup heightUnit) {
         heightUnit.setOnCheckedChangeListener(null);
 
-        if (Prefs.getInt(PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+        if (Subterminal.getUser().getSettings().getDefaultHeightUnit() == Subterminal.HEIGHT_UNIT_IMPERIAL) {
             heightUnit.check(R.id.radio_imperial);
         } else {
             heightUnit.check(R.id.radio_metric);

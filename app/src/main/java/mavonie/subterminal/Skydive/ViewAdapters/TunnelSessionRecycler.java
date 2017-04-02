@@ -1,7 +1,5 @@
 package mavonie.subterminal.Skydive.ViewAdapters;
 
-import android.graphics.Color;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +12,6 @@ import com.google.android.gms.ads.AdView;
 import java.util.ArrayList;
 import java.util.List;
 
-import mavonie.subterminal.Models.Skydive.Dropzone;
-import mavonie.subterminal.Models.Skydive.Tunnel;
 import mavonie.subterminal.Models.Skydive.TunnelSession;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;

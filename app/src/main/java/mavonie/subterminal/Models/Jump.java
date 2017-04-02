@@ -2,15 +2,12 @@ package mavonie.subterminal.Models;
 
 import android.database.Cursor;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mavonie.subterminal.Preference;
 import mavonie.subterminal.Utils.Date.DateFormat;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.Synchronized;
@@ -296,7 +293,7 @@ public class Jump extends Synchronizable {
      * @return int
      */
     public int getRowId() {
-        int startJump = Prefs.getInt(Preference.PREFS_JUMP_START_COUNT, 0);
+        int startJump = Subterminal.getUser().getSettings().getBaseStartJumpNo();
 
         int res = this.row_id;
 

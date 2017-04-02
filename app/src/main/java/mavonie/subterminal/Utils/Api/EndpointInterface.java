@@ -19,6 +19,7 @@ import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Skydive.Tunnel;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.User;
+import mavonie.subterminal.Utils.Settings;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -52,6 +53,9 @@ public interface EndpointInterface {
 
     @POST("user")
     Call<AccessToken> createOrUpdateUser(@Body AccessToken token);
+
+    @POST("user/settings")
+    Call<Settings> updateSettings(@Body Settings settings);
 
     @GET("user")
     Call<User> getUser();

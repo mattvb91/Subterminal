@@ -29,7 +29,6 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.tomer.fadingtextview.FadingTextView;
 
 import java.util.ArrayList;
@@ -105,8 +104,8 @@ public class Dashboard extends Fragment {
         whereNotGlobal.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
         whereNotGlobal.put(Model.FILTER_WHERE_VALUE, null);
 
-        skydiveCount.setText(Integer.toString(Prefs.getInt(Preference.PREFS_SKYDIVE_START_COUNT, 0) + new Skydive().count(Synchronizable.getActiveParams())));
-        baseCount.setText(Integer.toString(Prefs.getInt(Preference.PREFS_JUMP_START_COUNT, 0) + new Jump().count(Synchronizable.getActiveParams())));
+        skydiveCount.setText(Integer.toString(Subterminal.getUser().getSettings().getSkydiveStartJumpNo() + new Skydive().count(Synchronizable.getActiveParams())));
+        baseCount.setText(Integer.toString(Subterminal.getUser().getSettings().getBaseStartJumpNo() + new Jump().count(Synchronizable.getActiveParams())));
         dropzoneCount.setText(Integer.toString(Dropzone.getDropzonesVisitedCount()));
         exitsCount.setText(Integer.toString(new Exit().count(whereNotGlobal)));
 

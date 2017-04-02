@@ -16,8 +16,6 @@ import java.util.HashMap;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.Models.Skydive.Rig;
-import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.DB.Query;

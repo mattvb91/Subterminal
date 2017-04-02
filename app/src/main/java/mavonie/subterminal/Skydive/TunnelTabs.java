@@ -1,32 +1,23 @@
 package mavonie.subterminal.Skydive;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.PopupWindow;
-import android.widget.Spinner;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import mavonie.subterminal.*;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
+import mavonie.subterminal.R;
 import mavonie.subterminal.Skydive.ViewAdapters.TunnelRecycler;
 import mavonie.subterminal.Skydive.ViewAdapters.TunnelSessionRecycler;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.DB.Query;
-import mavonie.subterminal.Utils.FilterableFragment;
 import mavonie.subterminal.Utils.UIHelper;
-import mavonie.subterminal.ViewAdapters.GearRecycler;
-import mavonie.subterminal.ViewAdapters.SuitRecycler;
 
 /**
  * Tunnel listings/Session listings
