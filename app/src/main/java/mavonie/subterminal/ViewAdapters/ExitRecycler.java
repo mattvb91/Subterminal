@@ -8,7 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -84,9 +89,12 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
             Image thumb = Image.loadThumbForEntity(holder.mItem);
 
             if (thumb != null) {
-                holder.mThumb.setImageURI(thumb.getUri().toString());
+                ImageRequest request = ImageRequestBuilder.newBuilderWithSource(thumb.getUri()).setResizeOptions(new ResizeOptions(50, 50)).build();
+                PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder().setOldController(holder.mThumb.getController()).setImageRequest(request).build();
+                holder.mThumb.setController(controller);
+                holder.mView.findViewById(R.id.exit_list_thumb_layout).setVisibility(View.VISIBLE);
             } else {
-                holder.mThumb.setHierarchy(Image.getHierarchy());
+                holder.mView.findViewById(R.id.exit_list_thumb_layout).setVisibility(View.GONE);
             }
 
             if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced()) || holder.mItem.isGlobal()) {
@@ -154,14 +162,7 @@ public class ExitRecycler extends RecyclerView.Adapter<ExitRecycler.ViewHolder> 
             mObjectType = (TextView) view.findViewById(R.id.exit_list_object_type);
             mJumpCount = (TextView) view.findViewById(R.id.exit_list_jumps);
             mListSynchronized = (ImageView) view.findViewById(R.id.exit_list_synchronized);
-
             mThumb = (SimpleDraweeView) view.findViewById(R.id.exit_list_thumb);
-
-            if (mThumb != null) {
-                mThumb.getLayoutParams().width = THUMB_SIZE;
-                mThumb.setAdjustViewBounds(true);
-                mThumb.setScaleType(ImageView.ScaleType.FIT_XY);
-            }
         }
     }
 }
