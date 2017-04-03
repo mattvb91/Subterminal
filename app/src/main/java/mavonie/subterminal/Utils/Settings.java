@@ -144,6 +144,6 @@ public class Settings {
     }
 
     public boolean requiresSync() {
-        return Prefs.getBoolean(SETTINGS_REQUIRES_SYNC, false);
+        return Prefs.getBoolean(SETTINGS_REQUIRES_SYNC, true);
     }
 }
