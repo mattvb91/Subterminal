@@ -35,12 +35,14 @@ public class Jump extends FilterableFragment {
      */
     private Spinner jumpTypeSpinner,
             pcSizeSpinner,
-            sliderSpinner;
+            sliderSpinner,
+            pcConfigSpinner;
 
     private EditText dateFrom, dateTo;
     private LinkedHashMapAdapter<Integer, String> typeAdapter,
             pcSizeAdapter,
-            sliderAdapter;
+            sliderAdapter,
+            pcConfigAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,6 +92,23 @@ public class Jump extends FilterableFragment {
          */
 
         /**
+         * PC Config
+         */
+        LinkedHashMap<Integer, String> pcConfigs = new LinkedHashMap<>();
+        pcConfigs.put(null, " - ");
+        for (Map.Entry value : mavonie.subterminal.Models.Jump.pc_configs.entrySet()) {
+            pcConfigs.put((Integer) value.getKey(), value.getValue().toString());
+        }
+
+        pcConfigSpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.base_filter_pc_config);
+        pcConfigAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, pcConfigs);
+        pcConfigAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pcConfigSpinner.setAdapter(pcConfigAdapter);
+        /**
+         * End PC Config
+         */
+
+        /**
          * Slider
          */
         LinkedHashMap<Integer, String> slider = new LinkedHashMap<>();
@@ -120,6 +139,10 @@ public class Jump extends FilterableFragment {
             if (pcSize != null)
                 pcSizeSpinner.setSelection(pcSizeAdapter.findPositionFromKey((Integer) pcSize));
 
+            Object pcConfig = this.getArguments().get("pcConfig");
+            if (pcConfig != null)
+                pcConfigSpinner.setSelection(pcConfigAdapter.findPositionFromKey((Integer) pcConfig));
+
             Object sliderChoice = this.getArguments().get("slider");
             if (sliderChoice != null)
                 sliderSpinner.setSelection(sliderAdapter.findPositionFromKey((Integer) sliderChoice));
@@ -148,6 +171,10 @@ public class Jump extends FilterableFragment {
             Object pcSize = this.getArguments().get("pcSize");
             if (pcSize != null)
                 query.addWhere(mavonie.subterminal.Models.Jump.COLUMN_NAME_PC_SIZE, pcSize.toString());
+
+            Object pcConfig = this.getArguments().get("pcConfig");
+            if (pcConfig != null)
+                query.addWhere(mavonie.subterminal.Models.Jump.COLUMN_NAME_PC_CONFIG, pcConfig.toString());
 
             Object slider = this.getArguments().get("slider");
             if (slider != null)
@@ -180,6 +207,11 @@ public class Jump extends FilterableFragment {
         Map.Entry pc = pcSizeAdapter.getItem(pcSizeSpinner.getSelectedItemPosition());
         if (pc.getKey() != null) {
             filters.putInt("pcSize", (Integer) pc.getKey());
+        }
+
+        Map.Entry pcConfic = pcConfigAdapter.getItem(pcConfigSpinner.getSelectedItemPosition());
+        if (pcConfic.getKey() != null) {
+            filters.putInt("pcConfig", (Integer) pcConfic.getKey());
         }
 
         Map.Entry slider = sliderAdapter.getItem(sliderSpinner.getSelectedItemPosition());
