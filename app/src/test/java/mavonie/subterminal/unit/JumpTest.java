@@ -84,6 +84,7 @@ public class JumpTest extends BaseDBUnit {
         jump.setDescription("Jump description");
         jump.setExitId(1);
         jump.setPcSize(32);
+        jump.setPcConfig(Jump.PC_HANDHELD);
         jump.setGearId(1);
         jump.setDate("2015-05-24");
         jump.setSlider(0);

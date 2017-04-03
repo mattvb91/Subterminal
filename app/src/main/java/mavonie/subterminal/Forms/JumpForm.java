@@ -39,7 +39,8 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             pilotChute,
             sliderConfig,
             jumpTypeSpinner,
-            suitSpinner;
+            suitSpinner,
+            pcConfigSpinner;
 
     private TextView delay,
             description,
@@ -53,6 +54,8 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
     private LinkedHashMap suits = new LinkedHashMap();
     LinkedHashMapAdapter suitsAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.suits);
+
+    LinkedHashMapAdapter pcConfigAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new LinkedHashMap<>(Jump.pc_configs));
 
     @Override
     protected String getItemClass() {
@@ -73,6 +76,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
         this.sliderConfig = (Spinner) view.findViewById(R.id.jump_edit_slider);
         this.delay = (TextView) view.findViewById(R.id.jump_edit_delay);
         this.description = (TextView) view.findViewById(R.id.jump_edit_description);
+        this.pcConfigSpinner = (Spinner) view.findViewById(R.id.jump_edit_pc_config);
 
         this.exitNames = new Exit().getItemsForSelect("name");
 
@@ -93,6 +97,11 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             view.findViewById(R.id.jump_edit_gear_text).setVisibility(View.GONE);
             gearSpinner.setVisibility(View.GONE);
         }
+
+        //PC Config Spinner
+        pcConfigAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.pcConfigSpinner.setAdapter(pcConfigAdapter);
+        //End PC Config Spinner
 
         //SUIT SPINNER
         this.suitSpinner = (Spinner) view.findViewById(R.id.jump_edit_suit);
@@ -257,6 +266,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             getItem().setPcSize(Integer.parseInt(pilotChuteSize));
             getItem().setSlider(Integer.parseInt(Long.toString(sliderConfigID)));
             getItem().setDate(date.getText().toString());
+            getItem().setPcConfig((Integer) pcConfigAdapter.getItem(pcConfigSpinner.getSelectedItemPosition()).getKey());
 
             if (delayString.length() > 0) {
                 getItem().setDelay(Integer.parseInt(delayString));
@@ -306,6 +316,10 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             if (getItem().getSuitId() != null) {
                 suitEntry = suitsAdapter.getItem(this.suitsAdapter.findPositionFromKey(getItem().getSuitId()));
                 suitSpinner.setSelection(this.suitsAdapter.findPositionFromKey(getItem().getSuitId()), false);
+            }
+
+            if (getItem().getPcConfig() != null) {
+                pcConfigSpinner.setSelection(this.pcConfigAdapter.findPositionFromKey(getItem().getPcConfig()), false);
             }
 
             this.delay.setText(Integer.toString(getItem().getDelay()));

@@ -47,6 +47,7 @@ CREATE TABLE jump (
         exit_id INTEGER,
         gear_id INTEGER,
         pc_size INTEGER,
+        pc_config INTEGER,
         slider INTEGER,
         delay INTEGER,
         description TEXT,

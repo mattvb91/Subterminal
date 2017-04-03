@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
@@ -75,6 +76,14 @@ public class JumpView extends BaseFragment {
         if (getItem().getDescription() != null) {
             TextView jumpDescription = (TextView) view.findViewById(R.id.jump_view_description);
             jumpDescription.setText(getItem().getDescription().replace("\\n", "\n"));
+        }
+
+        if (getItem().getPcConfig() != null) {
+            TextView pcConfig = (TextView) view.findViewById(R.id.jump_view_pc_config);
+            pcConfig.setText(getItem().getFormattedPcConfig());
+        } else {
+            TableRow pcConfigRow = (TableRow) view.findViewById(R.id.pc_config_row);
+            pcConfigRow.setVisibility(View.GONE);
         }
 
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);

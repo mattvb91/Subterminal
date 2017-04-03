@@ -5,6 +5,9 @@
         versioncode="29">
         <change>Fixed jump # scrolling issue</change>
         <change>Fixed thumbnails on list views</change>
+        <change>Synchonize settings to web dashboard for Premium users</change>
+        <change>PC Configuration (Stowed, handheld etc..)</change>
+        <change>Various fixes &amp; Improvements</change>
     </release>
     <release
         version="1.2"

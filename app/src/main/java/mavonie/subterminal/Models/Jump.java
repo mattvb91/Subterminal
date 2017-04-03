@@ -26,7 +26,8 @@ public class Jump extends Synchronizable {
             type,
             suit_id,
             pc_size,
-            slider;
+            slider,
+            pc_config;
 
     private Integer delay = 0;
 
@@ -40,6 +41,13 @@ public class Jump extends Synchronizable {
     private static final Integer[] pc_sizes = {32, 36, 38, 40, 42, 46, 48};
 
     public static final HashMap<Integer, String> slider_config;
+
+    public static final HashMap<Integer, String> pc_configs;
+
+    public static final int PC_STOWED = 0;
+    public static final int PC_HANDHELD = 1;
+    public static final int PC_PCA = 2;
+    public static final int PC_STATIC_LINE = 3;
 
     public static final int TYPE_SLICK = 0;
     public static final int TYPE_TRACKING = 1;
@@ -57,6 +65,12 @@ public class Jump extends Synchronizable {
         jump_type.put(TYPE_SLICK, "Slick");
         jump_type.put(TYPE_TRACKING, "Tracking");
         jump_type.put(TYPE_WINGSUIT, "Wingsuit");
+
+        pc_configs = new HashMap<Integer, String>();
+        pc_configs.put(PC_STOWED, "Stowed");
+        pc_configs.put(PC_HANDHELD, "Handheld");
+        pc_configs.put(PC_PCA, "PCA");
+        pc_configs.put(PC_STATIC_LINE, "Static Line");
     }
 
     public static String[] getSliderConfigArray() {
@@ -86,6 +100,7 @@ public class Jump extends Synchronizable {
     public static final String COLUMN_NAME_EXIT_ID = "exit_id";
     public static final String COLUMN_NAME_GEAR_ID = "gear_id";
     public static final String COLUMN_NAME_PC_SIZE = "pc_size";
+    public static final String COLUMN_NAME_PC_CONFIG = "pc_config";
     public static final String COLUMN_NAME_SLIDER = "slider";
     public static final String COLUMN_NAME_DELAY = "delay";
     public static final String COLUMN_NAME_TYPE = "type";
@@ -105,6 +120,7 @@ public class Jump extends Synchronizable {
             dbColumns.put(COLUMN_NAME_EXIT_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_GEAR_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_PC_SIZE, TYPE_INTEGER);
+            dbColumns.put(COLUMN_NAME_PC_CONFIG, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_SLIDER, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_DELAY, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_TYPE, TYPE_INTEGER);
@@ -243,6 +259,14 @@ public class Jump extends Synchronizable {
         this.suit_id = suit_id;
     }
 
+    public Integer getPcConfig() {
+        return pc_config;
+    }
+
+    public void setPcConfig(Integer pc_config) {
+        this.pc_config = pc_config;
+    }
+
     @Override
     public boolean save() {
         if (this.getExit() != null && this.getExit().getGlobalId() != null) {
@@ -278,6 +302,7 @@ public class Jump extends Synchronizable {
         if (gear_id != jump.gear_id) return false;
         if (exit_id != jump.exit_id) return false;
         if (pc_size != jump.pc_size) return false;
+        if (pc_config != jump.pc_config) return false;
         if (slider != jump.slider) return false;
         if (delay != jump.delay) return false;
         if (description != null ? !description.equals(jump.description) : jump.description != null)
@@ -375,5 +400,16 @@ public class Jump extends Synchronizable {
     @Override
     public String getSyncIdentifier() {
         return Synchronized.PREF_LAST_SYNC_JUMP;
+    }
+
+    /**
+     * @return String|Null
+     */
+    public String getFormattedPcConfig() {
+        if (this.getPcConfig() != null) {
+            return pc_configs.get(this.getPcConfig());
+        }
+
+        return null;
     }
 }
