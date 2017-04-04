@@ -1,0 +1,1 @@
+ALTER TABLE jump ADD COLUMN pc_config INTEGER;

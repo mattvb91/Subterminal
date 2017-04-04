@@ -2,8 +2,6 @@ package mavonie.subterminal.Models.Skydive;
 
 import android.database.Cursor;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -12,7 +10,6 @@ import java.util.Map;
 
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Synchronizable;
-import mavonie.subterminal.Preference;
 import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.Synchronized;
@@ -376,14 +373,21 @@ public class Skydive extends Synchronizable {
         return this._aircraft;
     }
 
+    /**
+     * Get the row id and add preference jump counts
+     *
+     * @return int
+     */
     public int getRowId() {
-        int startJump = Prefs.getInt(Preference.PREFS_SKYDIVE_START_COUNT, 0);
+        int startJump = Subterminal.getUser().getSettings().getSkydiveStartJumpNo();
+
+        int res = this.row_id;
 
         if (startJump > 0) {
-            this.row_id += (startJump - 1);
+            res += (startJump - 1);
         }
 
-        return this.row_id;
+        return res;
     }
 
     public void setRowId(int row_id) {

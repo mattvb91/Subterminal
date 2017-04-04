@@ -34,6 +34,11 @@
             android:id="@+id/skydiving_nav_dropzones"
             android:icon="@android:drawable/ic_dialog_map"
             android:title="Dropzones" />
+
+        <item
+            android:id="@+id/skydiving_nav_tunnels"
+            android:icon="@drawable/ic_wind_tunnels"
+            android:title="Tunnels" />
     </group>
 
     <item android:title="Account">

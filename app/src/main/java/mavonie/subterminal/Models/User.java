@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.Settings;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 
@@ -29,9 +30,11 @@ public class User {
     private boolean is_premium;
     private Profile facebookProfile;
     private AccessToken facebookToken;
+    private Settings settings;
 
     public User() {
         this.email = Prefs.getString("email", null);
+        this.settings = new Settings();
     }
 
     public String getEmail() {
@@ -59,6 +62,10 @@ public class User {
             this.setFacebookToken(AccessToken.getCurrentAccessToken());
         }
         return facebookToken;
+    }
+
+    public Settings getSettings() {
+        return settings;
     }
 
     public void setFacebookToken(AccessToken facebookToken) {

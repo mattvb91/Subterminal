@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -211,6 +212,8 @@ public abstract class BaseFragment extends Fragment {
             mAdView.loadAd(adRequest);
         } else {
             mAdView.setVisibility(View.GONE);
+            CardView adCard = (CardView) view.findViewById(R.id.ad_card_view);
+            adCard.setVisibility(View.GONE);
         }
     }
 }

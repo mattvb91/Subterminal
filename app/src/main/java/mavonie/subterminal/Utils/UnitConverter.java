@@ -1,11 +1,7 @@
 package mavonie.subterminal.Utils;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
 import java.text.NumberFormat;
 import java.util.Locale;
-
-import mavonie.subterminal.Preference;
 
 /**
  * https://github.com/MarcKuniansky/UnitConverter
@@ -814,7 +810,7 @@ public class UnitConverter {
             originalUnit = "feet";
         }
 
-        if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_METRIC) {
+        if (Subterminal.getUser().getSettings().getDefaultHeightUnit() == Subterminal.HEIGHT_UNIT_METRIC) {
             desiredUnit = "meters";
             append = "m";
         } else {
@@ -836,7 +832,7 @@ public class UnitConverter {
             originalUnit = "feet";
         }
 
-        if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_METRIC) {
+        if (Subterminal.getUser().getSettings().getDefaultHeightUnit() == Subterminal.HEIGHT_UNIT_METRIC) {
             desiredUnit = "meters";
         } else {
             desiredUnit = "feet";

@@ -1,12 +1,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:attribute="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/dropzone_view_layout"
+        android:id="@+id/tunnel_view_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:descendantFocusability="blocksDescendants">
@@ -51,7 +50,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/dropzone_view_website"
+                                android:id="@+id/tunnel_view_website"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="@dimen/detail_list_margin"
@@ -80,7 +79,7 @@
 
 
                             <TextView
-                                android:id="@+id/dropzone_view_email"
+                                android:id="@+id/tunnel_view_email"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="@dimen/detail_list_margin"
@@ -108,37 +107,12 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/dropzone_view_phone"
+                                android:id="@+id/tunnel_view_phone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/detail_list_margin"
                                 android:autoLink="phone"
                                 android:text="00000 00 0000" />
-                        </LinearLayout>
-                    </TableRow>
-
-                    <TableRow>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/detail_list_margin"
-                                android:text="Aircraft"
-                                android:textAppearance="?attr/textAppearanceListItem"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/dropzone_view_aircraft"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/detail_list_margin"
-                                android:text="Aircraft" />
                         </LinearLayout>
                     </TableRow>
 
@@ -153,7 +127,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/dropzone_view_description"
+                            android:id="@+id/tunnel_view_description"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="10dp"
@@ -168,7 +142,7 @@
                         android:layout_height="wrap_content">
 
                         <co.lujun.androidtagview.TagContainerLayout
-                            android:id="@+id/dropzone_services"
+                            android:id="@+id/tunnel_services"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
@@ -205,7 +179,7 @@
             android:layout_marginTop="5dp">
 
             <include layout="@layout/list_ad_item" />
-            
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -214,11 +188,10 @@
             android:layout_height="match_parent"
             android:layout_below="@id/jump_view_add_banner">
 
-            <include layout="@layout/weather_card" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/dropzone_view_map_card"
+            android:id="@+id/tunnel_view_map_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/weather_layout"
@@ -250,7 +223,7 @@
                     <TableRow android:paddingTop="10dp">
 
                         <mavonie.subterminal.Utils.Views.MapView
-                            android:id="@+id/dropzone_view_map"
+                            android:id="@+id/tunnel_view_map"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:layout_span="2"

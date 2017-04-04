@@ -16,8 +16,10 @@ import mavonie.subterminal.Models.Skydive.Aircraft;
 import mavonie.subterminal.Models.Skydive.Dropzone;
 import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Models.Skydive.Tunnel;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.User;
+import mavonie.subterminal.Utils.Settings;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -43,11 +45,17 @@ public interface EndpointInterface {
     @GET("dropzone")
     Call<List<Dropzone>> getDropzones(@Query("last_sync") String lastSync);
 
+    @GET("tunnel")
+    Call<List<Tunnel>> getTunnels(@Query("last_sync") String lastSync);
+
     @GET("aircraft")
     Call<List<Aircraft>> getAircraft();
 
     @POST("user")
     Call<AccessToken> createOrUpdateUser(@Body AccessToken token);
+
+    @POST("user/settings")
+    Call<Settings> updateSettings(@Body Settings settings);
 
     @GET("user")
     Call<User> getUser();
@@ -145,4 +153,7 @@ public interface EndpointInterface {
 
     @GET("dropzone/{id}/services")
     Call<List<String>> getDropzoneServices(@Path("id") Integer id);
+
+    @GET("tunnel/{id}/images")
+    Call<List<Image>> getTunnelImages(@Path("id") Integer id);
 }

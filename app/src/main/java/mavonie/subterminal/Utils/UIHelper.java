@@ -54,19 +54,21 @@ import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
+import mavonie.subterminal.Models.Skydive.TunnelSession;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Skydive.Dropzone;
 import mavonie.subterminal.Skydive.Forms.SkydiveForm;
+import mavonie.subterminal.Skydive.Forms.TunnelSessionForm;
+import mavonie.subterminal.Skydive.Tunnel;
 import mavonie.subterminal.Skydive.Views.DropzoneView;
 import mavonie.subterminal.Skydive.Views.SkydiveView;
+import mavonie.subterminal.Skydive.Views.TunnelView;
 import mavonie.subterminal.Views.ExitView;
 import mavonie.subterminal.Views.JumpView;
 import mavonie.subterminal.Views.Premium.PremiumView;
 import uk.me.lewisdeane.ldialogs.CustomListDialog;
-
-import static mavonie.subterminal.Preference.PREFS_DEFAULT_HEIGHT_UNIT;
 
 /**
  * Class to deal with UI/Fragment navigation components
@@ -79,6 +81,7 @@ public class UIHelper {
     private static final int FRAGMENT_EXIT = R.id.nav_exits;
     private static final int FRAGMENT_SKYDIVES = R.id.skydiving_nav_jumps;
     private static final int FRAGMENT_GALLERY = R.id.nav_gallery;
+    private static final int FRAGMENT_TUNNEL_SESSION = R.id.skydiving_nav_tunnels;
 
     private static FloatingActionButton addButton;
     private static ArcMenu arcButton;
@@ -123,6 +126,10 @@ public class UIHelper {
             fragment = new SkydiveView();
         } else if (entity instanceof Rig) {
             fragment = new mavonie.subterminal.Skydive.Forms.GearForm();
+        } else if (entity instanceof mavonie.subterminal.Models.Skydive.Tunnel) {
+            fragment = new TunnelView();
+        } else if (entity instanceof TunnelSession) {
+            fragment = new TunnelSessionForm();
         }
 
         fragment.setArguments(args);
@@ -202,6 +209,10 @@ public class UIHelper {
 
             case R.id.skydiving_nav_dropzones:
                 fragmentClass = new Dropzone();
+                break;
+
+            case R.id.skydiving_nav_tunnels:
+                fragmentClass = new Tunnel();
                 break;
 
             case R.id.skydiving_nav_gear:
@@ -303,6 +314,10 @@ public class UIHelper {
                         break;
                     case FRAGMENT_SKYDIVES:
                         UIHelper.replaceFragment(new SkydiveForm());
+                        addButton.hide();
+                        break;
+                    case FRAGMENT_TUNNEL_SESSION:
+                        UIHelper.replaceFragment(new TunnelSessionForm());
                         addButton.hide();
                         break;
                 }
@@ -479,7 +494,7 @@ public class UIHelper {
                 windView.setPressure(element.getMain().getPressure().intValue());
                 windView.setPressureUnit("in hPa");
 
-                if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                if (Subterminal.getUser().getSettings().getDefaultHeightUnit() == Subterminal.HEIGHT_UNIT_IMPERIAL) {
                     windView.setWindSpeedUnit(" mph");
                     windView.setWindSpeed((float) new UnitConverter().lengthConvert(element.getWind().getSpeed().doubleValue(), "kilometers", "miles"));
                 } else {
@@ -504,7 +519,7 @@ public class UIHelper {
 
                 TextView windTitle = new TextView(MainActivity.getActivity());
 
-                if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                if (Subterminal.getUser().getSettings().getDefaultHeightUnit() == Subterminal.HEIGHT_UNIT_IMPERIAL) {
                     windTitle.setText(" Wind (mph) ");
                 } else {
                     windTitle.setText(" Wind (km/h) ");
@@ -538,7 +553,7 @@ public class UIHelper {
                     TextView windColumn = new TextView(MainActivity.getActivity());
 
                     windColumn.setText(element.getWind().getSpeed().toString());
-                    if (Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+                    if (Subterminal.getUser().getSettings().getDefaultHeightUnit() == Subterminal.HEIGHT_UNIT_IMPERIAL) {
                         windColumn.setText(String.format("%.1f", new UnitConverter().lengthConvert(element.getWind().getSpeed().doubleValue(), "kilometers", "miles")));
                     } else {
                         windColumn.setText(element.getWind().getSpeed().toString());
@@ -570,7 +585,7 @@ public class UIHelper {
     public static void prefillHeightUnit(RadioGroup heightUnit) {
         heightUnit.setOnCheckedChangeListener(null);
 
-        if (Prefs.getInt(PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL) == Subterminal.HEIGHT_UNIT_IMPERIAL) {
+        if (Subterminal.getUser().getSettings().getDefaultHeightUnit() == Subterminal.HEIGHT_UNIT_IMPERIAL) {
             heightUnit.check(R.id.radio_imperial);
         } else {
             heightUnit.check(R.id.radio_metric);

@@ -144,8 +144,15 @@ public class MainActivity extends PinCompatActivity
                     case R.id.nav_gallery:
                         fragment = (mavonie.subterminal.Gallery) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Gallery.class.getCanonicalName());
                         break;
+                    case R.id.skydiving_nav_tunnels:
+                        fragment = (mavonie.subterminal.Skydive.Tunnel) MainActivity.getActivity().getSupportFragmentManager().findFragmentByTag(mavonie.subterminal.Skydive.Tunnel.class.getCanonicalName());
+                        break;
                 }
-                fragment.populateFilter();
+
+                if (fragment != null) {
+                    fragment.populateFilter();
+                }
+
                 return true;
             }
         });

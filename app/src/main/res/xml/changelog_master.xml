@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.2.1"
+        versioncode="29">
+        <change>Fixed jump # scrolling issue</change>
+        <change>Fixed thumbnails on list views</change>
+        <change>Synchronize settings to web dashboard for Premium users</change>
+        <change>PC Configuration (Stowed, handheld etc..) &amp; Filter</change>
+        <change>Various fixes &amp; Improvements</change>
+    </release>
+    <release
+        version="1.2"
+        versioncode="28">
+        <change>Added Tunnels &amp; Session logging</change>
+        <change>All dropzone images now displayed in rotation</change>
+        <change>Various fixes &amp; Improvements</change>
+    </release>
+    <release
         version="1.1.11"
         versioncode="27">
         <change>Dashboard summary stats clickable</change>

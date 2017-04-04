@@ -97,8 +97,8 @@ public class SkydiveRecycler extends RecyclerView.Adapter<SkydiveRecycler.ViewHo
                 ImageRequest request = ImageRequestBuilder.newBuilderWithSource(thumb.getUri()).setResizeOptions(new ResizeOptions(50, 50)).build();
                 PipelineDraweeController controller = (PipelineDraweeController) Fresco.newDraweeControllerBuilder().setOldController(holder.mThumb.getController()).setImageRequest(request).build();
                 holder.mThumb.setController(controller);
+                holder.mView.findViewById(R.id.skydive_list_thumb_layout).setVisibility(View.VISIBLE);
             } else {
-                holder.mThumb.setVisibility(View.GONE);
                 holder.mView.findViewById(R.id.skydive_list_thumb_layout).setVisibility(View.GONE);
             }
 

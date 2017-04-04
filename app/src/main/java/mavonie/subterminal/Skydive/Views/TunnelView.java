@@ -27,15 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import az.openweatherapi.model.gson.common.Coord;
-import co.lujun.androidtagview.TagContainerLayout;
 import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.Tunnel;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
-import mavonie.subterminal.Utils.UIHelper;
 import mavonie.subterminal.Utils.Views.MapView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +43,7 @@ import retrofit2.Response;
 /**
  * Dropzone View
  */
-public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
+public class TunnelView extends BaseFragment implements OnMapReadyCallback {
 
     protected MapView mMapView;
     protected KenBurnsView top;
@@ -84,27 +83,24 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_dropzone_view, container, false);
+        final View view = inflater.inflate(R.layout.fragment_tunnel_view, container, false);
 
-        TextView email = (TextView) view.findViewById(R.id.dropzone_view_email);
+        TextView email = (TextView) view.findViewById(R.id.tunnel_view_email);
         email.setText(getItem().getEmail());
 
-        TextView phone = (TextView) view.findViewById(R.id.dropzone_view_phone);
+        TextView phone = (TextView) view.findViewById(R.id.tunnel_view_phone);
         phone.setText(getItem().getPhone());
 
-        TextView website = (TextView) view.findViewById(R.id.dropzone_view_website);
+        TextView website = (TextView) view.findViewById(R.id.tunnel_view_website);
         website.setText(getItem().getWebsite());
 
-        TextView description = (TextView) view.findViewById(R.id.dropzone_view_description);
+        TextView description = (TextView) view.findViewById(R.id.tunnel_view_description);
         description.setText(getItem().getDescription());
-
-        TextView aircraft = (TextView) view.findViewById(R.id.dropzone_view_aircraft);
-        aircraft.setText(getItem().getFormattedAircraft());
 
         top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
 
         //Check for remote images
-        Call images = Subterminal.getApi().getEndpoints().getDropzoneImages(getItem().getId());
+        Call images = Subterminal.getApi().getEndpoints().getTunnelImages(getItem().getId());
         images.enqueue(new Callback<List<Image>>() {
             @Override
             public void onResponse(Call call, final Response response) {
@@ -141,34 +137,17 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
             }
         });
 
-        //Check for remote images
-        Call services = Subterminal.getApi().getEndpoints().getDropzoneServices(getItem().getId());
-        services.enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call call, final Response response) {
-                if (response.isSuccessful()) {
-                    TagContainerLayout servicesView = (TagContainerLayout) view.findViewById(R.id.dropzone_services);
-                    servicesView.setTags((List<String>) response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-            }
-        });
-
         if (getItem().isMapActive()) {
             Coord coordinate = new Coord();
             coordinate.setLat(getItem().getLatitude());
             coordinate.setLon(getItem().getLongtitude());
-            UIHelper.initWeatherView(view, coordinate);
 
-            mMapView = (MapView) view.findViewById(R.id.dropzone_view_map);
+            mMapView = (MapView) view.findViewById(R.id.tunnel_view_map);
             mMapView.setVisibility(View.VISIBLE);
             mMapView.getMapAsync(this);
             mMapView.onCreate(savedInstanceState);
         } else {
-            view.findViewById(R.id.dropzone_view_map_card).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.tunnel_view_map_card).setVisibility(View.INVISIBLE);
         }
 
         adRequest(view);
@@ -177,8 +156,8 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
     }
 
     @Override
-    protected Dropzone getItem() {
-        return (Dropzone) super.getItem();
+    protected Tunnel getItem() {
+        return (Tunnel) super.getItem();
     }
 
     @Override

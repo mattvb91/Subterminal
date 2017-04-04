@@ -12,7 +12,6 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.ExitDetails;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
-import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 

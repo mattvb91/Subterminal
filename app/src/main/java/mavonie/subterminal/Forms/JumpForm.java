@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -24,7 +22,6 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Suit;
-import mavonie.subterminal.Preference;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Adapters.LinkedHashMapAdapter;
 import mavonie.subterminal.Utils.Date.DateFormat;
@@ -42,7 +39,8 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             pilotChute,
             sliderConfig,
             jumpTypeSpinner,
-            suitSpinner;
+            suitSpinner,
+            pcConfigSpinner;
 
     private TextView delay,
             description,
@@ -56,6 +54,8 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
     private LinkedHashMap suits = new LinkedHashMap();
     LinkedHashMapAdapter suitsAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.suits);
+
+    LinkedHashMapAdapter pcConfigAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new LinkedHashMap<>(Jump.pc_configs));
 
     @Override
     protected String getItemClass() {
@@ -76,6 +76,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
         this.sliderConfig = (Spinner) view.findViewById(R.id.jump_edit_slider);
         this.delay = (TextView) view.findViewById(R.id.jump_edit_delay);
         this.description = (TextView) view.findViewById(R.id.jump_edit_description);
+        this.pcConfigSpinner = (Spinner) view.findViewById(R.id.jump_edit_pc_config);
 
         this.exitNames = new Exit().getItemsForSelect("name");
 
@@ -97,6 +98,11 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             gearSpinner.setVisibility(View.GONE);
         }
 
+        //PC Config Spinner
+        pcConfigAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.pcConfigSpinner.setAdapter(pcConfigAdapter);
+        //End PC Config Spinner
+
         //SUIT SPINNER
         this.suitSpinner = (Spinner) view.findViewById(R.id.jump_edit_suit);
         this.suitsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -111,7 +117,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
         ArrayAdapter<Integer> pcSizeAdapter = new ArrayAdapter<Integer>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Jump.getPcSizeArray());
         pcSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pcSizeSpinner.setAdapter(pcSizeAdapter);
-        pcSizeSpinner.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(Prefs.getInt(Preference.PREFS_DEFAULT_PC, 32)), false);
+        pcSizeSpinner.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(Subterminal.getUser().getSettings().getBaseDefaultPcSize()), false);
 
 
         Spinner sliderConfigSpinner = (Spinner) view.findViewById(R.id.jump_edit_slider);
@@ -122,7 +128,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
         sliderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sliderConfigSpinner.setAdapter(sliderAdapter);
-        sliderConfigSpinner.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_SLIDER, Jump.SLIDER_DOWN), false);
+        sliderConfigSpinner.setSelection(Subterminal.getUser().getSettings().getBaseDefaultSliderConfig(), false);
 
         jumpTypeSpinner = (Spinner) view.findViewById(R.id.jump_edit_type);
         ArrayAdapter<String> typeAdapter =
@@ -170,7 +176,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
             }
         });
-        jumpTypeSpinner.setSelection(Prefs.getInt(Preference.PREFS_DEFAULT_JUMP_TYPE, Jump.TYPE_SLICK));
+        jumpTypeSpinner.setSelection(Subterminal.getUser().getSettings().getBaseDefaultJumpType());
 
         this.date = (EditText) view.findViewById(R.id.jump_edit_date);
         DateFormat df = new DateFormat();
@@ -237,7 +243,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
                 if (exit == null) {
                     exit = new Exit();
                     exit.setName(exitName);
-                    exit.setHeightUnit(Prefs.getInt(Preference.PREFS_DEFAULT_HEIGHT_UNIT, Subterminal.HEIGHT_UNIT_IMPERIAL));
+                    exit.setHeightUnit(Subterminal.getUser().getSettings().getDefaultHeightUnit());
                     exit.save();
                 }
 
@@ -260,6 +266,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             getItem().setPcSize(Integer.parseInt(pilotChuteSize));
             getItem().setSlider(Integer.parseInt(Long.toString(sliderConfigID)));
             getItem().setDate(date.getText().toString());
+            getItem().setPcConfig((Integer) pcConfigAdapter.getItem(pcConfigSpinner.getSelectedItemPosition()).getKey());
 
             if (delayString.length() > 0) {
                 getItem().setDelay(Integer.parseInt(delayString));
@@ -309,6 +316,10 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             if (getItem().getSuitId() != null) {
                 suitEntry = suitsAdapter.getItem(this.suitsAdapter.findPositionFromKey(getItem().getSuitId()));
                 suitSpinner.setSelection(this.suitsAdapter.findPositionFromKey(getItem().getSuitId()), false);
+            }
+
+            if (getItem().getPcConfig() != null) {
+                pcConfigSpinner.setSelection(this.pcConfigAdapter.findPositionFromKey(getItem().getPcConfig()), false);
             }
 
             this.delay.setText(Integer.toString(getItem().getDelay()));
