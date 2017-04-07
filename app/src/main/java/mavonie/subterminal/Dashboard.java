@@ -38,6 +38,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
@@ -57,28 +58,19 @@ public class Dashboard extends Fragment {
 
     private static final int ANIMATION_SPEED = 1000;
 
-    PieChart mChart;
-    BarChart favouriteExits;
-    LineChart pullLineChart;
+    @BindView(R.id.dashboard_base_objects_pie) PieChart mChart;
+    @BindView(R.id.dashboard_base_fav_exits) BarChart favouriteExits;
+    @BindView(R.id.dashboard_pull_height_linechart) LineChart pullLineChart;
 
-    TextView skydiveCount;
-    TextView baseCount;
-    TextView dropzoneCount;
-    TextView exitsCount;
+    @BindView(R.id.dashboard_skydive_count) TextView skydiveCount;
+    @BindView(R.id.dashboard_base_count) TextView baseCount;
+    @BindView(R.id.dashboard_dropzone_count) TextView dropzoneCount;
+    @BindView(R.id.dashboard_exits_count) TextView exitsCount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
-        mChart = (PieChart) view.findViewById(R.id.dashboard_base_objects_pie);
-        favouriteExits = (BarChart) view.findViewById(R.id.dashboard_base_fav_exits);
-        pullLineChart = (LineChart) view.findViewById(R.id.dashboard_pull_height_linechart);
-
-        skydiveCount = (TextView) view.findViewById(R.id.dashboard_skydive_count);
-        baseCount = (TextView) view.findViewById(R.id.dashboard_base_count);
-        dropzoneCount = (TextView) view.findViewById(R.id.dashboard_dropzone_count);
-        exitsCount = (TextView) view.findViewById(R.id.dashboard_exits_count);
 
         clickableSummaryStats(view);
 
