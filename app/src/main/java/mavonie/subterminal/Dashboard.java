@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
@@ -71,6 +72,7 @@ public class Dashboard extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        ButterKnife.bind(this, view);
 
         clickableSummaryStats(view);
 
