@@ -6,6 +6,7 @@
         <change>Fixed crash on skydive edit</change>
         <change>Fixed memory issue when adding large images</change>
         <change>Improved data synchronization speeds</change>
+        <change>Improved skydive list view</change>
     </release>
     <release
         version="1.2.2"
