@@ -13,7 +13,6 @@ import com.flaviofaria.kenburnsview.KenBurnsView;
 
 import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
-import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 import mavonie.subterminal.SignatureActivity;
@@ -99,13 +98,9 @@ public class SkydiveView extends BaseFragment {
 
         loadImages();
 
-        if (Image.loadThumbForEntity(getItem()) != null) {
-            CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
-            crescento.setVisibility(View.VISIBLE);
-
-            KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
-            top.setImageURI((Image.loadThumbForEntity(getItem()).getUri()));
-        }
+        final KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
+        CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
+        UIHelper.loadKenBurnsHeader(crescento, top, getItem());
 
         loadSignatures(getItem().getSignatures(), view);
 

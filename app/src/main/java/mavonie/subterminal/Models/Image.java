@@ -28,6 +28,7 @@ import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.Synchronized;
+import mavonie.subterminal.Utils.UIHelper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -253,6 +254,7 @@ public class Image extends Synchronizable {
 
         } catch (IOException e) {
             e.printStackTrace();
+            UIHelper.toast(e.getMessage());
         }
 
         return null;

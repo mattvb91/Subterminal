@@ -15,7 +15,6 @@ import com.flaviofaria.kenburnsview.KenBurnsView;
 import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
-import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.R;
 import mavonie.subterminal.SignatureActivity;
@@ -90,13 +89,9 @@ public class JumpView extends BaseFragment {
 
         loadImages();
 
-        if (Image.loadThumbForEntity(getItem()) != null) {
-            CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
-            crescento.setVisibility(View.VISIBLE);
-
-            KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
-            top.setImageURI((Image.loadThumbForEntity(getItem()).getUri()));
-        }
+        CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
+        KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
+        UIHelper.loadKenBurnsHeader(crescento, top, getItem());
 
         loadSignatures(getItem().getSignatures(), view);
 

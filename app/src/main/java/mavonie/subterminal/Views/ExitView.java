@@ -26,7 +26,6 @@ import az.openweatherapi.model.gson.common.Coord;
 import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
-import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
@@ -58,7 +57,6 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,13 +71,9 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
-        if (Image.loadThumbForEntity(getItem()) != null) {
-            CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
-            crescento.setVisibility(View.VISIBLE);
-
-            KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
-            top.setImageURI((Image.loadThumbForEntity(getItem()).getUri()));
-        }
+        final KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
+        CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
+        UIHelper.loadKenBurnsHeader(crescento, top, getItem());
 
         TextView rockdropDistance = (TextView) view.findViewById(R.id.exit_view_rockdrop_distance);
         rockdropDistance.setText(UnitConverter.getFormattedDistance(getItem().getRockdropDistance(), getItem().getHeightUnit()));

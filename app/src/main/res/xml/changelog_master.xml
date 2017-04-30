@@ -3,7 +3,8 @@
     <release
         version="1.2.3"
         versioncode="31">
-        <change>Fix crash on skydive edit</change>
+        <change>Fixed crash on skydive edit</change>
+        <change>Fixed memory issue when adding large images</change>
     </release>
     <release
         version="1.2.2"
