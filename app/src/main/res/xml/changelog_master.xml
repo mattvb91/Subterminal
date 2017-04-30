@@ -7,6 +7,7 @@
         <change>Fixed memory issue when adding large images</change>
         <change>Improved data synchronization speeds</change>
         <change>Improved skydive list view</change>
+        <change>Disable GPS updating when editing lat/long on exits</change>
     </release>
     <release
         version="1.2.2"

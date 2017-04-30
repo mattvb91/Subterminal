@@ -142,6 +142,20 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
             }
         });
 
+        exit_edit_lat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    locationManager.removeUpdates(locationListener);
+            }
+        });
+
+        exit_edit_long.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    locationManager.removeUpdates(locationListener);
+            }
+        });
+
         heightUnit = (RadioGroup) view.findViewById(R.id.height_unit_radio_group);
         UIHelper.prefillHeightUnit(heightUnit);
 
@@ -270,5 +284,11 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        locationManager.removeUpdates(locationListener);
     }
 }
