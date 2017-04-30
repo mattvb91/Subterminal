@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import mavonie.subterminal.Models.Signature;
+import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.Synchronizable;
 import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.Subterminal;
@@ -349,6 +350,20 @@ public class Skydive extends Synchronizable {
         }
 
         return _rig;
+    }
+
+    private Suit _suit;
+
+    /**
+     *
+     * @return Suit|Null
+     */
+    public Suit getSuit() {
+        if (_suit == null && this.suit_id != null) {
+            _suit = (Suit) new Suit().getOneById(this.suit_id);
+        }
+
+        return _suit;
     }
 
     /**

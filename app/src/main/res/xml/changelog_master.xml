@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.2.3"
+        versioncode="31">
+        <change>Fix crash on skydive edit</change>
+    </release>
+    <release
         version="1.2.2"
         versioncode="30">
         <change>Hotfix - Fix crash on viewing exit</change>
