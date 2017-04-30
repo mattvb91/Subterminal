@@ -2,8 +2,6 @@ package mavonie.subterminal.Utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.util.TimingLogger;
 import android.view.View;
 
 import com.facebook.AccessToken;
@@ -160,7 +158,7 @@ public class API {
      * Calls for startup
      */
     public void init() {
-        if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_PUBLIC_EXITS)) {
+        if (!Once.beenDone(CALLS_LIST_PUBLIC_EXITS)) {
             updatePublicExits();
         }
 

@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Skydive.Skydive;
@@ -26,8 +28,40 @@ import mavonie.subterminal.Utils.UnitConverter;
  */
 public class SkydiveView extends BaseFragment {
 
+    @BindView(R.id.skydive_view_description) TextView description;
+    @BindView(R.id.skydive_view_altitude) TextView altitude;
+    @BindView(R.id.skydive_view_deplpoy_altitude) TextView deployAlitude;
+    @BindView(R.id.skydive_view_delay) TextView delay;
+    @BindView(R.id.skydive_view_rig) TextView rig;
+    @BindView(R.id.skydive_view_aircraft) TextView aircraft;
+    @BindView(R.id.skydive_view_dropzone_name) TextView dropzone;
+    @BindView(R.id.skydive_view_jump_type) TextView jumpType;
+    @BindView(R.id.skydive_view_jump_date) TextView jumpDate;
+    @BindView(R.id.crescentoContainer) CrescentoContainer crescento;
+    @BindView(R.id.kenburnsView) KenBurnsView top;
 
-    @Override
+    @OnClick(R.id.skydive_view_dropzone_name) void openDropzone() {
+        if(getItem().getDropzone() == null)
+            return;
+
+        DropzoneView dropzone = new DropzoneView();
+        Bundle args = new Bundle();
+        args.putSerializable("item", getItem().getDropzone());
+        dropzone.setArguments(args);
+
+        UIHelper.replaceFragment(dropzone);
+    }
+
+    @OnClick(R.id.skydive_view_picture_button) void pickImage() {
+        MainActivity.getActivity().onPickImage(null);
+    }
+
+    @OnClick(R.id.jump_signature_button) void startSignature() {
+        Intent intent = new Intent(MainActivity.getActivity(), SignatureActivity.class);
+        startActivity(intent);
+    }
+
+        @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -42,85 +76,44 @@ public class SkydiveView extends BaseFragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_skydive_view, container, false);
+        ButterKnife.bind(this, view);
 
-        TextView description = (TextView) view.findViewById(R.id.skydive_view_description);
         description.setText(getItem().getDescription());
+        jumpDate.setText(getItem().getDate());
 
         if (getItem().getExitAltitude() != null) {
-            TextView altitude = (TextView) view.findViewById(R.id.skydive_view_altitude);
             altitude.setText(UnitConverter.getFormattedDistance(getItem().getExitAltitude(), getItem().getHeightUnit()));
         }
 
         if (getItem().getDeployAltitude() != null) {
-            TextView deployAlitude = (TextView) view.findViewById(R.id.skydive_view_deplpoy_altitude);
             deployAlitude.setText(UnitConverter.getFormattedDistance(getItem().getDeployAltitude(), getItem().getHeightUnit()));
         }
 
         if (getItem().getDelay() != null) {
-            TextView delay = (TextView) view.findViewById(R.id.skydive_view_delay);
             delay.setText(Integer.toString(getItem().getDelay()) + "s");
         }
 
         if (getItem().getRig() != null) {
-            TextView rig = (TextView) view.findViewById(R.id.skydive_view_rig);
             rig.setText(getItem().getRig().getDisplayName());
         }
 
         if (getItem().getAircraftId() != null) {
-            TextView aircraft = (TextView) view.findViewById(R.id.skydive_view_aircraft);
             aircraft.setText(getItem().getAircraft().getName());
         }
 
         if (getItem().getDropzone() != null) {
-            TextView dropzone = (TextView) view.findViewById(R.id.skydive_view_dropzone_name);
             dropzone.setText(getItem().getDropzone().getName());
-
-            dropzone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DropzoneView dropzone = new DropzoneView();
-
-                    Bundle args = new Bundle();
-                    args.putSerializable("item", getItem().getDropzone());
-                    dropzone.setArguments(args);
-
-                    UIHelper.replaceFragment(dropzone);
-                }
-            });
         }
 
         if (getItem().getJumpType() != null) {
-            TextView jumpType = (TextView) view.findViewById(R.id.skydive_view_jump_type);
             jumpType.setText(Skydive.getJumpTypes().get(getItem().getJumpType()));
         }
 
         imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
         loadImages();
-
-        final KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
-        CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
         UIHelper.loadKenBurnsHeader(crescento, top, getItem());
-
         loadSignatures(getItem().getSignatures(), view);
-
-        Button pictureButton = (Button) view.findViewById(R.id.skydive_view_picture_button);
-        pictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.getActivity().onPickImage(v);
-            }
-        });
-
-        Button signatureButton = (Button) view.findViewById(R.id.jump_signature_button);
-        signatureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.getActivity(), SignatureActivity.class);
-                startActivity(intent);
-            }
-        });
-
         adRequest(view);
 
         return view;

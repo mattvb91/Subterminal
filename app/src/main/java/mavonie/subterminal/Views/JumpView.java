@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
@@ -19,7 +21,6 @@ import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.R;
 import mavonie.subterminal.SignatureActivity;
 import mavonie.subterminal.Utils.BaseFragment;
-import mavonie.subterminal.Utils.Date.TimeAgo;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.Utils.UIHelper;
 
@@ -27,6 +28,28 @@ import mavonie.subterminal.Utils.UIHelper;
  * Jump view
  */
 public class JumpView extends BaseFragment {
+
+    @BindView(R.id.jump_view_date) TextView jumpDate;
+    @BindView(R.id.jump_view_exit_name) TextView jumpExit;
+    @BindView(R.id.jump_view_rig) TextView jumpRig;
+    @BindView(R.id.jump_view_delay) TextView delay;
+    @BindView(R.id.jump_view_jump_type) TextView type;
+    @BindView(R.id.jump_view_slider) TextView jumpSlider;
+    @BindView(R.id.jump_view_pc) TextView jumpPC;
+    @BindView(R.id.jump_view_description) TextView jumpDescription;
+    @BindView(R.id.jump_view_pc_config) TextView pcConfig;
+    @BindView(R.id.pc_config_row) TableRow pcConfigRow;
+    @BindView(R.id.crescentoContainer) CrescentoContainer crescento;
+    @BindView(R.id.kenburnsView) KenBurnsView top;
+
+    @OnClick(R.id.jump_picture_button) void pickImage() {
+        MainActivity.getActivity().onPickImage(null);
+    }
+
+    @OnClick(R.id.jump_signature_button) void startSignature() {
+        Intent intent = new Intent(MainActivity.getActivity(), SignatureActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,11 +66,9 @@ public class JumpView extends BaseFragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_jump_view, container, false);
+        ButterKnife.bind(this, view);
 
-        TextView jumpDate = (TextView) view.findViewById(R.id.jump_view_date);
-        jumpDate.setText(TimeAgo.sinceToday(getItem().getDate()));
-
-        TextView jumpExit = (TextView) view.findViewById(R.id.jump_view_exit_name);
+        jumpDate.setText(getItem().getDate());
 
         if (getItem().getExit() != null) {
             jumpExit.setText(getItem().getExit().getName());
@@ -56,62 +77,29 @@ public class JumpView extends BaseFragment {
         }
 
         if (getItem().getGear() != null) {
-            TextView jumpRig = (TextView) view.findViewById(R.id.jump_view_rig);
             jumpRig.setText(getItem().getGear().getDisplayName());
         }
 
-        TextView delay = (TextView) view.findViewById(R.id.jump_view_delay);
         delay.setText(getItem().getFormattedDelay());
-
-        TextView type = (TextView) view.findViewById(R.id.jump_view_jump_type);
         type.setText(getItem().getFormattedType());
-
-        TextView jumpSlider = (TextView) view.findViewById(R.id.jump_view_slider);
         jumpSlider.setText(getItem().getFormattedSlider());
-
-        TextView jumpPC = (TextView) view.findViewById(R.id.jump_view_pc);
         jumpPC.setText(Integer.toString(getItem().getPcSize()));
 
         if (getItem().getDescription() != null) {
-            TextView jumpDescription = (TextView) view.findViewById(R.id.jump_view_description);
             jumpDescription.setText(getItem().getDescription().replace("\\n", "\n"));
         }
 
         if (getItem().getPcConfig() != null) {
-            TextView pcConfig = (TextView) view.findViewById(R.id.jump_view_pc_config);
             pcConfig.setText(getItem().getFormattedPcConfig());
         } else {
-            TableRow pcConfigRow = (TableRow) view.findViewById(R.id.pc_config_row);
             pcConfigRow.setVisibility(View.GONE);
         }
 
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
         loadImages();
-
-        CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
-        KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
         UIHelper.loadKenBurnsHeader(crescento, top, getItem());
-
         loadSignatures(getItem().getSignatures(), view);
-
-        Button pictureButton = (Button) view.findViewById(R.id.jump_picture_button);
-        pictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.getActivity().onPickImage(v);
-            }
-        });
-
-        Button signatureButton = (Button) view.findViewById(R.id.jump_signature_button);
-        signatureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.getActivity(), SignatureActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
         adRequest(view);
 
