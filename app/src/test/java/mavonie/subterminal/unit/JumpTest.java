@@ -108,4 +108,24 @@ public class JumpTest extends BaseDBUnit {
 
         Assert.assertTrue(jump.equals(new Jump().getOneById(jump.getId())));
     }
+
+    @Test
+    public void getSuitTest() {
+        Jump jump = createJump();
+
+        Suit suit = GearTest.createSuit();
+        jump.setSuitId(suit.getId());
+        jump.save();
+
+        Assert.assertEquals(suit, jump.getSuit());
+
+        jump.setSuitId(0);
+        jump.save();
+
+        jump = (Jump) new Jump().getOneById(jump.getId());
+
+        Assert.assertEquals("0", jump.getSuitId().toString());
+
+        Assert.assertNull(jump.getSuit());
+    }
 }
