@@ -2,6 +2,8 @@ package mavonie.subterminal.Utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.util.TimingLogger;
 import android.view.View;
 
 import com.facebook.AccessToken;
@@ -29,6 +31,7 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
+import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Skydive.Aircraft;
@@ -246,9 +249,12 @@ public class API {
                         public void run() {
                             List<Dropzone> dropzones = (List<Dropzone>) response.body();
 
+                            Model.getDbHandler().getWritableDatabase().beginTransaction();
                             for (Dropzone dropzone : dropzones) {
                                 Dropzone.createOrUpdate(dropzone);
                             }
+                            Model.getDbHandler().getWritableDatabase().setTransactionSuccessful();
+                            Model.getDbHandler().getWritableDatabase().endTransaction();
 
                             Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_DROPZONES, response.headers().get("server_time"));
                             Once.markDone(CALLS_LIST_DROPZONES);
@@ -286,10 +292,13 @@ public class API {
                         public void run() {
                             List<Tunnel> tunnels = (List<Tunnel>) response.body();
 
+                            Model.getDbHandler().getWritableDatabase().beginTransaction();
                             for (Tunnel tunnel : tunnels) {
                                 tunnel.setId(tunnel.id);
                                 tunnel.save();
                             }
+                            Model.getDbHandler().getWritableDatabase().setTransactionSuccessful();
+                            Model.getDbHandler().getWritableDatabase().endTransaction();
 
                             Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_TUNNELS, response.headers().get("server_time"));
                             Once.markDone(CALLS_LIST_TUNNELS);
@@ -568,9 +577,13 @@ public class API {
                 UIHelper.setProgressBarVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     List<Synchronizable> models = (List) response.body();
+
+                    Model.getDbHandler().getWritableDatabase().beginTransaction();
                     for (Synchronizable model : models) {
                         model.markSynced();
                     }
+                    Model.getDbHandler().getWritableDatabase().setTransactionSuccessful();
+                    Model.getDbHandler().getWritableDatabase().endTransaction();
 
                     Synchronized.setLastSyncPref(model.getSyncIdentifier(), response.headers().get("server_time"));
                 }
