@@ -12,8 +12,8 @@ android {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 30
-        versionName "1.2.2"
+        versionCode 31
+        versionName "1.2.3"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -44,7 +44,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
-    compile('com.facebook.fresco:fresco:1.2.0') {
+    compile('com.facebook.fresco:fresco:1.3.0') {
         exclude group: 'com.parse.bolts', module: 'bolts-tasks';
     }
     compile 'com.google.firebase:firebase-core:10.2.1'

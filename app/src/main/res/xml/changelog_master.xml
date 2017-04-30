@@ -7,7 +7,9 @@
         <change>Fixed memory issue when adding large images</change>
         <change>Improved data synchronization speeds</change>
         <change>Improved skydive list view</change>
+        <change>Dates now shown on jump entries</change>
         <change>Disable GPS updating when editing lat/long on exits</change>
+        <change>Updating jump number settings now correctly unfocused</change>
     </release>
     <release
         version="1.2.2"
