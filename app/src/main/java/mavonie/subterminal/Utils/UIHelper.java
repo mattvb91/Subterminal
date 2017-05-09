@@ -355,9 +355,6 @@ public class UIHelper {
                     public void onSuccess(LoginResult loginResults) {
                         Subterminal.getUser().setFacebookToken(loginResults.getAccessToken());
                         Subterminal.getUser().init();
-
-                        userLoggedIn();
-                        toast(MainActivity.getActivity().getString(R.string.login_success));
                     }
 
                     @Override
@@ -385,12 +382,14 @@ public class UIHelper {
         ImageView logo = (ImageView) headerView.findViewById(R.id.nav_header_icon);
         logo.setVisibility(View.GONE);
 
-        ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
-        profilePictureView.setProfileId(Subterminal.getUser().getFacebookToken().getUserId());
-        profilePictureView.setVisibility(View.VISIBLE);
-        profilePictureView.setPresetSize(ProfilePictureView.SMALL);
-        profilePictureView.getLayoutParams().width = 100;
-        profilePictureView.getLayoutParams().height = 100;
+        if(Subterminal.getUser().getFacebookToken() != null && Subterminal.getUser().getFacebookToken().getUserId() != null) {
+            ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
+            profilePictureView.setProfileId(Subterminal.getUser().getFacebookToken().getUserId());
+            profilePictureView.setVisibility(View.VISIBLE);
+            profilePictureView.setPresetSize(ProfilePictureView.SMALL);
+            profilePictureView.getLayoutParams().width = 100;
+            profilePictureView.getLayoutParams().height = 100;
+        }
 
         TextView profileName = (TextView) headerView.findViewById(R.id.profile_name);
         profileName.setText(Subterminal.getUser().getEmail());

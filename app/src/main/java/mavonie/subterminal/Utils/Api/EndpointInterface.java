@@ -19,6 +19,8 @@ import mavonie.subterminal.Models.Skydive.Skydive;
 import mavonie.subterminal.Models.Skydive.Tunnel;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.Models.User;
+import mavonie.subterminal.Utils.Api.auth.AuthBody;
+import mavonie.subterminal.Utils.Api.auth.AuthResponse;
 import mavonie.subterminal.Utils.Settings;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -53,6 +55,9 @@ public interface EndpointInterface {
 
     @POST("user")
     Call<AccessToken> createOrUpdateUser(@Body AccessToken token);
+
+    @POST("auth")
+    Call<AuthResponse> authenticate(@Body AuthBody authBody);
 
     @POST("user/settings")
     Call<Settings> updateSettings(@Body Settings settings);

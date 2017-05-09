@@ -377,6 +377,11 @@ public class Exit extends Synchronizable {
         return new Exit().getItems(params);
     }
 
+    @Override
+    public boolean delete() {
+        return this.delete(true);
+    }
+
     public boolean delete(boolean updateJumps) {
 
         //We need to update jumps before deleting
@@ -451,7 +456,13 @@ public class Exit extends Synchronizable {
 
         if (cursor.moveToFirst()) {
             while (cursor.isAfterLast() == false) {
-                results.put((Exit) new Exit().getOneById(cursor.getInt(0)), cursor.getInt(1));
+                int exitId = cursor.getInt(0);
+                int jumpsFromExit = cursor.getInt(1);
+                Exit exit = (Exit) new Exit().getOneById(exitId);
+
+                if (exitId != 0 && exit != null) {
+                    results.put(exit, jumpsFromExit);
+                }
                 cursor.moveToNext();
             }
         }

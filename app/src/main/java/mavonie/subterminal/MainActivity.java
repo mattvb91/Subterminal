@@ -179,16 +179,18 @@ public class MainActivity extends PinCompatActivity
     @Override
     public boolean onNavigationItemSelected(final MenuItem item) {
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         //Checks for items where we dont want the drawer to close
         if (item.getItemId() == R.id.nav_login) {
-            UIHelper.facebookDialog();
+            UIHelper.replaceFragment(new Login());
+            drawer.closeDrawer(Gravity.LEFT);
             return true;
         } else if (item.getItemId() == R.id.nav_mode) {
             UIHelper.switchModeDialog();
             return true;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(Gravity.LEFT);
 
         new Handler().postDelayed(new Runnable() {

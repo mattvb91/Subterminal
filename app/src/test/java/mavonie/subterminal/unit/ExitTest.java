@@ -12,6 +12,7 @@ import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.ExitDetails;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Utils.DB.Query;
 import mavonie.subterminal.Utils.Subterminal;
 import mavonie.subterminal.unit.Base.BaseDBUnit;
 
@@ -154,5 +155,46 @@ public class ExitTest extends BaseDBUnit {
         JumpTest.createJump();
         JumpTest.createJump();
         Assert.assertEquals(new Jump().getNextAutoIncrement(), 4);
+    }
+
+    @Test
+    public void updateJumpsTest() {
+        Exit exit = createExit();
+        Exit exit2 = createExit();
+
+        Jump jump1 = JumpTest.createJump();
+        jump1.setExitId(exit.getId());
+        jump1.save();
+
+        Jump jump2 = JumpTest.createJump();
+        jump2.setExitId(exit.getId());
+        jump2.save();
+
+        Jump jump3 = JumpTest.createJump();
+        jump3.setExitId(exit2.getId());
+        jump3.save();
+
+        Jump dbJump = (Jump) new Jump().getOneById(jump1.getId());
+        Jump dbJump2 = (Jump) new Jump().getOneById(jump2.getId());
+        Jump dbJump3 = (Jump) new Jump().getOneById(jump3.getId());
+
+        Assert.assertEquals(dbJump.getExitId().toString(), Integer.toString(exit.getId()));
+        Assert.assertEquals(dbJump2.getExitId().toString(), Integer.toString(exit.getId()));
+        Assert.assertEquals(dbJump3.getExitId().toString(), Integer.toString(exit2.getId()));
+        Assert.assertEquals(2, new Jump().count(new Query(Jump.COLUMN_NAME_EXIT_ID, exit.getId()).getParams()));
+
+        //Delete the exit
+        exit.delete();
+
+        //Reload the jumps
+        dbJump = (Jump) new Jump().getOneById(jump1.getId());
+        dbJump2 = (Jump) new Jump().getOneById(jump2.getId());
+        dbJump3 = (Jump) new Jump().getOneById(jump3.getId());
+
+        //Check it has updated the jumps
+        Assert.assertEquals(dbJump.getExitId(), null);
+        Assert.assertEquals(dbJump2.getExitId(),null);
+        Assert.assertEquals(dbJump3.getExitId().toString(), Integer.toString(exit2.getId()));
+        Assert.assertEquals(0, new Jump().count(new Query(Jump.COLUMN_NAME_EXIT_ID, exit.getId()).getParams()));
     }
 }
