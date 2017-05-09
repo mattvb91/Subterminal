@@ -55,8 +55,16 @@ public class Login extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if(Subterminal.getUser().isLoggedIn()) {
+            UIHelper.goToFragment(R.id.nav_dashboard);
+        }
+
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_filter).setVisible(false);
+
+        if(MainActivity.getActivity().getOptionsMenu() != null)
+            MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_filter).setVisible(false);
+
         UIHelper.getAddButton().hide();
 
         ButterKnife.bind(this, view);

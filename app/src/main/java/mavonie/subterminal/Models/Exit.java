@@ -395,54 +395,6 @@ public class Exit extends Synchronizable {
         return super.delete();
     }
 
-    @Override
-    protected void populateContentValues(ContentValues contentValues) {
-
-        if (this._id > 0) {
-            contentValues.put(_ID, this._id);
-        }
-
-        moveExistingExit();
-        super.populateContentValues(contentValues);
-    }
-
-    /**
-     * This method is only used when a remote_id attribute is set.
-     * We need to check if we already have an exit in this position and shuffle it out to a new unused ID
-     */
-    private void moveExistingExit() {
-        if (this.remote_id != null) {
-            //Check if we need to move an existing item out of the way.
-            Exit existingExit = (Exit) new Exit().getOneById(this.remote_id);
-
-            if (existingExit != null) {
-                //get the newId BEFORE deleting existing exit to prevent overlapping
-                int newId = new Exit().getNextAutoIncrement();
-
-                existingExit.setDeleted(DELETED_TRUE);
-                existingExit.delete(false);
-
-                if (existingExit.getDetails() != null) {
-                    existingExit.getDetails().setExitId(newId);
-                    existingExit.getDetails().save();
-                }
-
-                existingExit._id = newId;
-                existingExit.markSynced();
-            }
-
-            //Check if we have a global exit with the same incoming name, if we do, remove it
-            Exit globalExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_NAME, this.getName()));
-            if (globalExit != null && globalExit.isGlobal()) {
-                if (globalExit.getDetails() != null) {
-                    globalExit.getDetails().delete();
-                }
-                globalExit.setDeleted(DELETED_TRUE);
-                globalExit.delete();
-            }
-        }
-    }
-
     /**
      * Get the top jumped exits
      *
