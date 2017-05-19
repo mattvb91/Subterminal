@@ -1,6 +1,5 @@
 package mavonie.subterminal.Models;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.util.Pair;

@@ -47,6 +47,8 @@ public class MainActivity extends PinCompatActivity
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
 
+    private ImagePicker imagePicker;
+
     public Toolbar getToolbar() {
         return toolbar;
     }
@@ -229,10 +231,10 @@ public class MainActivity extends PinCompatActivity
         openFragmentForEntity(mItem);
     }
 
-    ImagePicker imagePicker = new ImagePicker(this);
-
     public void onPickImage(View view) {
-        imagePicker = new ImagePicker(this);
+        if (imagePicker == null) {
+            imagePicker = new ImagePicker(this);
+        }
         imagePicker.setImagePickerCallback(
                 new ImagePickerCallback() {
                     @Override
@@ -262,9 +264,6 @@ public class MainActivity extends PinCompatActivity
 
         if (resultCode == RESULT_OK) {
             if (requestCode == Picker.PICK_IMAGE_DEVICE) {
-                if (imagePicker == null) {
-                    imagePicker = new ImagePicker(this);
-                }
                 imagePicker.submit(data);
             } else {
                 super.onActivityResult(requestCode, resultCode, data);
