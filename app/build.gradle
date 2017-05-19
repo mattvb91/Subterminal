@@ -47,10 +47,12 @@ dependencies {
     compile('com.facebook.fresco:fresco:1.3.0') {
         exclude group: 'com.parse.bolts', module: 'bolts-tasks';
     }
-    compile 'com.google.firebase:firebase-core:10.2.1'
-    compile 'com.google.firebase:firebase-crash:10.2.1'
-    compile 'com.google.firebase:firebase-messaging:10.2.1'
-    compile 'com.google.firebase:firebase-ads:10.2.1'
+    compile 'com.google.firebase:firebase-core:10.2.6'
+    compile 'com.google.firebase:firebase-crash:10.2.6'
+    compile 'com.google.firebase:firebase-messaging:10.2.6'
+    compile 'com.google.firebase:firebase-ads:10.2.6'
+
+    compile 'com.google.android.gms:play-services-maps:10.2.6'
 
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
@@ -64,7 +66,6 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.3.0'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.google.android.gms:play-services-maps:10.2.1'
     compile 'com.android.support:cardview-v7:25.3.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
