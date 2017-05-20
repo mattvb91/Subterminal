@@ -2,6 +2,7 @@ package mavonie.subterminal.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class JumpView extends BaseFragment {
         if (getItem().getExit() != null) {
             jumpExit.setText(getItem().getExit().getName());
         } else {
-            jumpExit.setTextColor(MainActivity.getActivity().getResources().getColor(R.color.grey));
+            jumpExit.setTextColor(ContextCompat.getColor(MainActivity.getActivity(), R.color.grey));
         }
 
         if (getItem().getGear() != null) {

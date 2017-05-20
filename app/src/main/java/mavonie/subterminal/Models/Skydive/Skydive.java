@@ -63,7 +63,7 @@ public class Skydive extends Synchronizable {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_DROPZONE_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_DATE, TYPE_TEXT);
@@ -143,7 +143,7 @@ public class Skydive extends Synchronizable {
     private static LinkedHashMap<Integer, String> jumpTypes = null;
 
     static {
-        jumpTypes = new LinkedHashMap<Integer, String>();
+        jumpTypes = new LinkedHashMap<>();
 
         jumpTypes.put(SKYDIVE_TYPE_BELLY, "Belly");
         jumpTypes.put(SKYDIVE_TYPE_FREEFLY, "Freefly");

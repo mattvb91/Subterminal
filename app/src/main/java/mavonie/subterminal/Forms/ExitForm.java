@@ -114,7 +114,7 @@ public class ExitForm extends BaseForm implements AdapterView.OnItemSelectedList
         this.exit_edit_altitude_to_landing = (EditText) view.findViewById(R.id.exit_edit_distance_to_landing);
 
         exit_edit_object_type = (Spinner) view.findViewById(R.id.exit_object_type);
-        this.objectTypeAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.object_types);
+        this.objectTypeAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.object_types);
         this.objectTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         exit_edit_object_type.setAdapter(this.objectTypeAdapter);
         exit_edit_object_type.setOnItemSelectedListener(this);

@@ -92,6 +92,7 @@ dependencies {
     compile 'com.github.zurche:open-weather-map-android-wrapper:v0.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'org.robolectric:robolectric:3.3.2'
+    testCompile "org.robolectric:shadows-multidex:3.3.2"
     testCompile 'junit:junit:4.12'
     testCompile 'org.xerial:sqlite-jdbc:3.8.11.2'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'

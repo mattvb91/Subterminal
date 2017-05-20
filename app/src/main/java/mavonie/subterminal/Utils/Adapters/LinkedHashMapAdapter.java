@@ -164,7 +164,7 @@ public class LinkedHashMapAdapter<K, V> extends BaseAdapter implements Filterabl
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mResource = mDropDownResource = resource;
         mMapData = mapData;
-        mOriginalMapData = new LinkedHashMap<K, V>();
+        mOriginalMapData = new LinkedHashMap<>();
         mOriginalMapData.putAll(mMapData);
         mFieldId = textViewResourceId;
         mFlags = flags;
@@ -427,14 +427,14 @@ public class LinkedHashMapAdapter<K, V> extends BaseAdapter implements Filterabl
 
             if (mOriginalMapData == null) {
                 synchronized (mLock) {
-                    mOriginalMapData = new LinkedHashMap<K, V>(mMapData);
+                    mOriginalMapData = new LinkedHashMap<>(mMapData);
                 }
             }
 
             if (prefix == null || prefix.length() == 0) {
                 LinkedHashMap<K, V> map;
                 synchronized (mLock) {
-                    map = new LinkedHashMap<K, V>(mOriginalMapData);
+                    map = new LinkedHashMap<>(mOriginalMapData);
                 }
                 results.values = map;
                 results.count = map.size();
@@ -443,10 +443,10 @@ public class LinkedHashMapAdapter<K, V> extends BaseAdapter implements Filterabl
 
                 LinkedHashMap<K, V> values;
                 synchronized (mLock) {
-                    values = new LinkedHashMap<K, V>(mOriginalMapData);
+                    values = new LinkedHashMap<>(mOriginalMapData);
                 }
 
-                final LinkedHashMap<K, V> newValues = new LinkedHashMap<K, V>();
+                final LinkedHashMap<K, V> newValues = new LinkedHashMap<>();
                 for (Entry<K, V> entry : values.entrySet()) {
                     final K key = entry.getKey();
                     final String keyText = key.toString().toLowerCase();

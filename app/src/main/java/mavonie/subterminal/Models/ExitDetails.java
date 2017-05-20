@@ -36,7 +36,7 @@ public class ExitDetails extends Model {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_EXIT_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_DIFFICULTY_TRACKING_EXIT, TYPE_INTEGER);

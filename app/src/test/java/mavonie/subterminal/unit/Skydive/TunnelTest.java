@@ -33,7 +33,7 @@ public class TunnelTest extends BaseDBUnit {
 
         Assert.assertTrue(tunnel.equals(dbTunnel));
 
-        Tunnel tunnel1 = (Tunnel) new Tunnel().getItem(new Pair<String, String>(Model._ID, Integer.toString(dbTunnel.getId())));
+        Tunnel tunnel1 = (Tunnel) new Tunnel().getItem(new Pair<>(Model._ID, Integer.toString(dbTunnel.getId())));
         assertEquals(tunnel1, dbTunnel);
 
         HashMap<String, Object> params = new HashMap<>();

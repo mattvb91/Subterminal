@@ -61,7 +61,7 @@ public class TunnelSession extends Synchronizable {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_TUNNEL_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_DATE, TYPE_TEXT);

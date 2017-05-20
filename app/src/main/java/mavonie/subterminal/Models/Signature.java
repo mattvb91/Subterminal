@@ -35,7 +35,7 @@ public class Signature extends Synchronizable {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_ENTITY_ID, TYPE_INTEGER);
             dbColumns.put(COLUMN_NAME_ENTITY_TYPE, TYPE_INTEGER);

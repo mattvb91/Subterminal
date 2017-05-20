@@ -11,7 +11,6 @@ import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
 import com.birbit.android.jobqueue.log.CustomLogger;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
 import com.google.android.gms.ads.MobileAds;
@@ -122,9 +121,8 @@ public class Subterminal {
         }
 
         Bundle bundle = ai.metaData;
-        String meta = bundle.getString(string);
 
-        return meta;
+        return bundle.getString(string);
     }
 
     /**
@@ -140,10 +138,7 @@ public class Subterminal {
                 .build();
 
         mCallbackManager = CallbackManager.Factory.create();
-
         analytics = FirebaseAnalytics.getInstance(activity);
-
-        FacebookSdk.sdkInitialize(activity);
 
         Once.initialise(activity);
 

@@ -119,7 +119,7 @@ public class Dropzone extends FilterableFragment {
                     popupWindow.getContentView().findViewById(R.id.filter_local_text).setVisibility(View.VISIBLE);
                     localSpinner.setVisibility(View.VISIBLE);
 
-                    ArrayAdapter<String> local = new ArrayAdapter(MainActivity.getActivity(), android.R.layout.simple_spinner_item, mavonie.subterminal.Models.Skydive.Dropzone.getCountiesForSelect(adapter.getItem(position).toString()));
+                    ArrayAdapter<String> local = new ArrayAdapter(MainActivity.getActivity(), android.R.layout.simple_spinner_item, mavonie.subterminal.Models.Skydive.Dropzone.getCountiesForSelect(adapter.getItem(position)));
                     local.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     localSpinner.setAdapter(local);
                     localSpinner.invalidate();

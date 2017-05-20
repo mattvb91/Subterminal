@@ -1,6 +1,7 @@
 package mavonie.subterminal.ViewAdapters;
 
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ public class JumpRecycler extends BaseRecycler<JumpRecycler.ViewHolder> {
             viewHolder.exitName.setText(exit.getName());
         } else {
             viewHolder.exitName.setText(MainActivity.getActivity().getString(R.string.no_exit_info));
-            viewHolder.exitName.setTextColor(MainActivity.getActivity().getResources().getColor(R.color.grey));
+            viewHolder.exitName.setTextColor(ContextCompat.getColor(MainActivity.getActivity(), R.color.grey));
         }
 
         String date = viewHolder.mItem.getDate();

@@ -59,7 +59,7 @@ public class Dropzone extends Model {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_NAME, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_DESCRIPTION, TYPE_TEXT);
@@ -269,7 +269,7 @@ public class Dropzone extends Model {
      * @return
      */
     public List<Aircraft> getAircraft() {
-        List<Aircraft> aircraft = new ArrayList<Aircraft>();
+        List<Aircraft> aircraft = new ArrayList<>();
 
         HashMap<String, Object> params = aircraftParemeters();
         List<DropzoneAircraft> dzAircrafts = new DropzoneAircraft().getItems(params);
@@ -321,7 +321,7 @@ public class Dropzone extends Model {
     }
 
     public static ArrayList<String> getCountriesForSelect() {
-        ArrayList<String> itemsForSelect = new ArrayList<String>();
+        ArrayList<String> itemsForSelect = new ArrayList<>();
 
         String query = "SELECT " + _ID + ", country FROM " + TABLE_NAME;
 
@@ -330,7 +330,7 @@ public class Dropzone extends Model {
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
-            while (cursor.isAfterLast() == false) {
+            while (!cursor.isAfterLast()) {
                 String string = cursor.getString(1);
                 if (string != null) {
                     itemsForSelect.add(string);
@@ -345,7 +345,7 @@ public class Dropzone extends Model {
     }
 
     public static ArrayList<String> getCountiesForSelect(String country) {
-        ArrayList<String> itemsForSelect = new ArrayList<String>();
+        ArrayList<String> itemsForSelect = new ArrayList<>();
 
         String query = "SELECT " + _ID + ", local FROM " + TABLE_NAME;
 
@@ -357,7 +357,7 @@ public class Dropzone extends Model {
         itemsForSelect.add(EMPTY_LIST_ITEM);
 
         if (cursor.moveToFirst()) {
-            while (cursor.isAfterLast() == false) {
+            while (!cursor.isAfterLast()) {
                 String string = cursor.getString(1);
                 if (string != null) {
                     itemsForSelect.add(string);

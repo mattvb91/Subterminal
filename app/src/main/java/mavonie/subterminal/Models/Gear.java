@@ -42,7 +42,7 @@ public class Gear extends Synchronizable {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_CONTAINER_MANUFACTURER, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_CONTAINER_TYPE, TYPE_TEXT);

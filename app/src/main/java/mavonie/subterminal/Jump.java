@@ -70,7 +70,7 @@ public class Jump extends FilterableFragment {
         types.put(null, " - ");
         types.putAll(mavonie.subterminal.Models.Jump.getTypes());
 
-        typeAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, types);
+        typeAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, types);
         jumpTypeSpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.base_filter_jump_type);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpTypeSpinner.setAdapter(typeAdapter);
@@ -84,7 +84,7 @@ public class Jump extends FilterableFragment {
             pcSizes.put(value, Integer.toString(value));
         }
         pcSizeSpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.base_filter_pc);
-        pcSizeAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, pcSizes);
+        pcSizeAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, pcSizes);
         pcSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pcSizeSpinner.setAdapter(pcSizeAdapter);
         /**
@@ -101,7 +101,7 @@ public class Jump extends FilterableFragment {
         }
 
         pcConfigSpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.base_filter_pc_config);
-        pcConfigAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, pcConfigs);
+        pcConfigAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, pcConfigs);
         pcConfigAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pcConfigSpinner.setAdapter(pcConfigAdapter);
         /**
@@ -115,7 +115,7 @@ public class Jump extends FilterableFragment {
         slider.put(null, " - ");
         slider.putAll(mavonie.subterminal.Models.Jump.slider_config);
 
-        sliderAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, slider);
+        sliderAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, slider);
         sliderSpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.base_filter_slider);
         sliderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sliderSpinner.setAdapter(sliderAdapter);

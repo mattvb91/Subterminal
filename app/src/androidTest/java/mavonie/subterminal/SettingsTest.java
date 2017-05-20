@@ -3,7 +3,7 @@ package mavonie.subterminal;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
+import android.support.test.filters.LargeTest;
 
 import com.pixplicity.easyprefs.library.Prefs;
 

@@ -32,7 +32,7 @@ public class Aircraft extends Model {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_NAME, TYPE_TEXT);
 

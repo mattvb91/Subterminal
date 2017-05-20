@@ -7,7 +7,7 @@ import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
-import android.test.suitebuilder.annotation.LargeTest;
+import android.support.test.filters.LargeTest;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -97,8 +97,7 @@ public class BaseTest {
             char c1 = chars1[random.nextInt(chars1.length)];
             sb1.append(c1);
         }
-        String random_string = sb1.toString();
 
-        return random_string;
+        return sb1.toString();
     }
 }

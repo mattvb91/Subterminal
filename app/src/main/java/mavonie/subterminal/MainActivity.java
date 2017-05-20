@@ -108,7 +108,7 @@ public class MainActivity extends PinCompatActivity
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
     }
 
     @Override

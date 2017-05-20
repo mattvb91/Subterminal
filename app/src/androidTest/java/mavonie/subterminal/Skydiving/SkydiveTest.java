@@ -76,7 +76,7 @@ public class SkydiveTest extends BaseTest {
                 withId(R.id.skydive_edit_aircraft));
         appCompatSpinner.perform(scrollTo(), click());
 
-        LinkedHashMapAdapter aircraftAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
+        LinkedHashMapAdapter aircraftAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
         Map.Entry AircraftEntry = aircraftAdapter.getItem(aircraftAdapter.findPositionFromKey(Prefs.getInt(Preference.PREFS_DEFAULT_AIRCRAFT, 1)));
 
         ViewInteraction appCompatCheckedTextView2 = onView(

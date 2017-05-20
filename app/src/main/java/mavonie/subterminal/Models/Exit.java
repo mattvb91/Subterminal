@@ -43,13 +43,13 @@ public class Exit extends Synchronizable {
         object_types.put(TYPE_EARTH.toString(), "Earth");
         object_types.put(TYPE_OTHER.toString(), "Other");
 
-        difficulty_descriptor = new HashMap<Integer, String>();
+        difficulty_descriptor = new HashMap<>();
         difficulty_descriptor.put(DIFFICULTY_BEGINNER, "Beginner");
         difficulty_descriptor.put(DIFFICULTY_INTERMEDIATE, "Intermediate");
         difficulty_descriptor.put(DIFFICULTY_ADVANCED, "Advanced");
         difficulty_descriptor.put(DIFFICULTY_EXPERT, "Expert");
 
-        difficulty_color = new HashMap<Integer, String>();
+        difficulty_color = new HashMap<>();
         difficulty_color.put(DIFFICULTY_BEGINNER, "#1dff00");
         difficulty_color.put(DIFFICULTY_INTERMEDIATE, "#0055ff");
         difficulty_color.put(DIFFICULTY_ADVANCED, "#ff0000");
@@ -88,7 +88,7 @@ public class Exit extends Synchronizable {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_NAME, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_ROCKDROP_DISTANCE, TYPE_INTEGER);
@@ -275,10 +275,10 @@ public class Exit extends Synchronizable {
 
         if (exit.isGlobal()) {
             //Its a global exit check if we already have it or if an exit with same name exists
-            Exit dbExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_GLOBAL_ID, exit.getGlobalId()));
+            Exit dbExit = (Exit) new Exit().getItem(new Pair<>(COLUMN_NAME_GLOBAL_ID, exit.getGlobalId()));
 
             //If we have a private exit with the same name lets skip this.
-            Exit privateExit = (Exit) new Exit().getItem(new Pair<String, String>(COLUMN_NAME_NAME, exit.getName()));
+            Exit privateExit = (Exit) new Exit().getItem(new Pair<>(COLUMN_NAME_NAME, exit.getName()));
             if (privateExit != null && privateExit.getGlobalId() == null) {
                 return;
             }
@@ -309,7 +309,7 @@ public class Exit extends Synchronizable {
     public ExitDetails getDetails() {
         if (this.details == null) {
             this.details = (ExitDetails) new ExitDetails().getItem(
-                    new Pair<String, String>("exit_id", Integer.toString(this.getId()))
+                    new Pair<>("exit_id", Integer.toString(this.getId()))
             );
         }
         return details;
@@ -406,7 +406,7 @@ public class Exit extends Synchronizable {
         LinkedHashMap<Exit, Integer> results = new LinkedHashMap<>();
 
         if (cursor.moveToFirst()) {
-            while (cursor.isAfterLast() == false) {
+            while (!cursor.isAfterLast()) {
                 int exitId = cursor.getInt(0);
                 int jumpsFromExit = cursor.getInt(1);
                 Exit exit = (Exit) new Exit().getOneById(exitId);

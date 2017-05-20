@@ -111,7 +111,7 @@ public class Dashboard extends Fragment {
     }
 
     private void clickableSummaryStats(View view) {
-        Map<CardView, Integer> clickSummary = new HashMap<CardView, Integer>();
+        Map<CardView, Integer> clickSummary = new HashMap<>();
 
         clickSummary.put((CardView) view.findViewById(R.id.dashboard_skydive_summary), R.id.skydiving_nav_jumps);
         clickSummary.put((CardView) view.findViewById(R.id.dashboard_base_summary), R.id.nav_jumps);
@@ -130,7 +130,7 @@ public class Dashboard extends Fragment {
 
     private void setLineChartData() {
 
-        ArrayList<Entry> values = new ArrayList<Entry>();
+        ArrayList<Entry> values = new ArrayList<>();
 
         Query query = new Query();
         query.getWheres().put(query.getWheres().size(), Skydive.getActiveParams());
@@ -168,7 +168,7 @@ public class Dashboard extends Fragment {
             set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             set1.setFormSize(15.f);
 
-            ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1); // add the datasets
 
             // create a data object with the datasets
@@ -206,7 +206,7 @@ public class Dashboard extends Fragment {
             l.setTextSize(11f);
             l.setXEntrySpace(4f);
 
-            ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+            ArrayList<BarEntry> yVals1 = new ArrayList<>();
 
             int i = 0;
             for (Map.Entry<Exit, Integer> entry : top3.entrySet()) {
@@ -225,7 +225,7 @@ public class Dashboard extends Fragment {
             });
             set.setDrawValues(true);
 
-            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set);
 
             BarData data = new BarData(dataSets);
@@ -308,7 +308,7 @@ public class Dashboard extends Fragment {
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
 
-        ArrayList<Integer> colors = new ArrayList<Integer>();
+        ArrayList<Integer> colors = new ArrayList<>();
 
         for (int c : ColorTemplate.MATERIAL_COLORS)
             colors.add(c);

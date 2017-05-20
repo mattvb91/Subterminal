@@ -55,7 +55,7 @@ public class Tunnel extends Model {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_NAME, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_DESCRIPTION, TYPE_TEXT);
@@ -233,7 +233,7 @@ public class Tunnel extends Model {
     }
 
     public static ArrayList<String> getCountriesForSelect() {
-        ArrayList<String> itemsForSelect = new ArrayList<String>();
+        ArrayList<String> itemsForSelect = new ArrayList<>();
 
         String query = "SELECT " + _ID + ", country FROM " + TABLE_NAME;
 
@@ -242,7 +242,7 @@ public class Tunnel extends Model {
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
-            while (cursor.isAfterLast() == false) {
+            while (!cursor.isAfterLast()) {
                 String string = cursor.getString(1);
                 if (string != null) {
                     itemsForSelect.add(string);
@@ -257,7 +257,7 @@ public class Tunnel extends Model {
     }
 
     public static ArrayList<String> getCountiesForSelect(String country) {
-        ArrayList<String> itemsForSelect = new ArrayList<String>();
+        ArrayList<String> itemsForSelect = new ArrayList<>();
 
         String query = "SELECT " + _ID + ", local FROM " + TABLE_NAME;
 
@@ -269,7 +269,7 @@ public class Tunnel extends Model {
         itemsForSelect.add(EMPTY_LIST_ITEM);
 
         if (cursor.moveToFirst()) {
-            while (cursor.isAfterLast() == false) {
+            while (!cursor.isAfterLast()) {
                 String string = cursor.getString(1);
                 if (string != null) {
                     itemsForSelect.add(string);

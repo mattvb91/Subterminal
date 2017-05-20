@@ -49,7 +49,7 @@ public class DropzoneView extends BaseFragment implements OnMapReadyCallback {
     protected MapView mMapView;
     protected KenBurnsView top;
 
-    final List<Bitmap> bitmaps = new ArrayList<Bitmap>();
+    final List<Bitmap> bitmaps = new ArrayList<>();
     int currentIndex = 0;
 
     Handler mainHandler = new Handler(MainActivity.getActivity().getMainLooper());
