@@ -28,6 +28,7 @@ public class BaseUnit {
                 .setUseDefaultSharedPreference(true)
                 .build();
 
+        FacebookSdk.setApplicationId("test");
         FacebookSdk.sdkInitialize(RuntimeEnvironment.application);
     }
 }
