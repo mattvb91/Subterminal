@@ -91,7 +91,10 @@ public class ExitTest extends BaseTest {
     }
 
     @Test
-    public void clickRandomItemTest() {
+    public void clickRandomItemTest() throws InterruptedException {
+        addExitTest();
+        addExitTest();
+
         navigateToExits();
 
         navigateTab("All");

@@ -13,7 +13,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
-import org.junit.Test;
 
 import mavonie.subterminal.BaseTest;
 import mavonie.subterminal.MainActivityTest;
@@ -48,7 +47,6 @@ public class TunnelsTest extends BaseTest {
         appCompatCheckedTextView.perform(click());
     }
 
-    @Test
     public void tunnelsTest() {
         navigateToTunnels();
 
