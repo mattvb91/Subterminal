@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.SurfaceTexture;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -495,6 +496,9 @@ public class UIHelper {
     }
 
     public static void initWeatherView(final View view, Coord coordinate) {
+        if(Subterminal.isTesting())
+            return;
+
         final WindView windView = (WindView) view.findViewById(R.id.windview);
 
         Subterminal.getApi().getOpenWeatherClient().getFiveDayForecast(coordinate, new OWRequestListener<ExtendedWeather>() {

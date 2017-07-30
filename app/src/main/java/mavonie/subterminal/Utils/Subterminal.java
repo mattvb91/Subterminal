@@ -237,7 +237,7 @@ public class Subterminal {
             return true;
         } catch (ClassNotFoundException e) {
             try {
-                Class.forName("android.support.test.runner");
+                Class.forName("android.support.test.runner.AndroidJUnitRunner");
                 return true;
             } catch (ClassNotFoundException e1) {
                 return false;

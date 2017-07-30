@@ -191,7 +191,12 @@ public class GearTest extends BaseTest {
                 allOf(withId(android.R.id.title), withText("Suits (" + new Suit().count(Synchronizable.getActiveParams()) + ")"), isDisplayed()));
         appCompatTextView.perform(click());
 
-        clickRandomItemTest();
+        //Magic happening
+        int x = getRandomRecyclerPosition(R.id.list);
+
+        onView(withId(R.id.list))
+                .perform(RecyclerViewActions
+                        .actionOnItemAtPosition(x, click()));
 
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.action_delete), withContentDescription("Delete"), isDisplayed()));

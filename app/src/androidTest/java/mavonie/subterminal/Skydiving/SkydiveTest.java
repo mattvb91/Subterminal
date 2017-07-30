@@ -14,7 +14,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.util.Map;
 
@@ -49,7 +48,6 @@ public class SkydiveTest extends BaseTest {
         }
     }
 
-    @Test
     public void skydiveTest() {
 
         navigateToSkydives();
