@@ -32,7 +32,7 @@ public class Intercepter implements Interceptor {
         builder.header("apiappkey", this.appApiKey);
 
         if (Subterminal.getUser().isLoggedIn()) {
-            builder.header("sessiontoken", Subterminal.getUser().getFacebookToken().getToken());
+            builder.header("sessiontoken", Subterminal.getUser().getActiveToken());
         }
 
         builder.header("accept", Subterminal.getMetaData(this.context, "mavonie.subterminal.API_ACCEPT_HEADER"));

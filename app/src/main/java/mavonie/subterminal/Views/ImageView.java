@@ -1,10 +1,17 @@
 package mavonie.subterminal.Views;
 
-import android.net.Uri;
+import android.graphics.drawable.Animatable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.R;
@@ -24,8 +31,21 @@ public class ImageView extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_image_view, container, false);
 
-        PhotoDraweeView image = (PhotoDraweeView) view.findViewById(R.id.image_view_image);
-        image.setPhotoUri(Uri.parse("file://" + Uri.parse(getItem().getFullPath())));
+        final PhotoDraweeView image = (PhotoDraweeView) view.findViewById(R.id.image_view_image);
+        PipelineDraweeControllerBuilder controller = Fresco.newDraweeControllerBuilder();
+        controller.setImageRequest(ImageRequestBuilder.newBuilderWithSource(getItem().getUri()).setResizeOptions(new ResizeOptions(300, 300)).build());
+        controller.setOldController(image.getController());
+        controller.setControllerListener(new BaseControllerListener<ImageInfo>() {
+            @Override
+            public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
+                super.onFinalImageSet(id, imageInfo, animatable);
+                if (imageInfo == null || image == null) {
+                    return;
+                }
+                image.update(imageInfo.getWidth(), imageInfo.getHeight());
+            }
+        });
+        image.setController(controller.build());
 
         UIHelper.getAddButton().hide();
 

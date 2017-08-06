@@ -211,6 +211,19 @@ public class Jump extends Synchronizable {
         return this._exit;
     }
 
+    private Suit _suit;
+
+    /**
+     * @return Suit|Null
+     */
+    public Suit getSuit() {
+        if (this._suit == null && this.getSuitId() != null) {
+            this._suit = (Suit) new Suit().getOneById(this.getSuitId());
+        }
+
+        return this._suit;
+    }
+
     public Integer getExitId() {
         return exit_id;
     }

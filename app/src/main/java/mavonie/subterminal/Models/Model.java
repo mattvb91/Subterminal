@@ -69,6 +69,10 @@ abstract public class Model implements BaseColumns, Serializable {
 
     protected static DatabaseHandler _db;
 
+    public static DatabaseHandler getDbHandler() {
+        return _db;
+    }
+
     protected LinkedHashMap<String, String> itemsForSelect;
 
     /**

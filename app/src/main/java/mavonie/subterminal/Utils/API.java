@@ -25,10 +25,12 @@ import javax.net.ssl.TrustManagerFactory;
 
 import az.openweatherapi.OWService;
 import jonathanfinerty.once.Once;
+import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Gear;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Jump;
+import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Preferences.Notification;
 import mavonie.subterminal.Models.Signature;
 import mavonie.subterminal.Models.Skydive.Aircraft;
@@ -42,6 +44,8 @@ import mavonie.subterminal.Models.User;
 import mavonie.subterminal.R;
 import mavonie.subterminal.Utils.Api.EndpointInterface;
 import mavonie.subterminal.Utils.Api.Intercepter;
+import mavonie.subterminal.Utils.Api.auth.AuthBody;
+import mavonie.subterminal.Utils.Api.auth.AuthResponse;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -157,7 +161,7 @@ public class API {
      * Calls for startup
      */
     public void init() {
-        if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_PUBLIC_EXITS)) {
+        if (!Once.beenDone(CALLS_LIST_PUBLIC_EXITS)) {
             updatePublicExits();
         }
 
@@ -246,9 +250,12 @@ public class API {
                         public void run() {
                             List<Dropzone> dropzones = (List<Dropzone>) response.body();
 
+                            Model.getDbHandler().getWritableDatabase().beginTransaction();
                             for (Dropzone dropzone : dropzones) {
                                 Dropzone.createOrUpdate(dropzone);
                             }
+                            Model.getDbHandler().getWritableDatabase().setTransactionSuccessful();
+                            Model.getDbHandler().getWritableDatabase().endTransaction();
 
                             Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_DROPZONES, response.headers().get("server_time"));
                             Once.markDone(CALLS_LIST_DROPZONES);
@@ -286,10 +293,13 @@ public class API {
                         public void run() {
                             List<Tunnel> tunnels = (List<Tunnel>) response.body();
 
+                            Model.getDbHandler().getWritableDatabase().beginTransaction();
                             for (Tunnel tunnel : tunnels) {
                                 tunnel.setId(tunnel.id);
                                 tunnel.save();
                             }
+                            Model.getDbHandler().getWritableDatabase().setTransactionSuccessful();
+                            Model.getDbHandler().getWritableDatabase().endTransaction();
 
                             Synchronized.setLastSyncPref(Synchronized.PREF_LAST_SYNC_TUNNELS, response.headers().get("server_time"));
                             Once.markDone(CALLS_LIST_TUNNELS);
@@ -444,6 +454,34 @@ public class API {
         });
     }
 
+    public void authenticate(String email, String password) {
+        Call auth = this.getEndpoints().authenticate(new AuthBody(email, password));
+
+        auth.enqueue(new Callback<AuthResponse>() {
+            @Override public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                UIHelper.removeLoadSpinner();
+
+                if (response.isSuccessful()) {
+                    Subterminal.user.setApiToken(response.body().token);
+
+                    UIHelper.userLoggedIn();
+                    UIHelper.toast(MainActivity.getActivity().getResources().getString(R.string.login_success));
+
+                    //Close the sign in fragment
+                    MainActivity.getActivity().onBackPressed();
+                    Subterminal.getApi().updateLocalUser();
+                } else {
+                    UIHelper.toast(response.message());
+                }
+            }
+
+            @Override public void onFailure(Call<AuthResponse> call, Throwable t) {
+                UIHelper.removeLoadSpinner();
+                API.issueContactingServer();
+            }
+        });
+    }
+
     /**
      * Update the user object
      */
@@ -458,6 +496,12 @@ public class API {
 
                     //Init again as we are now logged in
                     Subterminal.getApi().init();
+
+                    UIHelper.userLoggedIn();
+                    UIHelper.toast(MainActivity.getActivity().getResources().getString(R.string.login_success));
+
+                    //Close the sign in fragment
+                    MainActivity.getActivity().onBackPressed();
                 }
             }
 
@@ -543,6 +587,8 @@ public class API {
                     model.markSynced();
 
                     Synchronized.setLastSyncPref(model.getSyncIdentifier(), response.headers().get("server_time"));
+                } else if(response.code() == 401) {
+                    Subterminal.getUser().logOut();
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);
@@ -568,11 +614,17 @@ public class API {
                 UIHelper.setProgressBarVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     List<Synchronizable> models = (List) response.body();
+
+                    Model.getDbHandler().getWritableDatabase().beginTransaction();
                     for (Synchronizable model : models) {
                         model.markSynced();
                     }
+                    Model.getDbHandler().getWritableDatabase().setTransactionSuccessful();
+                    Model.getDbHandler().getWritableDatabase().endTransaction();
 
                     Synchronized.setLastSyncPref(model.getSyncIdentifier(), response.headers().get("server_time"));
+                } else if(response.code() == 401) {
+                    Subterminal.getUser().logOut();
                 }
             }
 

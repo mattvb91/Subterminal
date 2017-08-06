@@ -30,11 +30,13 @@ public class User {
     private boolean is_premium;
     private Profile facebookProfile;
     private AccessToken facebookToken;
+    private String apiToken;
     private Settings settings;
 
     public User() {
         this.email = Prefs.getString("email", null);
         this.settings = new Settings();
+        this.apiToken = Prefs.getString("apiToken", null);
     }
 
     public String getEmail() {
@@ -64,6 +66,15 @@ public class User {
         return facebookToken;
     }
 
+    public String getApiToken() {
+        return apiToken;
+    }
+
+    public void setApiToken(String apiToken) {
+        this.apiToken = apiToken;
+        Prefs.putString("apiToken", apiToken);
+    }
+
     public Settings getSettings() {
         return settings;
     }
@@ -79,12 +90,17 @@ public class User {
 
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         try {
-                            Subterminal.getUser().setEmail(response.getJSONObject().getString("email"));
+                            String email = response.getJSONObject().getString("email");
+
+                            if (email.isEmpty()) {
+                                UIHelper.toast("Your email is not confirmed with facebook. Please try manual login");
+                                Subterminal.getUser().logOut();
+                                return;
+                            }
+
+                            Subterminal.getUser().setEmail(email);
                             Subterminal.getUser().setFacebookProfile(Profile.getCurrentProfile());
                             Subterminal.getApi().createOrUpdateRemoteUser();
-
-                            UIHelper.userLoggedIn();
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -98,7 +114,7 @@ public class User {
 
     public void init() {
         if (this.isLoggedIn()) {
-            if (this.getEmail() == null) {
+            if (this.getEmail() == null && AccessToken.getCurrentAccessToken() != null) {
                 this.requestFacebookData();
             } else {
                 UIHelper.userLoggedIn();
@@ -116,6 +132,10 @@ public class User {
     }
 
     public boolean isLoggedIn() {
+        if (this.getApiToken() != null) {
+            return true;
+        }
+
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken == null || accessToken.isExpired()) {
 
@@ -133,6 +153,7 @@ public class User {
     public void logOut() {
         LoginManager.getInstance().logOut();
         this.setEmail(null);
+        this.setApiToken(null);
         UIHelper.userLoggedOut();
     }
 
@@ -173,5 +194,19 @@ public class User {
      */
     public void update(User responseBody) {
         this.setIsPremium(responseBody.getIsPremium());
+        this.setEmail(responseBody.email);
+    }
+
+    /**
+     * We could have a facebook token or a JWT token. Check which one.
+     *
+     * @return
+     */
+    public String getActiveToken() {
+        if (AccessToken.getCurrentAccessToken() != null) {
+            return AccessToken.getCurrentAccessToken().getToken();
+        }
+
+        return getApiToken();
     }
 }

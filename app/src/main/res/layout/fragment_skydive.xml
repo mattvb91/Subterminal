@@ -51,11 +51,14 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/skydive_list_thumb_layout"
             android:layout_toRightOf="@+id/skydive_list_thumb_layout"
-            android:text="No Dropzone"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Dropzone"
             android:textColor="#040404"
+            android:paddingRight="40dp"
             android:textSize="15dip"
             android:textStyle="bold"
-            android:typeface="sans" />
+            android:typeface="sans"/>
 
         <TextView
             android:id="@+id/skydive_list_delay"

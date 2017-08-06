@@ -312,10 +312,11 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
                 this.suits.putAll(new Suit().getItemsForSpinner(convertTypes(getItem().getType())));
                 this.suitsAdapter.notifyDataSetChanged();
             }
+
             suitSpinner.setAdapter(this.suitsAdapter);
-            if (getItem().getSuitId() != null) {
-                suitEntry = suitsAdapter.getItem(this.suitsAdapter.findPositionFromKey(getItem().getSuitId()));
-                suitSpinner.setSelection(this.suitsAdapter.findPositionFromKey(getItem().getSuitId()), false);
+            if (getItem().getSuit() != null) {
+                suitEntry = suitsAdapter.getItem(this.suitsAdapter.findPositionFromKey(getItem().getSuit().getId()));
+                suitSpinner.setSelection(this.suitsAdapter.findPositionFromKey(getItem().getSuit().getId()), false);
             }
 
             if (getItem().getPcConfig() != null) {

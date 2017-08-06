@@ -3,6 +3,7 @@ package mavonie.subterminal.Utils;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -25,9 +26,19 @@ import android.widget.Toast;
 
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.common.executors.CallerThreadExecutor;
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.DataSource;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.ProfilePictureView;
+import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.github.ahmadnemati.wind.WindView;
 import com.github.ahmadnemati.wind.enums.TrendType;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -41,6 +52,7 @@ import az.openweatherapi.model.OWResponse;
 import az.openweatherapi.model.gson.common.Coord;
 import az.openweatherapi.model.gson.five_day.ExtendedWeather;
 import az.openweatherapi.model.gson.five_day.WeatherForecastElement;
+import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.Dashboard;
 import mavonie.subterminal.Exit;
 import mavonie.subterminal.Forms.ExitForm;
@@ -51,6 +63,7 @@ import mavonie.subterminal.Gallery;
 import mavonie.subterminal.Gear;
 import mavonie.subterminal.Jump;
 import mavonie.subterminal.MainActivity;
+import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Models.Skydive.Rig;
 import mavonie.subterminal.Models.Skydive.Skydive;
@@ -342,9 +355,6 @@ public class UIHelper {
                     public void onSuccess(LoginResult loginResults) {
                         Subterminal.getUser().setFacebookToken(loginResults.getAccessToken());
                         Subterminal.getUser().init();
-
-                        userLoggedIn();
-                        toast(MainActivity.getActivity().getString(R.string.login_success));
                     }
 
                     @Override
@@ -372,12 +382,14 @@ public class UIHelper {
         ImageView logo = (ImageView) headerView.findViewById(R.id.nav_header_icon);
         logo.setVisibility(View.GONE);
 
-        ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
-        profilePictureView.setProfileId(Subterminal.getUser().getFacebookToken().getUserId());
-        profilePictureView.setVisibility(View.VISIBLE);
-        profilePictureView.setPresetSize(ProfilePictureView.SMALL);
-        profilePictureView.getLayoutParams().width = 100;
-        profilePictureView.getLayoutParams().height = 100;
+        if(Subterminal.getUser().getFacebookToken() != null && Subterminal.getUser().getFacebookToken().getUserId() != null) {
+            ProfilePictureView profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profile_pic);
+            profilePictureView.setProfileId(Subterminal.getUser().getFacebookToken().getUserId());
+            profilePictureView.setVisibility(View.VISIBLE);
+            profilePictureView.setPresetSize(ProfilePictureView.SMALL);
+            profilePictureView.getLayoutParams().width = 100;
+            profilePictureView.getLayoutParams().height = 100;
+        }
 
         TextView profileName = (TextView) headerView.findViewById(R.id.profile_name);
         profileName.setText(Subterminal.getUser().getEmail());
@@ -589,6 +601,32 @@ public class UIHelper {
             heightUnit.check(R.id.radio_imperial);
         } else {
             heightUnit.check(R.id.radio_metric);
+        }
+    }
+
+    public static void loadKenBurnsHeader(CrescentoContainer crescento, final KenBurnsView top, Model item) {
+        if (Image.loadThumbForEntity(item) != null) {
+            crescento.setVisibility(View.VISIBLE);
+
+            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Image.loadThumbForEntity(item).getUri()).setResizeOptions(new ResizeOptions(300, 300)).build();
+            final DataSource<CloseableReference<CloseableImage>> source = Fresco.getImagePipeline().fetchDecodedImage(request, MainActivity.getActivity());
+            source.subscribe(new BaseBitmapDataSubscriber() {
+                @Override
+                protected void onNewResultImpl(final Bitmap bitmap) {
+                    Handler mainHandler = new Handler(MainActivity.getActivity().getMainLooper());
+                    Runnable uiRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            top.setImageBitmap(bitmap);
+                        }
+                    };
+                    mainHandler.post(uiRunnable);
+                }
+
+                @Override
+                protected void onFailureImpl(DataSource dataSource) {
+                }
+            }, CallerThreadExecutor.getInstance());
         }
     }
 }

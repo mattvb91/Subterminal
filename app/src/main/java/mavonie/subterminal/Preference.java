@@ -186,6 +186,23 @@ public class Preference extends BaseFragment {
             }
         });
 
+        skydiveStartCount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    Subterminal.getUser().getSettings().setSkydiveStartJumpNo(Integer.parseInt(String.valueOf(skydiveStartCount.getText())));
+                }
+            }
+        });
+
+        startCount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    Subterminal.getUser().getSettings().setBaseStartJumpNo(Integer.parseInt(String.valueOf(startCount.getText())));
+                }
+            }
+        });
+
+
         /**
          * Slider Spinner
          */
