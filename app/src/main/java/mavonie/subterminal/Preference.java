@@ -294,7 +294,10 @@ public class Preference extends BaseFragment {
         final LinkedHashMapAdapter aircraftAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
         aircraftAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         aircraftSpinner.setAdapter(aircraftAdapter);
-        aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Subterminal.getUser().getSettings().getSkydiveDefaultAircraftId()), false);
+
+        if(aircraftAdapter.getCount() > 0)
+            aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Subterminal.getUser().getSettings().getSkydiveDefaultAircraftId()), false);
+
         aircraftSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
