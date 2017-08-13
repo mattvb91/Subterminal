@@ -1,89 +1,63 @@
 package mavonie.subterminal.ViewAdapters;
 
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Suit;
 import mavonie.subterminal.R;
+import mavonie.subterminal.Utils.Adapters.BaseRecycler;
 import mavonie.subterminal.Utils.BaseFragment;
 import mavonie.subterminal.Utils.Subterminal;
 
 /**
  * Suit recycler
  */
-public class SuitRecycler extends RecyclerView.Adapter<SuitRecycler.ViewHolder> {
+public class SuitRecycler extends BaseRecycler<SuitRecycler.ViewHolder> {
 
-    private final List<Suit> mValues;
-    private final BaseFragment.OnFragmentInteractionListener mListener;
-
-    public SuitRecycler(List<Suit> items, BaseFragment.OnFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+    public SuitRecycler(List<Object> items, BaseFragment.OnFragmentInteractionListener listener) {
+        super(items, listener);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_suit, parent, false);
+    protected int getLayout() {
+        return R.layout.fragment_suit;
+    }
+
+    @Override
+    protected ViewHolder getViewHolder(View view) {
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.listManufacturer.setText(holder.mItem.getManufacturer());
-        holder.listModel.setText(holder.mItem.getModel());
-        holder.listType.setText(holder.mItem.getFormattedSuitType());
-        holder.listJumpCount.setText("Jumps: " + holder.mItem.getJumpCount());
+    protected void bindCustomViewHolder(ViewHolder viewHolder, int position) {
+        viewHolder.mItem = (Suit) mValues.get(position);
+        viewHolder.listManufacturer.setText(viewHolder.mItem.getManufacturer());
+        viewHolder.listModel.setText(viewHolder.mItem.getModel());
+        viewHolder.listType.setText(viewHolder.mItem.getFormattedSuitType());
+        viewHolder.listJumpCount.setText("Jumps: " + viewHolder.mItem.getJumpCount());
 
-        if ((Subterminal.getUser().isPremium() && holder.mItem.isSynced())) {
+        if ((Subterminal.getUser().isPremium() && viewHolder.mItem.isSynced())) {
             int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
-            holder.mListSynchronized.setColorFilter(color);
+            viewHolder.mListSynchronized.setColorFilter(color);
         }
-
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onFragmentInteraction(holder.mItem);
-                }
-            }
-        });
     }
 
-    @Override
-    public int getItemCount() {
-        return mValues.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView listManufacturer;
-        public final TextView listModel;
-        public final TextView listType;
-        public final TextView listJumpCount;
-        public final ImageView mListSynchronized;
+    public class ViewHolder extends BaseRecycler.ViewHolder {
+        @BindView(R.id.suit_manufacturer) TextView listManufacturer;
+        @BindView(R.id.suit_model) TextView listModel;
+        @BindView(R.id.suit_type) TextView listType;
+        @BindView(R.id.suit_jump_count) TextView listJumpCount;
+        @BindView(R.id.suit_list_synchronized) ImageView mListSynchronized;
         public Suit mItem;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            listManufacturer = (TextView) view.findViewById(R.id.suit_manufacturer);
-            listModel = (TextView) view.findViewById(R.id.suit_model);
-            listType = (TextView) view.findViewById(R.id.suit_type);
-            listJumpCount = (TextView) view.findViewById(R.id.suit_jump_count);
-            mListSynchronized = (ImageView) view.findViewById(R.id.suit_list_synchronized);
         }
     }
 }

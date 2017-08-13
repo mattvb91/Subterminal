@@ -69,7 +69,7 @@ public class GearTest extends BaseDBUnit {
         assertNotNull(gearItems);
         assertEquals(gearItems.size(), new Gear().count());
 
-        LinkedHashMapAdapter exitsAdapter = new LinkedHashMapAdapter<String, String>(
+        LinkedHashMapAdapter exitsAdapter = new LinkedHashMapAdapter<>(
                 RuntimeEnvironment.application,
                 R.layout.item_simple,
                 gearItems,

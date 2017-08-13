@@ -53,9 +53,9 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
     LinkedHashMapAdapter<String, String> gearAdapter;
 
     private LinkedHashMap suits = new LinkedHashMap();
-    LinkedHashMapAdapter suitsAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.suits);
+    LinkedHashMapAdapter suitsAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.suits);
 
-    LinkedHashMapAdapter pcConfigAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new LinkedHashMap<>(Jump.pc_configs));
+    LinkedHashMapAdapter pcConfigAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new LinkedHashMap<>(Jump.pc_configs));
 
     @Override
     protected String getItemClass() {
@@ -80,7 +80,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
         this.exitNames = new Exit().getItemsForSelect("name");
 
-        this.exitsAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity().getApplicationContext(), R.layout.item_simple, this.exitNames, LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE);
+        this.exitsAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity().getApplicationContext(), R.layout.item_simple, this.exitNames, LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE);
         exitNameAutoComplete.setAdapter(this.exitsAdapter);
         exitNameAutoComplete.setThreshold(2);
         exitNameAutoComplete.setOnItemClickListener(this);
@@ -89,7 +89,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
         this.gear = new Gear().getItemsForSelect("container_manufacturer");
 
         if (this.gear.size() > 0) {
-            this.gearAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.gear);
+            this.gearAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, this.gear);
             this.gearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             gearSpinner.setAdapter(this.gearAdapter);
             gearSpinner.setOnItemSelectedListener(this);
@@ -114,7 +114,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
         //END SUIT SPINNER
 
         Spinner pcSizeSpinner = (Spinner) view.findViewById(R.id.jump_edit_pc_size);
-        ArrayAdapter<Integer> pcSizeAdapter = new ArrayAdapter<Integer>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Jump.getPcSizeArray());
+        ArrayAdapter<Integer> pcSizeAdapter = new ArrayAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Jump.getPcSizeArray());
         pcSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pcSizeSpinner.setAdapter(pcSizeAdapter);
         pcSizeSpinner.setSelection(Arrays.asList(Jump.getPcSizeArray()).indexOf(Subterminal.getUser().getSettings().getBaseDefaultPcSize()), false);
@@ -122,7 +122,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
         Spinner sliderConfigSpinner = (Spinner) view.findViewById(R.id.jump_edit_slider);
         ArrayAdapter<String> sliderAdapter =
-                new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                new ArrayAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
                         Jump.getSliderConfigArray()
                 );
 
@@ -132,7 +132,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
 
         jumpTypeSpinner = (Spinner) view.findViewById(R.id.jump_edit_type);
         ArrayAdapter<String> typeAdapter =
-                new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                new ArrayAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
                         Jump.getTypeArray()
                 );
 
@@ -238,7 +238,7 @@ public class JumpForm extends BaseForm implements AdapterView.OnItemClickListene
             if (this.exitEntry == null) {
                 String exitName = exitNameAutoComplete.getText().toString().trim();
 
-                Exit exit = (Exit) new Exit().getItem(new Pair<String, String>("name", exitName));
+                Exit exit = (Exit) new Exit().getItem(new Pair<>("name", exitName));
 
                 if (exit == null) {
                     exit = new Exit();

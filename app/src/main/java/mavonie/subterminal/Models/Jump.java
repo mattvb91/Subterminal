@@ -56,17 +56,17 @@ public class Jump extends Synchronizable {
     private static final HashMap<Integer, String> jump_type;
 
     static {
-        slider_config = new HashMap<Integer, String>();
+        slider_config = new HashMap<>();
         slider_config.put(SLIDER_OFF, "Off");
         slider_config.put(SLIDER_DOWN, "Down");
         slider_config.put(SLIDER_UP, "Up");
 
-        jump_type = new HashMap<Integer, String>();
+        jump_type = new HashMap<>();
         jump_type.put(TYPE_SLICK, "Slick");
         jump_type.put(TYPE_TRACKING, "Tracking");
         jump_type.put(TYPE_WINGSUIT, "Wingsuit");
 
-        pc_configs = new HashMap<Integer, String>();
+        pc_configs = new HashMap<>();
         pc_configs.put(PC_STOWED, "Stowed");
         pc_configs.put(PC_HANDHELD, "Handheld");
         pc_configs.put(PC_PCA, "PCA");
@@ -113,7 +113,7 @@ public class Jump extends Synchronizable {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_DESCRIPTION, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_DATE, TYPE_TEXT);

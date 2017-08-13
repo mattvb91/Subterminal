@@ -68,7 +68,7 @@ public class Gallery extends FilterableFragment {
         imageTypes.put(Image.ENTITY_TYPE_EXIT, "Exit");
 
         imageTypeSpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.gallery_filter_image_type);
-        imageTypeAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, imageTypes);
+        imageTypeAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, imageTypes);
         imageTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         imageTypeSpinner.setAdapter(imageTypeAdapter);
 

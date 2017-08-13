@@ -59,7 +59,7 @@ public class Image extends Synchronizable {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_FILENAME, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_ENTITY_TYPE, TYPE_INTEGER);
@@ -228,9 +228,8 @@ public class Image extends Synchronizable {
      */
     public Uri getUri() {
         File file = new File(this.getFullPath());
-        Uri uri = Uri.fromFile(file);
 
-        return uri;
+        return Uri.fromFile(file);
     }
 
     //TODO properly name images based on model

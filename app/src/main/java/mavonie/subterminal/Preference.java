@@ -208,7 +208,7 @@ public class Preference extends BaseFragment {
          */
         final Spinner sliderConfigSpinner = (Spinner) view.findViewById(R.id.preference_default_slider_config_value);
         ArrayAdapter<String> sliderAdapter =
-                new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                new ArrayAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
                         Jump.getSliderConfigArray()
                 );
 
@@ -235,7 +235,7 @@ public class Preference extends BaseFragment {
          */
         final Spinner jumpTypeSpinner = (Spinner) view.findViewById(R.id.preference_default_jump_type_value);
         ArrayAdapter<String> jumpTypeAdapter =
-                new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                new ArrayAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
                         Jump.getTypeArray()
                 );
 
@@ -263,7 +263,7 @@ public class Preference extends BaseFragment {
          */
         final Spinner pcSize = (Spinner) view.findViewById(R.id.preference_default_pc_size_value);
         ArrayAdapter<Integer> pcApter =
-                new ArrayAdapter<Integer>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                new ArrayAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
                         Jump.getPcSizeArray()
                 );
 
@@ -291,10 +291,13 @@ public class Preference extends BaseFragment {
          */
         final Spinner aircraftSpinner = (Spinner) view.findViewById(R.id.preference_default_aircraft_value);
 
-        final LinkedHashMapAdapter aircraftAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
+        final LinkedHashMapAdapter aircraftAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, new Aircraft().getItemsForSelect("name"));
         aircraftAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         aircraftSpinner.setAdapter(aircraftAdapter);
-        aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Subterminal.getUser().getSettings().getSkydiveDefaultAircraftId()), false);
+
+        if(aircraftAdapter.getCount() > 0)
+            aircraftSpinner.setSelection(aircraftAdapter.findPositionFromKey(Subterminal.getUser().getSettings().getSkydiveDefaultAircraftId()), false);
+
         aircraftSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -314,7 +317,7 @@ public class Preference extends BaseFragment {
          * Dropzone AutoCompleteTextView
          */
         final AutoCompleteTextView dropzone = (AutoCompleteTextView) view.findViewById(R.id.preference_default_dz_value);
-        final LinkedHashMapAdapter dropzoneAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity().getApplicationContext(), R.layout.item_simple, new Dropzone().getItemsForSelect("name"), LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE);
+        final LinkedHashMapAdapter dropzoneAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity().getApplicationContext(), R.layout.item_simple, new Dropzone().getItemsForSelect("name"), LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE);
         dropzoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropzone.setAdapter(dropzoneAdapter);
         dropzone.setThreshold(2);
@@ -339,7 +342,7 @@ public class Preference extends BaseFragment {
          * Jump type Spinner
          */
         Spinner jumpType = (Spinner) view.findViewById(R.id.preference_default_skydive_type_value);
-        final LinkedHashMapAdapter jumpTypesAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Skydive.getJumpTypes());
+        final LinkedHashMapAdapter jumpTypesAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, Skydive.getJumpTypes());
         jumpTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpType.setAdapter(jumpTypesAdapter);
         jumpType.setSelection(jumpTypesAdapter.findPositionFromKey(Subterminal.getUser().getSettings().getSkydiveDefaultJumpType()), false);

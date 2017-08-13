@@ -41,7 +41,7 @@ public class TunnelSessionForm extends BaseForm implements AdapterView.OnItemCli
         tunnel = (AutoCompleteTextView) view.findViewById(R.id.tunnel_session_edit_tunnel);
 
         tunnelNames = new Tunnel().getItemsForSelect("name");
-        tunnelAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity().getApplicationContext(), R.layout.item_simple, tunnelNames, LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE);
+        tunnelAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity().getApplicationContext(), R.layout.item_simple, tunnelNames, LinkedHashMapAdapter.FLAG_FILTER_ON_VALUE);
 
         tunnel.setAdapter(tunnelAdapter);
         tunnel.setThreshold(2);
@@ -49,7 +49,7 @@ public class TunnelSessionForm extends BaseForm implements AdapterView.OnItemCli
 
         date = (EditText) view.findViewById(R.id.tunnel_session_edit_date);
         new DatePickerTextView(date);
-        date.setText(new DateFormat().format(Calendar.getInstance().getTime()).toString());
+        date.setText(new DateFormat().format(Calendar.getInstance().getTime()));
 
         length = (EditText) view.findViewById(R.id.tunnel_session_edit_length);
         description = (EditText) view.findViewById(R.id.tunnel_session_edit_description);

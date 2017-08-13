@@ -11,14 +11,12 @@ import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
 import com.birbit.android.jobqueue.log.CustomLogger;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.orangegangsters.lollipin.lib.managers.LockManager;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 
-import de.cketti.library.changelog.ChangeLog;
 import jonathanfinerty.once.Once;
 import mavonie.subterminal.CustomPinActivity;
 import mavonie.subterminal.MainActivity;
@@ -122,9 +120,8 @@ public class Subterminal {
         }
 
         Bundle bundle = ai.metaData;
-        String meta = bundle.getString(string);
 
-        return meta;
+        return bundle.getString(string);
     }
 
     /**
@@ -140,10 +137,7 @@ public class Subterminal {
                 .build();
 
         mCallbackManager = CallbackManager.Factory.create();
-
         analytics = FirebaseAnalytics.getInstance(activity);
-
-        FacebookSdk.sdkInitialize(activity);
 
         Once.initialise(activity);
 
@@ -159,11 +153,6 @@ public class Subterminal {
                     CustomPinActivity.class
             );
             LockManager.getInstance().getAppLock().setShouldShowForgot(false);
-        }
-
-        ChangeLog cl = new ChangeLog(activity);
-        if (cl.isFirstRun()) {
-            cl.getLogDialog().show();
         }
 
         api = new API(activity);
@@ -242,7 +231,7 @@ public class Subterminal {
             return true;
         } catch (ClassNotFoundException e) {
             try {
-                Class.forName("android.support.test.runner");
+                Class.forName("android.support.test.runner.AndroidJUnitRunner");
                 return true;
             } catch (ClassNotFoundException e1) {
                 return false;

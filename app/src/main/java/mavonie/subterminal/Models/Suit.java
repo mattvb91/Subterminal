@@ -37,7 +37,7 @@ public class Suit extends Synchronizable {
     @Override
     public Map<String, Integer> getDbColumns() {
         if (dbColumns == null) {
-            dbColumns = new HashMap<String, Integer>();
+            dbColumns = new HashMap<>();
 
             dbColumns.put(COLUMN_NAME_MANUFACTURER, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_MODEL, TYPE_TEXT);
@@ -57,7 +57,7 @@ public class Suit extends Synchronizable {
     private static final HashMap<Integer, String> suit_type;
 
     static {
-        suit_type = new HashMap<Integer, String>();
+        suit_type = new HashMap<>();
         suit_type.put(TYPE_WINGSUIT, "Wingsuit");
         suit_type.put(TYPE_TRACKING, "Tracking");
     }
@@ -147,7 +147,7 @@ public class Suit extends Synchronizable {
      */
     public LinkedHashMap<String, String> getItemsForSpinner(Integer type) {
 
-        LinkedHashMap<String, String> results = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> results = new LinkedHashMap<>();
 
         List<Model> items = this.getActiveItems();
 

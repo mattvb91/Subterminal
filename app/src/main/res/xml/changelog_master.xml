@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.2.6"
+        versioncode="34">
+        <change>General updates &amp; Improvements</change>
+    </release>
+    <release
         version="1.2.5"
         versioncode="33">
         <change>Updated SSL Cert for server connectivity</change>

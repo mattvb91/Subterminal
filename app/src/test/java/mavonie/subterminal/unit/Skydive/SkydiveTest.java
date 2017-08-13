@@ -34,7 +34,7 @@ public class SkydiveTest extends BaseDBUnit {
 
         Assert.assertTrue(skydive.equals(dbSkydive));
 
-        Skydive skydive1 = (Skydive) new Skydive().getItem(new Pair<String, String>(Model._ID, Integer.toString(dbSkydive.getId())));
+        Skydive skydive1 = (Skydive) new Skydive().getItem(new Pair<>(Model._ID, Integer.toString(dbSkydive.getId())));
         assertEquals(skydive1, dbSkydive);
 
         HashMap<String, Object> params = new HashMap<>();

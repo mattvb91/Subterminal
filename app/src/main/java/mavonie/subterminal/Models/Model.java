@@ -168,11 +168,11 @@ abstract public class Model implements BaseColumns, Serializable {
 
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
-        List<Model> list = new ArrayList<Model>();
+        List<Model> list = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
 
-            while (cursor.isAfterLast() == false) {
+            while (!cursor.isAfterLast()) {
                 list.add(populateFromCursor(cursor));
                 cursor.moveToNext();
             }
@@ -461,7 +461,7 @@ abstract public class Model implements BaseColumns, Serializable {
      */
     public LinkedHashMap<String, String> getItemsForSelect(String fieldName, boolean optional) {
         if (this.itemsForSelect == null) {
-            this.itemsForSelect = new LinkedHashMap<String, String>();
+            this.itemsForSelect = new LinkedHashMap<>();
 
             if (optional) {
                 this.itemsForSelect.put(null, " - ");
@@ -480,7 +480,7 @@ abstract public class Model implements BaseColumns, Serializable {
     public LinkedHashMap<String, String> getItemsForSelect(String fieldName) {
 
         if (this.itemsForSelect == null) {
-            this.itemsForSelect = new LinkedHashMap<String, String>();
+            this.itemsForSelect = new LinkedHashMap<>();
         }
 
         String query = "SELECT " + _ID + ", " + fieldName + " FROM " + getTableName();
@@ -495,7 +495,7 @@ abstract public class Model implements BaseColumns, Serializable {
         Cursor cursor = _db.getReadableDatabase().rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
-            while (cursor.isAfterLast() == false) {
+            while (!cursor.isAfterLast()) {
                 int id = cursor.getInt(0);
                 String string = cursor.getString(1);
                 itemsForSelect.put(Integer.toString(id), string);

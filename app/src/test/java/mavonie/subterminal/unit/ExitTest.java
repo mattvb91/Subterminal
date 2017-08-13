@@ -35,7 +35,7 @@ public class ExitTest extends BaseDBUnit {
 
         assertTrue(exit.equals(exitDb));
 
-        Exit exit1 = (Exit) new Exit().getItem(new Pair<String, String>(Model._ID, Integer.toString(exitDb.getId())));
+        Exit exit1 = (Exit) new Exit().getItem(new Pair<>(Model._ID, Integer.toString(exitDb.getId())));
         assertEquals(exit1, exitDb);
 
         HashMap<String, Object> params = new HashMap<>();

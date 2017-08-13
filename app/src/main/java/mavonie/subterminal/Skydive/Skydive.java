@@ -74,7 +74,7 @@ public class Skydive extends FilterableFragment {
         PopupWindow popupWindow = getFilterPopup(this);
 
         jumpTypeSpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.skydive_filter_jump_type);
-        jumpTypesAdapter = new LinkedHashMapAdapter<Integer, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, jumpTypes);
+        jumpTypesAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, jumpTypes);
         jumpTypesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jumpTypeSpinner.setAdapter(jumpTypesAdapter);
 
@@ -82,7 +82,7 @@ public class Skydive extends FilterableFragment {
         aircrafts.put(null, " - ");
         aircrafts.putAll(new Aircraft().getItemsForSelect("name"));
         aircraftSpinner = (Spinner) popupWindow.getContentView().findViewById(R.id.skydive_filter_aircraft);
-        aircraftsAdapter = new LinkedHashMapAdapter<String, String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, aircrafts);
+        aircraftsAdapter = new LinkedHashMapAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item, aircrafts);
         aircraftsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         aircraftSpinner.setAdapter(aircraftsAdapter);
 

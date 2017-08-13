@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="facebook_app_id">test</string>
+    <string name="maps_api_key"></string>
+    <string name="api_app_key"></string>
+
+    <string name="stripe_publishable_key"></string>
+
+    <string name="api_url">http://127.0.0.1</string>
+    <string name="premium_url"></string>
+    <string name="api_accept_header"></string>
+
+    <string name="admob_app_id"></string>
+    <string name="banner_ad_unit_id"></string>
+
+    <string name="openweather_api_key"></string>
+</resources>

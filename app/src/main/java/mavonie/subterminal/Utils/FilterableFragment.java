@@ -1,5 +1,6 @@
 package mavonie.subterminal.Utils;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -56,7 +57,7 @@ public abstract class FilterableFragment extends BaseFragment {
         popupWindow.setContentView(popupView);
         popupWindow.setTouchable(true);
         popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(MainActivity.getActivity().getResources(), Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)));
         popupWindow.setOutsideTouchable(true);
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
 
@@ -75,9 +76,7 @@ public abstract class FilterableFragment extends BaseFragment {
                 popupWindow.dismiss();
                 try {
                     UIHelper.replaceFragment(fragment.getClass().newInstance());
-                } catch (java.lang.InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
+                } catch (java.lang.InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }

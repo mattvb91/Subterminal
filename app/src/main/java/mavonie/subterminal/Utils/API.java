@@ -11,17 +11,8 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.stripe.android.model.Token;
 import com.stripe.model.Charge;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
 
 import az.openweatherapi.OWService;
 import jonathanfinerty.once.Once;
@@ -76,9 +67,8 @@ public class API {
 
     /**
      * Get our retrofit client.
-     * We need to load in our own ssl cert to be able to communicate with our API.
      *
-     * @return
+     * @return Retrofit
      */
     private retrofit2.Retrofit getClient() {
 
@@ -87,29 +77,8 @@ public class API {
             String apiUrl = null;
 
             try {
-                Certificate ca = getCertificate();
-
-                // creating a KeyStore containing our trusted CAs
-                String keyStoreType = KeyStore.getDefaultType();
-                KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-                keyStore.load(null, null);
-                keyStore.setCertificateEntry("ca", ca);
-
-                // creating a TrustManager that trusts the CAs in our KeyStore
-                String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
-                TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
-                tmf.init(keyStore);
-
-                // creating an SSLSocketFactory that uses our TrustManager
-                SSLContext sslContext = SSLContext.getInstance("TLS");
-                sslContext.init(null, tmf.getTrustManagers(), null);
-
-                this.okHttpClient = new OkHttpClient.Builder().addInterceptor(new Intercepter(this.context))
-                        .sslSocketFactory(sslContext.getSocketFactory())
-                        .build();
-
+                this.okHttpClient = new OkHttpClient.Builder().addInterceptor(new Intercepter(this.context)).build();
                 apiUrl = Subterminal.getMetaData(this.context, "mavonie.subterminal.API_URL");
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -122,22 +91,6 @@ public class API {
         }
 
         return this.retrofit;
-    }
-
-    private Certificate getCertificate() throws CertificateException, IOException {
-
-        // loading CAs from an InputStream
-        CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        InputStream cert = this.context.getResources().openRawResource(R.raw.subterminal);
-        Certificate ca;
-
-        try {
-            ca = cf.generateCertificate(cert);
-        } finally {
-            cert.close();
-        }
-
-        return ca;
     }
 
     public EndpointInterface getEndpoints() {

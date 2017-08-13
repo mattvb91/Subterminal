@@ -47,7 +47,7 @@ public class SuitForm extends BaseForm {
         this.suitType = (Spinner) view.findViewById(R.id.suit_form_type);
         this.suitType = (Spinner) view.findViewById(R.id.suit_form_type);
         ArrayAdapter<String> typeAdapter =
-                new ArrayAdapter<String>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
+                new ArrayAdapter<>(MainActivity.getActivity(), android.R.layout.simple_spinner_item,
                         Suit.getSuitTypeArray()
                 );
 

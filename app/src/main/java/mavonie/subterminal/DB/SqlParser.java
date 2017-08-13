@@ -75,7 +75,7 @@ public class SqlParser {
     }
 
     private static List<String> splitSqlScript(String script, char delim) {
-        List<String> statements = new ArrayList<String>();
+        List<String> statements = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         boolean inLiteral = false;
         char[] content = script.toCharArray();

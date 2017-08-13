@@ -34,7 +34,7 @@ public class DropzoneTest extends BaseDBUnit {
 
         Assert.assertTrue(dropzone.equals(dbDropzone));
 
-        Dropzone dropzone1 = (Dropzone) new Dropzone().getItem(new Pair<String, String>(Model._ID, Integer.toString(dbDropzone.getId())));
+        Dropzone dropzone1 = (Dropzone) new Dropzone().getItem(new Pair<>(Model._ID, Integer.toString(dbDropzone.getId())));
         assertEquals(dropzone1, dbDropzone);
 
         HashMap<String, Object> params = new HashMap<>();
@@ -113,7 +113,7 @@ public class DropzoneTest extends BaseDBUnit {
         DropzoneAircraft dzAircraft2 = new DropzoneAircraft();
         dzAircraft2.setAircraftId(aircraft2.getId());
 
-        List<DropzoneAircraft> list = new ArrayList<DropzoneAircraft>();
+        List<DropzoneAircraft> list = new ArrayList<>();
         list.add(dzAircraft);
         list.add(dzAircraft2);
 

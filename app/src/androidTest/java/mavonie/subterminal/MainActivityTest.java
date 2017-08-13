@@ -1,5 +1,6 @@
 package mavonie.subterminal;
 
+import android.support.design.widget.NavigationView;
 import android.support.test.espresso.ViewInteraction;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import mavonie.subterminal.Utils.Subterminal;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeUp;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -31,6 +34,7 @@ public class MainActivityTest extends BaseTest {
 
     public static void testSkydiveMode() {
         openNavigationDrawer();
+        onView(isAssignableFrom(NavigationView.class)).perform(swipeUp());
 
         ViewInteraction modeMenu2 = onView(
                 allOf(withId(R.id.design_menu_item_text), withText(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING)), isDisplayed()));
@@ -49,6 +53,7 @@ public class MainActivityTest extends BaseTest {
 
     public static void testBaseMode() {
         openNavigationDrawer();
+        onView(isAssignableFrom(NavigationView.class)).perform(swipeUp());
 
         ViewInteraction modeMenu = onView(
                 allOf(withId(R.id.design_menu_item_text), withText(Prefs.getString(Preference.PREFS_MODE, Subterminal.MODE_SKYDIVING)), isDisplayed()));

@@ -4,10 +4,11 @@ package mavonie.subterminal;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.DrawerActions;
+import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
-import android.test.suitebuilder.annotation.LargeTest;
+import android.view.WindowManager;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -15,6 +16,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Random;
+
+import mavonie.subterminal.Models.Skydive.Aircraft;
+import mavonie.subterminal.Models.Skydive.Dropzone;
+import mavonie.subterminal.Models.Skydive.Tunnel;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -32,9 +37,66 @@ public class BaseTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    private boolean unlocked = false;
+
     @Before
     public void setUp() {
+        this.unlockScreen();
         this.okChangelog();
+
+        if(new Aircraft().count() == 0) {
+            //Some data for tests
+            Aircraft aircraft = new Aircraft();
+            aircraft.setName(randomString(4));
+            aircraft.save();
+        }
+
+        if(new Dropzone().count() == 0) {
+            Dropzone dropzone = new Dropzone();
+
+            dropzone.setCountry("Ireland");
+            dropzone.setName("Irish Parachute Club");
+            dropzone.setDescription("Description");
+            dropzone.setGlobalId("irish_parachute_club");
+            dropzone.setEmail("info@skydive.ie");
+            dropzone.setPhone("00353 938 35663");
+            dropzone.setWebsite("http://skydive.ie");
+            dropzone.setLatitude(53.2506);
+            dropzone.setLongtitude(-7.1174);
+
+            dropzone.save();
+        }
+
+        if(new Tunnel().count() == 0) {
+            Tunnel tunnel = new Tunnel();
+
+            tunnel.setCountry("Ireland");
+            tunnel.setName("Wind Tunnel");
+            tunnel.setDescription("Description");
+            tunnel.setEmail("info@tunnel.com");
+            tunnel.setPhone("0023466423");
+            tunnel.setWebsite("http://tunnel.com");
+            tunnel.setLatitude(53.2506);
+            tunnel.setLongtitude(-7.1174);
+            tunnel.setTunnelHeight(10.04);
+            tunnel.setTunnelDiameter(4);
+
+            tunnel.save();
+        }
+    }
+
+    private void unlockScreen() {
+        if(!this.unlocked) {
+            final MainActivity activity = mActivityTestRule.getActivity();
+            Runnable wakeUpDevice = new Runnable() {
+                public void run() {
+                    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                }
+            };
+            activity.runOnUiThread(wakeUpDevice);
+        }
     }
 
     @Test
@@ -83,7 +145,7 @@ public class BaseTest {
             appCompatButton2.perform(click());
         } catch (Exception e) {
             ViewInteraction appCompatButton2 = onView(
-                    allOf(withId(android.R.id.button1), withText("OK"), isDisplayed()));
+                    allOf(withId(android.R.id.button1), withText("Done"), isDisplayed()));
             appCompatButton2.perform(click());
         }
     }
@@ -97,8 +159,7 @@ public class BaseTest {
             char c1 = chars1[random.nextInt(chars1.length)];
             sb1.append(c1);
         }
-        String random_string = sb1.toString();
 
-        return random_string;
+        return sb1.toString();
     }
 }
