@@ -156,11 +156,6 @@ public class Subterminal {
             LockManager.getInstance().getAppLock().setShouldShowForgot(false);
         }
 
-        ChangeLog cl = new ChangeLog(activity);
-        if (cl.isFirstRun()) {
-            cl.getLogDialog().show();
-        }
-
         api = new API(activity);
         api.init();
 
