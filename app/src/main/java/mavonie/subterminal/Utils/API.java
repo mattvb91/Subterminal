@@ -114,10 +114,6 @@ public class API {
      * Calls for startup
      */
     public void init() {
-        if (!Once.beenDone(CALLS_LIST_PUBLIC_EXITS)) {
-            updatePublicExits();
-        }
-
         if (!Once.beenDone(TimeUnit.HOURS, 1, CALLS_LIST_AIRCRAFT)) {
             updateAircraft();
         }
@@ -258,38 +254,6 @@ public class API {
                             Once.markDone(CALLS_LIST_TUNNELS);
                         }
                     });
-                }
-
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                API.issueContactingServer();
-                UIHelper.setProgressBarVisibility(View.GONE);
-            }
-        });
-    }
-
-
-    /**
-     * Update the global exits list
-     */
-    private void updatePublicExits() {
-        UIHelper.setProgressBarVisibility(View.VISIBLE);
-
-        Call publicExits = this.getEndpoints().listPublicExits();
-        publicExits.enqueue(new Callback<List<Exit>>() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    List<Exit> exits = (List<Exit>) response.body();
-
-                    for (Exit exit : exits) {
-                        Exit.createOrUpdatePublicExit(exit);
-                    }
-
-                    Once.markDone(CALLS_LIST_PUBLIC_EXITS);
                 }
 
                 UIHelper.setProgressBarVisibility(View.GONE);

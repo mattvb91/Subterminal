@@ -56,41 +56,6 @@ public class ExitTest extends BaseDBUnit {
         assertEquals(size, new Exit().count());
     }
 
-    @Test
-    public void testExitDetails() {
-        Exit exit = new Exit();
-
-        exit.setName("Test exit");
-        exit.setRockdropDistance(200);
-        exit.setAltitudeToLanding(200);
-        exit.setDescription("Test Description");
-        exit.setLatitude(59.02342);
-        exit.setLongtitude(24.30456);
-        exit.setGlobalId("testing");
-        exit.setObjectType(Exit.TYPE_EARTH);
-        exit.setHeightUnit(Subterminal.HEIGHT_UNIT_IMPERIAL);
-
-        ExitDetails details = new ExitDetails();
-        details.setExitId(exit.getId());
-        details.setRules("Test rules");
-        details.setDifficultyTrackingExit(Exit.DIFFICULTY_BEGINNER);
-        details.setDifficultyTrackingFreefall(Exit.DIFFICULTY_INTERMEDIATE);
-        details.setDifficultyTrackingLanding(Exit.DIFFICULTY_ADVANCED);
-        details.setDifficultyTrackingOverall(Exit.DIFFICULTY_EXPERT);
-        details.setDifficultyWingsuitExit(Exit.DIFFICULTY_BEGINNER);
-        details.setDifficultyWingsuitFreefall(Exit.DIFFICULTY_INTERMEDIATE);
-        details.setDifficultyWingsuitLanding(Exit.DIFFICULTY_ADVANCED);
-        details.setDifficultyWingsuitOverall(Exit.DIFFICULTY_EXPERT);
-
-        exit.setDetails(details);
-        //Set the global_id so the details get saved
-        Exit.createOrUpdatePublicExit(exit);
-
-        Exit exit2 = (Exit) new Exit().getOneById(exit.getId());
-        assertNotNull(exit2.getDetails());
-        assertEquals(exit2.getDetails(), details);
-    }
-
     public static Exit createExit() {
         Exit exit = new Exit();
 

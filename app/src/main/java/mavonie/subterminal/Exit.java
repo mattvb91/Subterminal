@@ -1,38 +1,57 @@
 package mavonie.subterminal;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTabHost;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Exit extends Fragment {
+import mavonie.subterminal.Models.Model;
+import mavonie.subterminal.Models.Synchronizable;
+import mavonie.subterminal.Utils.BaseFragment;
+import mavonie.subterminal.Utils.DB.Query;
+import mavonie.subterminal.ViewAdapters.ExitRecycler;
 
-    private FragmentTabHost mTabHost;
+/**
+ * Exit list fragment
+ */
+public class Exit extends BaseFragment {
 
-    public static final String TAB = "TAB";
-
-    public static final int TAB_MY_EXITS = 0;
-    public static final int TAB_ALL_EXITS = 1;
-
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_exit_list, container, false);
 
-        View rootView = inflater.inflate(R.layout.fragment_tabs, container, false);
+        RecyclerView recyclerView = (RecyclerView) view;
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(new ExitRecycler(new mavonie.subterminal.Models.Exit().getItems(getQuery().getParams()), getmListener()));
 
+        return view;
+    }
 
-        mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
-        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
+    @NonNull
+    private Query getQuery() {
+        Query query = new Query();
+        query.orderDir(mavonie.subterminal.Models.Exit.COLUMN_NAME_NAME, Model.FILTER_ORDER_DIR_ASC);
+        query.getParams().putAll(Synchronizable.getActiveParams());
+        query.addWhere(mavonie.subterminal.Models.Exit.COLUMN_NAME_GLOBAL_ID, null);
 
-        Bundle args = new Bundle();
-        args.putInt(TAB, TAB_MY_EXITS);
+        return query;
+    }
 
-        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_MY_EXITS)).setIndicator("My Exits"),
-                ExitTabs.class, args);
-        mTabHost.addTab(mTabHost.newTabSpec(Integer.toString(TAB_ALL_EXITS)).setIndicator("All"),
-                ExitTabs.class, null);
+    @Override
+    public void onResume() {
+        super.onResume();
 
-        return rootView;
+        // Set title
+        String title = getString(R.string.title_exit) + " (" + new mavonie.subterminal.Models.Exit().count(getQuery().getParams()) + ")";
+        MainActivity.getActivity().setTitle(title);
+    }
+
+    @Override
+    protected String getItemClass() {
+        return mavonie.subterminal.Models.Exit.class.getCanonicalName();
     }
 }

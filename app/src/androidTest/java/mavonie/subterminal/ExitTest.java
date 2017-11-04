@@ -33,10 +33,6 @@ public class ExitTest extends BaseTest {
     public void addExitTest() throws InterruptedException {
         navigateToExits();
 
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(android.R.id.title), withText("All"), isDisplayed()));
-        appCompatTextView.perform(click());
-
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.fab), isDisplayed()));
         floatingActionButton.perform(click());
@@ -79,25 +75,11 @@ public class ExitTest extends BaseTest {
     }
 
     @Test
-    public void tabTest() {
-
-        navigateToExits();
-
-        navigateTab("All");
-        navigateTab("My Exits");
-
-        navigateTab("All");
-        navigateTab("My Exits");
-    }
-
-    @Test
     public void clickRandomItemTest() throws InterruptedException {
         addExitTest();
         addExitTest();
 
         navigateToExits();
-
-        navigateTab("All");
 
         //Magic happening
         int x = getRandomRecyclerPosition(R.id.list);
@@ -106,11 +88,4 @@ public class ExitTest extends BaseTest {
                 .perform(RecyclerViewActions
                         .actionOnItemAtPosition(x, click()));
     }
-
-    public void navigateTab(String tab) {
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(android.R.id.title), withText(tab), isDisplayed()));
-        appCompatTextView.perform(click());
-    }
-
 }
