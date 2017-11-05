@@ -48,7 +48,8 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
     @BindView(R.id.crescentoContainer) CrescentoContainer crescento;
     @BindView(R.id.exit_view_map_card) RelativeLayout mapLayout;
-    @BindView(R.id.exit_view_map) MapView mMapView;
+
+    protected MapView mMapView;
 
     public ExitView() {
         // Required empty public constructor
@@ -111,11 +112,12 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             coordinate.setLon(getItem().getLongtitude());
             UIHelper.initWeatherView(view, coordinate);
 
+            mMapView = (MapView) view.findViewById(R.id.exit_view_map);
             mMapView.setVisibility(View.VISIBLE);
             mMapView.getMapAsync(this);
             mMapView.onCreate(savedInstanceState);
         } else {
-            mMapView.setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.exit_view_map_card).setVisibility(View.INVISIBLE);
         }
 
         adRequest(view);
