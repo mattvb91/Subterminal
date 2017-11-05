@@ -65,7 +65,7 @@ public class ExitRecycler extends BaseRecycler<ExitRecycler.ViewHolder> {
             viewHolder.mView.findViewById(R.id.exit_list_thumb_layout).setVisibility(View.GONE);
         }
 
-        if ((Subterminal.getUser().isPremium() && viewHolder.mItem.isSynced()) || viewHolder.mItem.isGlobal()) {
+        if ((Subterminal.getUser().isPremium() && viewHolder.mItem.isSynced())) {
             int color = Color.parseColor(MainActivity.getActivity().getString(R.string.Synchronized));
             viewHolder.mListSynchronized.setColorFilter(color);
         }

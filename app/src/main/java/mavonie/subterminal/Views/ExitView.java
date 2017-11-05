@@ -62,10 +62,8 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         MapsInitializer.initialize(getContext());
         Subterminal.setActiveModel(this.getItem());
 
-        if (!this.getItem().isGlobal()) {
-            MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
-            MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
-        }
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
     }
 
     @Override
@@ -94,17 +92,13 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         loadImages();
 
-        if (!getItem().isGlobal()) {
-            Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
-            pictureButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MainActivity.getActivity().onPickImage(view);
-                }
-            });
-        } else {
-            view.findViewById(R.id.exit_view_images_card).setVisibility(View.GONE);
-        }
+        Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
+        pictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getActivity().onPickImage(view);
+            }
+        });
 
         if (getItem().isMapActive()) {
             Coord coordinate = new Coord();

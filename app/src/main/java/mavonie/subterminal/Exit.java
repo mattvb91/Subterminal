@@ -36,7 +36,6 @@ public class Exit extends BaseFragment {
         Query query = new Query();
         query.orderDir(mavonie.subterminal.Models.Exit.COLUMN_NAME_NAME, Model.FILTER_ORDER_DIR_ASC);
         query.getParams().putAll(Synchronizable.getActiveParams());
-        query.addWhere(mavonie.subterminal.Models.Exit.COLUMN_NAME_GLOBAL_ID, null);
 
         return query;
     }

@@ -281,18 +281,6 @@ public class Jump extends Synchronizable {
     }
 
     @Override
-    public boolean save() {
-        if (this.getExit() != null && this.getExit().getGlobalId() != null) {
-
-            //This was a public exit, make it a users exit
-            this.getExit().setGlobalId(null);
-            this.getExit().save();
-        }
-
-        return super.save();
-    }
-
-    @Override
     protected String getTableName() {
         return TABLE_NAME;
     }

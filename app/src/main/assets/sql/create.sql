@@ -16,7 +16,6 @@ CREATE TABLE gear (
 
 CREATE TABLE exit (
     _id INTEGER PRIMARY KEY,
-    global_id TEXT,
     name TEXT,
     rockdrop_distance INTEGER,
     altitude_to_landing INTEGER,
@@ -27,19 +26,6 @@ CREATE TABLE exit (
     height_unit INTEGER DEFAULT 0,
     synced INTEGER DEFAULT 0,
     deleted INTEGER DEFAULT 0);
-
-CREATE TABLE exit_details (
-    _id INTEGER PRIMARY KEY,
-    exit_id INTEGER,
-    rules TEXT,
-    difficulty_tracking_exit INTEGER,
-    difficulty_tracking_freefall INTEGER,
-    difficulty_tracking_landing INTEGER,
-    difficulty_tracking_overall INTEGER,
-    difficulty_wingsuit_exit INTEGER,
-    difficulty_wingsuit_freefall INTEGER,
-    difficulty_wingsuit_landing INTEGER,
-    difficulty_wingsuit_overall INTEGER);
 
 CREATE TABLE jump (
         _id INTEGER PRIMARY KEY,

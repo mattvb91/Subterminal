@@ -73,22 +73,6 @@ public class ExitTest extends BaseDBUnit {
     }
 
     @Test
-    public void testNullGlobalId() {
-        createExit();
-
-        HashMap<String, Object> params = new HashMap<>();
-
-        params.put(Model.FILTER_WHERE_FIELD, mavonie.subterminal.Models.Exit.COLUMN_NAME_GLOBAL_ID);
-        params.put(Model.FILTER_WHERE_VALUE, null);
-
-        List<Exit> exits = new Exit().getItems(params);
-
-        for (Exit exit : exits) {
-            assertNull(exit.getGlobalId());
-        }
-    }
-
-    @Test
     public void testGetExitsForSync() {
         this.setUp();
 
