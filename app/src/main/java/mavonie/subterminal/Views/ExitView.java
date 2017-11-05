@@ -1,6 +1,7 @@
 package mavonie.subterminal.Views;
 
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import az.openweatherapi.model.gson.common.Coord;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
@@ -37,7 +40,15 @@ import mavonie.subterminal.Utils.Views.MapView;
  */
 public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
-    protected MapView mMapView;
+    @BindView(R.id.kenburnsView) KenBurnsView top;
+    @BindView(R.id.exit_view_rockdrop_time) TextView rockdropTime;
+    @BindView(R.id.exit_view_rockdrop_distance) TextView rockdropDistance;
+    @BindView(R.id.exit_view_altitude_to_landing) TextView altitudeToLanding;
+    @BindView(R.id.exit_view_description) TextView description;
+
+    @BindView(R.id.crescentoContainer) CrescentoContainer crescento;
+    @BindView(R.id.exit_view_map_card) RelativeLayout mapLayout;
+    @BindView(R.id.exit_view_map) MapView mMapView;
 
     public ExitView() {
         // Required empty public constructor
@@ -62,31 +73,20 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_exit_view, container, false);
+        ButterKnife.bind(this, view);
 
         if (getItem().getDescription() != null) {
-            TextView description = (TextView) view.findViewById(R.id.exit_view_description);
             description.setText(Html.fromHtml(getItem().getDescription()));
         }
 
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
-        final KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
-        CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
         UIHelper.loadKenBurnsHeader(crescento, top, getItem());
 
-        TextView rockdropDistance = (TextView) view.findViewById(R.id.exit_view_rockdrop_distance);
         rockdropDistance.setText(UnitConverter.getFormattedDistance(getItem().getRockdropDistance(), getItem().getHeightUnit()));
-
-        TextView rockdropTime = (TextView) view.findViewById(R.id.exit_view_rockdrop_time);
         rockdropTime.setText(getItem().getFormattedRockdropTime());
-
-        TextView altitudeToLanding = (TextView) view.findViewById(R.id.exit_view_altitude_to_landing);
         altitudeToLanding.setText(UnitConverter.getFormattedDistance(getItem().getAltitudeToLanding(), getItem().getHeightUnit()));
 
-        RelativeLayout difficulty = (RelativeLayout) view.findViewById(R.id.exit_view_difficulty_card);
-        difficulty.setVisibility(View.INVISIBLE);
-
-        RelativeLayout mapLayout = (RelativeLayout) view.findViewById(R.id.exit_view_map_card);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapLayout.getLayoutParams();
         params.addRule(RelativeLayout.BELOW, R.id.exit_view_images_card);
         mapLayout.setLayoutParams(params);
@@ -111,12 +111,11 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
             coordinate.setLon(getItem().getLongtitude());
             UIHelper.initWeatherView(view, coordinate);
 
-            mMapView = (MapView) view.findViewById(R.id.exit_view_map);
             mMapView.setVisibility(View.VISIBLE);
             mMapView.getMapAsync(this);
             mMapView.onCreate(savedInstanceState);
         } else {
-            view.findViewById(R.id.exit_view_map_card).setVisibility(View.INVISIBLE);
+            mMapView.setVisibility(View.INVISIBLE);
         }
 
         adRequest(view);
