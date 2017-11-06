@@ -18,7 +18,6 @@ import mavonie.subterminal.unit.Base.BaseDBUnit;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**

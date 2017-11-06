@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
-import com.birbit.android.jobqueue.TagConstraint;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,8 +17,6 @@ import java.io.OutputStream;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Image;
 import mavonie.subterminal.Utils.Subterminal;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -34,10 +31,6 @@ public class DownloadImage extends Job {
     public DownloadImage(Image image) {
         super(new Params(1).requireNetwork().persist().addTags(image.getFilename() + "_DOWNLOAD"));
         this.image = image;
-
-        //Cancel previous
-        Subterminal.getJobManager(MainActivity.getActivity())
-                .cancelJobsInBackground(null, TagConstraint.ANY, this.image.getFilename() + "_DOWNLOAD");
     }
 
     @Override
@@ -53,42 +46,37 @@ public class DownloadImage extends Job {
                 .url(Subterminal.getMetaData(MainActivity.getActivity(), "mavonie.subterminal.API_URL") + "user/image?filename=" + image.getFilename())
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                System.out.println("request failed: " + e.getMessage());
-            }
+        Response response = client.newCall(request).execute();
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    InputStream inStream = response.body().byteStream(); // Read the data from the stream
+        if (response.isSuccessful()) {
+            InputStream inStream = response.body().byteStream(); // Read the data from the stream
 
-                    try {
-                        String fname = Image.generateFilename();
+            try {
+                String fname = Image.generateFilename();
 
-                        String root = Environment.getExternalStorageDirectory().toString();
-                        File myDir = new File(root + Image.IMAGE_PATH);
-                        myDir.mkdirs();
+                String root = Environment.getExternalStorageDirectory().toString();
+                File myDir = new File(root + Image.IMAGE_PATH);
+                myDir.mkdirs();
 
-                        OutputStream out = new FileOutputStream(new File(myDir, fname));
-                        byte[] buf = new byte[1024];
-                        int len;
-                        while ((len = inStream.read(buf)) > 0) {
-                            out.write(buf, 0, len);
-                        }
-                        out.close();
-                        inStream.close();
-
-                        image.setFilename(fname);
-                        image.markSynced();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                OutputStream out = new FileOutputStream(new File(myDir, fname));
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = inStream.read(buf)) > 0) {
+                    out.write(buf, 0, len);
                 }
+                out.close();
+                inStream.close();
+
+                image.setFilename(fname);
+                image.markSynced();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new IOException("Couldnt save image");
             }
-        });
+        }else{
+            throw new IOException("Bad image request");
+        }
     }
 
     @Override
@@ -98,6 +86,6 @@ public class DownloadImage extends Job {
 
     @Override
     protected RetryConstraint shouldReRunOnThrowable(@NonNull Throwable throwable, int runCount, int maxRunCount) {
-        return null;
+        return RetryConstraint.createExponentialBackoff(runCount, 1000);
     }
 }

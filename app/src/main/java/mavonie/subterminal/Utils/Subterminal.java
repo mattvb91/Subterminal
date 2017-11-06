@@ -158,6 +158,9 @@ public class Subterminal {
         api = new API(activity);
         api.init();
 
+        //Run any jobs left on the queue
+        getJobManager(activity);
+
         UIHelper.init();
 
         //Only initialize adds if we arent premium

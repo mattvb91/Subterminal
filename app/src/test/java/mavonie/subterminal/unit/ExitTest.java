@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
-import mavonie.subterminal.Models.ExitDetails;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Utils.DB.Query;
@@ -18,7 +17,6 @@ import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class ExitTest extends BaseDBUnit {
