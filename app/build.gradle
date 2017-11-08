@@ -100,6 +100,8 @@ dependencies {
     testCompile 'org.xerial:sqlite-jdbc:3.8.11.2'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    compile 'ie.mavon.sqlitemodel:sqlitemodel:1.0.0'
 }
 
 
