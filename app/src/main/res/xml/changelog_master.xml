@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.3.1"
+        versioncode="35">
+        <change>Removed public exits temporarily</change>
+        <change>Fixed bug with list views greyed out colors</change>
+        <change>Fix bug that prevented images not downloading correctly</change>
+        <change>General improvements</change>
+    </release>
+    <release
         version="1.2.6"
         versioncode="34">
         <change>General updates &amp; Improvements</change>
