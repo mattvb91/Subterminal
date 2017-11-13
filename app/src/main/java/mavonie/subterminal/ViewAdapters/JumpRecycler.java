@@ -52,6 +52,7 @@ public class JumpRecycler extends BaseRecycler<JumpRecycler.ViewHolder> {
         Exit exit = viewHolder.mItem.getExit();
         if (exit != null) {
             viewHolder.exitName.setText(exit.getName());
+            viewHolder.exitName.setTextColor(ContextCompat.getColor(MainActivity.getActivity(), R.color.black));
         } else {
             viewHolder.exitName.setText(MainActivity.getActivity().getString(R.string.no_exit_info));
             viewHolder.exitName.setTextColor(ContextCompat.getColor(MainActivity.getActivity(), R.color.grey));

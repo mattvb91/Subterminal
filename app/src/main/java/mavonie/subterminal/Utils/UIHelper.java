@@ -504,6 +504,10 @@ public class UIHelper {
             @Override
             public void onResponse(OWResponse<ExtendedWeather> response) {
                 ExtendedWeather extendedWeather = response.body();
+
+                if(extendedWeather == null)
+                    return;
+
                 WeatherForecastElement element = extendedWeather.getList().get(0);
 
                 windView.setPressure(element.getMain().getPressure().intValue());

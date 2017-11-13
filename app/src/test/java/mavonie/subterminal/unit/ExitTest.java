@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import mavonie.subterminal.Models.Exit;
-import mavonie.subterminal.Models.ExitDetails;
 import mavonie.subterminal.Models.Jump;
 import mavonie.subterminal.Models.Model;
 import mavonie.subterminal.Utils.DB.Query;
@@ -18,7 +17,6 @@ import mavonie.subterminal.unit.Base.BaseDBUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class ExitTest extends BaseDBUnit {
@@ -56,41 +54,6 @@ public class ExitTest extends BaseDBUnit {
         assertEquals(size, new Exit().count());
     }
 
-    @Test
-    public void testExitDetails() {
-        Exit exit = new Exit();
-
-        exit.setName("Test exit");
-        exit.setRockdropDistance(200);
-        exit.setAltitudeToLanding(200);
-        exit.setDescription("Test Description");
-        exit.setLatitude(59.02342);
-        exit.setLongtitude(24.30456);
-        exit.setGlobalId("testing");
-        exit.setObjectType(Exit.TYPE_EARTH);
-        exit.setHeightUnit(Subterminal.HEIGHT_UNIT_IMPERIAL);
-
-        ExitDetails details = new ExitDetails();
-        details.setExitId(exit.getId());
-        details.setRules("Test rules");
-        details.setDifficultyTrackingExit(Exit.DIFFICULTY_BEGINNER);
-        details.setDifficultyTrackingFreefall(Exit.DIFFICULTY_INTERMEDIATE);
-        details.setDifficultyTrackingLanding(Exit.DIFFICULTY_ADVANCED);
-        details.setDifficultyTrackingOverall(Exit.DIFFICULTY_EXPERT);
-        details.setDifficultyWingsuitExit(Exit.DIFFICULTY_BEGINNER);
-        details.setDifficultyWingsuitFreefall(Exit.DIFFICULTY_INTERMEDIATE);
-        details.setDifficultyWingsuitLanding(Exit.DIFFICULTY_ADVANCED);
-        details.setDifficultyWingsuitOverall(Exit.DIFFICULTY_EXPERT);
-
-        exit.setDetails(details);
-        //Set the global_id so the details get saved
-        Exit.createOrUpdatePublicExit(exit);
-
-        Exit exit2 = (Exit) new Exit().getOneById(exit.getId());
-        assertNotNull(exit2.getDetails());
-        assertEquals(exit2.getDetails(), details);
-    }
-
     public static Exit createExit() {
         Exit exit = new Exit();
 
@@ -105,22 +68,6 @@ public class ExitTest extends BaseDBUnit {
         exit.save();
 
         return exit;
-    }
-
-    @Test
-    public void testNullGlobalId() {
-        createExit();
-
-        HashMap<String, Object> params = new HashMap<>();
-
-        params.put(Model.FILTER_WHERE_FIELD, mavonie.subterminal.Models.Exit.COLUMN_NAME_GLOBAL_ID);
-        params.put(Model.FILTER_WHERE_VALUE, null);
-
-        List<Exit> exits = new Exit().getItems(params);
-
-        for (Exit exit : exits) {
-            assertNull(exit.getGlobalId());
-        }
     }
 
     @Test

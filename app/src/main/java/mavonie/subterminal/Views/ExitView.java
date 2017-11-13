@@ -1,6 +1,5 @@
 package mavonie.subterminal.Views;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -23,6 +22,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import az.openweatherapi.model.gson.common.Coord;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import developer.shivam.library.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
@@ -38,6 +39,15 @@ import mavonie.subterminal.Utils.Views.MapView;
  */
 public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
+    @BindView(R.id.kenburnsView) KenBurnsView top;
+    @BindView(R.id.exit_view_rockdrop_time) TextView rockdropTime;
+    @BindView(R.id.exit_view_rockdrop_distance) TextView rockdropDistance;
+    @BindView(R.id.exit_view_altitude_to_landing) TextView altitudeToLanding;
+    @BindView(R.id.exit_view_description) TextView description;
+
+    @BindView(R.id.crescentoContainer) CrescentoContainer crescento;
+    @BindView(R.id.exit_view_map_card) RelativeLayout mapLayout;
+
     protected MapView mMapView;
 
     public ExitView() {
@@ -51,10 +61,8 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
         MapsInitializer.initialize(getContext());
         Subterminal.setActiveModel(this.getItem());
 
-        if (!this.getItem().isGlobal()) {
-            MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
-            MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
-        }
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_delete).setVisible(true);
+        MainActivity.getActivity().getOptionsMenu().findItem(R.id.action_edit).setVisible(true);
     }
 
     @Override
@@ -63,88 +71,33 @@ public class ExitView extends BaseFragment implements OnMapReadyCallback {
 
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_exit_view, container, false);
+        ButterKnife.bind(this, view);
 
         if (getItem().getDescription() != null) {
-            TextView description = (TextView) view.findViewById(R.id.exit_view_description);
             description.setText(Html.fromHtml(getItem().getDescription()));
         }
 
         this.imageLayout = (LinearLayout) view.findViewById(R.id.image_thumbs);
 
-        final KenBurnsView top = (KenBurnsView) view.findViewById(R.id.kenburnsView);
-        CrescentoContainer crescento = (CrescentoContainer) view.findViewById(R.id.crescentoContainer);
         UIHelper.loadKenBurnsHeader(crescento, top, getItem());
 
-        TextView rockdropDistance = (TextView) view.findViewById(R.id.exit_view_rockdrop_distance);
         rockdropDistance.setText(UnitConverter.getFormattedDistance(getItem().getRockdropDistance(), getItem().getHeightUnit()));
-
-        TextView rockdropTime = (TextView) view.findViewById(R.id.exit_view_rockdrop_time);
         rockdropTime.setText(getItem().getFormattedRockdropTime());
-
-        TextView altitudeToLanding = (TextView) view.findViewById(R.id.exit_view_altitude_to_landing);
         altitudeToLanding.setText(UnitConverter.getFormattedDistance(getItem().getAltitudeToLanding(), getItem().getHeightUnit()));
 
-        if (getItem().getDetails() != null) {
-
-            if (getItem().getDetails().getRules() != null) {
-                TextView rules = (TextView) view.findViewById(R.id.exit_view_rules);
-                rules.setText(getItem().getDetails().getRules().replace("\\n", "\n"));
-            }
-
-            TextView difficultyTrackingExit = (TextView) view.findViewById(R.id.exit_view_difficulty_tracking_exit);
-            difficultyTrackingExit.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyTrackingExit()));
-            difficultyTrackingExit.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyTrackingExit())));
-
-            TextView difficultyTrackingFreefall = (TextView) view.findViewById(R.id.exit_view_difficulty_tracking_freefall);
-            difficultyTrackingFreefall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyTrackingFreefall()));
-            difficultyTrackingFreefall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyTrackingFreefall())));
-
-            TextView difficultyTrackingLanding = (TextView) view.findViewById(R.id.exit_view_difficulty_tracking_landing);
-            difficultyTrackingLanding.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyTrackingLanding()));
-            difficultyTrackingLanding.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyTrackingLanding())));
-
-            TextView difficultyTrackingOverall = (TextView) view.findViewById(R.id.exit_view_difficulty_tracking_overall);
-            difficultyTrackingOverall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyTrackingOverall()));
-            difficultyTrackingOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyTrackingOverall())));
-
-            TextView difficultyWingsuitExit = (TextView) view.findViewById(R.id.exit_view_difficulty_wingsuit_exit);
-            difficultyWingsuitExit.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyWingsuitExit()));
-            difficultyWingsuitExit.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyWingsuitExit())));
-
-            TextView difficultyWingsuitFreefall = (TextView) view.findViewById(R.id.exit_view_difficulty_wingsuit_freefall);
-            difficultyWingsuitFreefall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyWingsuitFreefall()));
-            difficultyWingsuitFreefall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyWingsuitFreefall())));
-
-            TextView difficultyWingsuitLanding = (TextView) view.findViewById(R.id.exit_view_difficulty_wingsuit_landing);
-            difficultyWingsuitLanding.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyWingsuitLanding()));
-            difficultyWingsuitLanding.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyWingsuitLanding())));
-
-            TextView difficultyWingsuitOverall = (TextView) view.findViewById(R.id.exit_view_difficulty_wingsuit_overall);
-            difficultyWingsuitOverall.setText(getItem().getDifficultyDescriptor(getItem().getDetails().getDifficultyWingsuitOverall()));
-            difficultyWingsuitOverall.setTextColor(Color.parseColor(getItem().getDifficultyColor(getItem().getDetails().getDifficultyWingsuitOverall())));
-        } else {
-            RelativeLayout difficulty = (RelativeLayout) view.findViewById(R.id.exit_view_difficulty_card);
-            difficulty.setVisibility(View.INVISIBLE);
-
-            RelativeLayout mapLayout = (RelativeLayout) view.findViewById(R.id.exit_view_map_card);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapLayout.getLayoutParams();
-            params.addRule(RelativeLayout.BELOW, R.id.exit_view_images_card);
-            mapLayout.setLayoutParams(params);
-        }
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mapLayout.getLayoutParams();
+        params.addRule(RelativeLayout.BELOW, R.id.exit_view_images_card);
+        mapLayout.setLayoutParams(params);
 
         loadImages();
 
-        if (!getItem().isGlobal()) {
-            Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
-            pictureButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MainActivity.getActivity().onPickImage(view);
-                }
-            });
-        } else {
-            view.findViewById(R.id.exit_view_images_card).setVisibility(View.GONE);
-        }
+        Button pictureButton = (Button) view.findViewById(R.id.exit_picture_button);
+        pictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getActivity().onPickImage(view);
+            }
+        });
 
         if (getItem().isMapActive()) {
             Coord coordinate = new Coord();

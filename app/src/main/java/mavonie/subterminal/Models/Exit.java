@@ -2,7 +2,6 @@ package mavonie.subterminal.Models;
 
 import android.database.Cursor;
 import android.support.annotation.Nullable;
-import android.util.Pair;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -57,7 +56,6 @@ public class Exit extends Synchronizable {
     }
 
     private String name,
-            global_id,
             description;
 
     private Integer rockdrop_distance,
@@ -80,7 +78,6 @@ public class Exit extends Synchronizable {
     public static final String COLUMN_NAME_LATITUDE = "latitude";
     public static final String COLUMN_NAME_LONGTITUDE = "longtitude";
     public static final String COLUMN_NAME_OBJECT_TYPE = "object_type";
-    public static final String COLUMN_NAME_GLOBAL_ID = "global_id";
     public static final String COLUMN_NAME_HEIGHT_UNIT = "height_unit";
 
     private static Map<String, Integer> dbColumns = null;
@@ -97,7 +94,6 @@ public class Exit extends Synchronizable {
             dbColumns.put(COLUMN_NAME_LATITUDE, TYPE_DOUBLE);
             dbColumns.put(COLUMN_NAME_LONGTITUDE, TYPE_DOUBLE);
             dbColumns.put(COLUMN_NAME_OBJECT_TYPE, TYPE_INTEGER);
-            dbColumns.put(COLUMN_NAME_GLOBAL_ID, TYPE_TEXT);
             dbColumns.put(COLUMN_NAME_HEIGHT_UNIT, TYPE_INTEGER);
 
             Synchronizable.setDBColumns(dbColumns);
@@ -243,8 +239,6 @@ public class Exit extends Synchronizable {
         if (Double.compare(exit.longtitude, longtitude) != 0) return false;
         if (object_type.intValue() != exit.object_type.intValue()) return false;
         if (name != null ? !name.equals(exit.name) : exit.name != null) return false;
-        if (global_id != null ? !global_id.equals(exit.global_id) : exit.global_id != null)
-            return false;
         if (description != null ? !description.equals(exit.description) : exit.description != null)
             return false;
         if (height_unit != null ? !height_unit.equals(exit.height_unit) : exit.height_unit != null)
@@ -252,73 +246,6 @@ public class Exit extends Synchronizable {
         return details != null ? details.equals(exit.details) : exit.details == null;
 
     }
-
-    public String getGlobalId() {
-        return global_id;
-    }
-
-    public void setGlobalId(String global_id) {
-        this.global_id = global_id;
-    }
-
-    public boolean isGlobal() {
-        return this.getGlobalId() != null;
-    }
-
-    /**
-     * Check if we already have matching exit and insert/update
-     * as appropriate.
-     *
-     * @param exit
-     */
-    public static void createOrUpdatePublicExit(Exit exit) {
-
-        if (exit.isGlobal()) {
-            //Its a global exit check if we already have it or if an exit with same name exists
-            Exit dbExit = (Exit) new Exit().getItem(new Pair<>(COLUMN_NAME_GLOBAL_ID, exit.getGlobalId()));
-
-            //If we have a private exit with the same name lets skip this.
-            Exit privateExit = (Exit) new Exit().getItem(new Pair<>(COLUMN_NAME_NAME, exit.getName()));
-            if (privateExit != null && privateExit.getGlobalId() == null) {
-                return;
-            }
-
-            //Check if it equals
-            if (dbExit != null) {
-                if (!dbExit.equals(exit)) {
-                    //Update if it doesnt
-                    exit.setId(dbExit.getId());
-                    exit.markSynced();
-                }
-            } else {
-                exit.markSynced();
-            }
-
-            if (exit.getDetails() != null) {
-                exit.getDetails().setExitId(exit.getId());
-                exit.getDetails().save();
-            }
-        }
-    }
-
-    /**
-     * Get the exit details
-     *
-     * @return
-     */
-    public ExitDetails getDetails() {
-        if (this.details == null) {
-            this.details = (ExitDetails) new ExitDetails().getItem(
-                    new Pair<>("exit_id", Integer.toString(this.getId()))
-            );
-        }
-        return details;
-    }
-
-    public void setDetails(ExitDetails details) {
-        this.details = details;
-    }
-
 
     /**
      * Get all the jumps associated with this exit
@@ -338,16 +265,11 @@ public class Exit extends Synchronizable {
 
         HashMap<String, Object> params = new HashMap<>();
 
-        HashMap<String, Object> whereGlobalIdNull = new HashMap<>();
-        whereGlobalIdNull.put(Model.FILTER_WHERE_FIELD, COLUMN_NAME_GLOBAL_ID);
-        whereGlobalIdNull.put(Model.FILTER_WHERE_VALUE, null);
-
         HashMap<String, Object> whereSyncRequired = new HashMap<>();
         whereSyncRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_SYNCED);
         whereSyncRequired.put(Model.FILTER_WHERE_VALUE, SYNC_REQUIRED);
 
         HashMap<Integer, HashMap> wheres = new HashMap<>();
-        wheres.put(wheres.size(), whereGlobalIdNull);
         wheres.put(wheres.size(), whereSyncRequired);
 
         params.put(Model.FILTER_WHERE, wheres);
@@ -359,16 +281,11 @@ public class Exit extends Synchronizable {
     public static List<Exit> getExitsForDelete() {
         HashMap<String, Object> params = new HashMap<>();
 
-        HashMap<String, Object> whereGlobalIdNull = new HashMap<>();
-        whereGlobalIdNull.put(Model.FILTER_WHERE_FIELD, COLUMN_NAME_GLOBAL_ID);
-        whereGlobalIdNull.put(Model.FILTER_WHERE_VALUE, null);
-
         HashMap<String, Object> whereDeleteRequired = new HashMap<>();
         whereDeleteRequired.put(Model.FILTER_WHERE_FIELD, COLUMN_DELETED);
         whereDeleteRequired.put(Model.FILTER_WHERE_VALUE, DELETED_TRUE);
 
         HashMap<Integer, HashMap> wheres = new HashMap<>();
-        wheres.put(wheres.size(), whereGlobalIdNull);
         wheres.put(wheres.size(), whereDeleteRequired);
 
         params.put(Model.FILTER_WHERE, wheres);

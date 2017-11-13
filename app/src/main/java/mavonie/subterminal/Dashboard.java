@@ -94,14 +94,10 @@ public class Dashboard extends Fragment {
             });
         }
 
-        HashMap<String, Object> whereNotGlobal = new HashMap<>();
-        whereNotGlobal.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
-        whereNotGlobal.put(Model.FILTER_WHERE_VALUE, null);
-
         skydiveCount.setText(Integer.toString(Subterminal.getUser().getSettings().getSkydiveStartJumpNo() + new Skydive().count(Synchronizable.getActiveParams())));
         baseCount.setText(Integer.toString(Subterminal.getUser().getSettings().getBaseStartJumpNo() + new Jump().count(Synchronizable.getActiveParams())));
         dropzoneCount.setText(Integer.toString(Dropzone.getDropzonesVisitedCount()));
-        exitsCount.setText(Integer.toString(new Exit().count(whereNotGlobal)));
+        exitsCount.setText(Integer.toString(new Exit().count()));
 
         setPieChartData();
         setBarChartData();
@@ -268,23 +264,18 @@ public class Dashboard extends Fragment {
 
         Query buildingQuery = new Query(Exit.COLUMN_NAME_OBJECT_TYPE, Exit.TYPE_BUILDING);
         buildingQuery.getWheres().put(buildingQuery.getWheres().size(), Synchronizable.getActiveParams());
-        buildingQuery.addWhere(Exit.COLUMN_NAME_GLOBAL_ID, null);
 
         Query antennaQuery = new Query(Exit.COLUMN_NAME_OBJECT_TYPE, Exit.TYPE_ANTENNA);
         antennaQuery.getWheres().put(antennaQuery.getWheres().size(), Synchronizable.getActiveParams());
-        antennaQuery.addWhere(Exit.COLUMN_NAME_GLOBAL_ID, null);
 
         Query spanQuery = new Query(Exit.COLUMN_NAME_OBJECT_TYPE, Exit.TYPE_SPAN);
         spanQuery.getWheres().put(spanQuery.getWheres().size(), Synchronizable.getActiveParams());
-        spanQuery.addWhere(Exit.COLUMN_NAME_GLOBAL_ID, null);
 
         Query earthQuery = new Query(Exit.COLUMN_NAME_OBJECT_TYPE, Exit.TYPE_EARTH);
         earthQuery.getWheres().put(earthQuery.getWheres().size(), Synchronizable.getActiveParams());
-        earthQuery.addWhere(Exit.COLUMN_NAME_GLOBAL_ID, null);
 
         Query otherQuery = new Query(Exit.COLUMN_NAME_OBJECT_TYPE, Exit.TYPE_OTHER);
         otherQuery.getWheres().put(otherQuery.getWheres().size(), Synchronizable.getActiveParams());
-        otherQuery.addWhere(Exit.COLUMN_NAME_GLOBAL_ID, null);
 
         int buildings = new Exit().count(buildingQuery.getParams());
         int antennas = new Exit().count(antennaQuery.getParams());

@@ -142,12 +142,7 @@ public abstract class Synchronizable extends Model implements SyncEndpoints {
      */
     public static void forceSyncAll() {
 
-        HashMap<String, Object> whereGlobalIdNull = new HashMap<>();
-        whereGlobalIdNull.put(Model.FILTER_WHERE_FIELD, Exit.COLUMN_NAME_GLOBAL_ID);
-        whereGlobalIdNull.put(Model.FILTER_WHERE_VALUE, null);
-
-
-        List<Exit> exits = new Exit().getItems(whereGlobalIdNull);
+        List<Exit> exits = new Exit().getItems(null);
         for (Exit exit : exits) {
             exit.save();
         }

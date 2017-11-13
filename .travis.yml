@@ -19,11 +19,10 @@ android:
     - tools
 
     # The BuildTools version used by your project
-    - build-tools-25.0.3
+    - build-tools-26.0.2
 
     # The SDK version used to compile your project
     - android-19
-    - android-25
 
     # Additional components
     - extra-google-m2repository
@@ -41,6 +40,10 @@ android:
     - 'android-support-.+'
 
 before_script:
+  - mkdir -p app/build/intermediates/assets/release/
+  - cp -R app/src/main/assets/sql/ app/build/intermediates/assets/release/sql
+  - mkdir -p app/build/intermediates/assets/debug/
+  - cp -R app/src/main/assets/sql/ app/build/intermediates/assets/debug/sql
   - mv app/src/debug/google-services.json app/google-services.json
   - mv app/src/debug/res/values/keys.xml app/src/main/res/values/keys.xml
   - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a

@@ -18,7 +18,6 @@ import mavonie.subterminal.unit.Base.BaseDBUnit;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -82,28 +81,5 @@ public class APITest extends BaseDBUnit {
         Response response = userGet.execute();
 
         assertTrue(response.code() == 401);
-    }
-
-    /**
-     * Make sure exit details get saved on first init
-     * https://github.com/mattvb91/Subterminal/issues/6
-     */
-    @Test
-    public void testIssue6() throws IOException {
-        //Clear table to make sure we are initializing these exits
-        this._db.getWritableDatabase().execSQL("DELETE FROM " + Exit.TABLE_NAME);
-
-        Call exitsCall = this.api.getEndpoints().listPublicExits();
-
-        Response response = exitsCall.execute();
-        List<Exit> exits = (List) response.body();
-
-        for (Exit exit : exits) {
-            Exit.createOrUpdatePublicExit(exit);
-            assertTrue(exit.exists());
-            assertNotNull(exit.getDetails().getExitId());
-            assertTrue(exit.getDetails().exists());
-        }
-
     }
 }

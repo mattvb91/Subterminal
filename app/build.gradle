@@ -3,17 +3,18 @@ apply plugin: 'com.android.application'
 repositories {
     mavenCentral()
     maven { url "http://dl.bintray.com/pixplicity/maven" }
+    google()
 }
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 34
-        versionName "1.3.0"
+        versionCode 35
+        versionName "1.3.1"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -32,9 +33,10 @@ android {
 }
 
 def supportLibraryVersion = '25.3.1'
+def firebaseVersion = '11.4.2'
 
 dependencies {
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.2'
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -49,12 +51,11 @@ dependencies {
     compile('com.facebook.fresco:fresco:1.3.0') {
         exclude group: 'com.parse.bolts', module: 'bolts-tasks';
     }
-    compile 'com.google.firebase:firebase-core:10.2.6'
-    compile 'com.google.firebase:firebase-crash:10.2.6'
-    compile 'com.google.firebase:firebase-messaging:10.2.6'
-    compile 'com.google.firebase:firebase-ads:10.2.6'
-
-    compile 'com.google.android.gms:play-services-maps:10.2.6'
+    compile "com.google.firebase:firebase-core:${firebaseVersion}"
+    compile "com.google.firebase:firebase-crash:${firebaseVersion}"
+    compile "com.google.firebase:firebase-messaging:${firebaseVersion}"
+    compile "com.google.firebase:firebase-ads:${firebaseVersion}"
+    compile "com.google.android.gms:play-services-maps:${firebaseVersion}"
 
     compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
     compile "com.android.support:support-v4:${supportLibraryVersion}"
@@ -65,8 +66,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
     compile "com.android.support:design:${supportLibraryVersion}"
 
-    compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.jakewharton:butterknife:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 
     compile 'co.lujun:androidtagview:1.1.3'
     compile 'com.github.developer-shivam:crescento:1.1.0'
@@ -93,12 +94,14 @@ dependencies {
     compile 'com.github.AhmadNemati:WindView:1.1.1'
     compile 'com.github.zurche:open-weather-map-android-wrapper:v0.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'org.robolectric:robolectric:3.3.2'
-    testCompile "org.robolectric:shadows-multidex:3.3.2"
+    testCompile 'org.robolectric:robolectric:3.5.1'
+    testCompile "org.robolectric:shadows-multidex:3.5.1"
     testCompile 'junit:junit:4.12'
     testCompile 'org.xerial:sqlite-jdbc:3.8.11.2'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    compile 'ie.mavon.sqlitemodel:sqlitemodel:1.0.0'
 }
 
 
