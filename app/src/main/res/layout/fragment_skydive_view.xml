@@ -52,7 +52,7 @@
                             android:layout_weight="2"
                             android:text="Not set"
                             android:textStyle="bold"
-                            android:textColor="@color/light_blue_500"
+                            android:textColor="@color/primary"
                             android:textAppearance="?attr/textAppearanceListItem" />
                     </TableRow>
 
@@ -157,7 +157,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="10dp"
-                        android:background="@color/lighter_gray" />
+                        android:background="@color/divider" />
 
                     <TableRow
                         android:layout_width="fill_parent"
@@ -234,7 +234,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="20dp"
-                        android:background="@color/lighter_gray" />
+                        android:background="@color/divider" />
 
                     <TableRow
                         android:layout_width="match_parent"

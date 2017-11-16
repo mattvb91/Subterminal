@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
-            android:background="@color/lighter_gray" />
+            android:background="@color/divider" />
 
         <TextView
             android:layout_width="match_parent"
@@ -216,7 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
-            android:background="@color/lighter_gray" />
+            android:background="@color/divider" />
 
         <TextView
             android:layout_width="match_parent"
@@ -320,7 +320,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
-            android:background="@color/lighter_gray" />
+            android:background="@color/divider" />
 
         <TextView
             android:layout_width="match_parent"
