@@ -56,6 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:clipChildren="false"
+        android:visibility="gone"
         app:menu_color="@color/primary"
         app:menu_open="arc_left"
         app:menu_radius="100dp"
@@ -64,13 +65,13 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right">
+            android:layout_gravity="bottom|end">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/gear_menu_suit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
                 android:src="@android:color/transparent"
                 app:backgroundTint="@color/primary_light" />
 
@@ -87,7 +88,7 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right">
+            android:layout_gravity="bottom|end">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/gear_menu_rig"
