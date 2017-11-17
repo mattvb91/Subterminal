@@ -97,7 +97,7 @@ public class Dashboard extends Fragment {
         skydiveCount.setText(Integer.toString(Subterminal.getUser().getSettings().getSkydiveStartJumpNo() + new Skydive().count(Synchronizable.getActiveParams())));
         baseCount.setText(Integer.toString(Subterminal.getUser().getSettings().getBaseStartJumpNo() + new Jump().count(Synchronizable.getActiveParams())));
         dropzoneCount.setText(Integer.toString(Dropzone.getDropzonesVisitedCount()));
-        exitsCount.setText(Integer.toString(new Exit().count()));
+        exitsCount.setText(Integer.toString(new Exit().count(Synchronizable.getActiveParams())));
 
         setPieChartData();
         setBarChartData();
