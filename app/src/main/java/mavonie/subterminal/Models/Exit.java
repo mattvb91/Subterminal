@@ -1,7 +1,7 @@
 package mavonie.subterminal.Models;
 
 import android.database.Cursor;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;

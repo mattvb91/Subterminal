@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/crescentoContainer">
 
-            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view"
                 android:layout_width="match_parent"
@@ -191,7 +191,7 @@
                 </TableLayout>
 
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
         <RelativeLayout
@@ -222,7 +222,7 @@
             android:layout_below="@+id/weather_layout"
             android:layout_margin="10dp">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="1dp"
@@ -255,7 +255,7 @@
                             android:layout_weight="1" />
                     </TableRow>
                 </TableLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
     </RelativeLayout>

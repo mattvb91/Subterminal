@@ -1,6 +1,6 @@
 package mavonie.subterminal;
 
-import com.github.orangegangsters.lollipin.lib.managers.AppLockActivity;
+import com.github.omadahealth.lollipin.lib.managers.AppLockActivity;
 
 public class CustomPinActivity extends AppLockActivity {
 

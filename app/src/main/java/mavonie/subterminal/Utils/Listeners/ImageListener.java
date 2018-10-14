@@ -1,7 +1,7 @@
 package mavonie.subterminal.Utils.Listeners;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.View;
 
 import mavonie.subterminal.Models.Image;

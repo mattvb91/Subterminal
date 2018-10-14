@@ -1,7 +1,7 @@
 package mavonie.subterminal.Skydive.ViewAdapters;
 
 import android.graphics.Color;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.TextView;
 

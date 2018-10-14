@@ -2,7 +2,7 @@ package mavonie.subterminal.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.widget.DrawerLayout;
+import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;

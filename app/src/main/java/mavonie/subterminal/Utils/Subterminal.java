@@ -12,7 +12,7 @@ import com.birbit.android.jobqueue.config.Configuration;
 import com.birbit.android.jobqueue.log.CustomLogger;
 import com.facebook.CallbackManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.github.orangegangsters.lollipin.lib.managers.LockManager;
+import com.github.omadahealth.lollipin.lib.managers.LockManager;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;

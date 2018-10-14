@@ -23,8 +23,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.orangegangsters.lollipin.lib.managers.AppLock;
-import com.github.orangegangsters.lollipin.lib.managers.LockManager;
+import com.github.omadahealth.lollipin.lib.managers.AppLock;
+import com.github.omadahealth.lollipin.lib.managers.LockManager;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.Arrays;

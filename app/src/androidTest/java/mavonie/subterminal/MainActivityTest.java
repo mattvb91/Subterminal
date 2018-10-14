@@ -1,7 +1,7 @@
 package mavonie.subterminal;
 
-import android.support.design.widget.NavigationView;
-import android.support.test.espresso.ViewInteraction;
+import com.google.android.material.navigation.NavigationView;
+import androidx.test.espresso.ViewInteraction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -15,13 +15,13 @@ import org.junit.Test;
 
 import mavonie.subterminal.Utils.Subterminal;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.swipeUp;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.swipeUp;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 public class MainActivityTest extends BaseTest {

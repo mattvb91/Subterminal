@@ -28,7 +28,7 @@
             android:layout_weight="2"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/dashboard_skydive_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,10 +58,10 @@
                         android:text="Skydives"
                         android:textAlignment="center" />
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/dashboard_base_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,9 +92,9 @@
                         android:text="B.A.S.E"
                         android:textAlignment="center" />
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/dashboard_dropzone_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,10 +125,10 @@
                         android:text="Dropzones"
                         android:textAlignment="center" />
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/dashboard_exits_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
                         android:text="Exits"
                         android:textAlignment="center" />
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
@@ -214,7 +214,7 @@
         </LinearLayout>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/dashboard_skydive_pull_height"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -227,7 +227,7 @@
                 android:id="@+id/dashboard_pull_height_linechart"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"></com.github.mikephil.charting.charts.LineChart>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:id="@+id/dashboard_legend_base"
@@ -292,7 +292,7 @@
             android:layout_weight="2"
             android:orientation="horizontal">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -305,10 +305,10 @@
                     android:id="@+id/dashboard_base_objects_pie"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"></com.github.mikephil.charting.charts.PieChart>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/aircraft_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -322,7 +322,7 @@
                     android:id="@+id/dashboard_base_fav_exits"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"></com.github.mikephil.charting.charts.BarChart>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>

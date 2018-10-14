@@ -2,7 +2,7 @@ package mavonie.subterminal.Forms;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

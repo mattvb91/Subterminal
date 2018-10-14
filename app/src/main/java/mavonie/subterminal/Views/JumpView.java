@@ -2,7 +2,7 @@ package mavonie.subterminal.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,7 @@ import com.flaviofaria.kenburnsview.KenBurnsView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import developer.shivam.library.CrescentoContainer;
+import developer.shivam.crescento.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Jump;
