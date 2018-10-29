@@ -7,12 +7,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId "mavonie.subterminal"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 35
         versionName "1.3.1"
         multiDexEnabled true
