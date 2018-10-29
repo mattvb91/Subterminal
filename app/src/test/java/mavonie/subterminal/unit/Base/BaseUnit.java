@@ -16,7 +16,7 @@ import mavonie.subterminal.BuildConfig;
 
 @Ignore
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.DEFAULT_MANIFEST_NAME, sdk = 25, constants = BuildConfig.class)
+@Config(manifest = Config.DEFAULT_MANIFEST_NAME, sdk = 25)
 public class BaseUnit {
 
     @Before

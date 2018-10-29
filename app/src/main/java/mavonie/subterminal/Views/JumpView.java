@@ -15,7 +15,7 @@ import com.flaviofaria.kenburnsview.KenBurnsView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import developer.shivam.library.CrescentoContainer;
+import developer.shivam.crescento.CrescentoContainer;
 import mavonie.subterminal.MainActivity;
 import mavonie.subterminal.Models.Exit;
 import mavonie.subterminal.Models.Jump;
